@@ -38,7 +38,15 @@ class EpisodeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'start_date' => 'required',
+            'vk' => 'required|numeric|between:0,1',
+            'factor_night' => 'required|numeric|between:0,2',
+            'factor_nef' => 'required|numeric|between:0,2',
+        ]);
+        Episode::create($request->all());
+        return route('EpisodeController@index');
     }
 
     /**
