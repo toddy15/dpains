@@ -27,7 +27,7 @@ class EpisodeController extends Controller
      */
     public function create()
     {
-        //
+        return view('episodes.create');
     }
 
     /**
