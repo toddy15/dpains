@@ -4,3 +4,5 @@ Route::resource('episode', 'EpisodeController',
     ['except' => ['index', 'show']]);
 Route::resource('staffgroup', 'StaffgroupController',
     ['except' => ['show', 'destroy']]);
+Route::resource('comment', 'CommentController',
+    ['except' => ['show', 'destroy']]);
