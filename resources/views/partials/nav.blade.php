@@ -12,6 +12,7 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
+                <li {!! Request::is('comment') ? 'class="active"' : '' !!}><a href="{{ url('comment') }}">Bemerkungen</a></li>
                 <li {!! Request::is('staffgroup') ? 'class="active"' : '' !!}><a href="{{ url('staffgroup') }}">Mitarbeitergruppen</a></li>
             </ul>
 

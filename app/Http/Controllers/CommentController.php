@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,7 +17,8 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+        $comments = Comment::all()->sortBy('comment');
+        return view('comments.index', compact('comments'));
     }
 
     /**
@@ -26,7 +28,7 @@ class CommentController extends Controller
      */
     public function create()
     {
-        //
+        return view('comments.create');
     }
 
     /**
@@ -37,7 +39,11 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'comment' => 'required'
+        ]);
+        Comment::create($request->all());
+        return redirect(action('CommentController@index'));
     }
 
     /**
@@ -48,7 +54,8 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        return view('comments.edit', compact('comment'));
     }
 
     /**
@@ -60,6 +67,8 @@ class CommentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        $comment->update($request->all());
+        return redirect(action('CommentController@index'));
     }
 }
