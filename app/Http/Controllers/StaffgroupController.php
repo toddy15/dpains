@@ -17,7 +17,8 @@ class StaffgroupController extends Controller
      */
     public function index()
     {
-        return Staffgroup::all();
+        $staffgroups = Staffgroup::all()->sortBy('weight');
+        return view('staffgroups.index', compact('staffgroups'));
     }
 
     /**
