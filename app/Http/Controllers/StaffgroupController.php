@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Staffgroup;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,7 +17,7 @@ class StaffgroupController extends Controller
      */
     public function index()
     {
-        //
+        return Staffgroup::all();
     }
 
     /**
@@ -26,7 +27,7 @@ class StaffgroupController extends Controller
      */
     public function create()
     {
-        //
+        return view('staffgroups.create');
     }
 
     /**
@@ -37,7 +38,12 @@ class StaffgroupController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'staffgroup' => 'required',
+            'weight' => 'required|numeric',
+        ]);
+        Staffgroup::create($request->all());
+        return redirect(action('StaffgroupController@index'));
     }
 
     /**
@@ -59,7 +65,8 @@ class StaffgroupController extends Controller
      */
     public function edit($id)
     {
-        //
+        $staffgroup = Staffgroup::findOrFail($id);
+        return view('staffgroups.edit', compact('staffgroup'));
     }
 
     /**
@@ -71,7 +78,13 @@ class StaffgroupController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'staffgroup' => 'required',
+            'weight' => 'required|numeric',
+        ]);
+        $staffgroup = Staffgroup::findOrFail($id);
+        $staffgroup->update($request->all());
+        return redirect(action('StaffgroupController@index'));
     }
 
     /**
@@ -82,6 +95,7 @@ class StaffgroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Staffgroup::destroy($id);
+        return redirect(action('StaffgroupController@index'));
     }
 }
