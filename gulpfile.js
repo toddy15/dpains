@@ -17,8 +17,8 @@ elixir(function(mix) {
         'bootstrap-theme.min.css',
     ], 'public/css/app.css');
     mix.scripts([
+        'jquery.min.js',
         'bootstrap.min.js',
-        'jquery.min.js'
     ], 'public/js/app.js');
     mix.version([
         'css/app.css',
