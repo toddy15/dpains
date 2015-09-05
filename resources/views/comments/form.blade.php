@@ -4,7 +4,9 @@
     {!! Form::text('comment', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Speichern Form Input  -->
-<div class="form-group">
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary form-control']) !!}
+<div class="form-group text-center">
+    <!-- Speichern Form Input  -->
+    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
+    <!-- Cancel Button -->
+    <a class="btn btn-danger" href="{{ $cancel_url }}">Abbrechen</a>
 </div>
