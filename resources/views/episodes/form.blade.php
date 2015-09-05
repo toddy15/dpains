@@ -28,6 +28,12 @@
     {!! Form::text('factor_nef', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Comment Form Input  -->
+<div class="form-group">
+    {!! Form::label('comment_id', 'Bemerkung:', ['class' => 'control-label']) !!}
+    {!! Form::select('comment_id', $comments, null, ['class' => 'form-control']) !!}
+</div>
+
 <div class="form-group text-center">
     <!-- Speichern Form Input  -->
     {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}

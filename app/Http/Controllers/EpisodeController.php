@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Episode;
+use App\Comment;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -17,13 +18,15 @@ class EpisodeController extends Controller
      */
     public function create()
     {
-        return view('episodes.create');
+        $comments = Comment::all()->sortBy('comment')
+            ->lists('comment', 'id')->toArray();
+        return view('episodes.create', compact('comments'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param  Request $request
      * @return Response
      */
     public function store(Request $request)
@@ -41,20 +44,22 @@ class EpisodeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function edit($id)
     {
         $episode = Episode::findOrFail($id);
-        return view('episodes.edit', compact('episode'));
+        $comments = Comment::all()->sortBy('comment')
+            ->lists('comment', 'id')->toArray();
+        return view('episodes.edit', compact('episode', 'comments'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param  Request $request
+     * @param  int $id
      * @return Response
      */
     public function update(Request $request, $id)
@@ -66,7 +71,7 @@ class EpisodeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return Response
      */
     public function destroy($id)
