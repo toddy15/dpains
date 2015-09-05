@@ -11,16 +11,6 @@ use App\Http\Controllers\Controller;
 class EpisodeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        return Episode::all();
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return Response
@@ -40,24 +30,12 @@ class EpisodeController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'start_date' => 'required',
+            'start_date' => 'required|regex:/^2[0-9]{3}-[01][0-9]$/',
             'vk' => 'required|numeric|between:0,1',
             'factor_night' => 'required|numeric|between:0,2',
             'factor_nef' => 'required|numeric|between:0,2',
         ]);
         Episode::create($request->all());
-        return route('EpisodeController@index');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
     }
 
     /**
@@ -68,7 +46,8 @@ class EpisodeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $episode = Episode::findOrFail($id);
+        return view('episodes.edit', compact('episode'));
     }
 
     /**
@@ -80,7 +59,8 @@ class EpisodeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $episode = Episode::findOrFail($id);
+        $episode->update($request->all());
     }
 
     /**
@@ -91,6 +71,6 @@ class EpisodeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Episode::destroy($id);
     }
 }

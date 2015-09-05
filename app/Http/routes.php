@@ -1,3 +1,4 @@
 <?php
 
-Route::resource('episode', 'EpisodeController');
+Route::resource('episode', 'EpisodeController',
+    ['except' => ['index', 'show']]);
