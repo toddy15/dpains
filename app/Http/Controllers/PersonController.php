@@ -12,7 +12,8 @@ class PersonController extends Controller
 {
     public function show($number)
     {
-        $episodes = Episode::where('number', '=', $number)->get();
+        $episodes = Episode::where('number', '=', $number)
+            ->orderBy('start_date')->get();
         if (!count($episodes)) {
             abort(404);
         }
