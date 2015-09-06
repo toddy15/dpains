@@ -8,3 +8,5 @@ Route::resource('comment', 'CommentController',
     ['except' => ['show', 'destroy']]);
 
 Route::get('person/{number}', 'PersonController@show');
+
+Route::get('month/{month}', 'MonthController@show');
