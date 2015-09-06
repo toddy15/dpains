@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Episode extends Model
 {
     protected $fillable = [
-        'name', 'start_date', 'vk', 'factor_night', 'factor_nef', 'comment_id'
+        'number', 'name', 'start_date', 'vk', 'factor_night', 'factor_nef', 'comment_id'
     ];
 
     /**

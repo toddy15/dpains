@@ -39,6 +39,8 @@ class EpisodeController extends Controller
             'factor_nef' => 'required|numeric|between:0,2',
         ]);
         Episode::create($request->all());
+        // @TODO: Do not hardcode URL
+        return redirect(action('PersonController@index', 1));
     }
 
     /**
@@ -66,6 +68,8 @@ class EpisodeController extends Controller
     {
         $episode = Episode::findOrFail($id);
         $episode->update($request->all());
+        // @TODO: Do not hardcode URL
+        return redirect(action('PersonController@index', 1));
     }
 
     /**
@@ -77,5 +81,7 @@ class EpisodeController extends Controller
     public function destroy($id)
     {
         Episode::destroy($id);
+        // @TODO: Do not hardcode URL
+        return redirect(action('PersonController@index', 1));
     }
 }
