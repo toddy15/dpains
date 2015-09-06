@@ -7,4 +7,4 @@ Route::resource('staffgroup', 'StaffgroupController',
 Route::resource('comment', 'CommentController',
     ['except' => ['show', 'destroy']]);
 
-Route::get('person/{number}', 'PersonController@index');
+Route::get('person/{number}', 'PersonController@show');

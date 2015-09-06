@@ -59,7 +59,7 @@ class EpisodeController extends Controller
             $episode['number'] = $highest_person_number + 1;
         }
         Episode::create($episode);
-        return redirect(action('PersonController@index', $episode['number']));
+        return redirect(action('PersonController@show', $episode['number']));
     }
 
     /**
@@ -88,7 +88,7 @@ class EpisodeController extends Controller
     {
         $episode = Episode::findOrFail($id);
         $episode->update($request->all());
-        return redirect(action('PersonController@index', $episode->number));
+        return redirect(action('PersonController@show', $episode->number));
     }
 
     /**
@@ -101,6 +101,6 @@ class EpisodeController extends Controller
     {
         $episode = Episode::findOrFail($id);
         Episode::destroy($id);
-        return redirect(action('PersonController@index', $episode->number));
+        return redirect(action('PersonController@show', $episode->number));
     }
 }

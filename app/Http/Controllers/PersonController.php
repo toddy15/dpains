@@ -10,12 +10,12 @@ use App\Http\Controllers\Controller;
 
 class PersonController extends Controller
 {
-    public function index($number)
+    public function show($number)
     {
         $episodes = Episode::where('number', '=', $number)->get();
         if (!count($episodes)) {
             abort(404);
         }
-        return view('people.index', compact('episodes', 'number'));
+        return view('people.show', compact('episodes', 'number'));
     }
 }
