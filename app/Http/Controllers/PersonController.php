@@ -16,6 +16,6 @@ class PersonController extends Controller
         if (!count($episodes)) {
             abort(404);
         }
-        return view('people.index', compact('episodes'));
+        return view('people.index', compact('episodes', 'number'));
     }
 }
