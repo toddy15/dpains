@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-    {!! Form::open(['action' => 'EpisodeController@store']) !!}
+    {!! Form::model($episode, ['action' => 'EpisodeController@store']) !!}
 
     // @TODO: Update cancel url
     {!! Form::hidden('number', $number) !!}

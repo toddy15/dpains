@@ -22,20 +22,27 @@ class EpisodeController extends Controller
     {
         // See if there is a valid person number
         $number = (int)$request->get('number');
-        if ($number) {
-            // Are there already episodes for this person's number?
-            $episodes = Episode::where('number', '=', $number)->get();
-            if (!count($episodes)) {
-                // There are not episodes, so create a new person by
-                // setting the number to 0.
-                $number = 0;
-            }
+        // Is there already an episode for this person's number?
+        // If yes, retrieve the latest episode for the default values.
+        $episode = Episode::where('number', '=', $number)
+            ->orderBy('start_date', 'desc')->first();
+        if (!$episode) {
+            // There are no episodes, so create a new person by
+            // setting the number to 0 and using sane default values.
+            $number = 0;
+            $episode = new Episode();
+            $episode->number = 0;
+            $episode->start_date = date("Y-m");
+            $episode->vk = "1.000";
+            $episode->factor_night = "0.000";
+            $episode->factor_nef = "0.000";
         }
+        // Get the comments and staffgroups for the select box
         $comments = Comment::all()->sortBy('comment')
             ->lists('comment', 'id')->toArray();
         $staffgroups = Staffgroup::all()->sortBy('weight')
             ->lists('staffgroup', 'id')->toArray();
-        return view('episodes.create', compact('comments', 'staffgroups', 'number'));
+        return view('episodes.create', compact('episode', 'comments', 'staffgroups', 'number'));
     }
 
     /**
