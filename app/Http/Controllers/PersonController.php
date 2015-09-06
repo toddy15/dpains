@@ -10,6 +10,12 @@ use App\Http\Controllers\Controller;
 
 class PersonController extends Controller
 {
+    /**
+     * Show all episodes for the given person number.
+     *
+     * @param int $number
+     * @return \Illuminate\View\View
+     */
     public function show($number)
     {
         $episodes = Episode::where('number', '=', $number)
