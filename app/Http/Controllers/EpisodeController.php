@@ -37,9 +37,13 @@ class EpisodeController extends Controller
             $episode->factor_night = "0.000";
             $episode->factor_nef = "0.000";
         }
-        // Get the comments and staffgroups for the select box
-        $comments = Comment::all()->sortBy('comment')
-            ->lists('comment', 'id')->toArray();
+        // Get the comments for the select box
+        $comments = Comment::all()->lists('comment', 'id')->toArray();
+        // Add an empty comment
+        $comments[0] = '--';
+        // Sort by comment, maintaining the index association
+        asort($comments);
+        // Get the staffgroups for the select box
         $staffgroups = Staffgroup::all()->sortBy('weight')
             ->lists('staffgroup', 'id')->toArray();
         return view('episodes.create', compact('episode', 'comments', 'staffgroups', 'number'));
@@ -82,8 +86,13 @@ class EpisodeController extends Controller
     {
         $episode = Episode::findOrFail($id);
         $number = $episode->number;
-        $comments = Comment::all()->sortBy('comment')
-            ->lists('comment', 'id')->toArray();
+        // Get the comments for the select box
+        $comments = Comment::all()->lists('comment', 'id')->toArray();
+        // Add an empty comment
+        $comments[0] = '--';
+        // Sort by comment, maintaining the index association
+        asort($comments);
+        // Get the staffgroups for the select box
         $staffgroups = Staffgroup::all()->sortBy('weight')
             ->lists('staffgroup', 'id')->toArray();
         return view('episodes.edit', compact('episode', 'comments', 'staffgroups', 'number'));
