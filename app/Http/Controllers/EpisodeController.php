@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Episode;
 use App\Comment;
+use App\Staffgroup;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -32,7 +33,9 @@ class EpisodeController extends Controller
         }
         $comments = Comment::all()->sortBy('comment')
             ->lists('comment', 'id')->toArray();
-        return view('episodes.create', compact('comments', 'number'));
+        $staffgroups = Staffgroup::all()->sortBy('weight')
+            ->lists('staffgroup', 'id')->toArray();
+        return view('episodes.create', compact('comments', 'staffgroups', 'number'));
     }
 
     /**
@@ -74,7 +77,9 @@ class EpisodeController extends Controller
         $number = $episode->number;
         $comments = Comment::all()->sortBy('comment')
             ->lists('comment', 'id')->toArray();
-        return view('episodes.edit', compact('episode', 'comments', 'number'));
+        $staffgroups = Staffgroup::all()->sortBy('weight')
+            ->lists('staffgroup', 'id')->toArray();
+        return view('episodes.edit', compact('episode', 'comments', 'staffgroups', 'number'));
     }
 
     /**

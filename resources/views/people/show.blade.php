@@ -21,7 +21,7 @@
             <tr>
                 <td>{{ $episode->name }}</td>
                 <td>{{ $episode->start_date }}</td>
-                <td>{{ $episode->job_id }}</td>
+                <td>{{ $episode->staffgroup['staffgroup'] }}</td>
                 <td>{{ $episode->vk }}</td>
                 <td>{{ $episode->factor_night }}</td>
                 <td>{{ $episode->factor_nef }}</td>

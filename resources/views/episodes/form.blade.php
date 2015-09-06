@@ -10,6 +10,11 @@
     {!! Form::text('start_date', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Staffgroup Form Input  -->
+<div class="form-group">
+    {!! Form::label('staffgroup_id', 'Mitarbeitergruppe:', ['class' => 'control-label']) !!}
+    {!! Form::select('staffgroup_id', $staffgroups, null, ['class' => 'form-control']) !!}
+</div>
 <!-- Vk Form Input  -->
 <div class="form-group">
     {!! Form::label('vk', 'VK:', ['class' => 'control-label']) !!}

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Episode extends Model
 {
     protected $fillable = [
-        'number', 'name', 'start_date', 'vk', 'factor_night', 'factor_nef', 'comment_id'
+        'number', 'name', 'start_date', 'staffgroup_id', 'vk', 'factor_night', 'factor_nef', 'comment_id'
     ];
 
     /**
@@ -16,5 +16,13 @@ class Episode extends Model
     public function comment()
     {
         return $this->belongsTo('App\Comment');
+    }
+
+    /**
+     * Get the staffgroup for an episode.
+     */
+    public function staffgroup()
+    {
+        return $this->belongsTo('App\Staffgroup');
     }
 }

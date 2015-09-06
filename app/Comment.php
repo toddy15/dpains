@@ -16,12 +16,4 @@ class Comment extends Model
      * @var bool
      */
     public $timestamps = false;
-
-    /**
-     * Get the episodes for a comment.
-     */
-    public function episodes()
-    {
-        return $this->hasMany('App\Episode');
-    }
 }

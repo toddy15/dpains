@@ -17,7 +17,7 @@ class CreateEpisodesTable extends Migration
             $table->integer('number');
             $table->string('name');
             $table->string('start_date');
-            $table->integer('job_id')->references('id')->on('jobs');;
+            $table->integer('staffgroup_id')->references('id')->on('staffgroups');;
             $table->decimal('vk', 4, 3);
             $table->decimal('factor_night', 4, 3);
             $table->decimal('factor_nef', 4, 3);
