@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Episode;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -23,6 +24,8 @@ class PersonController extends Controller
         if (!count($episodes)) {
             abort(404);
         }
-        return view('people.show', compact('episodes', 'number'));
+        // Get the name of the latest episode.
+        $latest_name = $episodes->last()->name;
+        return view('people.show', compact('episodes', 'number', 'latest_name'));
     }
 }

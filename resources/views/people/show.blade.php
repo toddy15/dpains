@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-    <h1>Einträge für XX</h1>
+    <h1>Einträge für {{ $latest_name }}</h1>
     <p>
         <a class="btn btn-primary" href="{{ action('EpisodeController@create', ['number' => $number]) }}">Neuen Eintrag erstellen</a>
     </p>

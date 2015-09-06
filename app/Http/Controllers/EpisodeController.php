@@ -27,11 +27,9 @@ class EpisodeController extends Controller
         $episode = Episode::where('number', '=', $number)
             ->orderBy('start_date', 'desc')->first();
         if (!$episode) {
-            // There are no episodes, so create a new person by
-            // setting the number to 0 and using sane default values.
-            $number = 0;
+            // There are no episodes, so create a new person
+            // using sane default values.
             $episode = new Episode();
-            $episode->number = 0;
             $episode->start_date = date("Y-m");
             $episode->vk = "1.000";
             $episode->factor_night = "0.000";
@@ -46,7 +44,7 @@ class EpisodeController extends Controller
         // Get the staffgroups for the select box
         $staffgroups = Staffgroup::all()->sortBy('weight')
             ->lists('staffgroup', 'id')->toArray();
-        return view('episodes.create', compact('episode', 'comments', 'staffgroups', 'number'));
+        return view('episodes.create', compact('episode', 'comments', 'staffgroups'));
     }
 
     /**
@@ -85,7 +83,6 @@ class EpisodeController extends Controller
     public function edit($id)
     {
         $episode = Episode::findOrFail($id);
-        $number = $episode->number;
         // Get the comments for the select box
         $comments = Comment::all()->lists('comment', 'id')->toArray();
         // Add an empty comment
@@ -95,7 +92,7 @@ class EpisodeController extends Controller
         // Get the staffgroups for the select box
         $staffgroups = Staffgroup::all()->sortBy('weight')
             ->lists('staffgroup', 'id')->toArray();
-        return view('episodes.edit', compact('episode', 'comments', 'staffgroups', 'number'));
+        return view('episodes.edit', compact('episode', 'comments', 'staffgroups'));
     }
 
     /**
