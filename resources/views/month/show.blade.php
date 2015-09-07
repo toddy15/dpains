@@ -2,6 +2,16 @@
 
 @section('content')
     <h1>{{ $readable_month }}</h1>
+    <nav>
+        <ul class="pager">
+            @if (empty($previous_month_url))
+                <li class="previous disabled"><span aria-hidden="true">&larr; Vorheriger Monat</span></li>
+            @else
+                <li class="previous"><a href="{{ $previous_month_url }}"><span aria-hidden="true">&larr;</span> Vorheriger Monat</a></li>
+            @endif
+            <li class="next"><a href="{{ $next_month_url }}">Nächster Monat <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+    </nav>
     @if (count($episode_changes))
         <h2>Änderungen</h2>
         <table class="table table-striped">

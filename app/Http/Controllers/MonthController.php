@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\DB;
 class MonthController extends Controller
 {
     /**
+     * The year with the first data available.
+     *
+     * @var int
+     */
+    private $firstYear = 2015;
+
+    /**
      * Show the people working in the given month with their
      * calculated night shifts and nef shifts.
      *
@@ -23,10 +30,10 @@ class MonthController extends Controller
     public function show($year, $month)
     {
         // Ensure valid values for year and month
-        $year = (int) $year;
-        $month = (int) $month;
-        // The database started 2015-01 ...
-        if (($year < 2015) or ($month < 1) or ($month > 12)) {
+        $year = (int)$year;
+        $month = (int)$month;
+        // Do not show years before the database started and keep month between 1 and 12
+        if (($year < $this->firstYear) or ($month < 1) or ($month > 12)) {
             abort(404);
         }
         // Convert to internal representation in the database (YYYY-MM)
@@ -37,7 +44,23 @@ class MonthController extends Controller
         $episode_changes = $this->getChangesForMonth($formatted_month);
         // Set up a readable month name
         $readable_month = Carbon::createFromDate($year, $month)->formatLocalized('%B %Y');
-        return view('month.show', compact('episode_changes', 'episodes', 'readable_month'));
+        // Generate the next and previous month urls
+        if ($month == 12) {
+            $next_month_url = url('month/' . sprintf("%4d/%02d", $year + 1, 1));
+        } else {
+            $next_month_url = url('month/' . sprintf("%4d/%02d", $year, $month + 1));
+        }
+        if ($month == 1) {
+            if ($year == $this->firstYear) {
+                $previous_month_url = '';
+            } else {
+                $previous_month_url = url('month/' . sprintf("%4d/%02d", $year - 1, 12));
+            }
+        } else {
+            $previous_month_url = url('month/' . sprintf("%4d/%02d", $year, $month - 1));
+        }
+        return view('month.show', compact('episode_changes', 'episodes',
+            'readable_month', 'next_month_url', 'previous_month_url'));
     }
 
     /**
