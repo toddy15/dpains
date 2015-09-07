@@ -13,7 +13,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Set locale, needed for Carbon DateTime library
+        setlocale(LC_TIME, 'de_DE.UTF-8');
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -28,8 +29,11 @@ class MonthController extends Controller
         }
         // Convert to internal representation in the database (YYYY-MM)
         $formatted_month = sprintf("%4d-%02d", $year, $month);
-        $staff = $this->getPeopleForMonth($formatted_month);
-        return $staff;
+        // Get all episodes valid in this month
+        $episodes = $this->getPeopleForMonth($formatted_month);
+        // Set up a readable month name
+        $readable_month = Carbon::createFromDate($year, $month)->formatLocalized('%B %Y');
+        return view('month.show', compact('episodes', 'readable_month'));
     }
 
     /**
