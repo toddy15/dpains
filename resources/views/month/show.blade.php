@@ -1,8 +1,9 @@
 @extends('app')
 
 @section('content')
+    <h1>{{ $readable_month }}</h1>
     @if (count($episode_changes))
-        <h1>Änderungen im {{ $readable_month }}</h1>
+        <h2>Änderungen</h2>
         <table class="table table-striped">
             <thead>
             <th>Name</th>
@@ -30,7 +31,7 @@
             </tbody>
         </table>
     @endunless
-    <h1>Mitarbeiter im {{ $readable_month }}</h1>
+    <h2>Mitarbeiter</h2>
     <table class="table table-striped">
         <thead>
         <th>Name</th>
