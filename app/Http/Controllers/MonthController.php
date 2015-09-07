@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Episode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -24,16 +25,19 @@ class MonthController extends Controller
         // Ensure valid values for year and month
         $year = (int) $year;
         $month = (int) $month;
-        if (($year < 2014) or ($month < 1) or ($month > 12)) {
+        // The database started 2015-01 ...
+        if (($year < 2015) or ($month < 1) or ($month > 12)) {
             abort(404);
         }
         // Convert to internal representation in the database (YYYY-MM)
         $formatted_month = sprintf("%4d-%02d", $year, $month);
         // Get all episodes valid in this month
         $episodes = $this->getPeopleForMonth($formatted_month);
+        // Get all changes in this month
+        $episode_changes = $this->getChangesForMonth($formatted_month);
         // Set up a readable month name
         $readable_month = Carbon::createFromDate($year, $month)->formatLocalized('%B %Y');
-        return view('month.show', compact('episodes', 'readable_month'));
+        return view('month.show', compact('episode_changes', 'episodes', 'readable_month'));
     }
 
     /**
@@ -62,6 +66,18 @@ class MonthController extends Controller
                 $query->where('comment', 'not like', 'Vertragsende')
                     ->orWhereNull('comment');
             })
+            // First, order by staffgroups (weight parameter)
+            ->orderBy('weight')
+            // Second, order by name within the staffgroups
+            ->orderBy('name')
+            ->get();
+    }
+
+    private function getChangesForMonth($formatted_month)
+    {
+        return Episode::where('start_date', $formatted_month)
+            ->leftJoin('staffgroups', 'staffgroup_id', '=', 'staffgroups.id')
+            ->leftJoin('comments', 'comment_id', '=', 'comments.id')
             // First, order by staffgroups (weight parameter)
             ->orderBy('weight')
             // Second, order by name within the staffgroups
