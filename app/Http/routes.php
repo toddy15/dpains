@@ -9,4 +9,5 @@ Route::resource('comment', 'CommentController',
 
 Route::get('person/{number}', 'PersonController@show');
 
-Route::get('month/{month}', 'MonthController@show');
+Route::get('month/{year}/{month}', 'MonthController@show')
+    ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
