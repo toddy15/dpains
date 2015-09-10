@@ -6,7 +6,8 @@ Route::resource('staffgroup', 'StaffgroupController',
     ['except' => ['show', 'destroy']]);
 Route::resource('comment', 'CommentController',
     ['except' => ['show', 'destroy']]);
-Route::resource('rawplan', 'RawplanController');
+Route::resource('rawplan', 'RawplanController',
+    ['except' => ['show', 'edit', 'update']]);
 
 Route::get('person/{number}', 'PersonController@show');
 
