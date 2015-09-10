@@ -14,7 +14,7 @@
         <tbody>
             @foreach($rawplans as $rawplan)
                 <tr>
-                    <td>{{ $rawplan->people }}</td>
+                    <td>{{ $rawplan->month }}</td>
                     <td>{{ $rawplan->updated_at }}</td>
                     <td>
                         {!! Form::open(['action' => ['RawplanController@destroy', $rawplan->id], 'method' => 'delete']) !!}
