@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dpains\Reporter;
 use App\Rawplan;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,11 @@ class RawplanController extends Controller
      */
     public function create()
     {
-        return view('rawplans.create');
+        // Allow from the beginning of database storage
+        $start_year = Reporter::$firstYear;
+        // ... to next year
+        $end_year = date('Y') + 1;
+        return view('rawplans.create', compact('start_year', 'end_year'));
     }
 
     /**
@@ -41,12 +46,15 @@ class RawplanController extends Controller
     {
         $this->validate($request, [
             'month' => 'required',
+            'year' => 'required',
             'people' => 'required',
             'shifts' => 'required',
         ]);
         // Check if there is already an entry in the database,
         // if so, update it.
-        $month = $request->get('month');
+        $month = Reporter::validateAndFormatDate($request->get('year'), $request->get('month'));
+        // Set the month to the formatted string for database storage.
+        $request->merge(['month' => $month]);
         $rawplan = Rawplan::where('month', $month)->first();
         if (!$rawplan) {
             $rawplan = Rawplan::create($request->all());

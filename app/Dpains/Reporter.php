@@ -12,7 +12,7 @@ class Reporter
      *
      * @var int
      */
-    private $firstYear = 2015;
+    public static $firstYear = 2015;
 
     /**
      * Validates the given year and month, returning a formatted
@@ -23,13 +23,13 @@ class Reporter
      * @param $month
      * @return string
      */
-    public function validateAndFormatDate($year, $month)
+    public static function validateAndFormatDate($year, $month)
     {
         // Ensure a valid date and return in a format usable for database queries.
         $year = (int)$year;
         $month = (int)$month;
         // Do not show years before the database started and keep month between 1 and 12
-        if (($year < $this->firstYear) or ($month < 1) or ($month > 12)) {
+        if (($year < Reporter::$firstYear) or ($month < 1) or ($month > 12)) {
             abort(404);
         }
         // Convert to internal representation in the database (YYYY-MM)

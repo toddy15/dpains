@@ -1,12 +1,18 @@
 @extends('app')
 
 @section('content')
+    <h1>Dienstplan hochladen</h1>
+
     {!! Form::open(['action' => 'RawplanController@store']) !!}
 
     <!-- Month Form Input  -->
     <div class="form-group">
         {!! Form::label('month', 'Monat:', ['class' => 'control-label']) !!}
-        {!! Form::text('month', null, ['class' => 'form-control']) !!}
+        <div class="form-inline">
+            {!! Form::selectMonth('month', date('m'), ['class' => 'form-control']) !!}
+            {!! Form::label('year', 'Jahr:', ['class' => 'sr-only control-label']) !!}
+            {!! Form::selectYear('year', $start_year, $end_year, date('Y'), ['class' => 'form-control']) !!}
+        </div>
     </div>
 
     <!-- People Form Input  -->
