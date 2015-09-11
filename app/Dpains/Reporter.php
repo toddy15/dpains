@@ -2,6 +2,7 @@
 
 namespace App\Dpains;
 
+use App\Episode;
 use Illuminate\Support\Facades\DB;
 
 class Reporter
@@ -12,6 +13,28 @@ class Reporter
      * @var int
      */
     private $firstYear = 2015;
+
+    /**
+     * Validates the given year and month, returning a formatted
+     * representation. If the date is not valid, the app will abort
+     * with a HTTP 404 error.
+     *
+     * @param $year
+     * @param $month
+     * @return string
+     */
+    public function validateAndFormatDate($year, $month)
+    {
+        // Ensure a valid date and return in a format usable for database queries.
+        $year = (int)$year;
+        $month = (int)$month;
+        // Do not show years before the database started and keep month between 1 and 12
+        if (($year < $this->firstYear) or ($month < 1) or ($month > 12)) {
+            abort(404);
+        }
+        // Convert to internal representation in the database (YYYY-MM)
+        return sprintf("%4d-%02d", $year, $month);
+    }
 
     /**
      * Return an array of people's names in the given month.
@@ -55,6 +78,24 @@ class Reporter
                 $query->where('comment', 'not like', 'Vertragsende')
                     ->orWhereNull('comment');
             })
+            // First, order by staffgroups (weight parameter)
+            ->orderBy('weight')
+            // Second, order by name within the staffgroups
+            ->orderBy('name')
+            ->get();
+    }
+
+    /**
+     * Returns all people with changes in the given month.
+     *
+     * @param $month
+     * @return mixed
+     */
+    public function getChangesForMonth($month)
+    {
+        return Episode::where('start_date', $month)
+            ->leftJoin('staffgroups', 'staffgroup_id', '=', 'staffgroups.id')
+            ->leftJoin('comments', 'comment_id', '=', 'comments.id')
             // First, order by staffgroups (weight parameter)
             ->orderBy('weight')
             // Second, order by name within the staffgroups
