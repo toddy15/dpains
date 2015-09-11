@@ -39,7 +39,21 @@ class RawplanController extends Controller
      */
     public function store(Request $request)
     {
-        Rawplan::create($request->all());
+        $this->validate($request, [
+            'month' => 'required',
+            'people' => 'required',
+            'shifts' => 'required',
+        ]);
+        // Check if there is already an entry in the database,
+        // if so, update it.
+        $month = $request->get('month');
+        $rawplan = Rawplan::where('month', $month)->first();
+        if (!$rawplan) {
+            $rawplan = Rawplan::create($request->all());
+        } else {
+            $rawplan->update($request->all());
+        }
+        $rawplan->save();
         return redirect(action('RawplanController@index'));
     }
 
