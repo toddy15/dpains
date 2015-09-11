@@ -9,7 +9,8 @@ Route::resource('comment', 'CommentController',
 Route::resource('rawplan', 'RawplanController',
     ['except' => ['show', 'edit', 'update']]);
 
-Route::get('report/{year}/{month}', 'ReportController@show');
+Route::get('report/{year}/{month}', 'ReportController@show')
+    ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
 
 Route::get('person/{number}', 'PersonController@show');
 
