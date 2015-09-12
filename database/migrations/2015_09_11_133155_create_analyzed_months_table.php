@@ -17,6 +17,7 @@ class CreateAnalyzedMonthsTable extends Migration
             $table->integer('number');
             $table->integer('nights');
             $table->integer('nefs');
+            $table->primary(['month', 'number']);
         });
     }
 
