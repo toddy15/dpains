@@ -13,7 +13,6 @@ class CreateAnalyzedMonthsTable extends Migration
     public function up()
     {
         Schema::create('analyzed_months', function (Blueprint $table) {
-            $table->increments('id');
             $table->string('month', 7);
             $table->integer('number');
             $table->integer('nights');
