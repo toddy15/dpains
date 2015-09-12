@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class RawplanController extends Controller
 {
@@ -44,17 +45,24 @@ class RawplanController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        // Perform validation before actually saving entry.
+        $validator = Validator::make($request->all(), [
             'month' => 'required',
             'year' => 'required',
             'people' => 'required',
             'shifts' => 'required',
         ]);
+        // Determine whether there was an error.
+        if ($validator->fails()) {
+            return redirect(action('RawplanController@create'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+        // Set the month to the formatted string for database storage.
+        $month = Reporter::validateAndFormatDate($request->get('year'), $request->get('month'));
+        $request->merge(['month' => $month]);
         // Check if there is already an entry in the database,
         // if so, update it.
-        $month = Reporter::validateAndFormatDate($request->get('year'), $request->get('month'));
-        // Set the month to the formatted string for database storage.
-        $request->merge(['month' => $month]);
         $rawplan = Rawplan::where('month', $month)->first();
         if (!$rawplan) {
             $rawplan = Rawplan::create($request->all());
