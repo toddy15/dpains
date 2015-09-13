@@ -14,6 +14,7 @@ class ReportController extends Controller
 {
     public function index()
     {
+
         $rawplan = Rawplan::where('month', '2015-09')->first();
 
         dd($rawplan);

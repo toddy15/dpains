@@ -100,9 +100,7 @@ class Planparser
     {
         // Clean all previously parsed results.
         DB::table('analyzed_months')->where('month', $this->month)->delete();
-        // Get people names for this episode.
-        $reporter = new Reporter();
-        // Get an array with the unique person's number and name
+        // Get an array with the unique person's number and name in this episode.
         $expected_names = Helper::getNamesForMonth($this->month);
         $database_rows = [];
         foreach ($this->names as $id => $name) {
@@ -158,7 +156,6 @@ class Planparser
     public function validatePeople()
     {
         $result = [];
-        $reporter = new Reporter();
         // Get all people which are expected in this month.
         $expected_people = Helper::getNamesForMonth($this->month);
         // Check that all expected people have been found.
