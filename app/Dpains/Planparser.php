@@ -20,6 +20,8 @@ class Planparser
         $this->rawInput = $rawInput;
         $month = Reporter::validateAndFormatDate($rawInput['year'], $rawInput['month']);
         $this->month = $month;
+        $this->parseNames();
+        $this->parseShifts();
     }
 
 
@@ -41,10 +43,14 @@ class Planparser
         }
     }
 
-    public function parseShifts($shifts)
+    public function parseShifts()
     {
         $this->shifts = [];
         $plan_lines = explode("\n", $this->rawInput['shifts']);
+        // Avoid a division by zero
+        if (count($this->names) == 0) {
+            return;
+        }
         // Determine if there are 1 or 3 lines per person.
         $lines_per_person = count($plan_lines) / count($this->names);
         // This id is the index of the $this->names array. It has
@@ -92,8 +98,6 @@ class Planparser
 
     public function storeShiftsForPeople()
     {
-        $this->parseNames();
-        $this->parseShifts();
         // Clean all previously parsed results.
         DB::table('analyzed_months')->where('month', $this->month)->delete();
         // Get people names for this episode.
@@ -105,11 +109,8 @@ class Planparser
             $person_number = array_search($name, $expected_names);
             $shifts = $this->calculateShifts($this->shifts[$id]);
             if (!is_array($shifts)) {
-                drupal_set_message(t('Plan data not saved.'), 'error');
                 // Clean all previously parsed results.
-                db_delete('ains_parsed_months')
-                    ->condition('month', $month)
-                    ->execute();
+                DB::table('analyzed_months')->where('month', $this->month)->delete();
                 return;
             }
             $database_rows[] = [
@@ -152,5 +153,67 @@ class Planparser
             }
         }
         return ['nights' => $night_counter, 'nefs' => $nef_counter];
+    }
+
+    public function validatePeople()
+    {
+        $result = [];
+        $reporter = new Reporter();
+        // Get all people which are expected in this month.
+        $expected_people = $reporter->getNamesForMonth($this->month);
+        // Check that all expected people have been found.
+        $more_expected = array_diff($expected_people, $this->names);
+        if ($more_expected) {
+            $result[] = 'Die folgenden Mitarbeiter werden in diesem Monat erwartet, ' .
+                'aber nicht gefunden: ' . join('; ', $more_expected);
+        }
+        // Check that not more than the expected people have been found.
+        $more_found = array_diff($this->names, $expected_people);
+        if ($more_found) {
+            $result[] = 'Die folgenden Mitarbeiter werden in diesem Monat nicht erwartet, ' .
+                'aber gefunden: ' . join('; ', $more_found);
+        }
+        return $result;
+    }
+
+    public function validateShifts()
+    {
+        $result = [];
+        // Calculate length of episode.
+        $plan_lines = explode("\n", $this->rawInput['shifts']);
+        // Get first line of plan data.
+        $first_line = $plan_lines[0];
+        // Remove line endings, but not tabs.
+        $first_line = trim($first_line, "\n\r");
+        // Count the days in the line
+        $submitted_days = count(explode("\t", $first_line));
+        // The submitted days must be exactly one month.
+        // so check that the next day is the first of a month.
+        if ($submitted_days > 31) {
+            $result[] = 'Es wurden mehr als 31 Tage in den Schichten gefunden.';
+        }
+        $date = date_create($this->month . '-01');
+        date_add($date, date_interval_create_from_date_string($submitted_days . ' days'));
+        $end_day = date_format($date, 'd');
+        if ($end_day != '01') {
+            $result[] = 'Die Anzahl der Tage in den Schichten stimmt nicht mit der Anzahl der Tage des Monats überein.';
+        }
+        // Do not error out if there's one line break appended.
+        if (end($plan_lines) == '') {
+            array_pop($plan_lines);
+        }
+        // Avoid a division by zero
+        if (count($this->names) == 0) {
+            return $result;
+        }
+        // Ensure that the number of lines in plan is a multiple of people's lines.
+        if ((count($plan_lines) % count($this->names)) != 0) {
+            $result[] = 'Es wurden mehr Zeilen in den Schichten gefunden als Mitarbeiter vorhanden sind.';
+        }
+        $lines_per_person = count($plan_lines) / count($this->names);
+        if ($lines_per_person != 1 and $lines_per_person != 3) {
+            $result[] = 'Die Anzahl der Zeilen in den Schichten muss entweder eine oder drei pro Mitarbeiter sein.';
+        }
+        return $result;
     }
 }

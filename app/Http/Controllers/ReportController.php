@@ -9,22 +9,26 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
     public function index()
     {
-        $planparser = new Planparser('2015-01');
-        $rawplan = Rawplan::where('month', '2015-01')->first();
-        $planparser->parseNames($rawplan->people);
-        $planparser->parseShifts($rawplan->shifts);
-        $planparser->storeShiftsForPeople();
+        $rawplan = Rawplan::where('month', '2015-09')->first();
+
+        dd($rawplan);
     }
 
     public function show($year, $month)
     {
+        $planparser = new Planparser();
+
         $reporter = new Reporter();
         $formatted_month = $reporter->validateAndFormatDate($year, $month);
+        $data = DB::table('analyzed_months')
+            ->where('month', $formatted_month)->get();
+        dd($data);
         return $reporter->getNamesForMonth($formatted_month);
     }
 }

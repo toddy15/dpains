@@ -53,12 +53,19 @@ class RawplanController extends Controller
             'people' => 'required',
             'shifts' => 'required',
         ]);
+        $planparser = new Planparser($request->all());
         // Extend with custom validation rules
-        $validator->after(function($validator) use ($request) {
+        $validator->after(function($validator) use ($planparser) {
             // Check that the given people match the expected people.
-            $planparser = new Planparser($request->all());
-            $planparser->storeShiftsForPeople();
-            $validator->errors()->add('people', 'Och nö.');
+            $error_messages = $planparser->validatePeople();
+            foreach ($error_messages as $error_message) {
+                $validator->errors()->add('people', $error_message);
+            }
+            // Check that the given shifts match the expected shifts.
+            $error_messages = $planparser->validateShifts();
+            foreach ($error_messages as $error_message) {
+                $validator->errors()->add('shifts', $error_message);
+            }
         });
         // Determine whether there was an error.
         if ($validator->fails()) {
@@ -78,6 +85,8 @@ class RawplanController extends Controller
             $rawplan->update($request->all());
         }
         $rawplan->save();
+        // Parse the plan and save it.
+        $planparser->storeShiftsForPeople();
         return redirect(action('RawplanController@index'));
     }
 
