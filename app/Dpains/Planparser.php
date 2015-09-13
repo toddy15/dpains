@@ -18,7 +18,7 @@ class Planparser
     public function __construct(array $rawInput)
     {
         $this->rawInput = $rawInput;
-        $month = Reporter::validateAndFormatDate($rawInput['year'], $rawInput['month']);
+        $month = Helper::validateAndFormatDate($rawInput['year'], $rawInput['month']);
         $this->month = $month;
         $this->parseNames();
         $this->parseShifts();

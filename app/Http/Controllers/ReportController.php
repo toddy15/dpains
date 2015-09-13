@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dpains\Helper;
 use App\Dpains\Planparser;
 use App\Dpains\Reporter;
 use App\Rawplan;
@@ -25,7 +26,7 @@ class ReportController extends Controller
         $planparser = new Planparser();
 
         $reporter = new Reporter();
-        $formatted_month = $reporter->validateAndFormatDate($year, $month);
+        $formatted_month = Helper::validateAndFormatDate($year, $month);
         $data = DB::table('analyzed_months')
             ->where('month', $formatted_month)->get();
         dd($data);

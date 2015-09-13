@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dpains\Helper;
 use App\Dpains\Reporter;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class MonthController extends Controller
     public function show($year, $month)
     {
         $reporter = new Reporter();
-        $formatted_month = $reporter->validateAndFormatDate($year, $month);
+        $formatted_month = Helper::validateAndFormatDate($year, $month);
         // Get all episodes valid in this month
         $episodes = $reporter->getPeopleForMonth($formatted_month);
         // Get all changes in this month

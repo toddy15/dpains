@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dpains\Helper;
 use App\Dpains\Planparser;
 use App\Dpains\Reporter;
 use App\Rawplan;
@@ -32,7 +33,7 @@ class RawplanController extends Controller
     public function create()
     {
         // Allow from the beginning of database storage
-        $start_year = Reporter::$firstYear;
+        $start_year = Helper::$firstYear;
         // ... to next year
         $end_year = date('Y') + 1;
         return view('rawplans.create', compact('start_year', 'end_year'));
@@ -74,7 +75,7 @@ class RawplanController extends Controller
                 ->withInput();
         }
         // Set the month to the formatted string for database storage.
-        $month = Reporter::validateAndFormatDate($request->get('year'), $request->get('month'));
+        $month = Helper::validateAndFormatDate($request->get('year'), $request->get('month'));
         $request->merge(['month' => $month]);
         // Check if there is already an entry in the database,
         // if so, update it.

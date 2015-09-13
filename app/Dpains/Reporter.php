@@ -8,35 +8,6 @@ use Illuminate\Support\Facades\DB;
 class Reporter
 {
     /**
-     * The year with the first data available.
-     *
-     * @var int
-     */
-    public static $firstYear = 2015;
-
-    /**
-     * Validates the given year and month, returning a formatted
-     * representation. If the date is not valid, the app will abort
-     * with a HTTP 404 error.
-     *
-     * @param $year
-     * @param $month
-     * @return string
-     */
-    public static function validateAndFormatDate($year, $month)
-    {
-        // Ensure a valid date and return in a format usable for database queries.
-        $year = (int)$year;
-        $month = (int)$month;
-        // Do not show years before the database started and keep month between 1 and 12
-        if (($year < Reporter::$firstYear) or ($month < 1) or ($month > 12)) {
-            abort(404);
-        }
-        // Convert to internal representation in the database (YYYY-MM)
-        return sprintf("%4d-%02d", $year, $month);
-    }
-
-    /**
      * Return an array of people's names in the given month.
      * The array keys are the people's unique number.
      *
