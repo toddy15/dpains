@@ -36,6 +36,14 @@ class Helper
         return sprintf("%4d-%02d", $year, $month);
     }
 
+    /**
+     * Generate a url for the next month.
+     *
+     * @param $prefix
+     * @param $year
+     * @param $month
+     * @return string
+     */
     public static function getNextMonthUrl($prefix, $year, $month)
     {
         if ($month == 12) {
@@ -47,6 +55,15 @@ class Helper
         return url($prefix . sprintf('%4d/%02d', $year, $month));
     }
 
+    /**
+     * Generate a url for the previous month. If there is no previous
+     * month, returns an empty string.
+     *
+     * @param $prefix
+     * @param $year
+     * @param $month
+     * @return string
+     */
     public static function getPreviousMonthUrl($prefix, $year, $month)
     {
         $url = '';
