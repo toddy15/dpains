@@ -31,20 +31,8 @@ class MonthController extends Controller
         // Set up a readable month name
         $readable_month = Carbon::createFromDate($year, $month)->formatLocalized('%B %Y');
         // Generate the next and previous month urls
-        if ($month == 12) {
-            $next_month_url = url('month/' . sprintf("%4d/%02d", $year + 1, 1));
-        } else {
-            $next_month_url = url('month/' . sprintf("%4d/%02d", $year, $month + 1));
-        }
-        if ($month == 1) {
-            if ($year == $reporter->firstYear) {
-                $previous_month_url = '';
-            } else {
-                $previous_month_url = url('month/' . sprintf("%4d/%02d", $year - 1, 12));
-            }
-        } else {
-            $previous_month_url = url('month/' . sprintf("%4d/%02d", $year, $month - 1));
-        }
+        $next_month_url = Helper::getNextMonthUrl('month/', $year, $month);
+        $previous_month_url = Helper::getPreviousMonthUrl('month/', $year, $month);
         return view('month.show', compact('episode_changes', 'episodes',
             'readable_month', 'next_month_url', 'previous_month_url'));
     }

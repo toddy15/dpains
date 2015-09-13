@@ -32,4 +32,32 @@ class Helper
         // Convert to internal representation in the database (YYYY-MM)
         return sprintf("%4d-%02d", $year, $month);
     }
+
+    public static function getNextMonthUrl($prefix, $year, $month)
+    {
+        if ($month == 12) {
+            $year++;
+            $month = 1;
+        } else {
+            $month++;
+        }
+        return url($prefix . sprintf('%4d/%02d', $year, $month));
+    }
+
+    public static function getPreviousMonthUrl($prefix, $year, $month)
+    {
+        $url = '';
+        if ($month == 1) {
+            $year--;
+            $month = 12;
+        } else {
+            $month--;
+        }
+        if ($year < Helper::$firstYear) {
+            return '';
+        }
+        else {
+            return url($prefix . sprintf('%4d/%02d', $year, $month));
+        }
+    }
 }
