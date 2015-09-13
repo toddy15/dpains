@@ -25,9 +25,9 @@ class MonthController extends Controller
         $reporter = new Reporter();
         $formatted_month = Helper::validateAndFormatDate($year, $month);
         // Get all episodes valid in this month
-        $episodes = $reporter->getPeopleForMonth($formatted_month);
+        $episodes = Helper::getPeopleForMonth($formatted_month);
         // Get all changes in this month
-        $episode_changes = $reporter->getChangesForMonth($formatted_month);
+        $episode_changes = Helper::getChangesForMonth($formatted_month);
         // Set up a readable month name
         $readable_month = Carbon::createFromDate($year, $month)->formatLocalized('%B %Y');
         // Generate the next and previous month urls

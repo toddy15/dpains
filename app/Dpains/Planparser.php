@@ -103,7 +103,7 @@ class Planparser
         // Get people names for this episode.
         $reporter = new Reporter();
         // Get an array with the unique person's number and name
-        $expected_names = $reporter->getNamesForMonth($this->month);
+        $expected_names = Helper::getNamesForMonth($this->month);
         $database_rows = [];
         foreach ($this->names as $id => $name) {
             $person_number = array_search($name, $expected_names);
@@ -160,7 +160,7 @@ class Planparser
         $result = [];
         $reporter = new Reporter();
         // Get all people which are expected in this month.
-        $expected_people = $reporter->getNamesForMonth($this->month);
+        $expected_people = Helper::getNamesForMonth($this->month);
         // Check that all expected people have been found.
         $more_expected = array_diff($expected_people, $this->names);
         if ($more_expected) {
