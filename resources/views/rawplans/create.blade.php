@@ -16,15 +16,21 @@
     </div>
 
     <!-- People Form Input  -->
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('people') ? 'has-error has-feedback' : '' }}">
         {!! Form::label('people', 'Mitarbeiter:', ['class' => 'control-label']) !!}
         {!! Form::textarea('people', null, ['class' => 'form-control']) !!}
+        @if ($errors->has('people'))
+            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+        @endif
     </div>
 
     <!-- Shifts Form Input  -->
-    <div class="form-group">
+    <div class="form-group {{ $errors->has('shifts') ? 'has-error has-feedback' : '' }}">
         {!! Form::label('shifts', 'Schichten:', ['class' => 'control-label']) !!}
         {!! Form::textarea('shifts', null, ['class' => 'form-control']) !!}
+        @if ($errors->has('shifts'))
+            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+        @endif
     </div>
 
     <div class="form-group text-center">

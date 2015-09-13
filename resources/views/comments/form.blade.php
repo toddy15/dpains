@@ -1,7 +1,10 @@
 <!-- Comment Form Input  -->
-<div class="form-group">
+<div class="form-group {{ $errors->has('comment') ? 'has-error has-feedback' : '' }}">
     {!! Form::label('comment', 'Bemerkung:', ['class' => 'control-label']) !!}
     {!! Form::text('comment', null, ['class' => 'form-control']) !!}
+    @if ($errors->has('comment'))
+        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+    @endif
 </div>
 
 <div class="form-group text-center">
