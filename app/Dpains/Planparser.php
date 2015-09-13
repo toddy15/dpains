@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 
 class Planparser
 {
+    public $rawInput = [];
     public $month = '';
     public $names = [];
     public $shifts = [];
@@ -14,16 +15,18 @@ class Planparser
      * Planparser constructor.
      * @param string $month
      */
-    public function __construct($month)
+    public function __construct(array $rawInput)
     {
+        $this->rawInput = $rawInput;
+        $month = Reporter::validateAndFormatDate($rawInput['year'], $rawInput['month']);
         $this->month = $month;
     }
 
 
-    public function parseNames($people)
+    public function parseNames()
     {
         $this->names = [];
-        $person_lines = explode("\n", $people);
+        $person_lines = explode("\n", $this->rawInput['people']);
         foreach ($person_lines as $person_line) {
             // Remove whitespace.
             $person_line = trim($person_line);
@@ -41,7 +44,7 @@ class Planparser
     public function parseShifts($shifts)
     {
         $this->shifts = [];
-        $plan_lines = explode("\n", $shifts);
+        $plan_lines = explode("\n", $this->rawInput['shifts']);
         // Determine if there are 1 or 3 lines per person.
         $lines_per_person = count($plan_lines) / count($this->names);
         // This id is the index of the $this->names array. It has
@@ -87,8 +90,10 @@ class Planparser
         }
     }
 
-    public function storeShiftsForPerson()
+    public function storeShiftsForPeople()
     {
+        $this->parseNames();
+        $this->parseShifts();
         // Clean all previously parsed results.
         DB::table('analyzed_months')->where('month', $this->month)->delete();
         // Get people names for this episode.

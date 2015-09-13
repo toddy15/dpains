@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dpains\Planparser;
 use App\Dpains\Reporter;
 use App\Rawplan;
 use Illuminate\Http\Request;
@@ -52,6 +53,13 @@ class RawplanController extends Controller
             'people' => 'required',
             'shifts' => 'required',
         ]);
+        // Extend with custom validation rules
+        $validator->after(function($validator) use ($request) {
+            // Check that the given people match the expected people.
+            $planparser = new Planparser($request->all());
+            $planparser->storeShiftsForPeople();
+            $validator->errors()->add('people', 'Och nö.');
+        });
         // Determine whether there was an error.
         if ($validator->fails()) {
             return redirect(action('RawplanController@create'))

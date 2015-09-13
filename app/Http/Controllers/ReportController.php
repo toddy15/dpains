@@ -18,7 +18,7 @@ class ReportController extends Controller
         $rawplan = Rawplan::where('month', '2015-01')->first();
         $planparser->parseNames($rawplan->people);
         $planparser->parseShifts($rawplan->shifts);
-        $planparser->storeShiftsForPerson();
+        $planparser->storeShiftsForPeople();
     }
 
     public function show($year, $month)
