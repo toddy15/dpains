@@ -44,6 +44,7 @@ class StaffgroupController extends Controller
             'weight' => 'required|numeric',
         ]);
         Staffgroup::create($request->all());
+        $request->session()->flash('info', 'Die Mitarbeitergruppe wurde gespeichert.');
         return redirect(action('StaffgroupController@index'));
     }
 
@@ -74,6 +75,7 @@ class StaffgroupController extends Controller
         ]);
         $staffgroup = Staffgroup::findOrFail($id);
         $staffgroup->update($request->all());
+        $request->session()->flash('info', 'Die Mitarbeitergruppe wurde geändert.');
         return redirect(action('StaffgroupController@index'));
     }
 }

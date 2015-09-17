@@ -90,6 +90,7 @@ class RawplanController extends Controller
         $rawplan->save();
         // Parse the plan and save it.
         $planparser->storeShiftsForPeople();
+        $request->session()->flash('info', 'Der Dienstplan wurde gespeichert.');
         return redirect(action('RawplanController@index'));
     }
 

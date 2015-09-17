@@ -43,6 +43,7 @@ class CommentController extends Controller
             'comment' => 'required'
         ]);
         Comment::create($request->all());
+        $request->session()->flash('info', 'Die Bemerkung wurde gespeichert.');
         return redirect(action('CommentController@index'));
     }
 
@@ -69,6 +70,7 @@ class CommentController extends Controller
     {
         $comment = Comment::findOrFail($id);
         $comment->update($request->all());
+        $request->session()->flash('info', 'Die Bemerkung wurde geändert.');
         return redirect(action('CommentController@index'));
     }
 }
