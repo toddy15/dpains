@@ -14,14 +14,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
-    public function index()
-    {
-        $rawplan = Rawplan::where('month', '2015-09')->first();
-
-        dd($rawplan);
-    }
-
-    public function show($year, $month)
+    public function showMonth($year, $month)
     {
         $results = [];
         $formatted_month = Helper::validateAndFormatDate($year, $month);
@@ -55,6 +48,11 @@ class ReportController extends Controller
         }
         return view('reports.show_month', compact('results',
             'readable_month', 'next_month_url', 'previous_month_url'));
+    }
+
+    public function showYear($year)
+    {
+        return $year;
     }
 
     public function analyzeAll()
