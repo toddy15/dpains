@@ -40,11 +40,9 @@ class ReportController extends Controller
                 'readable_month', 'next_month_url', 'previous_month_url'));
         }
         // Create an array with a mapping of person_number -> shifts
+        $shifts = [];
         foreach ($reports as $report) {
-            $shifts[$report->number] = [
-                'nights' => $report->nights,
-                'nefs' => $report->nefs,
-            ];
+            $shifts[$report->number] = $report;
         }
         // In order to use the grouping by staffgroups, it it necessary
         // to set up an new array of names and counted shifts. The
@@ -52,8 +50,7 @@ class ReportController extends Controller
         foreach ($names as $person_number => $name) {
             $results[] = (object)[
                 'name' => $name,
-                'nights' => $shifts[$person_number]['nights'],
-                'nefs' => $shifts[$person_number]['nefs'],
+                'shifts' => $shifts[$person_number],
             ];
         }
         return view('reports.show_month', compact('results',

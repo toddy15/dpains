@@ -25,8 +25,8 @@
             @foreach($results as $result)
                 <tr>
                     <td>{{ $result->name }}</td>
-                    <td>{{ $result->nights }}</td>
-                    <td>{{ $result->nefs }}</td>
+                    <td>{{ $result->shifts->nights }}</td>
+                    <td>{{ $result->shifts->nefs }}</td>
                 </tr>
             @endforeach
             </tbody>
