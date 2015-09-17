@@ -37,4 +37,14 @@ class ReportController extends Controller
         return view('reports.show_month', compact('reports', 'names',
             'readable_month', 'next_month_url', 'previous_month_url'));
     }
+
+    public function analyzeAll()
+    {
+        // Get all months with raw data
+        $months = Rawplan::lists('month');
+        foreach ($months as $month) {
+            $planparser = new Planparser($month);
+            $planparser->storeShiftsForPeople();
+        }
+    }
 }
