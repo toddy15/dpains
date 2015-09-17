@@ -23,10 +23,8 @@ class ReportController extends Controller
 
     public function show($year, $month)
     {
+        $results = [];
         $formatted_month = Helper::validateAndFormatDate($year, $month);
-        // Get information for all people in this month
-        $reports = DB::table('analyzed_months')
-            ->where('month', $formatted_month)->get();
         // Set up a readable month name
         $readable_month = Carbon::createFromDate($year, $month)->formatLocalized('%B %Y');
         // Generate the next and previous month urls
@@ -34,7 +32,31 @@ class ReportController extends Controller
         $previous_month_url = Helper::getPreviousMonthUrl('report/', $year, $month);
         // Get the names for this month
         $names = Helper::getNamesForMonth($formatted_month);
-        return view('reports.show_month', compact('reports', 'names',
+        // Get information for all people in this month
+        $reports = DB::table('analyzed_months')->where('month', $formatted_month)->get();
+        // If there is no data yet, abort here.
+        if (empty($reports)) {
+            return view('reports.show_month', compact('results',
+                'readable_month', 'next_month_url', 'previous_month_url'));
+        }
+        // Create an array with a mapping of person_number -> shifts
+        foreach ($reports as $report) {
+            $shifts[$report->number] = [
+                'nights' => $report->nights,
+                'nefs' => $report->nefs,
+            ];
+        }
+        // In order to use the grouping by staffgroups, it it necessary
+        // to set up an new array of names and counted shifts. The
+        // array $names is already sorted correctly with staffgroups.
+        foreach ($names as $person_number => $name) {
+            $results[] = (object)[
+                'name' => $name,
+                'nights' => $shifts[$person_number]['nights'],
+                'nefs' => $shifts[$person_number]['nefs'],
+            ];
+        }
+        return view('reports.show_month', compact('results',
             'readable_month', 'next_month_url', 'previous_month_url'));
     }
 
