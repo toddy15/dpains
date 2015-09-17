@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dpains\Helper;
+use App\Dpains\Planparser;
 use App\Rawplan;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,6 @@ class ReportController extends Controller
 {
     public function index()
     {
-
         $rawplan = Rawplan::where('month', '2015-09')->first();
 
         dd($rawplan);
@@ -23,6 +23,9 @@ class ReportController extends Controller
     public function show($year, $month)
     {
         $formatted_month = Helper::validateAndFormatDate($year, $month);
+        // @TODO: Do not parse the plan every time.
+        $planparser = new Planparser($formatted_month);
+        $planparser->storeShiftsForPeople();
         $data = DB::table('analyzed_months')
             ->where('month', $formatted_month)->get();
         dd($data);
