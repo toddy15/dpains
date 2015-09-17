@@ -54,7 +54,9 @@ class RawplanController extends Controller
             'people' => 'required',
             'shifts' => 'required',
         ]);
-        $planparser = new Planparser($request->all());
+        // Set the month to the formatted string for database storage.
+        $month = Helper::validateAndFormatDate($request->get('year'), $request->get('month'));
+        $planparser = new Planparser($month, $request->all());
         // Extend with custom validation rules
         $validator->after(function($validator) use ($planparser) {
             // Check that the given people match the expected people.
@@ -74,8 +76,7 @@ class RawplanController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        // Set the month to the formatted string for database storage.
-        $month = Helper::validateAndFormatDate($request->get('year'), $request->get('month'));
+        // Update the month to the database format YYYY-MM.
         $request->merge(['month' => $month]);
         // Check if there is already an entry in the database,
         // if so, update it.

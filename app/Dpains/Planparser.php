@@ -2,33 +2,47 @@
 
 namespace App\Dpains;
 
+use App\Rawplan;
 use Illuminate\Support\Facades\DB;
 
 class Planparser
 {
-    public $rawInput = [];
-    public $month = '';
-    public $names = [];
-    public $shifts = [];
+    public $rawNames = [];
+    public $rawShifts = [];
+    public $formattedMonth = '';
+    public $parsedNames = [];
+    public $parsedShifts = [];
 
     /**
      * Planparser constructor.
-     * @param string $month
+     *
+     * If called with a rawInput array, this is always $request->all().
+     * If there is no rawInput array, fetch the data from the DB.
+     *
+     * @param $formattedMonth
+     * @param null $rawInput
      */
-    public function __construct(array $rawInput)
+    public function __construct($formattedMonth, $rawInput=null)
     {
-        $this->rawInput = $rawInput;
-        $month = Helper::validateAndFormatDate($rawInput['year'], $rawInput['month']);
-        $this->month = $month;
+        $this->formattedMonth = $formattedMonth;
+        // Ensure that there is data for names and shifts.
+        if (!empty($rawInput)) {
+            $this->rawNames = $rawInput['people'];
+            $this->rawShifts = $rawInput['shifts'];
+        }
+        else {
+            $rawplan = Rawplan::where('month', $this->formattedMonth)->first();
+            $this->rawNames = $rawplan->people;
+            $this->rawShifts = $rawplan->shifts;
+        }
         $this->parseNames();
         $this->parseShifts();
     }
 
-
     public function parseNames()
     {
-        $this->names = [];
-        $person_lines = explode("\n", $this->rawInput['people']);
+        $this->parsedNames = [];
+        $person_lines = explode("\n", $this->rawNames);
         foreach ($person_lines as $person_line) {
             // Remove whitespace.
             $person_line = trim($person_line);
@@ -39,20 +53,20 @@ class Planparser
                 continue;
             }
             // Finally, add the name to list.
-            $this->names[] = $person_line;
+            $this->parsedNames[] = $person_line;
         }
     }
 
     public function parseShifts()
     {
-        $this->shifts = [];
-        $plan_lines = explode("\n", $this->rawInput['shifts']);
+        $this->parsedShifts = [];
+        $plan_lines = explode("\n", $this->rawShifts);
         // Avoid a division by zero
-        if (count($this->names) == 0) {
+        if (count($this->parsedNames) == 0) {
             return;
         }
         // Determine if there are 1 or 3 lines per person.
-        $lines_per_person = count($plan_lines) / count($this->names);
+        $lines_per_person = count($plan_lines) / count($this->parsedNames);
         // This id is the index of the $this->names array. It has
         // nothing to do with the person number in the database.
         $parsed_person_id = 0;
@@ -90,29 +104,29 @@ class Planparser
         // there are three lines per person). Determine which to use for
         // the analyzing.
         if ($lines_per_person == 1) {
-            $this->shifts = $plan;
+            $this->parsedShifts = $plan;
         } elseif ($lines_per_person == 3) {
-            $this->shifts = $work;
+            $this->parsedShifts = $work;
         }
     }
 
     public function storeShiftsForPeople()
     {
         // Clean all previously parsed results.
-        DB::table('analyzed_months')->where('month', $this->month)->delete();
+        DB::table('analyzed_months')->where('month', $this->formattedMonth)->delete();
         // Get an array with the unique person's number and name in this episode.
-        $expected_names = Helper::getNamesForMonth($this->month);
+        $expected_names = Helper::getNamesForMonth($this->formattedMonth);
         $database_rows = [];
-        foreach ($this->names as $id => $name) {
+        foreach ($this->parsedNames as $id => $name) {
             $person_number = array_search($name, $expected_names);
-            $shifts = $this->calculateShifts($this->shifts[$id]);
+            $shifts = $this->calculateShifts($this->parsedShifts[$id]);
             if (!is_array($shifts)) {
                 // Clean all previously parsed results.
-                DB::table('analyzed_months')->where('month', $this->month)->delete();
+                DB::table('analyzed_months')->where('month', $this->formattedMonth)->delete();
                 return;
             }
             $database_rows[] = [
-                'month' => $this->month,
+                'month' => $this->formattedMonth,
                 'number' => $person_number,
                 'nights' => $shifts['nights'],
                 'nefs' => $shifts['nefs'],
@@ -157,15 +171,15 @@ class Planparser
     {
         $result = [];
         // Get all people which are expected in this month.
-        $expected_people = Helper::getNamesForMonth($this->month);
+        $expected_people = Helper::getNamesForMonth($this->formattedMonth);
         // Check that all expected people have been found.
-        $more_expected = array_diff($expected_people, $this->names);
+        $more_expected = array_diff($expected_people, $this->parsedNames);
         if ($more_expected) {
             $result[] = 'Die folgenden Mitarbeiter werden in diesem Monat erwartet, ' .
                 'aber nicht gefunden: ' . join('; ', $more_expected);
         }
         // Check that not more than the expected people have been found.
-        $more_found = array_diff($this->names, $expected_people);
+        $more_found = array_diff($this->parsedNames, $expected_people);
         if ($more_found) {
             $result[] = 'Die folgenden Mitarbeiter werden in diesem Monat nicht erwartet, ' .
                 'aber gefunden: ' . join('; ', $more_found);
@@ -177,7 +191,7 @@ class Planparser
     {
         $result = [];
         // Calculate length of episode.
-        $plan_lines = explode("\n", $this->rawInput['shifts']);
+        $plan_lines = explode("\n", $this->rawShifts);
         // Get first line of plan data.
         $first_line = $plan_lines[0];
         // Remove line endings, but not tabs.
@@ -189,7 +203,7 @@ class Planparser
         if ($submitted_days > 31) {
             $result[] = 'Es wurden mehr als 31 Tage in den Schichten gefunden.';
         }
-        $date = date_create($this->month . '-01');
+        $date = date_create($this->formattedMonth . '-01');
         date_add($date, date_interval_create_from_date_string($submitted_days . ' days'));
         $end_day = date_format($date, 'd');
         if ($end_day != '01') {
@@ -200,14 +214,14 @@ class Planparser
             array_pop($plan_lines);
         }
         // Avoid a division by zero
-        if (count($this->names) == 0) {
+        if (count($this->parsedNames) == 0) {
             return $result;
         }
         // Ensure that the number of lines in plan is a multiple of people's lines.
-        if ((count($plan_lines) % count($this->names)) != 0) {
+        if ((count($plan_lines) % count($this->parsedNames)) != 0) {
             $result[] = 'Es wurden mehr Zeilen in den Schichten gefunden als Mitarbeiter vorhanden sind.';
         }
-        $lines_per_person = count($plan_lines) / count($this->names);
+        $lines_per_person = count($plan_lines) / count($this->parsedNames);
         if ($lines_per_person != 1 and $lines_per_person != 3) {
             $result[] = 'Die Anzahl der Zeilen in den Schichten muss entweder eine oder drei pro Mitarbeiter sein.';
         }
