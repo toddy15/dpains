@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dpains\Helper;
 use App\Dpains\Planparser;
 use App\Rawplan;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -23,11 +24,22 @@ class ReportController extends Controller
     public function show($year, $month)
     {
         $formatted_month = Helper::validateAndFormatDate($year, $month);
+        $reports = DB::table('analyzed_months')
+            ->where('month', $formatted_month)->get();
+        if (empty($reports)) {
+            abort(404);
+        }
         // @TODO: Do not parse the plan every time.
         $planparser = new Planparser($formatted_month);
         $planparser->storeShiftsForPeople();
-        $data = DB::table('analyzed_months')
-            ->where('month', $formatted_month)->get();
-        dd($data);
+        // Set up a readable month name
+        $readable_month = Carbon::createFromDate($year, $month)->formatLocalized('%B %Y');
+        // Generate the next and previous month urls
+        $next_month_url = Helper::getNextMonthUrl('report/', $year, $month);
+        $previous_month_url = Helper::getPreviousMonthUrl('report/', $year, $month);
+        // Get the names for this month
+        $names = Helper::getNamesForMonth($formatted_month);
+        return view('reports.show_month', compact('reports', 'names',
+            'readable_month', 'next_month_url', 'previous_month_url'));
     }
 }
