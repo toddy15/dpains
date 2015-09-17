@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class RawplanController extends Controller
@@ -100,7 +101,10 @@ class RawplanController extends Controller
      */
     public function destroy($id)
     {
-        Rawplan::destroy($id);
+        $rawplan = Rawplan::findOrFail($id);
+        // Also delete every parsed plan ...
+        DB::table('analyzed_months')->where('month', $rawplan->month)->delete();
+        $rawplan->delete();
         return redirect(action('RawplanController@index'));
     }
 }
