@@ -24,14 +24,9 @@ class ReportController extends Controller
     public function show($year, $month)
     {
         $formatted_month = Helper::validateAndFormatDate($year, $month);
+        // Get information for all people in this month
         $reports = DB::table('analyzed_months')
             ->where('month', $formatted_month)->get();
-        if (empty($reports)) {
-            abort(404);
-        }
-        // @TODO: Do not parse the plan every time.
-        $planparser = new Planparser($formatted_month);
-        $planparser->storeShiftsForPeople();
         // Set up a readable month name
         $readable_month = Carbon::createFromDate($year, $month)->formatLocalized('%B %Y');
         // Generate the next and previous month urls

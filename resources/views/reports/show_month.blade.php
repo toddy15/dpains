@@ -12,20 +12,24 @@
             <li class="next"><a href="{{ $next_month_url }}">Nächster Monat <span aria-hidden="true">&rarr;</span></a></li>
         </ul>
     </nav>
-    <table class="table table-striped">
-        <thead>
-            <th>Name</th>
-            <th>Nachtdienste</th>
-            <th>NEFs</th>
-        </thead>
-        <tbody>
-        @foreach($reports as $report)
-            <tr>
-                <td>{{ $names[$report->number] }}</td>
-                <td>{{ $report->nights }}</td>
-                <td>{{ $report->nefs }}</td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
+    @if (empty($reports))
+        <p>Keine Daten für diesen Monat.</p>
+    @else
+        <table class="table table-striped">
+            <thead>
+                <th>Name</th>
+                <th>Nachtdienste</th>
+                <th>NEFs</th>
+            </thead>
+            <tbody>
+            @foreach($reports as $report)
+                <tr>
+                    <td>{{ $names[$report->number] }}</td>
+                    <td>{{ $report->nights }}</td>
+                    <td>{{ $report->nefs }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    @endif
 @endsection
