@@ -1,5 +1,9 @@
 <?php
 
+Route::get('/', function() {
+    return view('homepage');
+});
+
 Route::resource('episode', 'EpisodeController',
     ['except' => ['index', 'show']]);
 Route::resource('staffgroup', 'StaffgroupController',
@@ -9,7 +13,7 @@ Route::resource('comment', 'CommentController',
 Route::resource('rawplan', 'RawplanController',
     ['except' => ['show', 'edit', 'update']]);
 
-Route::get('report', 'ReportController@analyzeAll');
+Route::get('report', 'ReportController@index');
 Route::get('report/{year}/{month}', 'ReportController@show')
     ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
 
