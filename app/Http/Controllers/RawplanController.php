@@ -99,12 +99,13 @@ class RawplanController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $rawplan = Rawplan::findOrFail($id);
         // Also delete every parsed plan ...
         DB::table('analyzed_months')->where('month', $rawplan->month)->delete();
         $rawplan->delete();
+        $request->session()->flash('info', 'Der Dienstplan wurde gelöscht.');
         return redirect(action('RawplanController@index'));
     }
 }

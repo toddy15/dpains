@@ -8,7 +8,7 @@
         <link href="{{ asset(elixir('css/app.css')) }}" rel="stylesheet">
     </head>
     <body>
-    @include('partials.nav')
+        @include('partials.nav')
         <div class="container">
             @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible" role="alert">
@@ -20,6 +20,7 @@
                     </ul>
                 </div>
             @endif
+            @include('partials.info')
             @yield('content')
         </div>
 
