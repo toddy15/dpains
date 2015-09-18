@@ -102,7 +102,7 @@ class ReportController extends Controller
             }
         }
         // Now fill up the boni for each month that is not in the result array yet.
-        $staffgroups = $this->fillUpBoni($staffgroups);
+        $this->fillUpBoni($staffgroups);
         dd($staffgroups);
         return $formattedMonth;
     }
@@ -153,8 +153,28 @@ class ReportController extends Controller
         ];
     }
 
-    private function fillUpBoni($staffgroups)
+    private function fillUpBoni(&$staffgroups)
     {
-        return $staffgroups;
+        foreach ($staffgroups as $staffgroup => $person) {
+            foreach ($person as $person_number => $info) {
+                // Calculate the months with no data yet.
+                $missing_months = 12 - count($info['bonus_planned_nights']);
+                // Sum up the bonus for all months with data.
+                $bonus = array_sum($info['bonus_planned_nights']);
+                // The total bonus is the sum of all data plus 1 for each month
+                // without data.
+                $staffgroups[$staffgroup][$person_number]['bonus_planned_nights'] = $bonus + $missing_months;
+                // Now do the same three steps for the rest of the bonus counters.
+                $missing_months = 12 - count($info['bonus_worked_nights']);
+                $bonus = array_sum($info['bonus_worked_nights']);
+                $staffgroups[$staffgroup][$person_number]['bonus_worked_nights'] = $bonus + $missing_months;
+                $missing_months = 12 - count($info['bonus_planned_nefs']);
+                $bonus = array_sum($info['bonus_planned_nefs']);
+                $staffgroups[$staffgroup][$person_number]['bonus_planned_nefs'] = $bonus + $missing_months;
+                $missing_months = 12 - count($info['bonus_worked_nefs']);
+                $bonus = array_sum($info['bonus_worked_nefs']);
+                $staffgroups[$staffgroup][$person_number]['bonus_worked_nefs'] = $bonus + $missing_months;
+            }
+        }
     }
 }
