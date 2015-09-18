@@ -52,20 +52,58 @@ class ReportController extends Controller
 
     public function showYear($year)
     {
-        // Determine which month has been planned and which
-        // has been worked already.
+        // Determine which month has been planned
         $planned_month = $this->getPlannedMonth($year);
         if (!$planned_month) {
             // There is no data at all, so abort.
             abort(404);
         }
+        // Determine which month is in the past and therefore
+        // represents the actually worked shifts.
         $worked_month = $this->getWorkedMonth($year);
-        dd($worked_month);
         // To calculate the due shifts per month, cycle through
         // every month in the given year.
         for ($month = 1; $month <= 12; $month++) {
+            // Set up a month usable for the database
             $formattedMonth = sprintf('%4d-%02d', $year, $month);
+            // Get all people for the current month
+            $people_in_month = Helper::getPeopleForMonth($formattedMonth);
+            // Create a new array with the person's number as
+            // the array index.
+            $people = [];
+            foreach ($people_in_month as $person) {
+                $people[$person->number] = $person;
+            }
+            // Get all analyzed shifts for the current month
+            $shifts = DB::table('analyzed_months')->where('month', $formattedMonth)->get();
+            // Cycle through all people and add up the shifts
+            foreach ($shifts as $shift) {
+                // Determine the current person (for staffgroup etc.)
+                $person = $people[$shift->number];
+                // Set up the result array, grouped by staffgroup
+                if (!isset($staffgroups[$person->staffgroup][$person->number])) {
+                    $staffgroups[$person->staffgroup][$person->number] = $this->newResultArray();
+                }
+                // Calculate the boni for vk and factors
+                $person_bonus_night = 1 - ($person->vk * $person->factor_night);
+                $person_bonus_nef = 1 - ($person->vk * $person->factor_nef);
+                // Add up the shifts to the result array
+                $staffgroups[$person->staffgroup][$person->number]['planned_nights'] += $shift->nights;
+                $staffgroups[$person->staffgroup][$person->number]['planned_nefs'] += $shift->nefs;
+                $staffgroups[$person->staffgroup][$person->number]['bonus_planned_nights'][$month] = $person_bonus_night;
+                $staffgroups[$person->staffgroup][$person->number]['bonus_planned_nefs'][$month] = $person_bonus_nef;
+                // Now add to the worked results, if the month has passed.
+                if ($formattedMonth <= $worked_month) {
+                    $staffgroups[$person->staffgroup][$person->number]['worked_nights'] += $shift->nights;
+                    $staffgroups[$person->staffgroup][$person->number]['worked_nefs'] += $shift->nefs;
+                    $staffgroups[$person->staffgroup][$person->number]['bonus_worked_nights'][$month] = $person_bonus_night;
+                    $staffgroups[$person->staffgroup][$person->number]['bonus_worked_nefs'][$month] = $person_bonus_nef;
+                }
+            }
         }
+        // Now fill up the boni for each month that is not in the result array yet.
+        $staffgroups = $this->fillUpBoni($staffgroups);
+        dd($staffgroups);
         return $formattedMonth;
     }
 
@@ -103,5 +141,20 @@ class ReportController extends Controller
     {
         return Rawplan::where('month', 'like', "$year%")
             ->whereRaw('left(updated_at, 7) > month')->max('month');
+    }
+
+    private function newResultArray()
+    {
+        return [
+            'worked_nights' => 0,
+            'planned_nights' => 0,
+            'worked_nefs' => 0,
+            'planned_nefs' => 0,
+        ];
+    }
+
+    private function fillUpBoni($staffgroups)
+    {
+        return $staffgroups;
     }
 }
