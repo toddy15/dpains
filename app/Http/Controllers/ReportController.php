@@ -52,7 +52,21 @@ class ReportController extends Controller
 
     public function showYear($year)
     {
-        return $year;
+        // Determine which month has been planned and which
+        // has been worked already.
+        $planned_month = $this->getPlannedMonth($year);
+        if (!$planned_month) {
+            // There is no data at all, so abort.
+            abort(404);
+        }
+        $worked_month = $this->getWorkedMonth($year);
+        dd($worked_month);
+        // To calculate the due shifts per month, cycle through
+        // every month in the given year.
+        for ($month = 1; $month <= 12; $month++) {
+            $formattedMonth = sprintf('%4d-%02d', $year, $month);
+        }
+        return $formattedMonth;
     }
 
     public function analyzeAll()
@@ -63,5 +77,31 @@ class ReportController extends Controller
             $planparser = new Planparser($month);
             $planparser->storeShiftsForPeople();
         }
+    }
+
+    /**
+     * Returns the highest month in the given year. This might be
+     * in the planned status.
+     *
+     * @param int $year
+     * @return string|null Formatted month (YYYY-MM)
+     */
+    private function getPlannedMonth($year)
+    {
+        return Rawplan::where('month', 'like', "$year%")->max('month');
+    }
+
+    /**
+     * Returns the month which has been updated after the month
+     * has passed. This ensures that the actually worked shifts
+     * are recognized.
+     *
+     * @param int $year
+     * @return string|null Formatted month (YYYY-MM)
+     */
+    private function getWorkedMonth($year)
+    {
+        return Rawplan::where('month', 'like', "$year%")
+            ->whereRaw('left(updated_at, 7) > month')->max('month');
     }
 }
