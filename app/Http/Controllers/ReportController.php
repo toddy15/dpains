@@ -50,8 +50,10 @@ class ReportController extends Controller
             'readable_month', 'next_month_url', 'previous_month_url'));
     }
 
-    public function showYear($year)
+    public function showYear(Request $request, $year)
     {
+        // Get the sorting key from the request
+        $sort_key = $request->get('sort');
         // Determine which month has been planned
         $planned_month = $this->getPlannedMonth($year);
         if (!$planned_month) {
@@ -82,7 +84,7 @@ class ReportController extends Controller
                 $person = $people[$shift->number];
                 // Set up the result array, grouped by staffgroup
                 if (!isset($staffgroups[$person->staffgroup][$person->number])) {
-                    $staffgroups[$person->staffgroup][$person->number] = $this->newResultArray();
+                    $staffgroups[$person->staffgroup][$person->number] = $this->newResultArray((array)$person);
                 }
                 // Calculate the boni for vk and factors
                 $person_bonus_night = 1 - ($person->vk * $person->factor_night);
@@ -101,10 +103,53 @@ class ReportController extends Controller
                 }
             }
         }
-        // Now fill up the boni for each month that is not in the result array yet.
+        // Fill up the boni for each month that is not in the result array yet.
         $this->fillUpBoni($staffgroups);
-        dd($staffgroups);
-        return $formattedMonth;
+        foreach ($staffgroups as $staffgroup => $person) {
+            // @TODO: Do not hardcode.
+            switch ($staffgroup) {
+                case 'LOA':
+                    $due_nights = 12;
+                    $due_nefs = 0;
+                    break;
+                case 'OA':
+                    $due_nights = 44;
+                    $due_nefs = 30;
+                    break;
+                case "FA":
+                    $due_nights = 55;
+                    $due_nefs = 30;
+                    break;
+                default:
+                    $due_nights = 0;
+                    $due_nefs = 0;
+            }
+            // Finally, set up an array for the results table
+            $rows = [];
+            foreach ($person as $person_number => $info) {
+                // Calculate bonus nights and nefs by multiplying the
+                // bonus VK with the average shifts per month.
+                $bonus = $due_nights / 12 * $info['bonus_planned_nights'];
+                $info['diff_planned_nights'] = (int)round($info['planned_nights'] + $bonus - $due_nights);
+                $bonus = $due_nights / 12 * $info['bonus_worked_nights'];
+                $info['diff_worked_nights'] = (int)round($info['worked_nights'] + $bonus - $due_nights);
+                $bonus = $due_nefs / 12 * $info['bonus_planned_nefs'];
+                $info['diff_planned_nefs'] = (int)round($info['planned_nefs'] + $bonus - $due_nefs);
+                $bonus = $due_nefs / 12 * $info['bonus_worked_nefs'];
+                $info['diff_worked_nefs'] = (int)round($info['worked_nefs'] + $bonus - $due_nefs);
+                // Use the sorting key as the array index, to enable the
+                // sorting within the staffgroups.
+                if (!array_key_exists($sort_key, $info)) {
+                    $sort_key = 'name';
+                }
+                $rows[$info[$sort_key]] = (object)$info;
+            }
+            // Sort all staffgroups
+            ksort($rows);
+            // Add to tables
+            $tables[$staffgroup] = $rows;
+        }
+        return view('reports.show_year', compact('year', 'tables'));
     }
 
     public function analyzeAll()
@@ -143,14 +188,14 @@ class ReportController extends Controller
             ->whereRaw('left(updated_at, 7) > month')->max('month');
     }
 
-    private function newResultArray()
+    private function newResultArray($person)
     {
-        return [
+        return array_merge($person, [
             'worked_nights' => 0,
             'planned_nights' => 0,
             'worked_nefs' => 0,
             'planned_nefs' => 0,
-        ];
+        ]);
     }
 
     private function fillUpBoni(&$staffgroups)
