@@ -4,6 +4,7 @@ namespace App\Dpains;
 
 use App\Episode;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 
 class Helper
 {
@@ -147,5 +148,31 @@ class Helper
             // Second, order by name within the staffgroups
             ->orderBy('name')
             ->get();
+    }
+
+    public static function sortTableBy($column, $body, $year)
+    {
+        // Provide default values, if the parameters are not set
+        $currentColumn = Request::get('sort') ?: 'name';
+        $currentDirection = Request::get('direction') ?: 'asc';
+        // Flip direction if clicked on same header
+        $direction = ($currentDirection == 'asc') ? 'desc' : 'asc';
+        // Always use ascending direction if a new column is selected
+        if ($currentColumn != $column) {
+            $direction = 'asc';
+        }
+        // Create link
+        $link = link_to_action('ReportController@showYear', $body,
+            ['year' => $year, 'sort' => $column, 'direction' => $direction]);
+        // Append arrows to the current sorted column
+        if ($column == $currentColumn) {
+            if ($currentDirection == 'asc') {
+                $link .= '<span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>';
+            }
+            else {
+                $link .= '<span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>';
+            }
+        }
+        return $link;
     }
 }

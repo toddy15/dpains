@@ -52,8 +52,9 @@ class ReportController extends Controller
 
     public function showYear(Request $request, $year)
     {
-        // Get the sorting key from the request
+        // Get the sorting key and direction from the request
         $sort_key = $request->get('sort');
+        $direction = $request->get('direction');
         // Determine which month has been planned
         $planned_month = $this->getPlannedMonth($year);
         if (!$planned_month) {
@@ -98,8 +99,6 @@ class ReportController extends Controller
                 if ($formattedMonth <= $worked_month) {
                     $staffgroups[$person->staffgroup][$person->number]['worked_nights'] += $shift->nights;
                     $staffgroups[$person->staffgroup][$person->number]['worked_nefs'] += $shift->nefs;
-                    $staffgroups[$person->staffgroup][$person->number]['bonus_worked_nights'][$month] = $person_bonus_night;
-                    $staffgroups[$person->staffgroup][$person->number]['bonus_worked_nefs'][$month] = $person_bonus_nef;
                 }
             }
         }
@@ -131,21 +130,26 @@ class ReportController extends Controller
                 // bonus VK with the average shifts per month.
                 $bonus = $due_nights / 12 * $info['bonus_planned_nights'];
                 $info['diff_planned_nights'] = (int)round($info['planned_nights'] + $bonus - $due_nights);
-                $bonus = $due_nights / 12 * $info['bonus_worked_nights'];
-                $info['diff_worked_nights'] = (int)round($info['worked_nights'] + $bonus - $due_nights);
                 $bonus = $due_nefs / 12 * $info['bonus_planned_nefs'];
                 $info['diff_planned_nefs'] = (int)round($info['planned_nefs'] + $bonus - $due_nefs);
-                $bonus = $due_nefs / 12 * $info['bonus_worked_nefs'];
-                $info['diff_worked_nefs'] = (int)round($info['worked_nefs'] + $bonus - $due_nefs);
                 // Use the sorting key as the array index, to enable the
                 // sorting within the staffgroups.
                 if (!array_key_exists($sort_key, $info)) {
                     $sort_key = 'name';
                 }
-                $rows[$info[$sort_key]] = (object)$info;
+                // If two values are the same, that information would get lost
+                // by using only one index. Therefore, use a second index,
+                // filling with the name. This way, the second sorting
+                // after the first sorting will automatically use the name.
+                $row_index = $info[$sort_key];
+                $rows[$row_index][$info['name']] = (object)$info;
             }
-            // Sort all staffgroups
-            ksort($rows);
+            // Sort all staffgroups either asc or desc
+            ($direction == 'desc') ? krsort($rows) : ksort($rows);
+            // Now sort by name
+            foreach ($rows as $index => $data) {
+                ksort($rows[$index]);
+            }
             // Add to tables
             $tables[$staffgroup] = $rows;
         }
@@ -209,16 +213,10 @@ class ReportController extends Controller
                 // The total bonus is the sum of all data plus 1 for each month
                 // without data.
                 $staffgroups[$staffgroup][$person_number]['bonus_planned_nights'] = $bonus + $missing_months;
-                // Now do the same three steps for the rest of the bonus counters.
-                $missing_months = 12 - count($info['bonus_worked_nights']);
-                $bonus = array_sum($info['bonus_worked_nights']);
-                $staffgroups[$staffgroup][$person_number]['bonus_worked_nights'] = $bonus + $missing_months;
+                // Now do the same three steps for the NEF bonus counter.
                 $missing_months = 12 - count($info['bonus_planned_nefs']);
                 $bonus = array_sum($info['bonus_planned_nefs']);
                 $staffgroups[$staffgroup][$person_number]['bonus_planned_nefs'] = $bonus + $missing_months;
-                $missing_months = 12 - count($info['bonus_worked_nefs']);
-                $bonus = array_sum($info['bonus_worked_nefs']);
-                $staffgroups[$staffgroup][$person_number]['bonus_worked_nefs'] = $bonus + $missing_months;
             }
         }
     }
