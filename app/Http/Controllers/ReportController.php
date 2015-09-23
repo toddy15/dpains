@@ -64,6 +64,12 @@ class ReportController extends Controller
         // Determine which month is in the past and therefore
         // represents the actually worked shifts.
         $worked_month = $this->getWorkedMonth($year);
+        // Set up readable month names
+        $readable_planned_month = Carbon::parse($planned_month)->formatLocalized('%B %Y');
+        $readable_worked_month = '';
+        if (!empty($worked_month)) {
+            $readable_worked_month = Carbon::parse($worked_month)->formatLocalized('%B %Y');
+        }
         // To calculate the due shifts per month, cycle through
         // every month in the given year.
         for ($month = 1; $month <= 12; $month++) {
@@ -153,7 +159,8 @@ class ReportController extends Controller
             // Add to tables
             $tables[$staffgroup] = $rows;
         }
-        return view('reports.show_year', compact('year', 'tables'));
+        return view('reports.show_year', compact('year',
+            'readable_planned_month', 'readable_worked_month', 'tables'));
     }
 
     public function analyzeAll()

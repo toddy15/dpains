@@ -2,9 +2,14 @@
 @inject('helper', 'App\Dpains\Helper')
 
 @section('content')
-    <h1>{{ $year }}</h1>
+    <h1>Auswertung für {{ $year }}</h1>
+    @if ($readable_worked_month)
+        <h2>Gearbeitet bis Ende {{ $readable_worked_month }}, geplant bis Ende {{ $readable_planned_month }}</h2>
+    @else
+        <h2>Geplant bis Ende {{ $readable_planned_month }}</h2>
+    @endif
     @foreach($tables as $staffgroup => $table)
-        <h2>{{ $staffgroup }}</h2>
+        <h3>{{ $staffgroup }}</h3>
         <table class="table table-striped">
             <thead>
                 <th>{!! $helper->sortTableBy('name', 'Name', $year) !!}</th>

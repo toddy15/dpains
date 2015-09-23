@@ -13,6 +13,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li {!! Request::is('rawplan') ? 'class="active"' : '' !!}><a href="{{ url('rawplan') }}">Dienstpläne</a></li>
+                <li {!! Request::is('report/' . date('Y')) ? 'class="active"' : '' !!}><a href="{{ url('report/' . date('Y')) }}">Jahresauswertung</a></li>
                 <li {!! Request::is('report/' . date('Y/m')) ? 'class="active"' : '' !!}><a href="{{ url('report/' . date('Y/m')) }}">Monatsauswertung</a></li>
                 <li {!! Request::is('month/' . date('Y/m')) ? 'class="active"' : '' !!}><a href="{{ url('month/' . date('Y/m')) }}">Mitarbeiter</a></li>
                 <li {!! Request::is('comment') ? 'class="active"' : '' !!}><a href="{{ url('comment') }}">Bemerkungen</a></li>
