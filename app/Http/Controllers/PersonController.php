@@ -28,4 +28,18 @@ class PersonController extends Controller
         $latest_name = $episodes->last()->name;
         return view('people.show', compact('episodes', 'number', 'latest_name'));
     }
+
+    /**
+     * Show all episodes for a person, using anonymous access.
+     *
+     * The hash is mapped to the person's number.
+     *
+     * @param string $hash
+     * @return \Illuminate\View\View
+     */
+    public function anonEpisodes($hash)
+    {
+        $number = 1;
+        return $this->show($number);
+    }
 }

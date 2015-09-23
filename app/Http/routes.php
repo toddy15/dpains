@@ -22,3 +22,9 @@ Route::get('person/{number}', 'PersonController@show');
 
 Route::get('month/{year}/{month}', 'MonthController@show')
     ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
+
+/*
+ * From here on, the routes are publically accessible.
+ */
+
+Route::get('anon/episodes/{hash}', 'PersonController@anonEpisodes');
