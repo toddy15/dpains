@@ -12,6 +12,7 @@
             <li class="next"><a href="{{ $next_month_url }}">Nächster Monat <span aria-hidden="true">&rarr;</span></a></li>
         </ul>
     </nav>
+    <a class="btn btn-primary" href="{{ action('EpisodeController@create') }}">Neuen Mitarbeiter anlegen</a>
     @if (count($episode_changes))
         <h2>Änderungen</h2>
         <table class="table table-striped">
