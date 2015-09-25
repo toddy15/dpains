@@ -74,6 +74,10 @@ class ReportController extends Controller
         // Set up the staffgroups to get the correct sorting
         $staffgroup_names = Staffgroup::orderBy('weight')->lists('staffgroup')->toArray();
         foreach ($staffgroup_names as $staffgroup_name) {
+            // Reduce staffgroups
+            if ($staffgroup_name == 'FA' or $staffgroup_name == 'WB mit Nachtdienst') {
+                $staffgroup_name = 'FA und WB mit Nachtdienst';
+            }
             $staffgroups[$staffgroup_name] = [];
         }
         // To calculate the due shifts per month, cycle through
@@ -95,6 +99,10 @@ class ReportController extends Controller
             foreach ($shifts as $shift) {
                 // Determine the current person (for staffgroup etc.)
                 $person = $people[$shift->number];
+                // Reduce staffgroups
+                if ($person->staffgroup == 'FA' or $person->staffgroup == 'WB mit Nachtdienst') {
+                    $person->staffgroup = 'FA und WB mit Nachtdienst';
+                }
                 // Set up the result array, grouped by staffgroup
                 if (!isset($staffgroups[$person->staffgroup][$person->number])) {
                     $staffgroups[$person->staffgroup][$person->number] = $this->newResultArray((array)$person);
@@ -127,8 +135,7 @@ class ReportController extends Controller
                     $due_nights = 44;
                     $due_nefs = 30;
                     break;
-                case "FA":
-                case "WB mit Nachtdienst":
+                case 'FA und WB mit Nachtdienst':
                     $due_nights = 55;
                     $due_nefs = 30;
                     break;
@@ -163,8 +170,11 @@ class ReportController extends Controller
             foreach ($rows as $index => $data) {
                 ksort($rows[$index]);
             }
-            // Add to tables
-            $tables[$staffgroup] = $rows;
+            // Do not show empty staffgroups
+            if (count($rows)) {
+                // Add to tables
+                $tables[$staffgroup] = $rows;
+            }
         }
         return view('reports.show_year', compact('year',
             'readable_planned_month', 'readable_worked_month', 'tables'));
