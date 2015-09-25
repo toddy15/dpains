@@ -7,13 +7,14 @@
     @endif
 </div>
 
-<!-- Start_date Form Input  -->
-<div class="form-group {{ $errors->has('start_date') ? 'has-error has-feedback' : '' }}">
-    {!! Form::label('start_date', 'Beginnt im Monat:', ['class' => 'control-label']) !!}
-    {!! Form::text('start_date', null, ['class' => 'form-control']) !!}
-    @if ($errors->has('start_date'))
-        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-    @endif
+<!-- Month Form Input  -->
+<div class="form-group">
+    {!! Form::label('month', 'Beginnt im Monat:', ['class' => 'control-label']) !!}
+    <div class="form-inline">
+        {!! Form::selectMonth('month', null, ['class' => 'form-control']) !!}
+        {!! Form::label('year', 'Jahr:', ['class' => 'sr-only control-label']) !!}
+        {!! Form::selectYear('year', $start_year, $end_year, null, ['class' => 'form-control']) !!}
+    </div>
 </div>
 
 <!-- Staffgroup Form Input  -->

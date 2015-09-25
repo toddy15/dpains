@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dpains\Helper;
 use App\Episode;
 use App\Comment;
 use App\Staffgroup;
@@ -44,7 +45,15 @@ class EpisodeController extends Controller
         // Get the staffgroups for the select box
         $staffgroups = Staffgroup::all()->sortBy('weight')
             ->lists('staffgroup', 'id')->toArray();
-        return view('episodes.create', compact('episode', 'comments', 'staffgroups'));
+        // Allow from the beginning of database storage
+        $start_year = Helper::$firstYear;
+        // ... to next year
+        $end_year = date('Y') + 1;
+        // Turn the start_date field into year and month for the form
+        list($episode->year, $episode->month) = explode('-', $episode->start_date);
+        return view('episodes.create', compact(
+            'episode', 'comments', 'staffgroups', 'start_year', 'end_year'
+        ));
     }
 
     /**
@@ -57,11 +66,16 @@ class EpisodeController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'start_date' => 'required|regex:/^2[0-9]{3}-[01][0-9]$/',
+            'month' => 'required',
+            'year' => 'required',
             'vk' => 'required|numeric|between:0,1',
             'factor_night' => 'required|numeric|between:0,2',
             'factor_nef' => 'required|numeric|between:0,2',
         ]);
+        // Set the month to the formatted string for database storage.
+        $start_date = Helper::validateAndFormatDate($request->get('year'), $request->get('month'));
+        // Set the start_date to the database format YYYY-MM.
+        $request->merge(['start_date' => $start_date]);
         // Check if the episode is for a new person number
         $episode = $request->all();
         if ($episode['number'] == 0) {
@@ -93,7 +107,15 @@ class EpisodeController extends Controller
         // Get the staffgroups for the select box
         $staffgroups = Staffgroup::all()->sortBy('weight')
             ->lists('staffgroup', 'id')->toArray();
-        return view('episodes.edit', compact('episode', 'comments', 'staffgroups'));
+        // Allow from the beginning of database storage
+        $start_year = Helper::$firstYear;
+        // ... to next year
+        $end_year = date('Y') + 1;
+        // Turn the start_date field into year and month for the form
+        list($episode->year, $episode->month) = explode('-', $episode->start_date);
+        return view('episodes.edit', compact(
+            'episode', 'comments', 'staffgroups', 'start_year', 'end_year'
+        ));
     }
 
     /**
@@ -106,6 +128,10 @@ class EpisodeController extends Controller
     public function update(Request $request, $id)
     {
         $episode = Episode::findOrFail($id);
+        // Set the month to the formatted string for database storage.
+        $start_date = Helper::validateAndFormatDate($request->get('year'), $request->get('month'));
+        // Set the start_date to the database format YYYY-MM.
+        $request->merge(['start_date' => $start_date]);
         $episode->update($request->all());
         $request->session()->flash('info', 'Der Eintrag wurde geändert.');
         return redirect(action('PersonController@show', $episode->number));
