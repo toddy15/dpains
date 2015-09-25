@@ -12,17 +12,28 @@
             <th>Aktion</th>
         </thead>
         <tbody>
-            @foreach($rawplans as $rawplan)
-                <tr>
-                    <td>{{ $rawplan->month }}</td>
-                    <td>{{ $rawplan->updated_at }}</td>
-                    <td>
-                        {!! Form::open(['action' => ['RawplanController@destroy', $rawplan->id], 'method' => 'delete']) !!}
-                        {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
-                        {!! Form::close() !!}
-                    </td>
-                </tr>
-            @endforeach
+        @foreach($rawplans_planned as $rawplan)
+            <tr>
+                <td>{{ $rawplan->month }}</td>
+                <td>{{ $rawplan->updated_at }}</td>
+                <td>
+                    {!! Form::open(['action' => ['RawplanController@destroy', $rawplan->id], 'method' => 'delete']) !!}
+                    {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
+                    {!! Form::close() !!}
+                </td>
+            </tr>
+        @endforeach
+        @foreach($rawplans_worked as $rawplan)
+            <tr class="success">
+                <td>{{ $rawplan->month }}</td>
+                <td>{{ $rawplan->updated_at }}</td>
+                <td>
+                    {!! Form::open(['action' => ['RawplanController@destroy', $rawplan->id], 'method' => 'delete']) !!}
+                    {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
+                    {!! Form::close() !!}
+                </td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
 @endsection

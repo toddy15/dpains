@@ -56,14 +56,14 @@ class ReportController extends Controller
         $sort_key = $request->get('sort');
         $direction = $request->get('direction');
         // Determine which month has been planned
-        $planned_month = $this->getPlannedMonth($year);
+        $planned_month = Helper::getPlannedMonth($year);
         if (!$planned_month) {
             // There is no data at all, so abort.
             abort(404);
         }
         // Determine which month is in the past and therefore
         // represents the actually worked shifts.
-        $worked_month = $this->getWorkedMonth($year);
+        $worked_month = Helper::getWorkedMonth($year);
         // Set up readable month names
         $readable_planned_month = Carbon::parse($planned_month)->formatLocalized('%B %Y');
         $readable_worked_month = '';
@@ -171,32 +171,6 @@ class ReportController extends Controller
             $planparser = new Planparser($month);
             $planparser->storeShiftsForPeople();
         }
-    }
-
-    /**
-     * Returns the highest month in the given year. This might be
-     * in the planned status.
-     *
-     * @param int $year
-     * @return string|null Formatted month (YYYY-MM)
-     */
-    private function getPlannedMonth($year)
-    {
-        return Rawplan::where('month', 'like', "$year%")->max('month');
-    }
-
-    /**
-     * Returns the month which has been updated after the month
-     * has passed. This ensures that the actually worked shifts
-     * are recognized.
-     *
-     * @param int $year
-     * @return string|null Formatted month (YYYY-MM)
-     */
-    private function getWorkedMonth($year)
-    {
-        return Rawplan::where('month', 'like', "$year%")
-            ->whereRaw('left(updated_at, 7) > month')->max('month');
     }
 
     private function newResultArray($person)

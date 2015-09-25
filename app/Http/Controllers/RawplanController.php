@@ -22,8 +22,18 @@ class RawplanController extends Controller
      */
     public function index()
     {
-        $rawplans = Rawplan::orderBy('month', 'desc')->get();
-        return view('rawplans.index', compact('rawplans'));
+        $worked_month = Helper::getWorkedMonth();
+        if ($worked_month == null) {
+            $worked_month = '0000-00';
+        }
+        // Differentiate between months which are still ongoing ...
+        $rawplans_planned = Rawplan::orderBy('month', 'desc')
+            ->where('month', '>', $worked_month)->get();
+        // ... and months which are in the past and won't change.
+        // This is just for a nice colouring in the view.
+        $rawplans_worked = Rawplan::orderBy('month', 'desc')
+            ->where('month', '<=', $worked_month)->get();
+        return view('rawplans.index', compact('rawplans_planned', 'rawplans_worked'));
     }
 
     /**

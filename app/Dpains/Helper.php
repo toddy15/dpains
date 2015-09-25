@@ -3,6 +3,7 @@
 namespace App\Dpains;
 
 use App\Episode;
+use App\Rawplan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 
@@ -174,5 +175,38 @@ class Helper
             }
         }
         return $link;
+    }
+
+    /**
+     * Returns the highest month in the given year. This might be
+     * in the planned status.
+     *
+     * @param int $year
+     * @return string|null Formatted month (YYYY-MM)
+     */
+    public static function getPlannedMonth($year)
+    {
+        return Rawplan::where('month', 'like', "$year%")->max('month');
+    }
+
+    /**
+     * Returns the month which has been updated after the month
+     * has passed. This ensures that the actually worked shifts
+     * are recognized.
+     *
+     * If the year is null, returns the latest month.
+     *
+     * @param int $year
+     * @return string|null Formatted month (YYYY-MM)
+     */
+    public static function getWorkedMonth($year=null)
+    {
+        if ($year) {
+            return Rawplan::where('month', 'like', "$year%")
+                ->whereRaw('left(updated_at, 7) > month')->max('month');
+        }
+        else {
+            return Rawplan::whereRaw('left(updated_at, 7) > month')->max('month');
+        }
     }
 }
