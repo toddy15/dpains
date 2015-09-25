@@ -66,5 +66,5 @@
     <!-- Speichern Form Input  -->
     {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
     <!-- Cancel Button -->
-    <a class="btn btn-danger" href="{{ $cancel_url }}">Abbrechen</a>
+    <a class="btn btn-default" href="{{ $cancel_url }}">Abbrechen</a>
 </div>

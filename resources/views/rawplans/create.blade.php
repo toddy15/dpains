@@ -37,7 +37,7 @@
         <!-- Speichern Form Input  -->
         {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
         <!-- Cancel Button -->
-        <a class="btn btn-danger" href="{{ action('RawplanController@index') }}">Abbrechen</a>
+        <a class="btn btn-default" href="{{ action('RawplanController@index') }}">Abbrechen</a>
     </div>
 
     {!! Form::close() !!}

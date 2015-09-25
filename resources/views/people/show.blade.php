@@ -26,7 +26,12 @@
                 <td>{{ $episode->factor_night }}</td>
                 <td>{{ $episode->factor_nef }}</td>
                 <td>{{ $episode->comment['comment'] }}</td>
-                <td><a class="btn btn-primary" href="{{ action('EpisodeController@edit', $episode->id) }}">Bearbeiten</a></td>
+                <td>
+                    {!! Form::open(['action' => ['EpisodeController@destroy', $episode->id], 'method' => 'delete']) !!}
+                    <a class="btn btn-primary" href="{{ action('EpisodeController@edit', $episode->id) }}">Bearbeiten</a>
+                    {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
+                    {!! Form::close() !!}
+                </td>
             </tr>
         @endforeach
         </tbody>

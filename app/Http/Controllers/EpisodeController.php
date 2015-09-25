@@ -143,7 +143,7 @@ class EpisodeController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $episode = Episode::findOrFail($id);
         Episode::destroy($id);
