@@ -122,6 +122,7 @@ class ReportController extends Controller
                     $due_nefs = 30;
                     break;
                 case "FA":
+                case "WB mit Nachtdienst":
                     $due_nights = 55;
                     $due_nefs = 30;
                     break;
