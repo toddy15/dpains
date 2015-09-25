@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dpains\Helper;
 use App\Dpains\Planparser;
 use App\Rawplan;
+use App\Staffgroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -69,6 +70,11 @@ class ReportController extends Controller
         $readable_worked_month = '';
         if (!empty($worked_month)) {
             $readable_worked_month = Carbon::parse($worked_month)->formatLocalized('%B %Y');
+        }
+        // Set up the staffgroups to get the correct sorting
+        $staffgroup_names = Staffgroup::orderBy('weight')->lists('staffgroup')->toArray();
+        foreach ($staffgroup_names as $staffgroup_name) {
+            $staffgroups[$staffgroup_name] = [];
         }
         // To calculate the due shifts per month, cycle through
         // every month in the given year.
