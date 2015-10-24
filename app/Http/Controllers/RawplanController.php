@@ -80,6 +80,11 @@ class RawplanController extends Controller
             foreach ($error_messages as $error_message) {
                 $validator->errors()->add('shifts', $error_message);
             }
+            // Parse the plan and save it.
+            $error_message = $planparser->storeShiftsForPeople();
+            if (!empty($error_message)) {
+                $validator->errors()->add('shifts', $error_message);
+            }
         });
         // Determine whether there was an error.
         if ($validator->fails()) {
@@ -98,8 +103,6 @@ class RawplanController extends Controller
             $rawplan->update($request->all());
         }
         $rawplan->save();
-        // Parse the plan and save it.
-        $planparser->storeShiftsForPeople();
         $request->session()->flash('info', 'Der Dienstplan wurde gespeichert.');
         return redirect(action('RawplanController@index'));
     }

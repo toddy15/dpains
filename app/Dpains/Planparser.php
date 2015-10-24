@@ -123,7 +123,8 @@ class Planparser
             if (!is_array($shifts)) {
                 // Clean all previously parsed results.
                 DB::table('analyzed_months')->where('month', $this->formattedMonth)->delete();
-                return;
+                // Return the error message from calculateShifts().
+                return $shifts;
             }
             $database_rows[] = [
                 'month' => $this->formattedMonth,
@@ -133,7 +134,6 @@ class Planparser
             ];
         }
         DB::table('analyzed_months')->insert($database_rows);
-        // @TODO: FEEDBACK
     }
 
     public function calculateShifts($shifts)
