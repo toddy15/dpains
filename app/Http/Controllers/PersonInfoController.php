@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Episode;
+use App\PersonInfo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class PersonInfoController extends Controller
 {
@@ -37,16 +39,39 @@ class PersonInfoController extends Controller
      * @param string $hash
      * @return \Illuminate\View\View
      */
-    public function anonEpisodes($hash)
+    public function anonEpisodes(Request $request, $hash)
     {
-        $number = 1;
-        return $this->show($number);
+        $person_info = PersonInfo::where('hash', $hash)->first();
+        // Feedback if there is no such hash
+        if (!$person_info) {
+            $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
+            return redirect(url('/'));
+        }
+        return $this->show($person_info->number);
     }
 
     /**
      * Request a new hash via mail for accessing the stats.
      */
     public function requestNewHashPerMail(Request $request) {
+        $email = $request->get('email');
+        $person_info = PersonInfo::where('email', $email)->first();
+        // Feedback if there is no such mail
+        if (!$person_info) {
+            $request->session()->flash('warning', "Die E-Mail $email wurde nicht gefunden.");
+            return redirect(url('/'));
+        }
+        // Generate a new hash with some pseudo random bits
+        $person_info->hash = hash('sha256', microtime() . $person_info->email);
+        $person_info->save();
+        // Send the mail
+        $url = action('PersonInfoController@anonEpisodes', $person_info->hash);
+        Mail::queue(['text' => 'emails.new_hash'], compact('url'), function ($m) use ($person_info) {
+            $m->from('webmaster@dienstplan-an.de', 'Webmaster');
+            $m->to($person_info->email);
+            $m->subject('Neuer Zugriffscode für www.dienstplan-an.de');
+        });
+        $request->session()->flash('info', "Der neue Zugriffscode wurde an $email gesendet.");
         return redirect(url('/'));
     }
 }
