@@ -32,6 +32,27 @@ class PersonInfoController extends Controller
     }
 
     /**
+     * Show information of all people
+     */
+    public function index() {
+        // Set up different result array for table grouping in the view
+        $email_complete = [];
+        $email_missing = [];
+        // Find all person numbers
+        $numbers = PersonInfo::numbers();
+        foreach ($numbers as $number => $name) {
+            $person_info = PersonInfo::firstOrNew(['number' => $number]);
+            $person_info->name = $name;
+            if ($person_info->email) {
+                $email_complete[] = $person_info;            }
+            else {
+                $email_missing[] = $person_info;
+            }
+        }
+        return view('people.show_emails', compact('email_complete', 'email_missing'));
+    }
+
+    /**
      * Show all episodes for a person, using anonymous access.
      *
      * The hash is mapped to the person's number.
