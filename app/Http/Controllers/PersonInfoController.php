@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class PersonController extends Controller
+class PersonInfoController extends Controller
 {
     /**
      * Show all episodes for the given person number.
