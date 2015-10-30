@@ -42,4 +42,11 @@ class PersonController extends Controller
         $number = 1;
         return $this->show($number);
     }
+
+    /**
+     * Request a new hash via mail for accessing the stats.
+     */
+    public function requestNewHashPerMail(Request $request) {
+        return redirect(url('/'));
+    }
 }

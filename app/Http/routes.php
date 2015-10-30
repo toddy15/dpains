@@ -28,3 +28,4 @@ Route::get('month/{year}/{month}', 'MonthController@show')
  */
 
 Route::get('anon/episodes/{hash}', 'PersonController@anonEpisodes');
+Route::post('anon/newHash', 'PersonController@requestNewHashPerMail');
