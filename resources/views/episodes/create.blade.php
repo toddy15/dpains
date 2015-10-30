@@ -7,7 +7,7 @@
 
     {!! Form::hidden('number', $episode->number) !!}
     @if (!empty($episode->number))
-        @include('episodes.form', ['cancel_url' => action('PersonController@show', $episode->number)])
+        @include('episodes.form', ['cancel_url' => action('PersonInfoController@show', $episode->number)])
     @else
         @include('episodes.form', ['cancel_url' => action('MonthController@show', [date('Y'), date('m')])])
     @endif

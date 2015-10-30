@@ -18,7 +18,7 @@ Route::get('report/{year}/{month}', 'ReportController@showMonth')
 Route::get('report/{year}', 'ReportController@showYear')
     ->where(['year' => '[0-9]+']);
 
-Route::get('person/{number}', 'PersonController@show');
+Route::get('person/{number}', 'PersonInfoController@show');
 
 Route::get('month/{year}/{month}', 'MonthController@show')
     ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
@@ -27,5 +27,5 @@ Route::get('month/{year}/{month}', 'MonthController@show')
  * From here on, the routes are publically accessible.
  */
 
-Route::get('anon/episodes/{hash}', 'PersonController@anonEpisodes');
-Route::post('anon/newHash', 'PersonController@requestNewHashPerMail');
+Route::get('anon/episodes/{hash}', 'PersonInfoController@anonEpisodes');
+Route::post('anon/newHash', 'PersonInfoController@requestNewHashPerMail');
