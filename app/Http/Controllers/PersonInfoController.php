@@ -14,24 +14,6 @@ use Illuminate\Support\Facades\Mail;
 class PersonInfoController extends Controller
 {
     /**
-     * Show all episodes for the given person number.
-     *
-     * @param int $number
-     * @return \Illuminate\View\View
-     */
-    public function show($number)
-    {
-        $episodes = Episode::where('number', '=', $number)
-            ->orderBy('start_date')->get();
-        if (!count($episodes)) {
-            abort(404);
-        }
-        // Get the name of the latest episode.
-        $latest_name = $episodes->last()->name;
-        return view('people.show', compact('episodes', 'number', 'latest_name'));
-    }
-
-    /**
      * Show information of all people
      */
     public function index() {
@@ -50,6 +32,24 @@ class PersonInfoController extends Controller
             }
         }
         return view('people.show_emails', compact('email_complete', 'email_missing'));
+    }
+
+    /**
+     * Show all episodes for the given person number.
+     *
+     * @param int $number
+     * @return \Illuminate\View\View
+     */
+    public function show($number)
+    {
+        $episodes = Episode::where('number', '=', $number)
+            ->orderBy('start_date')->get();
+        if (!count($episodes)) {
+            abort(404);
+        }
+        // Get the name of the latest episode.
+        $latest_name = $episodes->last()->name;
+        return view('people.show', compact('episodes', 'number', 'latest_name'));
     }
 
     /**
