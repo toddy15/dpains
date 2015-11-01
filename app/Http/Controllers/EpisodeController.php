@@ -86,7 +86,7 @@ class EpisodeController extends Controller
         }
         Episode::create($episode);
         $request->session()->flash('info', 'Der Eintrag wurde gespeichert.');
-        return redirect(action('PersonInfoController@show', $episode['number']));
+        return redirect(action('PersonInfoController@showEpisodes', $episode['number']));
     }
 
     /**
@@ -134,7 +134,7 @@ class EpisodeController extends Controller
         $request->merge(['start_date' => $start_date]);
         $episode->update($request->all());
         $request->session()->flash('info', 'Der Eintrag wurde geändert.');
-        return redirect(action('PersonInfoController@show', $episode->number));
+        return redirect(action('PersonInfoController@showEpisodes', $episode->number));
     }
 
     /**
@@ -148,6 +148,6 @@ class EpisodeController extends Controller
         $episode = Episode::findOrFail($id);
         Episode::destroy($id);
         $request->session()->flash('info', 'Der Eintrag wurde gelöscht.');
-        return redirect(action('PersonInfoController@show', $episode->number));
+        return redirect(action('PersonInfoController@showEpisodes', $episode->number));
     }
 }

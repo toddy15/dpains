@@ -40,7 +40,7 @@ class PersonInfoController extends Controller
      * @param int $number
      * @return \Illuminate\View\View
      */
-    public function show($number)
+    public function showEpisodes($number)
     {
         $episodes = Episode::where('number', '=', $number)
             ->orderBy('start_date')->get();
@@ -68,7 +68,7 @@ class PersonInfoController extends Controller
             $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
             return redirect(url('/'));
         }
-        return $this->show($person_info->number);
+        return $this->showEpisodes($person_info->number);
     }
 
     /**

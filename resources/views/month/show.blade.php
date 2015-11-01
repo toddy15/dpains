@@ -36,7 +36,7 @@
                     <td>{{ $episode->factor_night }}</td>
                     <td>{{ $episode->factor_nef }}</td>
                     <td>{{ $episode->comment }}</td>
-                    <td><a class="btn btn-primary" href="{{ action('PersonInfoController@show', $episode->number) }}">Bearbeiten</a></td>
+                    <td><a class="btn btn-primary" href="{{ action('PersonInfoController@showEpisodes', $episode->number) }}">Bearbeiten</a></td>
                 </tr>
             @endforeach
             </tbody>
@@ -64,7 +64,7 @@
                 <td>{{ $episode->factor_night }}</td>
                 <td>{{ $episode->factor_nef }}</td>
                 <td>{{ $episode->comment }}</td>
-                <td><a class="btn btn-primary" href="{{ action('PersonInfoController@show', $episode->number) }}">Bearbeiten</a></td>
+                <td><a class="btn btn-primary" href="{{ action('PersonInfoController@showEpisodes', $episode->number) }}">Bearbeiten</a></td>
             </tr>
         @endforeach
         </tbody>
