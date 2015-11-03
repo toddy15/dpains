@@ -16,7 +16,7 @@
                     <td>{{ $person->email }}</td>
                     <td>
                         <a class="btn btn-primary"
-                           href="{{ action('PersonInfoController@edit', $person->id) }}">Bearbeiten</a>
+                           href="{{ action('PersonInfoController@edit', $person->number) }}">Bearbeiten</a>
                     </td>
                 </tr>
             @endforeach
@@ -38,7 +38,7 @@
                 <td>{{ $person->email }}</td>
                 <td>
                     <a class="btn btn-primary"
-                       href="{{ action('PersonInfoController@edit', $person->id) }}">Bearbeiten</a>
+                       href="{{ action('PersonInfoController@edit', $person->number) }}">Bearbeiten</a>
                 </td>
             </tr>
         @endforeach

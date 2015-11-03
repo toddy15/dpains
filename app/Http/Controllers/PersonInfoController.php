@@ -26,12 +26,43 @@ class PersonInfoController extends Controller
             $person_info = PersonInfo::firstOrNew(['number' => $number]);
             $person_info->name = $name;
             if ($person_info->email) {
-                $email_complete[] = $person_info;            }
+                $email_complete[] = $person_info;
+            }
             else {
                 $email_missing[] = $person_info;
             }
         }
         return view('people.show_emails', compact('email_complete', 'email_missing'));
+    }
+
+    /**
+     * Edit person information.
+     */
+    public function edit($number)
+    {
+        $person = PersonInfo::where('number', $number)->first();
+        if (!$person) {
+            abort(404);
+        }
+        return view('people.edit', compact('person'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  Request  $request
+     * @param  int  $number
+     * @return Response
+     */
+    public function update(Request $request, $number)
+    {
+        $person = PersonInfo::where('number', $number)->first();
+        if (!$person) {
+            abort(404);
+        }
+        $person->update($request->all());
+        $request->session()->flash('info', 'Die Informationen wurden geändert.');
+        return redirect(action('PersonInfoController@index'));
     }
 
     /**
