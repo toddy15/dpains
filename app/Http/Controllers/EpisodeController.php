@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dpains\Helper;
+use App\Employee;
 use App\Episode;
 use App\Comment;
 use App\PersonInfo;
@@ -22,14 +23,14 @@ class EpisodeController extends Controller
      */
     public function create(Request $request)
     {
-        // See if there is a valid person number
-        $number = (int)$request->get('number');
-        // Is there already an episode for this person's number?
+        // See if there is a valid employee
+        $employee_id = (int)$request->get('employee_id');
+        // Is there already an episode for this employee?
         // If yes, retrieve the latest episode for the default values.
-        $episode = Episode::where('number', '=', $number)
+        $episode = Episode::where('employee_id', $employee_id)
             ->orderBy('start_date', 'desc')->first();
         if (!$episode) {
-            // There are no episodes, so create a new person
+            // There are no episodes, so create a new employee
             // using sane default values.
             $episode = new Episode();
             $episode->start_date = date("Y-m");
@@ -77,19 +78,16 @@ class EpisodeController extends Controller
         $start_date = Helper::validateAndFormatDate($request->get('year'), $request->get('month'));
         // Set the start_date to the database format YYYY-MM.
         $request->merge(['start_date' => $start_date]);
-        // Check if the episode is for a new person number
+        // Check if the episode is for a new employee
         $episode = $request->all();
-        if ($episode['number'] == 0) {
-            // Find out the highest number currently in use
-            // and create a new person by adding 1.
-            $highest_person_number = DB::table('episodes')->max('number');
-            $highest_person_number += 1;
-            PersonInfo::create(['number' => $highest_person_number]);
-            $episode['number'] = $highest_person_number;
+        if ($episode['employee_id'] == 0) {
+            // This is a new employee, so create a new entry.
+            $employee = Employee::create(['email' => str_random(), 'hash' => str_random()]);
+            $episode['employee_id'] = $employee->id;
         }
         Episode::create($episode);
         $request->session()->flash('info', 'Der Eintrag wurde gespeichert.');
-        return redirect(action('PersonInfoController@showEpisodes', $episode['number']));
+        return redirect(action('EmployeeController@showEpisodes', $episode['employee_id']));
     }
 
     /**
@@ -137,7 +135,7 @@ class EpisodeController extends Controller
         $request->merge(['start_date' => $start_date]);
         $episode->update($request->all());
         $request->session()->flash('info', 'Der Eintrag wurde geändert.');
-        return redirect(action('PersonInfoController@showEpisodes', $episode->number));
+        return redirect(action('EmployeeController@showEpisodes', $episode->employee_id));
     }
 
     /**
@@ -151,12 +149,12 @@ class EpisodeController extends Controller
         $episode = Episode::findOrFail($id);
         Episode::destroy($id);
         $request->session()->flash('info', 'Der Eintrag wurde gelöscht.');
-        // Remove person if the last episode has been removed.
-        $next_episode = Episode::where('number', $episode->number)->first();
+        // Remove employee if the last episode has been removed.
+        $next_episode = Episode::where('employee_id', $episode->employee_id)->first();
         if (!$next_episode) {
-            PersonInfo::where('number', $episode->number)->delete();
-            return redirect(action('PersonInfoController@index'));
+            Employee::where('id', $episode->employee_id)->delete();
+            return redirect(action('EmployeeController@index'));
         }
-        return redirect(action('PersonInfoController@showEpisodes', $episode->number));
+        return redirect(action('EmployeeController@showEpisodes', $episode->employee_id));
     }
 }

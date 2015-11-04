@@ -3,7 +3,7 @@
 @section('content')
     <h1>Einträge für {{ $latest_name }}</h1>
     <p>
-        <a class="btn btn-primary" href="{{ action('EpisodeController@create', ['number' => $number]) }}">Neuen Eintrag erstellen</a>
+        <a class="btn btn-primary" href="{{ action('EpisodeController@create', ['employee_id' => $employee_id]) }}">Neuen Eintrag erstellen</a>
     </p>
     <table class="table table-striped">
         <thead>

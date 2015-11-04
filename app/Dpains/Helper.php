@@ -95,7 +95,7 @@ class Helper
         $people = Helper::getPeopleForMonth($month);
         $names = [];
         foreach ($people as $person) {
-            $names[$person->number] = $person->name;
+            $names[$person->id] = $person->name;
         }
         return $names;
     }
@@ -116,7 +116,7 @@ class Helper
             ->where('e1.start_date', function ($query) use ($month) {
                 $query->selectRaw('MAX(`e2`.`start_date`)')
                     ->from('episodes as e2')
-                    ->whereRaw('`e1`.`number` = `e2`.`number`')
+                    ->whereRaw('`e1`.`employee_id` = `e2`.`employee_id`')
                     ->where('e2.start_date', '<=', $month);
             })
             // This filters out the episodes with "Vertragsende".

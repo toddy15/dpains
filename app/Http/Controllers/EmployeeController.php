@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Episode;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -16,7 +17,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        return "index";
     }
 
     /**
@@ -48,7 +49,7 @@ class EmployeeController extends Controller
      */
     public function show($id)
     {
-        //
+        return "SHOW $id";
     }
 
     /**
@@ -84,4 +85,23 @@ class EmployeeController extends Controller
     {
         //
     }
+
+    /**
+     * Show all episodes for the given employee id.
+     *
+     * @param int $employee_id
+     * @return \Illuminate\View\View
+     */
+    public function showEpisodes($employee_id)
+    {
+        $episodes = Episode::where('employee_id', $employee_id)
+            ->orderBy('start_date')->get();
+        if (!count($episodes)) {
+            abort(404);
+        }
+        // Get the name of the latest episode.
+        $latest_name = $episodes->last()->name;
+        return view('employees.show', compact('episodes', 'employee_id', 'latest_name'));
+    }
+
 }

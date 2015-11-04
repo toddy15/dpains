@@ -3,7 +3,7 @@
 @section('content')
     <h1>Eintrag bearbeiten</h1>
 
-    {!! Form::model($person, ['method' => 'PUT', 'action' => ['PersonInfoController@update', $person->number]]) !!}
+    {!! Form::model($person, ['method' => 'PUT', 'action' => ['EmployeeController@update', $person->id]]) !!}
 
     <!-- email Form Input  -->
     <div class="form-group {{ $errors->has('email') ? 'has-error has-feedback' : '' }}">
@@ -18,7 +18,7 @@
         <!-- Speichern Form Input  -->
         {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
                 <!-- Cancel Button -->
-        <a class="btn btn-default" href="{{ action('PersonInfoController@index') }}">Abbrechen</a>
+        <a class="btn btn-default" href="{{ action('EmployeeController@index') }}">Abbrechen</a>
     </div>
 
     {!! Form::close() !!}
