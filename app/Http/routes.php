@@ -18,8 +18,9 @@ Route::get('report/{year}/{month}', 'ReportController@showMonth')
 Route::get('report/{year}', 'ReportController@showYear')
     ->where(['year' => '[0-9]+']);
 
-Route::resource('personinfo', 'PersonInfoController');
+Route::resource('employee', 'EmployeeController');
 
+Route::resource('personinfo', 'PersonInfoController');
 Route::get('person/{number}', 'PersonInfoController@showEpisodes');
 
 Route::get('month/{year}/{month}', 'MonthController@show')
