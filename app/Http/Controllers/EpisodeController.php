@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dpains\Helper;
 use App\Episode;
 use App\Comment;
+use App\PersonInfo;
 use App\Staffgroup;
 use Illuminate\Http\Request;
 
@@ -82,7 +83,9 @@ class EpisodeController extends Controller
             // Find out the highest number currently in use
             // and create a new person by adding 1.
             $highest_person_number = DB::table('episodes')->max('number');
-            $episode['number'] = $highest_person_number + 1;
+            $highest_person_number += 1;
+            PersonInfo::create(['number' => $highest_person_number]);
+            $episode['number'] = $highest_person_number;
         }
         Episode::create($episode);
         $request->session()->flash('info', 'Der Eintrag wurde gespeichert.');
@@ -148,6 +151,12 @@ class EpisodeController extends Controller
         $episode = Episode::findOrFail($id);
         Episode::destroy($id);
         $request->session()->flash('info', 'Der Eintrag wurde gelöscht.');
+        // Remove person if the last episode has been removed.
+        $next_episode = Episode::where('number', $episode->number)->first();
+        if (!$next_episode) {
+            PersonInfo::where('number', $episode->number)->delete();
+            return redirect(action('PersonInfoController@index'));
+        }
         return redirect(action('PersonInfoController@showEpisodes', $episode->number));
     }
 }
