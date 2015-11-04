@@ -101,7 +101,7 @@ class EmployeeController extends Controller
         }
         // Get the name of the latest episode.
         $latest_name = $episodes->last()->name;
-        return view('employees.show', compact('episodes', 'employee_id', 'latest_name'));
+        return view('employees.show_episodes', compact('episodes', 'employee_id', 'latest_name'));
     }
 
 }
