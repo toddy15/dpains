@@ -1,9 +1,9 @@
 @extends('app')
 
 @section('content')
-    <h1>Eintrag bearbeiten</h1>
+    <h1>{{ $employee->name }}</h1>
 
-    {!! Form::model($person, ['method' => 'PUT', 'action' => ['EmployeeController@update', $person->id]]) !!}
+    {!! Form::model($employee, ['method' => 'PUT', 'action' => ['EmployeeController@update', $employee->id]]) !!}
 
     <!-- email Form Input  -->
     <div class="form-group {{ $errors->has('email') ? 'has-error has-feedback' : '' }}">
