@@ -11,7 +11,7 @@
         Zugriffscode anfordern.
     </p>
 
-    {!! Form::open(['action' => 'PersonInfoController@requestNewHashPerMail']) !!}
+    {!! Form::open(['action' => 'EmployeeController@requestNewHashPerMail']) !!}
 
     <!-- E-Mail Form Input  -->
     <div class="form-group">

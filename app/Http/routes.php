@@ -22,9 +22,6 @@ Route::resource('employee', 'EmployeeController',
     ['except' => ['create', 'store', 'show', 'destroy']]);
 Route::get('employee/{id}/episodes', 'EmployeeController@showEpisodes');
 
-#Route::resource('personinfo', 'PersonInfoController');
-#Route::get('person/{number}', 'PersonInfoController@showEpisodes');
-
 Route::get('month/{year}/{month}', 'MonthController@show')
     ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
 
@@ -32,5 +29,5 @@ Route::get('month/{year}/{month}', 'MonthController@show')
  * From here on, the routes are publically accessible.
  */
 
-Route::get('anon/episodes/{hash}', 'PersonInfoController@anonEpisodes');
-Route::post('anon/newHash', 'PersonInfoController@requestNewHashPerMail');
+Route::get('anon/episodes/{hash}', 'EmployeeController@showAnonEpisodes');
+Route::post('anon/newHash', 'EmployeeController@requestNewHashPerMail');
