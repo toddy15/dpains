@@ -13,7 +13,7 @@ class Employee extends Model
     /**
      * Return the name of the last episode
      */
-    public function name()
+    public function getNameAttribute()
     {
         $episode = Episode::where('employee_id', $this->id)
             ->orderBy('start_date', 'DESC')

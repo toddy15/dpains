@@ -11,7 +11,7 @@
         <tbody>
         @foreach($employees as $employee)
             <tr>
-                <td>{{ $employee->name() }}</td>
+                <td>{{ $employee->name }}</td>
                 <td>{{ $employee->email }}</td>
                 <td>
                     <a class="btn btn-primary"
