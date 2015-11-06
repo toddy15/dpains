@@ -12,15 +12,14 @@ Route::resource('comment', 'CommentController',
     ['except' => ['show', 'destroy']]);
 Route::resource('rawplan', 'RawplanController',
     ['except' => ['show', 'edit', 'update']]);
+Route::resource('employee', 'EmployeeController',
+    ['except' => ['create', 'store', 'show', 'destroy']]);
+Route::get('employee/{id}/episodes', 'EmployeeController@showEpisodes');
 
 Route::get('report/{year}/{month}', 'ReportController@showMonth')
     ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
 Route::get('report/{year}', 'ReportController@showYear')
     ->where(['year' => '[0-9]+']);
-
-Route::resource('employee', 'EmployeeController',
-    ['except' => ['create', 'store', 'show', 'destroy']]);
-Route::get('employee/{id}/episodes', 'EmployeeController@showEpisodes');
 
 Route::get('month/{year}/{month}', 'MonthController@show')
     ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
