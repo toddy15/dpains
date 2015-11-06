@@ -56,19 +56,15 @@ class EmployeeController extends Controller
     /**
      * Show all episodes for the given employee id.
      *
-     * @param int $employee_id
+     * @param int $id
      * @return \Illuminate\View\View
      */
-    public function showEpisodes($employee_id)
+    public function showEpisodes($id)
     {
-        $episodes = Episode::where('employee_id', $employee_id)
-            ->orderBy('start_date')->get();
-        if (!count($episodes)) {
-            abort(404);
-        }
-        // Get the name of the latest episode.
-        $latest_name = $episodes->last()->name;
-        return view('employees.show_episodes', compact('episodes', 'employee_id', 'latest_name'));
+        $employee = Employee::findOrFail($id);
+        $episodes = $employee->episodes()->orderBy('start_date')->get();
+        $latest_name = $employee->name;
+        return view('employees.show_episodes', compact('episodes', 'id', 'latest_name'));
     }
 
     /**

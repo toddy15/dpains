@@ -11,14 +11,20 @@ class Employee extends Model
     ];
 
     /**
+     * Get the episodes for the employee.
+     */
+    public function episodes()
+    {
+        return $this->hasMany('App\Episode');
+    }
+
+    /**
      * Return the name of the last episode
      */
     public function getNameAttribute()
     {
-        $episode = Episode::where('employee_id', $this->id)
-            ->orderBy('start_date', 'DESC')
-            ->first();
-        return $episode->name;
+        $last_episode = $this->episodes()->orderBy('start_date', 'DESC')->first();
+        return $last_episode->name;
     }
 
 }
