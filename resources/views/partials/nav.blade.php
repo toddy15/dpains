@@ -40,6 +40,10 @@
                         </ul>
                     </li>
                 </ul>
+            @else
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url('/auth/login') }}">Login</a></li>
+                </ul>
             @endunless
         </div>
     </div>
