@@ -2,6 +2,7 @@
 
 @section('content')
     <h1>Mitarbeiter</h1>
+    <a class="btn btn-primary" href="{{ action('EpisodeController@create') }}">Neuen Mitarbeiter anlegen</a>
     <table class="table table-striped">
         <thead>
         <th>Name</th>

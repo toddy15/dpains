@@ -12,18 +12,23 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li {!! Request::is('rawplan') ? 'class="active"' : '' !!}><a href="{{ url('rawplan') }}">Dienstpläne</a></li>
-                <li {!! Request::is('report/' . date('Y')) ? 'class="active"' : '' !!}><a href="{{ url('report/' . date('Y')) }}">Jahresauswertung</a></li>
-                <li {!! Request::is('report/' . date('Y/m')) ? 'class="active"' : '' !!}><a href="{{ url('report/' . date('Y/m')) }}">Monatsauswertung</a></li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mitarbeiter <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Auswertungen <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li {!! Request::is('employee') ? 'class="active"' : '' !!}><a href="{{ url('employee') }}">Übersicht</a></li>
-                        <li {!! Request::is('month/' . date('Y/m')) ? 'class="active"' : '' !!}><a href="{{ url('month/' . date('Y/m')) }}">Monatsübersicht</a></li>
+                        <li><a href="{{ url('report/' . date('Y')) }}">Jahre</a></li>
+                        <li><a href="{{ url('report/' . date('Y/m')) }}">Monate</a></li>
                     </ul>
                 </li>
-                <li {!! Request::is('comment') ? 'class="active"' : '' !!}><a href="{{ url('comment') }}">Bemerkungen</a></li>
-                <li {!! Request::is('staffgroup') ? 'class="active"' : '' !!}><a href="{{ url('staffgroup') }}">Mitarbeitergruppen</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Verwaltung <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li {!! Request::is('rawplan') ? 'class="active"' : '' !!}><a href="{{ url('rawplan') }}">Dienstpläne</a></li>
+                        <li {!! Request::is('employee') ? 'class="active"' : '' !!}><a href="{{ url('employee') }}">Mitarbeiter</a></li>
+                        <li {!! Request::is('comment') ? 'class="active"' : '' !!}><a href="{{ url('comment') }}">Bemerkungen</a></li>
+                        <li {!! Request::is('staffgroup') ? 'class="active"' : '' !!}><a href="{{ url('staffgroup') }}">Mitarbeitergruppen</a></li>
+                        <li><a href="{{ url('month/' . date('Y/m')) }}">Monatsübersichten</a></li>
+                    </ul>
+                </li>
             </ul>
 
             @unless (Auth::guest())
