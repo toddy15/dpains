@@ -33,18 +33,18 @@ class ReportController extends Controller
             return view('reports.show_month', compact('results',
                 'readable_month', 'next_month_url', 'previous_month_url'));
         }
-        // Create an array with a mapping of person_number -> shifts
+        // Create an array with a mapping of employee_id -> shifts
         $shifts = [];
         foreach ($reports as $report) {
-            $shifts[$report->number] = $report;
+            $shifts[$report->employee_id] = $report;
         }
         // In order to use the grouping by staffgroups, it it necessary
         // to set up an new array of names and counted shifts. The
         // array $names is already sorted correctly with staffgroups.
-        foreach ($names as $person_number => $name) {
+        foreach ($names as $employee_id => $name) {
             $results[] = (object)[
                 'name' => $name,
-                'shifts' => $shifts[$person_number],
+                'shifts' => $shifts[$employee_id],
             ];
         }
         return view('reports.show_month', compact('results',
@@ -85,46 +85,46 @@ class ReportController extends Controller
         for ($month = 1; $month <= 12; $month++) {
             // Set up a month usable for the database
             $formattedMonth = sprintf('%4d-%02d', $year, $month);
-            // Get all people for the current month
-            $people_in_month = Helper::getPeopleForMonth($formattedMonth);
-            // Create a new array with the person's number as
+            // Get all employees for the current month
+            $employees_in_month = Helper::getPeopleForMonth($formattedMonth);
+            // Create a new array with the employee's id as
             // the array index.
-            $people = [];
-            foreach ($people_in_month as $person) {
-                $people[$person->number] = $person;
+            $employees = [];
+            foreach ($employees_in_month as $employee) {
+                $employees[$employee->employee_id] = $employee;
             }
             // Get all analyzed shifts for the current month
             $shifts = DB::table('analyzed_months')->where('month', $formattedMonth)->get();
             // Cycle through all people and add up the shifts
             foreach ($shifts as $shift) {
                 // Determine the current person (for staffgroup etc.)
-                $person = $people[$shift->number];
+                $employee = $employees[$shift->employee_id];
                 // Reduce staffgroups
-                if ($person->staffgroup == 'FA' or $person->staffgroup == 'WB mit Nachtdienst') {
-                    $person->staffgroup = 'FA und WB mit Nachtdienst';
+                if ($employee->staffgroup == 'FA' or $employee->staffgroup == 'WB mit Nachtdienst') {
+                    $employee->staffgroup = 'FA und WB mit Nachtdienst';
                 }
                 // Set up the result array, grouped by staffgroup
-                if (!isset($staffgroups[$person->staffgroup][$person->number])) {
-                    $staffgroups[$person->staffgroup][$person->number] = $this->newResultArray((array)$person);
+                if (!isset($staffgroups[$employee->staffgroup][$employee->employee_id])) {
+                    $staffgroups[$employee->staffgroup][$employee->employee_id] = $this->newResultArray((array)$employee);
                 }
                 // Calculate the boni for vk and factors
-                $person_bonus_night = 1 - ($person->vk * $person->factor_night);
-                $person_bonus_nef = 1 - ($person->vk * $person->factor_nef);
+                $person_bonus_night = 1 - ($employee->vk * $employee->factor_night);
+                $person_bonus_nef = 1 - ($employee->vk * $employee->factor_nef);
                 // Add up the shifts to the result array
-                $staffgroups[$person->staffgroup][$person->number]['planned_nights'] += $shift->nights;
-                $staffgroups[$person->staffgroup][$person->number]['planned_nefs'] += $shift->nefs;
-                $staffgroups[$person->staffgroup][$person->number]['bonus_planned_nights'][$month] = $person_bonus_night;
-                $staffgroups[$person->staffgroup][$person->number]['bonus_planned_nefs'][$month] = $person_bonus_nef;
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['planned_nights'] += $shift->nights;
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['planned_nefs'] += $shift->nefs;
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['bonus_planned_nights'][$month] = $person_bonus_night;
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['bonus_planned_nefs'][$month] = $person_bonus_nef;
                 // Now add to the worked results, if the month has passed.
                 if ($formattedMonth <= $worked_month) {
-                    $staffgroups[$person->staffgroup][$person->number]['worked_nights'] += $shift->nights;
-                    $staffgroups[$person->staffgroup][$person->number]['worked_nefs'] += $shift->nefs;
+                    $staffgroups[$employee->staffgroup][$employee->employee_id]['worked_nights'] += $shift->nights;
+                    $staffgroups[$employee->staffgroup][$employee->employee_id]['worked_nefs'] += $shift->nefs;
                 }
             }
         }
         // Fill up the boni for each month that is not in the result array yet.
         $this->fillUpBoni($staffgroups);
-        foreach ($staffgroups as $staffgroup => $person) {
+        foreach ($staffgroups as $staffgroup => $employee) {
             // @TODO: Do not hardcode.
             switch ($staffgroup) {
                 case 'LOA':
@@ -145,7 +145,7 @@ class ReportController extends Controller
             }
             // Finally, set up an array for the results table
             $rows = [];
-            foreach ($person as $person_number => $info) {
+            foreach ($employee as $person_number => $info) {
                 // Calculate bonus nights and nefs by multiplying the
                 // bonus VK with the average shifts per month.
                 $bonus = $due_nights / 12 * $info['bonus_planned_nights'];

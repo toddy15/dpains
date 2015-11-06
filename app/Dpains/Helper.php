@@ -92,10 +92,10 @@ class Helper
      */
     public static function getNamesForMonth($month)
     {
-        $people = Helper::getPeopleForMonth($month);
+        $employees = Helper::getPeopleForMonth($month);
         $names = [];
-        foreach ($people as $person) {
-            $names[$person->id] = $person->name;
+        foreach ($employees as $employee) {
+            $names[$employee->employee_id] = $employee->name;
         }
         return $names;
     }
