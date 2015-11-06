@@ -17,33 +17,37 @@ Route::post('password/email', 'Auth\PasswordController@postEmail');
 Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
 Route::post('password/reset', 'Auth\PasswordController@postReset');
 
+/*
+ * These routes are only accessible by authenticated users.
+ */
+Route::group(['middleware' => 'auth'], function () {
+    Route::resource('episode', 'EpisodeController',
+        ['except' => ['index', 'show']]);
+    Route::resource('staffgroup', 'StaffgroupController',
+        ['except' => ['show', 'destroy']]);
+    Route::resource('comment', 'CommentController',
+        ['except' => ['show', 'destroy']]);
+    Route::resource('rawplan', 'RawplanController',
+        ['except' => ['show', 'edit', 'update']]);
+    Route::resource('employee', 'EmployeeController',
+        ['except' => ['create', 'store', 'show', 'destroy']]);
+    Route::get('employee/{id}/episodes', 'EmployeeController@showEpisodes');
+
+    Route::get('report/{year}/{month}', 'ReportController@showMonth')
+        ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
+    Route::get('report/{year}', 'ReportController@showYear')
+        ->where(['year' => '[0-9]+']);
+
+    Route::get('month/{year}/{month}', 'MonthController@show')
+        ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
+});
+
+/*
+ * From here on, the routes are accessible by anybody.
+ */
+
 Route::get('/', function() {
     return view('homepage');
 });
-
-Route::resource('episode', 'EpisodeController',
-    ['except' => ['index', 'show']]);
-Route::resource('staffgroup', 'StaffgroupController',
-    ['except' => ['show', 'destroy']]);
-Route::resource('comment', 'CommentController',
-    ['except' => ['show', 'destroy']]);
-Route::resource('rawplan', 'RawplanController',
-    ['except' => ['show', 'edit', 'update']]);
-Route::resource('employee', 'EmployeeController',
-    ['except' => ['create', 'store', 'show', 'destroy']]);
-Route::get('employee/{id}/episodes', 'EmployeeController@showEpisodes');
-
-Route::get('report/{year}/{month}', 'ReportController@showMonth')
-    ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
-Route::get('report/{year}', 'ReportController@showYear')
-    ->where(['year' => '[0-9]+']);
-
-Route::get('month/{year}/{month}', 'MonthController@show')
-    ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
-
-/*
- * From here on, the routes are publically accessible.
- */
-
 Route::get('anon/episodes/{hash}', 'EmployeeController@showAnonEpisodes');
 Route::post('anon/newHash', 'EmployeeController@requestNewHashPerMail');
