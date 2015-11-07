@@ -75,7 +75,7 @@ class EmployeeController extends Controller
      * @param string $hash
      * @return \Illuminate\View\View
      */
-    public function showAnonEpisodes(Request $request, $hash)
+    public function anonShowEpisodes(Request $request, $hash)
     {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
@@ -83,7 +83,9 @@ class EmployeeController extends Controller
             $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
             return redirect(url('/'));
         }
-        return $this->showEpisodes($employee->id);
+        $episodes = $employee->episodes()->orderBy('start_date')->get();
+        $latest_name = $employee->name;
+        return view('employees.anon_show_episodes', compact('episodes', 'hash', 'latest_name'));
     }
 
     /**
@@ -104,7 +106,7 @@ class EmployeeController extends Controller
         $employee->hash = hash('sha256', microtime() . $employee->email);
         $employee->save();
         // Send the mail
-        $url = action('EmployeeController@showAnonEpisodes', $employee->hash);
+        $url = action('EmployeeController@anonShowEpisodes', $employee->hash);
         Mail::queue(['text' => 'emails.new_hash'], compact('url'), function ($m) use ($employee) {
             $m->from('webmaster@dienstplan-an.de', 'Webmaster');
             $m->to($employee->email);
