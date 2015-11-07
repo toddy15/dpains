@@ -103,7 +103,7 @@ class EmployeeController extends Controller
             return redirect(url('/'));
         }
         // Generate a new hash with some pseudo random bits
-        $employee->hash = hash('sha256', microtime() . $employee->email);
+        $employee->hash = str_random();
         $employee->save();
         // Send the mail
         $url = action('EmployeeController@anonShowEpisodes', $employee->hash);

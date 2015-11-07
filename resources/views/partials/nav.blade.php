@@ -31,6 +31,10 @@
                         </ul>
                     </li>
                 @endunless
+                {{-- Add items for anonymous access, if hash is available --}}
+                @if (isset($hash))
+                    <li {!! Request::is('anon/episodes/' . $hash) ? 'class="active"' : '' !!}><a href="{{ url('anon/episodes/' . $hash) }}">Einträge</a></li>
+                @endif
             </ul>
 
             @unless (Auth::guest())
