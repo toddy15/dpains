@@ -16,7 +16,7 @@
     <!-- E-Mail Form Input  -->
     <div class="form-group">
         {!! Form::label('email', 'E-Mail:', ['class' => 'control-label']) !!}
-        {!! Form::text('email', null, ['class' => 'form-control']) !!}
+        {!! Form::email('email', null, ['class' => 'form-control', 'placeholder' => 'name@dienstplan-an.de']) !!}
     </div>
 
     <!-- Send Form -->

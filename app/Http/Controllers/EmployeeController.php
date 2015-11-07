@@ -90,6 +90,9 @@ class EmployeeController extends Controller
      * Request a new hash via mail for accessing the stats.
      */
     public function requestNewHashPerMail(Request $request) {
+        $this->validate($request, [
+            'email' => 'required|email'
+        ]);
         $email = $request->get('email');
         $employee = Employee::where('email', $email)->first();
         // Feedback if there is no such mail
