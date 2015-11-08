@@ -49,5 +49,5 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('/', function() {
     return view('homepage');
 });
-Route::get('anon/episodes/{hash}', 'EmployeeController@anonShowEpisodes');
-Route::post('anon/newHash', 'EmployeeController@requestNewHashPerMail');
+Route::get('anon/episodes/{hash}', 'AnonController@showEpisodes');
+Route::post('anon/newHash', 'AnonController@requestNewHashPerMail');
