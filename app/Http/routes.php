@@ -46,8 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
  * From here on, the routes are accessible by anybody.
  */
 
-Route::get('/', function() {
-    return view('homepage');
-});
+Route::get('/{hash?}', 'AnonController@homepage');
+Route::get('anon/logout', 'AnonController@logout');
 Route::get('anon/episodes/{hash}', 'AnonController@showEpisodes');
 Route::post('anon/newHash', 'AnonController@requestNewHashPerMail');

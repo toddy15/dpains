@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ url('/') }}">Home</a>
+            <a class="navbar-brand" href="{{ action('AnonController@homepage', $hash) }}">Home</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -32,7 +32,7 @@
                     </li>
                 @endunless
                 {{-- Add items for anonymous access, if hash is available --}}
-                @if (isset($hash))
+                @if (isset($hash) and !empty($hash))
                     <li {!! Request::is('anon/episodes/' . $hash) ? 'class="active"' : '' !!}><a href="{{ url('anon/episodes/' . $hash) }}">Einträge</a></li>
                 @endif
             </ul>

@@ -10,6 +10,21 @@ use Illuminate\Support\Facades\Mail;
 
 class AnonController extends Controller
 {
+    /**
+     * Show the homepage
+     *
+     * @param string $hash
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function homepage($hash = '')
+    {
+        return view('homepage', compact('hash'));
+    }
+
+    public function logout()
+    {
+        return "TODO.";
+    }
 
     /**
      * Show all episodes for an employee, using anonymous access.
