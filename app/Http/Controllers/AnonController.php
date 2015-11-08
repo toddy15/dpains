@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Dpains\Helper;
 use App\Employee;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -57,6 +59,42 @@ class AnonController extends Controller
         $episodes = $employee->episodes()->orderBy('start_date')->get();
         $latest_name = $employee->name;
         return view('anon.show_episodes', compact('hash', 'episodes', 'latest_name'));
+    }
+
+    /**
+     * Show the year overview.
+     *
+     * The hash is mapped to the employees id.
+     *
+     * @param string $hash
+     * @return \Illuminate\View\View
+     */
+    public function showYear(Request $request, $year, $hash)
+    {
+        $employee = Employee::where('hash', $hash)->first();
+        // Feedback if there is no such hash
+        if (!$employee) {
+            $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
+            return redirect(url('/'));
+        }
+        // Determine which month has been planned
+        $planned_month = Helper::getPlannedMonth($year);
+        if (!$planned_month) {
+            // There is no data at all, so abort.
+            abort(404);
+        }
+        // Determine which month is in the past and therefore
+        // represents the actually worked shifts.
+        $worked_month = Helper::getWorkedMonth($year);
+        // Set up readable month names
+        $readable_planned_month = Carbon::parse($planned_month)->formatLocalized('%B %Y');
+        $readable_worked_month = '';
+        if (!empty($worked_month)) {
+            $readable_worked_month = Carbon::parse($worked_month)->formatLocalized('%B %Y');
+        }
+        $tables = Helper::getTablesForYear($request, $year, $worked_month, $employee->id);
+        return view('reports.show_year', compact('hash', 'year',
+            'readable_planned_month', 'readable_worked_month', 'tables'));
     }
 
     /**

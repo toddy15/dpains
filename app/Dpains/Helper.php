@@ -4,6 +4,8 @@ namespace App\Dpains;
 
 use App\Episode;
 use App\Rawplan;
+use App\Staffgroup;
+use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 
@@ -149,6 +151,179 @@ class Helper
             // Second, order by name within the staffgroups
             ->orderBy('name')
             ->get();
+    }
+
+    public static function getTablesForYear(HttpRequest $request, $year, $worked_month, $non_anon_employee_id = 0)
+    {
+        $tables = [];
+        // Get the sorting key and direction from the request
+        $sort_key = $request->get('sort');
+        $direction = $request->get('direction');
+        // Set up the staffgroups to get the correct sorting
+        $staffgroup_names = Staffgroup::orderBy('weight')->lists('staffgroup')->toArray();
+        foreach ($staffgroup_names as $staffgroup_name) {
+            // Reduce staffgroups
+            if ($staffgroup_name == 'FA' or $staffgroup_name == 'WB mit Nachtdienst') {
+                $staffgroup_name = 'FA und WB mit Nachtdienst';
+            }
+            $staffgroups[$staffgroup_name] = [];
+        }
+        // To calculate the due shifts per month, cycle through
+        // every month in the given year.
+        for ($month = 1; $month <= 12; $month++) {
+            // Set up a month usable for the database
+            $formattedMonth = sprintf('%4d-%02d', $year, $month);
+            // Get all employees for the current month
+            $employees_in_month = Helper::getPeopleForMonth($formattedMonth);
+            // Create a new array with the employee's id as
+            // the array index.
+            $employees = [];
+            foreach ($employees_in_month as $employee) {
+                $employees[$employee->employee_id] = $employee;
+            }
+            // Get all analyzed shifts for the current month
+            $shifts = DB::table('analyzed_months')->where('month', $formattedMonth)->get();
+            // Cycle through all people and add up the shifts
+            foreach ($shifts as $shift) {
+                // Determine the current person (for staffgroup etc.)
+                $employee = $employees[$shift->employee_id];
+                // Reduce staffgroups
+                if ($employee->staffgroup == 'FA' or $employee->staffgroup == 'WB mit Nachtdienst') {
+                    $employee->staffgroup = 'FA und WB mit Nachtdienst';
+                }
+                // Set up the result array, grouped by staffgroup
+                if (!isset($staffgroups[$employee->staffgroup][$employee->employee_id])) {
+                    $staffgroups[$employee->staffgroup][$employee->employee_id] = Helper::newResultArray((array)$employee);
+                }
+                // Calculate the boni for vk and factors
+                $person_bonus_night = 1 - ($employee->vk * $employee->factor_night);
+                $person_bonus_nef = 1 - ($employee->vk * $employee->factor_nef);
+                // Add up the shifts to the result array
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['planned_nights'] += $shift->nights;
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['planned_nefs'] += $shift->nefs;
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['bonus_planned_nights'][$month] = $person_bonus_night;
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['bonus_planned_nefs'][$month] = $person_bonus_nef;
+                // Now add to the worked results, if the month has passed.
+                if ($formattedMonth <= $worked_month) {
+                    $staffgroups[$employee->staffgroup][$employee->employee_id]['worked_nights'] += $shift->nights;
+                    $staffgroups[$employee->staffgroup][$employee->employee_id]['worked_nefs'] += $shift->nefs;
+                }
+            }
+        }
+        // Fill up the boni for each month that is not in the result array yet.
+        Helper::fillUpBoni($staffgroups);
+        foreach ($staffgroups as $staffgroup => $employee) {
+            // @TODO: Do not hardcode.
+            switch ($staffgroup) {
+                case 'LOA':
+                    $due_nights = 12;
+                    $due_nefs = 0;
+                    break;
+                case 'OA':
+                    $due_nights = 44;
+                    $due_nefs = 30;
+                    break;
+                case 'FA und WB mit Nachtdienst':
+                    $due_nights = 55;
+                    $due_nefs = 30;
+                    break;
+                default:
+                    $due_nights = 0;
+                    $due_nefs = 0;
+            }
+            // Finally, set up an array for the results table
+            $rows = [];
+            // Determine if the table is for anonymous access.
+            // If so, only show the name of the non-anonymous employee id
+            // and remove staffgroups he/she is not part of.
+            $include_staffgroup_in_tables = true;
+            if ($non_anon_employee_id) {
+                $include_staffgroup_in_tables = false;
+            }
+            foreach ($employee as $employee_id => $info) {
+                // Calculate bonus nights and nefs by multiplying the
+                // bonus VK with the average shifts per month.
+                $bonus = $due_nights / 12 * $info['bonus_planned_nights'];
+                $info['diff_planned_nights'] = (int)round($info['planned_nights'] + $bonus - $due_nights);
+                $bonus = $due_nefs / 12 * $info['bonus_planned_nefs'];
+                $info['diff_planned_nefs'] = (int)round($info['planned_nefs'] + $bonus - $due_nefs);
+                // Use the sorting key as the array index, to enable the
+                // sorting within the staffgroups.
+                // If this is for anonymous access, use diff_planned_nights instead of name.
+                if (!array_key_exists($sort_key, $info)) {
+                    if ($non_anon_employee_id) {
+                        $sort_key = 'diff_planned_nights';
+                    }
+                    else {
+                        $sort_key = 'name';
+                    }
+                }
+                // Is the employee part of this staffgroup?
+                if ($non_anon_employee_id) {
+                    if ($employee_id == $non_anon_employee_id) {
+                        $include_staffgroup_in_tables = true;
+                        $info['highlight_row'] = true;
+                    }
+                    else {
+                        // Anonymize the information of other employees
+                        // Use the underscore as first character to always
+                        // sort the employee's name above the random names.
+                        $info['name'] = '_' . str_random();
+                        $info['worked_nights'] = 0;
+                        $info['planned_nights'] = 0;
+                        $info['worked_nefs'] = 0;
+                        $info['planned_nefs'] = 0;
+                    }
+                }
+                // If two values are the same, that information would get lost
+                // by using only one index. Therefore, use a second index,
+                // filling with the name. This way, the second sorting
+                // after the first sorting will automatically use the name.
+                $row_index = $info[$sort_key];
+                $rows[$row_index][$info['name']] = (object)$info;
+            }
+            // Sort all staffgroups either asc or desc
+            ($direction == 'desc') ? krsort($rows) : ksort($rows);
+            // Now sort by name
+            foreach ($rows as $index => $data) {
+                ksort($rows[$index]);
+            }
+            // Do not show empty staffgroups
+            if (count($rows) and $include_staffgroup_in_tables) {
+                // Add to tables
+                $tables[$staffgroup] = $rows;
+            }
+        }
+        return $tables;
+    }
+
+    public static function newResultArray($person)
+    {
+        return array_merge($person, [
+            'worked_nights' => 0,
+            'planned_nights' => 0,
+            'worked_nefs' => 0,
+            'planned_nefs' => 0,
+        ]);
+    }
+
+    public static function fillUpBoni(&$staffgroups)
+    {
+        foreach ($staffgroups as $staffgroup => $person) {
+            foreach ($person as $person_number => $info) {
+                // Calculate the months with no data yet.
+                $missing_months = 12 - count($info['bonus_planned_nights']);
+                // Sum up the bonus for all months with data.
+                $bonus = array_sum($info['bonus_planned_nights']);
+                // The total bonus is the sum of all data plus 1 for each month
+                // without data.
+                $staffgroups[$staffgroup][$person_number]['bonus_planned_nights'] = $bonus + $missing_months;
+                // Now do the same three steps for the NEF bonus counter.
+                $missing_months = 12 - count($info['bonus_planned_nefs']);
+                $bonus = array_sum($info['bonus_planned_nefs']);
+                $staffgroups[$staffgroup][$person_number]['bonus_planned_nefs'] = $bonus + $missing_months;
+            }
+        }
     }
 
     public static function sortTableBy($column, $body, $year)

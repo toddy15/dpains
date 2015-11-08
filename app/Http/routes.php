@@ -49,3 +49,5 @@ Route::get('/{hash?}', 'AnonController@homepage');
 Route::get('anon/logout/{hash}', 'AnonController@logout');
 Route::get('anon/episodes/{hash}', 'AnonController@showEpisodes');
 Route::post('anon/newHash', 'AnonController@requestNewHashPerMail');
+Route::get('anon/{year}/{hash}', 'AnonController@showYear')
+    ->where(['year' => '[0-9]+']);
