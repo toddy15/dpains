@@ -93,7 +93,7 @@ class AnonController extends Controller
             $readable_worked_month = Carbon::parse($worked_month)->formatLocalized('%B %Y');
         }
         $tables = Helper::getTablesForYear($request, $year, $worked_month, $employee->id);
-        return view('reports.show_year', compact('hash', 'year',
+        return view('anon.show_year', compact('hash', 'year',
             'readable_planned_month', 'readable_worked_month', 'tables'));
     }
 

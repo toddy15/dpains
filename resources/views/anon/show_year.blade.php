@@ -12,18 +12,18 @@
         <h3>{{ $staffgroup }}</h3>
         <table class="table table-striped">
             <thead>
-                <th>{!! $helper->sortTableBy('name', 'Name', $year) !!}</th>
-                <th>{!! $helper->sortTableBy('worked_nights', 'Gearb. Nächte', $year) !!}</th>
-                <th>{!! $helper->sortTableBy('planned_nights', 'Gepl. Nächte', $year) !!}</th>
-                <th>{!! $helper->sortTableBy('diff_planned_nights', 'Abweichung', $year) !!}</th>
-                <th>{!! $helper->sortTableBy('worked_nefs', 'Gearb. NEF', $year) !!}</th>
-                <th>{!! $helper->sortTableBy('planned_nefs', 'Gepl. NEF', $year) !!}</th>
-                <th>{!! $helper->sortTableBy('diff_planned_nefs', 'Abweichung', $year) !!}</th>
+                <th>Name</th>
+                <th>Gearb. Nächte</th>
+                <th>Gepl. Nächte</th>
+                <th>{!! $helper->sortTableBy('diff_planned_nights', 'Abweichung', $year, $hash) !!}</th>
+                <th>Gearb. NEF</th>
+                <th>Gepl. NEF</th>
+                <th>{!! $helper->sortTableBy('diff_planned_nefs', 'Abweichung', $year, $hash) !!}</th>
             </thead>
             <tbody>
                 @foreach($table as $rows)
                     @foreach($rows as $row)
-                        <tr>
+                        <tr {!! isset($row->highlight_row) ? 'class="info"' : '' !!}>
                             <td>{{ $row->name }}</td>
                             <td>{{ $row->worked_nights }}</td>
                             <td>{{ $row->planned_nights }}</td>

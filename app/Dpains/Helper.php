@@ -326,11 +326,15 @@ class Helper
         }
     }
 
-    public static function sortTableBy($column, $body, $year)
+    public static function sortTableBy($column, $body, $year, $hash='')
     {
         // Provide default values, if the parameters are not set
         $currentColumn = Request::get('sort') ?: 'name';
         $currentDirection = Request::get('direction') ?: 'asc';
+        // If the hash is given, use anonymous access and another default
+        if ($hash) {
+            $currentColumn = Request::get('sort') ?: 'diff_planned_nights';
+        }
         // Flip direction if clicked on same header
         $direction = ($currentDirection == 'asc') ? 'desc' : 'asc';
         // Always use ascending direction if a new column is selected
@@ -340,6 +344,10 @@ class Helper
         // Create link
         $link = link_to_action('ReportController@showYear', $body,
             ['year' => $year, 'sort' => $column, 'direction' => $direction]);
+        if ($hash) {
+            $link = link_to_action('AnonController@showYear', $body,
+                ['year' => $year, 'hash' => $hash, 'sort' => $column, 'direction' => $direction]);
+        }
         // Append arrows to the current sorted column
         if ($column == $currentColumn) {
             if ($currentDirection == 'asc') {
