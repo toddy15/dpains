@@ -6,7 +6,7 @@
 
     @if ($hash)
         <!-- Show logout button -->
-        <a role="button" class="btn btn-default" href="{{ action('AnonController@logout') }}">Abmelden</a>
+        <a role="button" class="btn btn-default" href="{{ action('AnonController@logout', $hash) }}">Abmelden</a>
     @else
         <p>
             Um Zugriff auf die Auswertungen der Dienste zu bekommen,

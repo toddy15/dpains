@@ -21,9 +21,21 @@ class AnonController extends Controller
         return view('homepage', compact('hash'));
     }
 
-    public function logout()
+    /**
+     * Logout current user by disabling the hash
+     *
+     * @param string $hash
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function logout($hash)
     {
-        return "TODO.";
+        // Remove the currently valid hash
+        $employee = Employee::where('hash', $hash)->first();
+        if ($employee) {
+            $employee->hash = str_random();
+            $employee->save();
+        }
+        return redirect(url('/'));
     }
 
     /**

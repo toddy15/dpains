@@ -47,6 +47,6 @@ Route::group(['middleware' => 'auth'], function () {
  */
 
 Route::get('/{hash?}', 'AnonController@homepage');
-Route::get('anon/logout', 'AnonController@logout');
+Route::get('anon/logout/{hash}', 'AnonController@logout');
 Route::get('anon/episodes/{hash}', 'AnonController@showEpisodes');
 Route::post('anon/newHash', 'AnonController@requestNewHashPerMail');
