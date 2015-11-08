@@ -115,7 +115,8 @@ class AnonController extends Controller
         $employee->hash = str_random();
         $employee->save();
         // Send the mail
-        $url = action('AnonController@showEpisodes', $employee->hash);
+        // @TODO: Do not hardcode
+        $url = action('AnonController@showYear', 2015, $employee->hash);
         Mail::queue(['text' => 'emails.new_hash'], compact('url'), function ($m) use ($employee) {
             $m->from('webmaster@dienstplan-an.de', 'Webmaster');
             $m->to($employee->email);

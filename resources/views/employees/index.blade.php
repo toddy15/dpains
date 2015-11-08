@@ -17,6 +17,8 @@
                 <td>
                     <a class="btn btn-primary"
                        href="{{ action('EmployeeController@edit', $employee->id) }}">Bearbeiten</a>
+                    <a class="btn btn-primary"
+                       href="{{ action('EmployeeController@showEpisodes', $employee->id) }}">Einträge</a>
                 </td>
             </tr>
         @endforeach
