@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ action('AnonController@homepage', $hash) }}">Home</a>
+            <a class="navbar-brand" href="{{ action('AnonController@homepage', isset($hash) ?: '') }}">Home</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -27,7 +27,7 @@
                             <li {!! Request::is('employee') ? 'class="active"' : '' !!}><a href="{{ url('employee') }}">Mitarbeiter</a></li>
                             <li {!! Request::is('comment') ? 'class="active"' : '' !!}><a href="{{ url('comment') }}">Bemerkungen</a></li>
                             <li {!! Request::is('staffgroup') ? 'class="active"' : '' !!}><a href="{{ url('staffgroup') }}">Mitarbeitergruppen</a></li>
-                            <li><a href="{{ url('month/' . date('Y/m')) }}">Monatsübersichten</a></li>
+                            <li><a href="{{ url('employee/month/' . date('Y/m')) }}">Monatsübersichten</a></li>
                         </ul>
                     </li>
                 @endunless

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Dpains\Helper;
 use App\Employee;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -62,5 +64,29 @@ class EmployeeController extends Controller
         $episodes = $employee->episodes()->orderBy('start_date')->get();
         $latest_name = $employee->name;
         return view('employees.show_episodes', compact('episodes', 'id', 'latest_name'));
+    }
+
+    /**
+     * Show the employees working in the given month with their
+     * calculated night shifts and nef shifts.
+     *
+     * @param $year
+     * @param $month
+     * @return mixed
+     */
+    public function showMonth($year, $month)
+    {
+        $formatted_month = Helper::validateAndFormatDate($year, $month);
+        // Get all episodes valid in this month
+        $episodes = Helper::getPeopleForMonth($formatted_month);
+        // Get all changes in this month
+        $episode_changes = Helper::getChangesForMonth($formatted_month);
+        // Set up a readable month name
+        $readable_month = Carbon::createFromDate($year, $month)->formatLocalized('%B %Y');
+        // Generate the next and previous month urls
+        $next_month_url = Helper::getNextMonthUrl('employee/month/', $year, $month);
+        $previous_month_url = Helper::getPreviousMonthUrl('employee/month/', $year, $month);
+        return view('employees.show_month', compact('episode_changes', 'episodes',
+            'readable_month', 'next_month_url', 'previous_month_url'));
     }
 }
