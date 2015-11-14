@@ -16,7 +16,7 @@ class Helper
      *
      * @var int
      */
-    public static $firstYear = 2015;
+    public static $firstYear = 2016;
 
     /**
      * Validates the given year and month, returning a formatted
