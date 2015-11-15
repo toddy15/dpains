@@ -14,14 +14,14 @@ class CreateEpisodesTable extends Migration
     {
         Schema::create('episodes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('number');
+            $table->integer('employee_id')->references('id')->on('employees');
             $table->string('name');
             $table->string('start_date');
-            $table->integer('staffgroup_id')->references('id')->on('staffgroups');;
+            $table->integer('staffgroup_id')->references('id')->on('staffgroups');
             $table->decimal('vk', 4, 3);
             $table->decimal('factor_night', 4, 3);
             $table->decimal('factor_nef', 4, 3);
-            $table->integer('comment_id')->references('id')->on('comments');;
+            $table->integer('comment_id')->references('id')->on('comments');
             $table->timestamps();
         });
     }

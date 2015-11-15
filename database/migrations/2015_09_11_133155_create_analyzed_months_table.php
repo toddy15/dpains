@@ -14,10 +14,10 @@ class CreateAnalyzedMonthsTable extends Migration
     {
         Schema::create('analyzed_months', function (Blueprint $table) {
             $table->string('month', 7);
-            $table->integer('number');
+            $table->integer('employee_id')->references('id')->on('employees');
             $table->integer('nights');
             $table->integer('nefs');
-            $table->primary(['month', 'number']);
+            $table->primary(['month', 'employee_id']);
         });
     }
 
