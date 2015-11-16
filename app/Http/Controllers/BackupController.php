@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Employee;
 use App\Episode;
+use App\Rawplan;
 use App\Staffgroup;
 use Illuminate\Http\Request;
 
@@ -32,6 +33,9 @@ class BackupController extends Controller
         header('Content-Disposition: attachment;filename=dpains-backup.csv');
 
         $handle = fopen('php://output', 'w');
+
+        // Write header in first line
+        fputs($handle, "# Backup data for dpains\n");
 
         // Export staffgroups
         fputs($handle, "#\n# Table: staffgroups\n");
@@ -89,6 +93,20 @@ class BackupController extends Controller
             fputcsv($handle, $entry->toArray());
         }
 
+        // Export rawplans
+        fputs($handle, "#\n# Table: rawplans\n");
+        $show_fields = true;
+        $entries = Rawplan::all();
+        foreach ($entries as $entry) {
+            // Show fields upon first iteration
+            if ($show_fields) {
+                $fields = array_keys($entry->getAttributes());
+                fputs($handle, "# Fields: " . implode(', ', $fields) . "\n#\n");
+                $show_fields = false;
+            }
+            fputcsv($handle, $entry->toArray());
+        }
+
         fclose($handle);
     }
 
@@ -109,11 +127,19 @@ class BackupController extends Controller
             return redirect(action('BackupController@index'));
         }
 
+        // Minimal safety net before erasing all tables
+        $first_line = trim(fgets($handle));
+        if ($first_line != "# Backup data for dpains") {
+            $request->session()->flash('danger', 'Die Backup-Datei hat kein gültiges Format.');
+            return redirect(action('BackupController@index'));
+        }
+
         // Delete tables
         DB::table('staffgroups')->truncate();
         DB::table('comments')->truncate();
         DB::table('employees')->truncate();
         DB::table('episodes')->truncate();
+        DB::table('rawplans')->truncate();
 
         // Read in the file line by line
         $table = '';
