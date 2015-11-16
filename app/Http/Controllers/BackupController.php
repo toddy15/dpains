@@ -37,77 +37,32 @@ class BackupController extends Controller
         // Write header in first line
         fputs($handle, "# Backup data for dpains\n");
 
-        // Export staffgroups
-        fputs($handle, "#\n# Table: staffgroups\n");
-        $show_fields = true;
-        $entries = Staffgroup::all();
-        foreach ($entries as $entry) {
-            // Show fields upon first iteration
-            if ($show_fields) {
-                $fields = array_keys($entry->getAttributes());
-                fputs($handle, "# Fields: " . implode(', ', $fields) . "\n#\n");
-                $show_fields = false;
-            }
-            fputcsv($handle, $entry->toArray());
-        }
-
-        // Export comments
-        fputs($handle, "#\n# Table: comments\n");
-        $show_fields = true;
-        $entries = Comment::all();
-        foreach ($entries as $entry) {
-            // Show fields upon first iteration
-            if ($show_fields) {
-                $fields = array_keys($entry->getAttributes());
-                fputs($handle, "# Fields: " . implode(', ', $fields) . "\n#\n");
-                $show_fields = false;
-            }
-            fputcsv($handle, $entry->toArray());
-        }
-
-        // Export employees
-        fputs($handle, "#\n# Table: employees\n");
-        $show_fields = true;
-        $entries = Employee::all();
-        foreach ($entries as $entry) {
-            // Show fields upon first iteration
-            if ($show_fields) {
-                $fields = array_keys($entry->getAttributes());
-                fputs($handle, "# Fields: " . implode(', ', $fields) . "\n#\n");
-                $show_fields = false;
-            }
-            fputcsv($handle, $entry->toArray());
-        }
-
-        // Export episodes
-        fputs($handle, "#\n# Table: episodes\n");
-        $show_fields = true;
-        $entries = Episode::all();
-        foreach ($entries as $entry) {
-            // Show fields upon first iteration
-            if ($show_fields) {
-                $fields = array_keys($entry->getAttributes());
-                fputs($handle, "# Fields: " . implode(', ', $fields) . "\n#\n");
-                $show_fields = false;
-            }
-            fputcsv($handle, $entry->toArray());
-        }
-
-        // Export rawplans
-        fputs($handle, "#\n# Table: rawplans\n");
-        $show_fields = true;
-        $entries = Rawplan::all();
-        foreach ($entries as $entry) {
-            // Show fields upon first iteration
-            if ($show_fields) {
-                $fields = array_keys($entry->getAttributes());
-                fputs($handle, "# Fields: " . implode(', ', $fields) . "\n#\n");
-                $show_fields = false;
-            }
-            fputcsv($handle, $entry->toArray());
-        }
+        // Export tables
+        $this->exportTable($handle, 'staffgroups', Staffgroup::all());
+        $this->exportTable($handle, 'comments', Comment::all());
+        $this->exportTable($handle, 'employees', Employee::all());
+        $this->exportTable($handle, 'episodes', Episode::all());
+        $this->exportTable($handle, 'rawplans', Rawplan::all());
 
         fclose($handle);
+    }
+
+    /**
+     * Helper method to expert all data from a table
+     */
+    private function exportTable($handle, $table, $entries)
+    {
+        fputs($handle, "#\n# Table: $table\n");
+        $show_fields = true;
+        foreach ($entries as $entry) {
+            // Show fields upon first iteration
+            if ($show_fields) {
+                $fields = array_keys($entry->getAttributes());
+                fputs($handle, "# Fields: " . implode(', ', $fields) . "\n#\n");
+                $show_fields = false;
+            }
+            fputcsv($handle, $entry->toArray());
+        }
     }
 
     /**
