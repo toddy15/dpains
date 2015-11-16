@@ -28,6 +28,7 @@
                             <li {!! Request::is('comment') ? 'class="active"' : '' !!}><a href="{{ url('comment') }}">Bemerkungen</a></li>
                             <li {!! Request::is('staffgroup') ? 'class="active"' : '' !!}><a href="{{ url('staffgroup') }}">Mitarbeitergruppen</a></li>
                             <li><a href="{{ url('employee/month/' . date('Y/m')) }}">Monatsübersichten</a></li>
+                            <li {!! Request::is('backup') ? 'class="active"' : '' !!}><a href="{{ url('backup') }}">Backup</a></li>
                         </ul>
                     </li>
                 @endunless

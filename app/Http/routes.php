@@ -40,8 +40,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('report/{year}', 'ReportController@showYear')
         ->where(['year' => '[0-9]+']);
 
+    Route::get('backup', 'BackupController@index');
     Route::get('backup/download', 'BackupController@download');
-    Route::get('backup/restore', 'BackupController@restore');
+    Route::post('backup/restore', 'BackupController@restore');
 });
 
 /*
