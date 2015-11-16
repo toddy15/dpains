@@ -61,7 +61,11 @@ class BackupController extends Controller
                 fputs($handle, "# Fields: " . implode(', ', $fields) . "\n#\n");
                 $show_fields = false;
             }
-            fputcsv($handle, $entry->toArray());
+            // Escape line ends
+            $values = array_map(function ($a) {
+                return str_replace(["\r\n", "\n", "\r"], '\n', $a);
+            }, $entry->toArray());
+            fputcsv($handle, $values);
         }
     }
 
@@ -115,7 +119,10 @@ class BackupController extends Controller
                 }
                 continue;
             }
-            $entry = str_getcsv($line);
+            // Insert line ends
+            $entry = array_map(function ($a) {
+                return str_replace('\n', "\n", $a);
+            }, str_getcsv($line));
             $db_entry = array_combine($fields, $entry);
             DB::table($table)->insert($db_entry);
         }
