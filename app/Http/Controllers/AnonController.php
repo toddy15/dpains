@@ -31,12 +31,16 @@ class AnonController extends Controller
      */
     public function logout($hash)
     {
-        // Remove the currently valid hash
         $employee = Employee::where('hash', $hash)->first();
-        if ($employee) {
-            $employee->hash = str_random();
-            $employee->save();
+        // Feedback if there is no such hash
+        if (!$employee) {
+            $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
+            return redirect(url('/'));
         }
+        // Remove the currently valid hash
+        $employee->hash = str_random();
+        $employee->save();
+        $request->session()->flash('info', 'Du wurdest abgemeldet.');
         return redirect(url('/'));
     }
 
