@@ -18,22 +18,24 @@
             Die Domain @dienstplan-an.de muss nicht eingegeben werden.
         </p>
 
-        {!! Form::open(['action' => 'AnonController@requestNewHashPerMail']) !!}
+        <div class="text-center">
+            {!! Form::open(['action' => 'AnonController@requestNewHashPerMail', 'class' => 'form-inline']) !!}
 
-        <!-- E-Mail Form Input  -->
-        <div class="form-group">
-            {!! Form::label('email', 'E-Mail:', ['class' => 'control-label']) !!}
-            <div class="input-group">
-                {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'name', 'autofocus' => 'autofocus', 'aria-describedby' => 'domain-addon']) !!}
-                <span class="input-group-addon" id="domain-addon">@dienstplan-an.de</span>
+            <!-- E-Mail Form Input  -->
+            <div class="form-group {{ $errors->has('email') ? 'has-error has-feedback' : '' }}">
+                {!! Form::label('email', 'E-Mail:', ['class' => 'control-label']) !!}
+                <div class="input-group">
+                    {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'name', 'autofocus' => 'autofocus', 'aria-describedby' => 'domain-addon']) !!}
+                    <span class="input-group-addon" id="domain-addon">@dienstplan-an.de</span>
+                </div>
             </div>
-        </div>
 
-        <!-- Send Form -->
-        <div class="form-group text-center">
-            {!! Form::submit('Freischalten', ['class' => 'btn btn-primary']) !!}
-        </div>
+            <!-- Send Form -->
+            <div class="form-group">
+                {!! Form::submit('Freischalten', ['class' => 'btn btn-primary']) !!}
+            </div>
 
-        {!! Form::close() !!}
+            {!! Form::close() !!}
+        </div>
     @endif
 @endsection
