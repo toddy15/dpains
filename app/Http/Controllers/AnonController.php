@@ -18,8 +18,16 @@ class AnonController extends Controller
      * @param string $hash
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function homepage($hash = '')
+    public function homepage(Request $request, $hash = '')
     {
+        if (!empty($hash)) {
+            $employee = Employee::where('hash', $hash)->first();
+            // Feedback if there is no such hash
+            if (!$employee) {
+                $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
+                $hash = '';
+            }
+        }
         return view('homepage', compact('hash'));
     }
 
@@ -29,7 +37,7 @@ class AnonController extends Controller
      * @param string $hash
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function logout($hash)
+    public function logout(Request $request, $hash)
     {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
