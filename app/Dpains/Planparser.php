@@ -118,7 +118,7 @@ class Planparser
         $expected_names = Helper::getNamesForMonth($this->formattedMonth);
         $database_rows = [];
         foreach ($this->parsedNames as $id => $name) {
-            $person_number = array_search($name, $expected_names);
+            $person_id = array_search($name, $expected_names);
             $shifts = $this->calculateShifts($this->parsedShifts[$id]);
             if (!is_array($shifts)) {
                 // Clean all previously parsed results.
@@ -128,7 +128,7 @@ class Planparser
             }
             $database_rows[] = [
                 'month' => $this->formattedMonth,
-                'number' => $person_number,
+                'employee_id' => $person_id,
                 'nights' => $shifts['nights'],
                 'nefs' => $shifts['nefs'],
             ];
