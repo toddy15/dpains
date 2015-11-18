@@ -116,9 +116,8 @@ class AnonController extends Controller
         $employee->save();
         // Send the mail
         // @TODO: Do not hardcode
-        $url = action('AnonController@showYear', 2015, $employee->hash);
+        $url = action('AnonController@showYear', 2016, $employee->hash);
         Mail::queue(['text' => 'emails.new_hash'], compact('url'), function ($m) use ($employee) {
-            $m->from('webmaster@dienstplan-an.de', 'Webmaster');
             $m->to($employee->email);
             $m->subject('Neuer Zugriffscode für www.dienstplan-an.de');
         });
