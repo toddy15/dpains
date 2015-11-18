@@ -79,6 +79,7 @@ class EmployeeController extends Controller
         $formatted_month = Helper::validateAndFormatDate($year, $month);
         // Get all episodes valid in this month
         $episodes = Helper::getPeopleForMonth($formatted_month);
+        $vk = Helper::getVKFromEpisodes($episodes);
         // Get all changes in this month
         $episode_changes = Helper::getChangesForMonth($formatted_month);
         // Set up a readable month name
@@ -86,7 +87,7 @@ class EmployeeController extends Controller
         // Generate the next and previous month urls
         $next_month_url = Helper::getNextMonthUrl('employee/month/', $year, $month);
         $previous_month_url = Helper::getPreviousMonthUrl('employee/month/', $year, $month);
-        return view('employees.show_month', compact('episode_changes', 'episodes',
+        return view('employees.show_month', compact('episode_changes', 'episodes', 'vk',
             'readable_month', 'next_month_url', 'previous_month_url'));
     }
 }
