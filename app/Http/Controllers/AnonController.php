@@ -106,9 +106,13 @@ class AnonController extends Controller
      */
     public function requestNewHashPerMail(Request $request) {
         $this->validate($request, [
-            'email' => 'required|email'
+            'email' => 'required'
         ]);
-        $email = $request->get('email');
+        $email = trim($request->get('email'));
+        // Append the domain, if necessary
+        if (!str_contains($email, '@')) {
+            $email .= '@dienstplan-an.de';
+        }
         $employee = Employee::where('email', $email)->first();
         // Feedback if there is no such mail
         if (!$employee) {

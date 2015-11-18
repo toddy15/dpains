@@ -14,13 +14,19 @@
             Feld die E-Mail-Adresse eintragen und einen neuen
             Zugriffscode anfordern.
         </p>
+        <p>
+            Die Domain @dienstplan-an.de muss nicht eingegeben werden.
+        </p>
 
         {!! Form::open(['action' => 'AnonController@requestNewHashPerMail']) !!}
 
         <!-- E-Mail Form Input  -->
         <div class="form-group">
             {!! Form::label('email', 'E-Mail:', ['class' => 'control-label']) !!}
-            {!! Form::email('email', null, ['class' => 'form-control', 'placeholder' => 'name@dienstplan-an.de']) !!}
+            <div class="input-group">
+                {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'name', 'autofocus' => 'autofocus', 'aria-describedby' => 'domain-addon']) !!}
+                <span class="input-group-addon" id="domain-addon">@dienstplan-an.de</span>
+            </div>
         </div>
 
         <!-- Send Form -->
