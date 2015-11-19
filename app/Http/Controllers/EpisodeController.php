@@ -47,10 +47,10 @@ class EpisodeController extends Controller
         // Get the staffgroups for the select box
         $staffgroups = Staffgroup::all()->sortBy('weight')
             ->lists('staffgroup', 'id')->toArray();
-        // Allow from the beginning of database storage
-        $start_year = Helper::$firstYear;
-        // ... to next year
-        $end_year = date('Y') + 1;
+        // Allow from the beginning of database storage or some years back
+        $start_year = max(Helper::$firstYear, date('Y') - 3);
+        // ... to some years ahead
+        $end_year = date('Y') + 3;
         // Turn the start_date field into year and month for the form
         list($episode->year, $episode->month) = explode('-', $episode->start_date);
         return view('episodes.create', compact(
