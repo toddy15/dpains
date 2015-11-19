@@ -69,6 +69,8 @@ class RawplanController extends Controller
         $month = Helper::validateAndFormatDate($request->get('year'), $request->get('month'));
         $planparser = new Planparser($month, $request->all());
         // Extend with custom validation rules
+        // In the first attempt to validate, check for
+        // recognized people and shifts.
         $validator->after(function($validator) use ($planparser) {
             // Check that the given people match the expected people.
             $error_messages = $planparser->validatePeople();
@@ -80,6 +82,15 @@ class RawplanController extends Controller
             foreach ($error_messages as $error_message) {
                 $validator->errors()->add('shifts', $error_message);
             }
+        });
+        // Determine whether there was an error.
+        if ($validator->fails()) {
+            return redirect(action('RawplanController@create'))
+                ->withErrors($validator)
+                ->withInput();
+        }
+        // No error so far, so try to store the shifts.
+        $validator->after(function($validator) use ($planparser) {
             // Parse the plan and save it.
             $error_message = $planparser->storeShiftsForPeople();
             if (!empty($error_message)) {

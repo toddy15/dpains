@@ -27,8 +27,8 @@ class Planparser
         $this->formattedMonth = $formattedMonth;
         // Ensure that there is data for names and shifts.
         if (!empty($rawInput)) {
-            $this->rawNames = $rawInput['people'];
-            $this->rawShifts = $rawInput['shifts'];
+            $this->rawNames = trim($rawInput['people'], "\r\n");
+            $this->rawShifts = trim($rawInput['shifts'], "\r\n");
         }
         else {
             $rawplan = Rawplan::where('month', $this->formattedMonth)->first();
