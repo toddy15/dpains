@@ -136,22 +136,6 @@ class Helper
     }
 
     /**
-     * @param $episodes
-     */
-    public static function getVKFromEpisodes($episodes)
-    {
-        $vk['all'] = 0;
-        $vk['night'] = 0;
-        $vk['nef'] = 0;
-        foreach ($episodes as $episode) {
-            $vk['all'] += $episode->vk;
-            $vk['night'] += $episode->vk * $episode->factor_night;
-            $vk['nef'] += $episode->vk * $episode->factor_nef;
-        }
-        return $vk;
-    }
-
-    /**
      * Returns all people with changes in the given month.
      *
      * @param $month
