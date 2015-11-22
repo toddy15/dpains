@@ -16,8 +16,12 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Auswertungen <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{ url('report/2016') }}">Jahre</a></li>
+                            <li><a href="{{ url('report/2016/01') }}">Monate</a></li>
+                            {{-- @TODO: Change back to dynamic routes
                             <li><a href="{{ url('report/' . date('Y')) }}">Jahre</a></li>
                             <li><a href="{{ url('report/' . date('Y/m')) }}">Monate</a></li>
+                            --}}
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -27,8 +31,12 @@
                             <li {!! Request::is('employee') ? 'class="active"' : '' !!}><a href="{{ url('employee') }}">Mitarbeiter</a></li>
                             <li {!! Request::is('comment') ? 'class="active"' : '' !!}><a href="{{ url('comment') }}">Bemerkungen</a></li>
                             <li {!! Request::is('staffgroup') ? 'class="active"' : '' !!}><a href="{{ url('staffgroup') }}">Mitarbeitergruppen</a></li>
+                            <li><a href="{{ url('employee/month/2016/01') }}">Monatsübersichten</a></li>
+                            <li><a href="{{ url('employee/vk/2016') }}">Jahresübersichten VK</a></li>
+                            {{-- @TODO: Change back to dynamic routes
                             <li><a href="{{ url('employee/month/' . date('Y/m')) }}">Monatsübersichten</a></li>
                             <li><a href="{{ url('employee/vk/' . date('Y')) }}">Jahresübersichten VK</a></li>
+                            --}}
                             <li {!! Request::is('backup') ? 'class="active"' : '' !!}><a href="{{ url('backup') }}">Backup</a></li>
                         </ul>
                     </li>
