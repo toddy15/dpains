@@ -66,13 +66,6 @@
                 <td><a class="btn btn-primary" href="{{ action('EmployeeController@showEpisodes', $episode->employee_id) }}">Bearbeiten</a></td>
             </tr>
         @endforeach
-        <tr class="success">
-            <td colspan="3">Summen</td>
-            <td>{{ $vk['all'] }}</td>
-            <td>{{ $vk['night'] }}</td>
-            <td>{{ $vk['nef'] }}</td>
-            <td colspan="2"></td>
-        </tr>
         </tbody>
     </table>
 @endsection
