@@ -104,6 +104,7 @@ class EmployeeController extends Controller
         $employees = [];
         $months = [];
         $employee_info = [];
+        $vk_per_month = array_fill(1, 12, 0);
         for ($month = 1; $month <= 12; $month++) {
             $formatted_month = Helper::validateAndFormatDate($year, $month);
             // Get all episodes valid in this month
@@ -123,7 +124,16 @@ class EmployeeController extends Controller
                     'staffgroup' => $episode->staffgroup,
                     'weight' => $episode->weight,
                 ];
+                // Store the VK for the current month
                 $months[$episode->employee_id][$month]['vk'] = $episode->vk;
+                // Mark changes
+                if ($month > 1) {
+                    if ($months[$episode->employee_id][$month - 1]['vk'] != $episode->vk) {
+                        $months[$episode->employee_id][$month]['changed'] = true;
+                    }
+                }
+                // Sum up for the month
+                $vk_per_month[$month] += $episode->vk;
             }
         }
         // Merge the final array for display
@@ -137,6 +147,6 @@ class EmployeeController extends Controller
             ];
         }
         ksort($employees, SORT_NATURAL);
-        return view('employees.show_vk_for_year', compact('employees', 'year'));
+        return view('employees.show_vk_for_year', compact('year', 'employees', 'vk_per_month'));
     }
 }

@@ -26,10 +26,16 @@
                 <td>{{ $employee['name'] }}</td>
                 <td>{{ $employee['staffgroup'] }}</td>
                 @for ($month = 1; $month <= 12; $month++)
-                    <td>{{ $employee['months'][$month]['vk'] }}</td>
+                    <td {!! $employee['months'][$month]['changed'] ? 'class="info"' : '' !!}>{{ $employee['months'][$month]['vk'] }}</td>
                 @endfor
             </tr>
         @endforeach
+            <tr class="success">
+                <td colspan="2"><strong>Summe</strong></td>
+                @for ($month = 1; $month <= 12; $month++)
+                    <td><strong>{{ $vk_per_month[$month] }}</strong></td>
+                @endfor
+            </tr>
         </tbody>
     </table>
 @endsection
