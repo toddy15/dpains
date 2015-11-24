@@ -86,6 +86,37 @@ class Helper
     }
 
     /**
+     * Generate an URL for the next year.
+     *
+     * @param $prefix
+     * @param $year
+     * @return string
+     */
+    public static function getNextYearUrl($prefix, $year)
+    {
+        $year++;
+        return url($prefix . sprintf('%4d/', $year));
+    }
+
+    /**
+     * Generate an URL for the previous year.
+     *
+     * @param $prefix
+     * @param $year
+     * @return string
+     */
+    public static function getPreviousYearUrl($prefix, $year)
+    {
+        $year--;
+        if ($year < Helper::$firstYear) {
+            return '';
+        }
+        else {
+            return url($prefix . sprintf('%4d/', $year));
+        }
+    }
+
+    /**
      * Return an array of people's names in the given month.
      * The array keys are the people's unique number.
      *

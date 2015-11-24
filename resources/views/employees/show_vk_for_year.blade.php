@@ -2,6 +2,16 @@
 
 @section('content')
     <h1>Übersicht der VK für {{ $year }}</h1>
+    <nav>
+        <ul class="pager">
+            @if (empty($previous_year_url))
+                <li class="previous disabled"><span aria-hidden="true">&larr; Vorheriges Jahr</span></li>
+            @else
+                <li class="previous"><a href="{{ $previous_year_url }}"><span aria-hidden="true">&larr;</span> Vorheriges Jahr</a></li>
+            @endif
+            <li class="next"><a href="{{ $next_year_url }}">Nächstes Jahr <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+    </nav>
     <h2>Mitarbeiter</h2>
     <table class="table table-striped">
         <thead>

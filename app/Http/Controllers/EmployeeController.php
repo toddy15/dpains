@@ -104,6 +104,7 @@ class EmployeeController extends Controller
         $employees = [];
         $months = [];
         $employee_info = [];
+        // Fill the VK sum array from 1 to 12 with 0
         $vk_per_month = array_fill(1, 12, 0);
         for ($month = 1; $month <= 12; $month++) {
             $formatted_month = Helper::validateAndFormatDate($year, $month);
@@ -146,7 +147,12 @@ class EmployeeController extends Controller
                 'months' => $months[$employee_id],
             ];
         }
+        // Sort the array by sorting keys
         ksort($employees, SORT_NATURAL);
-        return view('employees.show_vk_for_year', compact('year', 'employees', 'vk_per_month'));
+        // Generate the next and previous year urls
+        $next_year_url = Helper::getNextYearUrl('employee/vk/', $year);
+        $previous_year_url = Helper::getPreviousYearUrl('employee/vk/', $year);
+        return view('employees.show_vk_for_year', compact('year', 'employees',
+            'vk_per_month', 'next_year_url', 'previous_year_url'));
     }
 }
