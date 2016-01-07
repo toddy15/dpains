@@ -16,12 +16,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Auswertungen <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('report/2016') }}">Jahre</a></li>
-                            <li><a href="{{ url('report/2016/01') }}">Monate</a></li>
-                            {{-- @TODO: Change back to dynamic routes
                             <li><a href="{{ url('report/' . date('Y')) }}">Jahre</a></li>
                             <li><a href="{{ url('report/' . date('Y/m')) }}">Monate</a></li>
-                            --}}
                         </ul>
                     </li>
                     <li class="dropdown">
