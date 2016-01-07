@@ -428,12 +428,12 @@ class Helper
      * Sum up the VK for the given year.
      * With $which_vk, specify the VK calculation: all, nef, night
      *
+     * @param string $which_vk
      * @param $year
      * @param $employees
      * @param $vk_per_month
-     * @param string $which_vk
      */
-    public static function sumUpVKForYear($year, &$employees, &$vk_per_month, $which_vk='all')
+    public static function sumUpVKForYear($which_vk, $year, &$employees, &$vk_per_month)
     {
         // Set up temporary result arrays
         $months = [];

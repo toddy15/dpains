@@ -94,20 +94,21 @@ class EmployeeController extends Controller
      * Show the employees working in the given year with their
      * VK.
      *
+     * @param $which_vk
      * @param $year
      * @return mixed
      */
-    public function showVKForYear($year)
+    public function showVKForYear($which_vk, $year)
     {
         // Set up result array
         $employees = [];
         // Fill the VK sum array from 1 to 12 with 0
         $vk_per_month = array_fill(1, 12, 0);
-        Helper::sumUpVKForYear($year, $employees, $vk_per_month);
+        Helper::sumUpVKForYear($which_vk, $year, $employees, $vk_per_month);
         // Generate the next and previous year urls
-        $next_year_url = Helper::getNextYearUrl('employee/vk/', $year);
-        $previous_year_url = Helper::getPreviousYearUrl('employee/vk/', $year);
-        return view('employees.show_vk_for_year', compact('year', 'employees',
+        $next_year_url = Helper::getNextYearUrl('employee/vk/'. $which_vk . '/', $year);
+        $previous_year_url = Helper::getPreviousYearUrl('employee/vk/'. $which_vk . '/', $year);
+        return view('employees.show_vk_for_year', compact('which_vk', 'year', 'employees',
             'vk_per_month', 'next_year_url', 'previous_year_url'));
     }
 }

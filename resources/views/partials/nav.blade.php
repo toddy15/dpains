@@ -31,12 +31,10 @@
                             <li {!! Request::is('employee') ? 'class="active"' : '' !!}><a href="{{ url('employee') }}">Mitarbeiter</a></li>
                             <li {!! Request::is('comment') ? 'class="active"' : '' !!}><a href="{{ url('comment') }}">Bemerkungen</a></li>
                             <li {!! Request::is('staffgroup') ? 'class="active"' : '' !!}><a href="{{ url('staffgroup') }}">Mitarbeitergruppen</a></li>
-                            <li><a href="{{ url('employee/month/2016/01') }}">Monatsübersichten</a></li>
-                            <li><a href="{{ url('employee/vk/2016') }}">Jahresübersichten VK</a></li>
-                            {{-- @TODO: Change back to dynamic routes
                             <li><a href="{{ url('employee/month/' . date('Y/m')) }}">Monatsübersichten</a></li>
-                            <li><a href="{{ url('employee/vk/' . date('Y')) }}">Jahresübersichten VK</a></li>
-                            --}}
+                            <li><a href="{{ url('employee/vk/all/' . date('Y')) }}">Jahresübersichten VK</a></li>
+                            <li><a href="{{ url('employee/vk/night/' . date('Y')) }}">Jahresübersichten VK Nächte</a></li>
+                            <li><a href="{{ url('employee/vk/nef/' . date('Y')) }}">Jahresübersichten VK NEF</a></li>
                             <li {!! Request::is('backup') ? 'class="active"' : '' !!}><a href="{{ url('backup') }}">Backup</a></li>
                         </ul>
                     </li>

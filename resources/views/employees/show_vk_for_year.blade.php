@@ -1,7 +1,15 @@
 @extends('app')
 
 @section('content')
-    <h1>Übersicht der VK für {{ $year }}</h1>
+    <h1>
+        Übersicht der VK für {{ $year }}
+        @if ($which_vk == 'night')
+            (Nächte)
+        @endif
+        @if ($which_vk == 'nef')
+            (NEF)
+        @endif
+    </h1>
     <nav>
         <ul class="pager">
             @if (empty($previous_year_url))
