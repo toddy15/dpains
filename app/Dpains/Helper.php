@@ -425,15 +425,15 @@ class Helper
     }
 
     /**
-     * Sum up the VK for the given year.
+     * Sum up the VK for the given year, grouped by the staffgroup.
      * With $which_vk, specify the VK calculation: all, nef, night
      *
      * @param string $which_vk
      * @param $year
-     * @param $employees
+     * @param $staffgroups
      * @param $vk_per_month
      */
-    public static function sumUpVKForYear($which_vk, $year, &$employees, &$vk_per_month)
+    public static function sumUpVKForYear($which_vk, $year, &$staffgroups, &$vk_per_month)
     {
         // Set up temporary result arrays
         $months = [];
@@ -443,19 +443,25 @@ class Helper
             // Get all episodes valid in this month
             $episodes = Helper::getPeopleForMonth($formatted_month);
             foreach ($episodes as $episode) {
+                // Reduce staffgroups
+                if ($episode->staffgroup == 'FA' or $episode->staffgroup == 'WB mit Nachtdienst') {
+                    $episode->staffgroup = 'FA und WB mit Nachtdienst';
+                }
+                // Fill the VK sum array from 1 to 12 with 0, if not set
+                if (!isset($vk_per_month[$episode->staffgroup])) {
+                    $vk_per_month[$episode->staffgroup] = array_fill(1, 12, 0);
+                }
                 // Initialize a month array, if not set
-                if (!isset($months[$episode->employee_id])) {
-                    $months[$episode->employee_id] = array_fill(1, 12, [
+                if (!isset($months[$episode->staffgroup][$episode->employee_id])) {
+                    $months[$episode->staffgroup][$episode->employee_id] = array_fill(1, 12, [
                         'vk' => '&ndash;',
                         'changed' => false,
                     ]);
                 }
-                // Always use the last available name and staffgroup, so
+                // Always use the last available name,
                 // overwrite previous information.
-                $employee_info[$episode->employee_id] = [
-                    'name' => $episode->name,
-                    'staffgroup' => $episode->staffgroup,
-                    'weight' => $episode->weight,
+                $employee_info[$episode->staffgroup][$episode->employee_id] = [
+                    'name' => $episode->name
                 ];
                 // Store the VK for the current month
                 $vk = $episode->vk;
@@ -469,28 +475,29 @@ class Helper
                 }
                 // Ensure a nicely formatted VK
                 $vk = sprintf('%.3f', round($vk, 3));
-                $months[$episode->employee_id][$month]['vk'] = $vk;
+                $months[$episode->staffgroup][$episode->employee_id][$month]['vk'] = $vk;
                 // Mark changes
                 if ($month > 1) {
-                    if ($months[$episode->employee_id][$month - 1]['vk'] != $vk) {
-                        $months[$episode->employee_id][$month]['changed'] = true;
+                    if ($months[$episode->staffgroup][$episode->employee_id][$month - 1]['vk'] != $vk) {
+                        $months[$episode->staffgroup][$episode->employee_id][$month]['changed'] = true;
                     }
                 }
                 // Sum up for the month
-                $vk_per_month[$month] += $vk;
+                $vk_per_month[$episode->staffgroup][$month] += $vk;
             }
         }
         // Merge the final array for display
-        foreach ($employee_info as $employee_id => $employee) {
-            // Make sort key for array
-            $sort_key = $employee['weight'] . '_' . $employee['name'];
-            $employees[$sort_key] = [
-                'name' => $employee['name'],
-                'staffgroup' => $employee['staffgroup'],
-                'months' => $months[$employee_id],
-            ];
+        foreach ($employee_info as $staffgroup => $info) {
+            foreach ($info as $employee_id => $employee) {
+                // Make sort key for array
+                $sort_key = $employee['name'];
+                $staffgroups[$staffgroup][$sort_key] = [
+                    'name' => $employee['name'],
+                    'months' => $months[$staffgroup][$employee_id],
+                ];
+            }
+            // Sort the array by sorting keys
+            ksort($staffgroups[$staffgroup], SORT_NATURAL);
         }
-        // Sort the array by sorting keys
-        ksort($employees, SORT_NATURAL);
     }
 }
