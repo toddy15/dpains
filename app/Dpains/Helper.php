@@ -438,6 +438,8 @@ class Helper
         // Set up temporary result arrays
         $months = [];
         $employee_info = [];
+        // Initialize the counter for all VK
+        $vk_per_month['all'] = array_fill(1, 12, 0);
         for ($month = 1; $month <= 12; $month++) {
             $formatted_month = Helper::validateAndFormatDate($year, $month);
             // Get all episodes valid in this month
@@ -483,7 +485,14 @@ class Helper
                     }
                 }
                 // Sum up for the month
-                $vk_per_month[$episode->staffgroup][$month] += $vk;
+                $vk_per_month[$episode->staffgroup][$month] += (float) $vk;
+                $vk_per_month['all'][$month] += (float) $vk;
+            }
+        }
+        // Format the 'all' counter nicely
+        foreach ($vk_per_month as $staffgroup => $sums) {
+            for ($month = 1; $month <= 12; $month++) {
+                $vk_per_month[$staffgroup][$month] = sprintf('%.3f', $vk_per_month[$staffgroup][$month]);
             }
         }
         // Merge the final array for display
