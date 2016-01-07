@@ -423,4 +423,74 @@ class Helper
             return Rawplan::whereRaw('left(updated_at, 7) > month')->max('month');
         }
     }
+
+    /**
+     * Sum up the VK for the given year.
+     * With $which_vk, specify the VK calculation: all, nef, night
+     *
+     * @param $year
+     * @param $employees
+     * @param $vk_per_month
+     * @param string $which_vk
+     */
+    public static function sumUpVKForYear($year, &$employees, &$vk_per_month, $which_vk='all')
+    {
+        // Set up temporary result arrays
+        $months = [];
+        $employee_info = [];
+        for ($month = 1; $month <= 12; $month++) {
+            $formatted_month = Helper::validateAndFormatDate($year, $month);
+            // Get all episodes valid in this month
+            $episodes = Helper::getPeopleForMonth($formatted_month);
+            foreach ($episodes as $episode) {
+                // Initialize a month array, if not set
+                if (!isset($months[$episode->employee_id])) {
+                    $months[$episode->employee_id] = array_fill(1, 12, [
+                        'vk' => '&ndash;',
+                        'changed' => false,
+                    ]);
+                }
+                // Always use the last available name and staffgroup, so
+                // overwrite previous information.
+                $employee_info[$episode->employee_id] = [
+                    'name' => $episode->name,
+                    'staffgroup' => $episode->staffgroup,
+                    'weight' => $episode->weight,
+                ];
+                // Store the VK for the current month
+                $vk = $episode->vk;
+                switch ($which_vk) {
+                    case 'night':
+                        $vk = $episode->vk * $episode->factor_night;
+                        break;
+                    case 'nef':
+                        $vk = $episode->vk * $episode->factor_nef;
+                        break;
+                }
+                // Ensure a nicely formatted VK
+                $vk = sprintf('%.3f', round($vk, 3));
+                $months[$episode->employee_id][$month]['vk'] = $vk;
+                // Mark changes
+                if ($month > 1) {
+                    if ($months[$episode->employee_id][$month - 1]['vk'] != $vk) {
+                        $months[$episode->employee_id][$month]['changed'] = true;
+                    }
+                }
+                // Sum up for the month
+                $vk_per_month[$month] += $vk;
+            }
+        }
+        // Merge the final array for display
+        foreach ($employee_info as $employee_id => $employee) {
+            // Make sort key for array
+            $sort_key = $employee['weight'] . '_' . $employee['name'];
+            $employees[$sort_key] = [
+                'name' => $employee['name'],
+                'staffgroup' => $employee['staffgroup'],
+                'months' => $months[$employee_id],
+            ];
+        }
+        // Sort the array by sorting keys
+        ksort($employees, SORT_NATURAL);
+    }
 }

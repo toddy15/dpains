@@ -95,60 +95,15 @@ class EmployeeController extends Controller
      * VK.
      *
      * @param $year
-     * @param $month
      * @return mixed
      */
     public function showVKForYear($year)
     {
-        // Set up some temporary result arrays
+        // Set up result array
         $employees = [];
-        $months = [];
-        $employee_info = [];
         // Fill the VK sum array from 1 to 12 with 0
         $vk_per_month = array_fill(1, 12, 0);
-        for ($month = 1; $month <= 12; $month++) {
-            $formatted_month = Helper::validateAndFormatDate($year, $month);
-            // Get all episodes valid in this month
-            $episodes = Helper::getPeopleForMonth($formatted_month);
-            foreach ($episodes as $episode) {
-                // Initialize a month array, if not set
-                if (!isset($months[$episode->employee_id])) {
-                    $months[$episode->employee_id] = array_fill(1, 12, [
-                        'vk' => '&ndash;',
-                        'changed' => false,
-                    ]);
-                }
-                // Always use the last available name and staffgroup, so
-                // overwrite previous information.
-                $employee_info[$episode->employee_id] = [
-                    'name' => $episode->name,
-                    'staffgroup' => $episode->staffgroup,
-                    'weight' => $episode->weight,
-                ];
-                // Store the VK for the current month
-                $months[$episode->employee_id][$month]['vk'] = $episode->vk;
-                // Mark changes
-                if ($month > 1) {
-                    if ($months[$episode->employee_id][$month - 1]['vk'] != $episode->vk) {
-                        $months[$episode->employee_id][$month]['changed'] = true;
-                    }
-                }
-                // Sum up for the month
-                $vk_per_month[$month] += $episode->vk;
-            }
-        }
-        // Merge the final array for display
-        foreach ($employee_info as $employee_id => $employee) {
-            // Make sort key for array
-            $sort_key = $employee['weight'] . '_' . $employee['name'];
-            $employees[$sort_key] = [
-                'name' => $employee['name'],
-                'staffgroup' => $employee['staffgroup'],
-                'months' => $months[$employee_id],
-            ];
-        }
-        // Sort the array by sorting keys
-        ksort($employees, SORT_NATURAL);
+        Helper::sumUpVKForYear($year, $employees, $vk_per_month);
         // Generate the next and previous year urls
         $next_year_url = Helper::getNextYearUrl('employee/vk/', $year);
         $previous_year_url = Helper::getPreviousYearUrl('employee/vk/', $year);
