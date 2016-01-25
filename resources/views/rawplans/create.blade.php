@@ -15,6 +15,16 @@
         </div>
     </div>
 
+    <!-- Anon_report Form Input  -->
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                {!! Form::checkbox('anon_report', 1, false) !!}
+                In anonyme Auswertung einbeziehen
+            </label>
+        </div>
+    </div>
+
     <!-- People Form Input  -->
     <div class="form-group {{ $errors->has('people') ? 'has-error has-feedback' : '' }}">
         {!! Form::label('people', 'Mitarbeiter:', ['class' => 'control-label']) !!}
