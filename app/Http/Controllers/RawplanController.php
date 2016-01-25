@@ -133,4 +133,20 @@ class RawplanController extends Controller
         $request->session()->flash('info', 'Der Dienstplan wurde gelöscht.');
         return redirect(action('RawplanController@index'));
     }
+
+    /**
+     * Flip the status of inclusion for the month in the anonymous report.
+     *
+     * @param Request $request
+     * @param $id
+     * @return RedirectResponse
+     */
+    public function flipAnonReport(Request $request, $id)
+    {
+        $rawplan = Rawplan::findOrFail($id);
+        $rawplan->anon_report = $rawplan->anon_report ? FALSE : TRUE;
+        $rawplan->save();
+        $request->session()->flash('info', 'Der Status der anonymen Auswertung wurde geändert.');
+        return redirect(action('RawplanController@index'));
+    }
 }
