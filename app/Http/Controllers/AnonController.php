@@ -90,7 +90,7 @@ class AnonController extends Controller
             return redirect(url('/'));
         }
         // Determine which month has been planned
-        $planned_month = Helper::getPlannedMonth($year);
+        $planned_month = Helper::getPlannedMonthForAnonAccess($year);
         if (!$planned_month) {
             // There is no data at all, so abort.
             abort(404);

@@ -212,6 +212,12 @@ class Helper
             foreach ($employees_in_month as $employee) {
                 $employees[$employee->employee_id] = $employee;
             }
+            // If this is anonymous access, determine if the current month
+            // should be included.
+            if ($non_anon_employee_id) {
+                $include_in_anon_report = Rawplan::where('month', $formattedMonth)->value('anon_report');
+                if (!$include_in_anon_report) continue;
+            }
             // Get all analyzed shifts for the current month
             $shifts = DB::table('analyzed_months')->where('month', $formattedMonth)->get();
             // Cycle through all people and add up the shifts
@@ -422,6 +428,20 @@ class Helper
         else {
             return Rawplan::whereRaw('left(updated_at, 7) > month')->max('month');
         }
+    }
+
+    /**
+     * Returns the highest month in the given year for anonymous access.
+     * This might be in the planned status.
+     *
+     * @param int $year
+     * @return string|null Formatted month (YYYY-MM)
+     */
+    public static function getPlannedMonthForAnonAccess($year)
+    {
+        return Rawplan::where('month', 'like', "$year%")
+            ->where('anon_report', true)
+            ->max('month');
     }
 
     /**
