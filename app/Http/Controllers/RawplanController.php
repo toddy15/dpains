@@ -22,6 +22,20 @@ class RawplanController extends Controller
      */
     public function index()
     {
+        // Allow anon reporting from the beginning of database storage
+        $start_year = Helper::$firstYear;
+        // ... to next year
+        $end_year = date('Y') + 1;
+        // Determine the current month for anon reporting
+        $current_anon_month = Rawplan::where('anon_report', true)->max('month');
+        // Format accordingly
+        if ($current_anon_month) {
+            list($current_anon_year, $current_anon_month) = explode('-', $current_anon_month);
+        }
+        else {
+            $current_anon_month = '00';
+            $current_anon_year = '0000';
+        }
         $worked_month = Helper::getWorkedMonth();
         if ($worked_month == null) {
             $worked_month = '0000-00';
@@ -33,7 +47,8 @@ class RawplanController extends Controller
         // This is just for a nice colouring in the view.
         $rawplans_worked = Rawplan::orderBy('month', 'desc')
             ->where('month', '<=', $worked_month)->get();
-        return view('rawplans.index', compact('rawplans_planned', 'rawplans_worked'));
+        return view('rawplans.index', compact('start_year', 'end_year',
+            'current_anon_month', 'current_anon_year', 'rawplans_planned', 'rawplans_worked'));
     }
 
     /**
@@ -141,13 +156,16 @@ class RawplanController extends Controller
      * @param $id
      * @return RedirectResponse
      */
-    public function flipAnonReport(Request $request, $id)
+    public function setAnonReportMonth(Request $request)
     {
-        $rawplan = Rawplan::findOrFail($id);
-        $rawplan->anon_report = $rawplan->anon_report ? false : true;
-        // Do not update timestamps for this change.
-        $rawplan->timestamps = false;
-        $rawplan->save();
+        // Format the month
+        $formatted_month = Helper::validateAndFormatDate($request->year, $request->month);
+        // Update table: Set anon_report to true for all previous months ...
+        DB::table('rawplans')->where('month', '<=', $formatted_month)
+            ->update(['anon_report' => 1]);
+        // ... and to false for all following months
+        DB::table('rawplans')->where('month', '>', $formatted_month)
+            ->update(['anon_report' => 0]);
         $request->session()->flash('info', 'Der Status der anonymen Auswertung wurde geändert.');
         return redirect(action('RawplanController@index'));
     }

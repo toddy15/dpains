@@ -29,7 +29,7 @@ Route::group(['middleware' => 'auth'], function () {
         ['except' => ['show', 'destroy']]);
     Route::resource('rawplan', 'RawplanController',
         ['except' => ['show', 'edit', 'update']]);
-    Route::put('rawplan/flipAnonReport/{id}', 'RawplanController@flipAnonReport');
+    Route::put('rawplan/setAnonReportMonth', 'RawplanController@setAnonReportMonth');
     Route::resource('employee', 'EmployeeController',
         ['except' => ['create', 'store', 'show', 'destroy']]);
     Route::get('employee/{id}/episodes', 'EmployeeController@showEpisodes');

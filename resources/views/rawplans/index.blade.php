@@ -5,6 +5,22 @@
     <p>
         <a class="btn btn-primary" href="{{ action('RawplanController@create') }}">Neuen Dienstplan hochladen</a>
     </p>
+
+    {!! Form::open(['action' => 'RawplanController@setAnonReportMonth', 'method' => 'put', 'class' => 'form-inline']) !!}
+
+    <!-- Month Form Input  -->
+    <div class="form-group">
+        {!! Form::label('month', 'Anonyme Auswertung bis einschließlich Monat:', ['class' => 'control-label']) !!}
+        {!! Form::selectMonth('month', $current_anon_month, ['class' => 'form-control']) !!}
+    </div>
+    <div class="form-group">
+        {!! Form::label('year', 'Jahr:', ['class' => 'sr-only control-label']) !!}
+        {!! Form::selectYear('year', $start_year, $end_year, $current_anon_year, ['class' => 'form-control']) !!}
+    </div>
+    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
+
+    {!! Form::close() !!}
+
     <table class="table table-striped">
         <thead>
             <th>Monat</th>
@@ -22,9 +38,6 @@
                     {!! Form::open(['action' => ['RawplanController@destroy', $rawplan->id], 'method' => 'delete']) !!}
                     {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
                     {!! Form::close() !!}
-                    {!! Form::open(['action' => ['RawplanController@flipAnonReport', $rawplan->id], 'method' => 'put']) !!}
-                    {!! Form::submit('Anonyme Auswertung ändern', ['class' => 'btn btn-primary']) !!}
-                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach
@@ -36,9 +49,6 @@
                 <td>
                     {!! Form::open(['action' => ['RawplanController@destroy', $rawplan->id], 'method' => 'delete']) !!}
                     {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
-                    {!! Form::close() !!}
-                    {!! Form::open(['action' => ['RawplanController@flipAnonReport', $rawplan->id], 'method' => 'put']) !!}
-                    {!! Form::submit('Anonyme Auswertung ändern', ['class' => 'btn btn-primary']) !!}
                     {!! Form::close() !!}
                 </td>
             </tr>
