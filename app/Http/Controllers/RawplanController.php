@@ -144,7 +144,9 @@ class RawplanController extends Controller
     public function flipAnonReport(Request $request, $id)
     {
         $rawplan = Rawplan::findOrFail($id);
-        $rawplan->anon_report = $rawplan->anon_report ? FALSE : TRUE;
+        $rawplan->anon_report = $rawplan->anon_report ? false : true;
+        // Do not update timestamps for this change.
+        $rawplan->timestamps = false;
         $rawplan->save();
         $request->session()->flash('info', 'Der Status der anonymen Auswertung wurde geändert.');
         return redirect(action('RawplanController@index'));
