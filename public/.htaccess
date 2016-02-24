@@ -6,6 +6,16 @@
     RewriteEngine On
     RewriteBase /~toddy/dpains/public
 
+    # Always use the www. prefix
+    RewriteCond %{HTTP_HOST} !^www\. [NC]
+    RewriteCond %{HTTP_HOST} !^localhost$ [NC]
+    RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [L,R=301]
+
+    # Enforce the secure connection via https
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP_HOST} ^www.dienstplan-an.de$ [NC]
+    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)/$ /$1 [L,R=301]
