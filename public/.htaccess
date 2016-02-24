@@ -25,3 +25,9 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Enforce SSL
+<IfModule mod_headers.c>
+  # max-age is set to a year (365 * 86400)
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
