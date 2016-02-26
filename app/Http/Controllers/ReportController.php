@@ -68,8 +68,11 @@ class ReportController extends Controller
         if (!empty($worked_month)) {
             $readable_worked_month = Carbon::parse($worked_month)->formatLocalized('%B %Y');
         }
+        // Get the date and time of latest change
+        $latest_change = Rawplan::orderBy('updated_at', 'desc')->value('updated_at');
+        $latest_change = Carbon::parse($latest_change)->formatLocalized('%e. %B %Y, %H:%M');
         $tables = Helper::getTablesForYear($request, $year, $worked_month);
         return view('reports.show_year', compact('year',
-            'readable_planned_month', 'readable_worked_month', 'tables'));
+            'latest_change', 'readable_planned_month', 'readable_worked_month', 'tables'));
     }
 }
