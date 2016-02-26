@@ -8,6 +8,7 @@
     @else
         <h2>Geplant bis Ende {{ $readable_planned_month }}</h2>
     @endif
+    <p>Stand der Auswertung: {{ $latest_change }}</p>
     @foreach($tables as $staffgroup => $table)
         <h3>{{ $staffgroup }}</h3>
         <table class="table table-striped">
