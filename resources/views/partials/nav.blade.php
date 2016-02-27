@@ -27,6 +27,7 @@
                             <li {!! Request::is('employee') ? 'class="active"' : '' !!}><a href="{{ url('employee') }}">Mitarbeiter</a></li>
                             <li {!! Request::is('comment') ? 'class="active"' : '' !!}><a href="{{ url('comment') }}">Bemerkungen</a></li>
                             <li {!! Request::is('staffgroup') ? 'class="active"' : '' !!}><a href="{{ url('staffgroup') }}">Mitarbeitergruppen</a></li>
+                            <li {!! Request::is('due_shift') ? 'class="active"' : '' !!}><a href="{{ url('due_shift') }}">Sollzahlen</a></li>
                             <li><a href="{{ url('employee/month/' . date('Y/m')) }}">Monatsübersichten</a></li>
                             <li><a href="{{ url('employee/vk/all/' . date('Y')) }}">Jahresübersichten VK</a></li>
                             <li><a href="{{ url('employee/vk/night/' . date('Y')) }}">Jahresübersichten VK Nächte</a></li>
