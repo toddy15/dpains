@@ -1,6 +1,5 @@
 # TODO
 
-- Neue Tabelle für Sollzahlen (pro Jahr und Gruppe)
 - Automatischer Logout nach z.B. 10 Minuten (anonym, Login)
 
 ## Später
