@@ -2,6 +2,7 @@
 
 namespace App\Dpains;
 
+use App\DueShift;
 use App\Episode;
 use App\Rawplan;
 use App\Staffgroup;
@@ -250,24 +251,8 @@ class Helper
         // Fill up the boni for each month that is not in the result array yet.
         Helper::fillUpBoni($staffgroups);
         foreach ($staffgroups as $staffgroup => $employee) {
-            // @TODO: Do not hardcode.
-            switch ($staffgroup) {
-                case 'LOA':
-                    $due_nights = 12;
-                    $due_nefs = 0;
-                    break;
-                case 'OA':
-                    $due_nights = 44;
-                    $due_nefs = 30;
-                    break;
-                case 'FA und WB mit Nachtdienst':
-                    $due_nights = 55;
-                    $due_nefs = 30;
-                    break;
-                default:
-                    $due_nights = 0;
-                    $due_nefs = 0;
-            }
+            $due_nights = Helper::getDueNightShifts($staffgroup, $year);
+            $due_nefs = Helper::getDueNefShifts($staffgroup, $year);
             // Finally, set up an array for the results table
             $rows = [];
             // Determine if the table is for anonymous access.
@@ -528,5 +513,34 @@ class Helper
             // Sort the array by sorting keys
             ksort($staffgroups[$staffgroup], SORT_NATURAL);
         }
+    }
+
+    private static function getDueShifts($staffgroup, $year)
+    {
+        // Special case for combined staffgroup
+        if ($staffgroup == 'FA und WB mit Nachtdienst') {
+            $staffgroup = 'FA';
+        }
+        $staffgroup = Staffgroup::where('staffgroup', $staffgroup)->first();
+        return DueShift::where('year', $year)
+            ->where('staffgroup_id', $staffgroup->id)->first();
+    }
+
+    public static function getDueNightShifts($staffgroup, $year)
+    {
+        $due_shift = self::getDueShifts($staffgroup, $year);
+        if ($due_shift) {
+            return $due_shift->nights;
+        }
+        return 0;
+    }
+
+    public static function getDueNefShifts($staffgroup, $year)
+    {
+        $due_shift = self::getDueShifts($staffgroup, $year);
+        if ($due_shift) {
+            return $due_shift->nefs;
+        }
+        return 0;
     }
 }
