@@ -16,4 +16,12 @@ class DueShift extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Get the staffgroup for the entry.
+     */
+    public function staffgroup()
+    {
+        return $this->belongsTo('App\Staffgroup');
+    }
 }
