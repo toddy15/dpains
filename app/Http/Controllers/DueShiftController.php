@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dpains\Helper;
 use App\DueShift;
+use App\Staffgroup;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -42,7 +43,19 @@ class DueShiftController extends Controller
      */
     public function create()
     {
-        return view('due_shifts.create');
+        // Get the staffgroups for the select box
+        $staffgroups = Staffgroup::all()->sortBy('weight')
+            ->lists('staffgroup', 'id')->toArray();
+        // Special case: Merge "FA" and "WB mit Nachtdiensten"
+        foreach ($staffgroups as $key => $staffgroup) {
+            if ($staffgroup == 'FA') {
+                $staffgroups[$key] = 'FA und WB mit Nachtdienst';
+            }
+            if ($staffgroup == 'WB mit Nachtdienst') {
+                unset($staffgroups[$key]);
+            }
+        }
+        return view('due_shifts.create', compact('staffgroups'));
     }
 
     /**
@@ -72,7 +85,19 @@ class DueShiftController extends Controller
     public function edit($id)
     {
         $due_shift= DueShift::findOrFail($id);
-        return view('due_shifts.edit', compact('due_shift'));
+        // Get the staffgroups for the select box
+        $staffgroups = Staffgroup::all()->sortBy('weight')
+            ->lists('staffgroup', 'id')->toArray();
+        // Special case: Merge "FA" and "WB mit Nachtdiensten"
+        foreach ($staffgroups as $key => $staffgroup) {
+            if ($staffgroup == 'FA') {
+                $staffgroups[$key] = 'FA und WB mit Nachtdienst';
+            }
+            if ($staffgroup == 'WB mit Nachtdienst') {
+                unset($staffgroups[$key]);
+            }
+        }
+        return view('due_shifts.edit', compact('due_shift', 'staffgroups'));
     }
 
     /**

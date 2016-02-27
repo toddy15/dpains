@@ -17,7 +17,13 @@
             @foreach($due_shifts as $due_shift)
                 <tr>
                     <td>{{ $due_shift->year }}</td>
-                    <td>{{ $due_shift->staffgroup['staffgroup'] }}</td>
+                    <td>
+                        @if ($due_shift->staffgroup['staffgroup'] == 'FA')
+                            FA und WB mit Nachtdienst
+                        @else
+                            {{ $due_shift->staffgroup['staffgroup'] }}
+                        @endif
+                    </td>
                     <td>{{ $due_shift->nights }}</td>
                     <td>{{ $due_shift->nefs }}</td>
                     <td><a class="btn btn-primary" href="{{ action('DueShiftController@edit', $due_shift->id) }}">Bearbeiten</a></td>
