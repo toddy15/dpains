@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dpains\Helper;
 use App\DueShift;
 use App\Staffgroup;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -71,8 +72,15 @@ class DueShiftController extends Controller
             'nights' => 'required|numeric',
             'nefs' => 'required|numeric',
         ]);
-        DueShift::create($request->all());
-        $request->session()->flash('info', 'Die Sollzahlen wurden gespeichert.');
+        // If the combination year and staffgroup is not unique,
+        // this will throw a QueryException.
+        try {
+            DueShift::create($request->all());
+            $request->session()->flash('info', 'Die Sollzahlen wurden gespeichert.');
+        }
+        catch (QueryException $e) {
+            $request->session()->flash('danger', 'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.');
+        }
         return redirect(action('DueShiftController@index'));
     }
 
@@ -115,8 +123,15 @@ class DueShiftController extends Controller
             'nights' => 'required|numeric',
             'nefs' => 'required|numeric',
         ]);
-        $due_shift->update($request->all());
-        $request->session()->flash('info', 'Die Sollzahlen wurden geändert.');
+        // If the combination year and staffgroup is not unique,
+        // this will throw a QueryException.
+        try {
+            $due_shift->update($request->all());
+            $request->session()->flash('info', 'Die Sollzahlen wurden geändert.');
+        }
+        catch (QueryException $e) {
+            $request->session()->flash('danger', 'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.');
+        }
         return redirect(action('DueShiftController@index'));
     }
 }
