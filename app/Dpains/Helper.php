@@ -313,7 +313,11 @@ class Helper
             // Do not show empty staffgroups
             if (count($rows) and $include_staffgroup_in_tables) {
                 // Add to tables
-                $tables[$staffgroup] = $rows;
+                $tables[$staffgroup] = [
+                    'rows' => $rows,
+                    'due_nights' => $due_nights,
+                    'due_nefs' => $due_nefs,
+                ];
             }
         }
         return $tables;

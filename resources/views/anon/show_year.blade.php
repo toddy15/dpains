@@ -11,6 +11,10 @@
     <p>Stand der Auswertung: {{ $latest_change }}</p>
     @foreach($tables as $staffgroup => $table)
         <h3>{{ $staffgroup }}</h3>
+        <p>
+            Sollzahl Nächte pro Jahr: {{ $table['due_nights'] }}<br />
+            Sollzahl NEF-Dienste pro Jahr: {{ $table['due_nefs'] }}
+        </p>
         <table class="table table-striped">
             <thead>
                 <th>Name</th>
@@ -22,7 +26,7 @@
                 <th>{!! $helper->sortTableBy('diff_planned_nefs', 'Abweichung', $year, $hash) !!}</th>
             </thead>
             <tbody>
-                @foreach($table as $rows)
+                @foreach($table['rows'] as $rows)
                     @foreach($rows as $row)
                         <tr {!! isset($row->highlight_row) ? 'class="info"' : '' !!}>
                             <td>{{ $row->name }}</td>
