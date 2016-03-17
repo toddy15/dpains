@@ -143,7 +143,7 @@ class Planparser
         $nefs = ['n1', 'n2'];
         $ignored = ['1', '2', 'st', '25', '26', '27', 'D2', 'i28', 'i29', 'i33', 'i35', 'dt0', 'dt1',
             'FÜ', 'BF', 'TZ', 'MS', 'EZ', 'U', 'FBi*', 'FBe*', 'Con', 'K', 'KO', 'Kol', 'KP', 'KK',
-            'KÜ', 'ZU', 'BR', 'BU', 'F.', '', 'DB', 'Ve', 'US', '--', 'BV'
+            'KÜ', 'ZU', 'BR', 'BU', 'F.', '', 'DB', 'Ve', 'US', '--', 'BV', 'PZU = Platzhalt'
         ];
         $night_counter = 0;
         $nef_counter = 0;
