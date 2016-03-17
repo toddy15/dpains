@@ -44,7 +44,7 @@ class EmployeeController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'email' => 'required|email'
+            'email' => 'required'
         ]);
         $employee = Employee::findOrFail($id);
         $employee->update($request->all());
