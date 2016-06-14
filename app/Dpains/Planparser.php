@@ -52,6 +52,11 @@ class Planparser
             if (strlen($person_line) == 0) {
                 continue;
             }
+            // Skip staffgroups
+            $staffgroups = ['Chefarzt', 'Chefarzt-V', 'OA', 'FA, OA', 'FA', 'Ass-Arzt'];
+            if (in_array($person_line, $staffgroups)) {
+                continue;
+            }
             // Finally, add the name to list.
             $this->parsedNames[] = $person_line;
         }
