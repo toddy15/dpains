@@ -30,7 +30,14 @@ class EmployeeController extends Controller
                 'email' => $employees->where('id', $employee->employee_id)->pluck('email')[0],
             ];
         }, $people);
-        return view('employees.index', compact('current'));
+        // Now collect all remaining employees
+        $current_ids = array_map(function ($employee) {
+            return $employee->id;
+        }, $current);
+        $past_and_future = $employees->filter(function ($employee) use ($current_ids) {
+            return !in_array($employee->id, $current_ids);
+        })->sortBy('name');
+        return view('employees.index', compact('current', 'past_and_future'));
     }
 
     /**

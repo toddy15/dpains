@@ -24,4 +24,27 @@
         @endforeach
         </tbody>
     </table>
+
+    <h1>Frühere und zukünftige Mitarbeiter</h1>
+    <table class="table table-striped">
+        <thead>
+        <th>Name</th>
+        <th>E-Mail</th>
+        <th>Aktion</th>
+        </thead>
+        <tbody>
+        @foreach($past_and_future as $employee)
+            <tr>
+                <td>{{ $employee->name }}</td>
+                <td>{{ $employee->email }}</td>
+                <td>
+                    <a class="btn btn-primary"
+                       href="{{ action('EmployeeController@edit', $employee->id) }}">Bearbeiten</a>
+                    <a class="btn btn-primary"
+                       href="{{ action('EmployeeController@showEpisodes', $employee->id) }}">Einträge</a>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
 @endsection
