@@ -21,13 +21,15 @@ class EmployeeController extends Controller
         $employees = Employee::all();
         // Display current employees first, already sorted by staffgroup and name
         $current_month = date("Y-m");
-        $current = Helper::getPeopleForMonth($current_month);
-        // Add the email address
-        foreach ($current as $index => $employee) {
-            $employee_with_email = $employee;
-            $employee_with_email->email = $employees->where('id', $employee->employee_id)->pluck('email')[0];
-            $current[$index] = $employee_with_email;
-        }
+        $people = Helper::getPeopleForMonth($current_month);
+        // Construct an array with id, name, and email address
+        $current = array_map(function ($employee) use ($employees) {
+            return (object) [
+                'id' => $employee->employee_id,
+                'name' => $employee->name,
+                'email' => $employees->where('id', $employee->employee_id)->pluck('email')[0],
+            ];
+        }, $people);
         return view('employees.index', compact('current'));
     }
 
