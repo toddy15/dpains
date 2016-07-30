@@ -19,7 +19,16 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = Employee::all();
-        return view('employees.index', compact('employees'));
+        // Display current employees first, already sorted by staffgroup and name
+        $current_month = date("Y-m");
+        $current = Helper::getPeopleForMonth($current_month);
+        // Add the email address
+        foreach ($current as $index => $employee) {
+            $employee_with_email = $employee;
+            $employee_with_email->email = $employees->where('id', $employee->employee_id)->pluck('email')[0];
+            $current[$index] = $employee_with_email;
+        }
+        return view('employees.index', compact('current'));
     }
 
     /**

@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-    <h1>Mitarbeiter</h1>
+    <h1>Aktuelle Mitarbeiter</h1>
     <a class="btn btn-primary" href="{{ action('EpisodeController@create') }}">Neuen Mitarbeiter anlegen</a>
     <table class="table table-striped">
         <thead>
@@ -10,7 +10,7 @@
         <th>Aktion</th>
         </thead>
         <tbody>
-        @foreach($employees as $employee)
+        @foreach($current as $employee)
             <tr>
                 <td>{{ $employee->name }}</td>
                 <td>{{ $employee->email }}</td>
