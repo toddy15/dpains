@@ -48,13 +48,16 @@ class Planparser
             $person_line = trim($person_line);
             // Remove comma, space and end dates from names.
             $person_line = preg_replace("/\s*,?\s*[0-9.]+$/", '', $person_line);
-            // Skip empty lines
-            if (strlen($person_line) == 0) {
+            // Remove skills
+            $skills = ['/Chefarzt-V/', '/Chefarzt/', '/OA/', '/FA/', '/Ass-Arzt/', '/ITS MED/'];
+            $person_line = preg_replace($skills, '', $person_line);
+            // If the line only consists of whitespace and comma, it
+            // was a skills line, not a name. Remove it.
+            if (preg_match("/^[, ]+$/", $person_line)) {
                 continue;
             }
-            // Skip staffgroups
-            $staffgroups = ['Chefarzt', 'Chefarzt-V', 'OA', 'FA, OA', 'FA', 'Ass-Arzt'];
-            if (in_array($person_line, $staffgroups)) {
+            // Skip empty lines
+            if (strlen($person_line) == 0) {
                 continue;
             }
             // Finally, add the name to list.
