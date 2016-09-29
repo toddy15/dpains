@@ -28,6 +28,10 @@ class AnonController extends Controller
                 $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
                 $hash = '';
             }
+            else {
+                // Refresh last access
+                $employee->touch();
+            }
         }
         return view('homepage', compact('hash'));
     }
@@ -69,6 +73,8 @@ class AnonController extends Controller
             $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
             return redirect(url('/'));
         }
+        // Refresh last access
+        $employee->touch();
         $episodes = $employee->episodes()->orderBy('start_date')->get();
         $latest_name = $employee->name;
         return view('anon.show_episodes', compact('hash', 'episodes', 'latest_name'));
@@ -90,6 +96,8 @@ class AnonController extends Controller
             $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
             return redirect(url('/'));
         }
+        // Refresh last access
+        $employee->touch();
         // Determine which month has been planned
         $planned_month = Helper::getPlannedMonthForAnonAccess($year);
         if (!$planned_month) {
