@@ -24,10 +24,15 @@ class EmployeeController extends Controller
         $people = Helper::getPeopleForMonth($current_month);
         // Construct an array with id, name, and email address
         $current = array_map(function ($employee) use ($employees) {
+            // Extract information from employee table
+            $data = $employees->where('id', $employee->employee_id)->first();
+            $bu = $this->_calculateBUStart();
+            $bu_start = $bu[$data->bu_start];
             return (object) [
                 'id' => $employee->employee_id,
                 'name' => $employee->name,
-                'email' => $employees->where('id', $employee->employee_id)->pluck('email')[0],
+                'email' => $data->email,
+                'bu_start' => $bu_start,
             ];
         }, $people);
         // Now collect all remaining employees
@@ -49,7 +54,8 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
-        return view('employees.edit', compact('employee'));
+        $bu = $this->_calculateBUStart();
+        return view('employees.edit', compact('employee', 'bu'));
     }
 
     /**
@@ -127,5 +133,30 @@ class EmployeeController extends Controller
         $previous_year_url = Helper::getPreviousYearUrl('employee/vk/'. $which_vk . '/', $year);
         return view('employees.show_vk_for_year', compact('which_vk', 'year', 'staffgroups',
             'vk_per_month', 'next_year_url', 'previous_year_url'));
+    }
+
+    /**
+     * Calculate the string for BU starts
+     */
+    private function _calculateBUStart()
+    {
+        $current_year = date('Y');
+        $bu = [];
+        $bu[''] = 'Nicht hinterlegt';
+        if ($current_year % 2) {
+            // Current year is odd
+            // If the BU start is even, it's last and this year.
+            $bu['even'] = 'Gerades Jahr (' . ($current_year - 1 ) . ' - ' . $current_year . ')';
+            // Otherwise, it's this and next year.
+            $bu['odd'] = 'Ungerades Jahr (' . $current_year . ' - ' . ($current_year + 1) . ')';
+        }
+        else {
+            // Current year is even.
+            // If the BU start is even, it's this and next year.
+            $bu['even'] = 'Gerades Jahr (' . $current_year . ' - ' . ($current_year + 1) . ')';
+            // Otherwise, it's last and this year.
+            $bu['odd'] = 'Ungerades Jahr (' . ($current_year - 1 ) . ' - ' . $current_year . ')';
+        }
+        return $bu;
     }
 }

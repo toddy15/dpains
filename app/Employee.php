@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     protected $fillable = [
-        'email', 'hash'
+        'email', 'hash', 'bu_start'
     ];
 
     /**

@@ -7,6 +7,7 @@
         <thead>
         <th>Name</th>
         <th>E-Mail</th>
+        <th>BU-Beginn</th>
         <th>Aktion</th>
         </thead>
         <tbody>
@@ -14,6 +15,7 @@
             <tr>
                 <td>{{ $employee->name }}</td>
                 <td>{{ $employee->email }}</td>
+                <td>{{ $employee->bu_start}}</td>
                 <td>
                     <a class="btn btn-primary"
                        href="{{ action('EmployeeController@edit', $employee->id) }}">Bearbeiten</a>

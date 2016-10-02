@@ -14,10 +14,19 @@
         @endif
     </div>
 
+    <!-- BU Form Input  -->
+    <div class="form-group {{ $errors->has('bu_start') ? 'has-error has-feedback' : '' }}">
+        {!! Form::label('bu_start', 'BU-Beginn:', ['class' => 'control-label']) !!}
+        {!! Form::select('bu_start', $bu, null, ['class' => 'form-control']) !!}
+        @if ($errors->has('bu_start'))
+            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+        @endif
+    </div>
+
     <div class="form-group text-center">
         <!-- Speichern Form Input  -->
         {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
-                <!-- Cancel Button -->
+        <!-- Cancel Button -->
         <a class="btn btn-default" href="{{ action('EmployeeController@index') }}">Abbrechen</a>
     </div>
 
