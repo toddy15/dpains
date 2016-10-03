@@ -20,6 +20,8 @@
                 <th>Name</th>
                 <th>Nachtdienste</th>
                 <th>NEFs</th>
+                <th>BU</th>
+                <th>Con</th>
             </thead>
             <tbody>
             @foreach($results as $result)
@@ -27,6 +29,8 @@
                     <td>{{ $result->name }}</td>
                     <td>{{ $result->shifts->nights }}</td>
                     <td>{{ $result->shifts->nefs }}</td>
+                    <td>{{ $result->shifts->bus }}</td>
+                    <td>{{ $result->shifts->cons }}</td>
                 </tr>
             @endforeach
             </tbody>

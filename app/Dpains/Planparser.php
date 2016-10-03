@@ -139,6 +139,8 @@ class Planparser
                 'employee_id' => $person_id,
                 'nights' => $shifts['nights'],
                 'nefs' => $shifts['nefs'],
+                'bus' => $shifts['bus'],
+                'cons' => $shifts['cons'],
             ];
         }
         DB::table('analyzed_months')->insert($database_rows);
@@ -149,13 +151,17 @@ class Planparser
         // @TODO: Do not hardcode.
         $nights = ['0r', 'D0', 'D1', 'i30', 'i36', 'n2'];
         $nefs = ['n1', 'n2'];
+        $bus = ['BU'];
+        $cons = ['Con'];
         $ignored = ['1', '2', 'st', '25', '26', '27', 'D2', 'i28', 'i29', 'i33', 'i35', 'dt0', 'dt1',
-            'FÜ', 'BF', 'TZ', 'MS', 'EZ', 'U', 'FBi*', 'FBe*', 'Con', 'K', 'KO', 'Kol', 'KP', 'KK',
-            'KÜ', 'ZU', 'BR', 'BU', 'F.', '', 'DB', 'Ve', 'US', '--', 'BV', 'PZU = Platzhalt',
+            'FÜ', 'BF', 'TZ', 'MS', 'EZ', 'U', 'FBi*', 'FBe*', 'K', 'KO', 'Kol', 'KP', 'KK',
+            'KÜ', 'ZU', 'BR', 'F.', '', 'DB', 'Ve', 'US', '--', 'BV', 'PZU = Platzhalt',
             'B4'
         ];
         $night_counter = 0;
         $nef_counter = 0;
+        $bu_counter = 0;
+        $con_counter = 0;
         foreach ($shifts as $shift) {
             $unknown_shift = TRUE;
             if (in_array($shift, $nights)) {
@@ -166,6 +172,14 @@ class Planparser
                 $nef_counter++;
                 $unknown_shift = FALSE;
             }
+            if (in_array($shift, $bus)) {
+                $bu_counter++;
+                $unknown_shift = FALSE;
+            }
+            if (in_array($shift, $cons)) {
+                $con_counter++;
+                $unknown_shift = FALSE;
+            }
             if (in_array($shift, $ignored)) {
                 $unknown_shift = FALSE;
             }
@@ -173,7 +187,12 @@ class Planparser
                 return 'Unbekannte Dienstart: ' . $shift;
             }
         }
-        return ['nights' => $night_counter, 'nefs' => $nef_counter];
+        return [
+            'nights' => $night_counter,
+            'nefs' => $nef_counter,
+            'bus' => $bu_counter,
+            'cons' => $con_counter,
+        ];
     }
 
     public function validatePeople()
