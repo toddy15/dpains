@@ -104,20 +104,8 @@ class RawplanController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        // No error so far, so try to store the shifts.
-        $validator->after(function($validator) use ($planparser) {
-            // Parse the plan and save it.
-            $error_message = $planparser->storeShiftsForPeople();
-            if (!empty($error_message)) {
-                $validator->errors()->add('shifts', $error_message);
-            }
-        });
-        // Determine whether there was an error.
-        if ($validator->fails()) {
-            return redirect(action('RawplanController@create'))
-                ->withErrors($validator)
-                ->withInput();
-        }
+        // No error so far, so store the shifts.
+        $planparser->storeShiftsForPeople();
         // Update the month to the database format YYYY-MM.
         $request->merge(['month' => $month]);
         // Check if there is already an entry in the database,

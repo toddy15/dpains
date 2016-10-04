@@ -75,4 +75,48 @@ class ReportController extends Controller
         return view('reports.show_year', compact('year',
             'latest_change', 'readable_planned_month', 'readable_worked_month', 'tables'));
     }
+
+    public function refresh(Request $request)
+    {
+        // Determine the highest month with data.
+        $highest_month = Helper::getPlannedMonth(date('Y') + 1);
+        // If the next year does not have data, this will return NULL.
+        if (!$highest_month) {
+            $highest_month = Helper::getPlannedMonth(date('Y'));
+        }
+        // Set up result array
+        $recalculation_months = [];
+        // Now highest_month will be in the form YYYY-MM.
+        // Cycle through all 12 months from beginning to highest_year - 1.
+        $highest_year = substr($highest_month, 0, 4);
+        $highest_month = substr($highest_month, 5, 2);
+        for ($year = Helper::$firstYear; $year < $highest_year; $year++) {
+            for ($month = 1; $month <= 12; $month++) {
+                $recalculation_months[] = sprintf('%04d-%02d', $year, $month);
+            }
+        }
+        // Cycle though all months up to current planned month in the highest year.
+        for ($month = 1; $month <= $highest_month; $month++) {
+            $recalculation_months[] = sprintf('%04d-%02d', $highest_year, $month);
+        }
+        // Finally, cycle through all recalculation months and check if
+        // everything can be parsed without errors
+        $error_messages = [];
+        foreach ($recalculation_months as $month) {
+            $planparser = new Planparser($month);
+            $error_messages[] = $planparser->validatePeople();
+            $error_messages[] = $planparser->validateShifts();
+        }
+        // Make a flat collection from the error_messages array
+        $errors = collect($error_messages)->flatten();
+        // Only store the new calculation if there are no errors
+        if (!$errors->count()) {
+            foreach ($recalculation_months as $month) {
+                $planparser = new Planparser($month);
+                $planparser->storeShiftsForPeople();
+            }
+            $request->session()->flash('info', 'Alle Monate wurden neu berechnet.');
+        }
+        return view('reports.refresh')->withErrors($errors);
+    }
 }

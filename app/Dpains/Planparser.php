@@ -203,14 +203,16 @@ class Planparser
         // Check that all expected people have been found.
         $more_expected = array_diff($expected_people, $this->parsedNames);
         if ($more_expected) {
-            $result[] = 'Die folgenden Mitarbeiter werden in diesem Monat erwartet, ' .
-                'aber nicht gefunden: ' . join('; ', $more_expected);
+            $result[] = 'Die folgenden Mitarbeiter werden im Monat '
+                . $this->formattedMonth
+                . ' erwartet, aber nicht gefunden: ' . join('; ', $more_expected);
         }
         // Check that not more than the expected people have been found.
         $more_found = array_diff($this->parsedNames, $expected_people);
         if ($more_found) {
-            $result[] = 'Die folgenden Mitarbeiter werden in diesem Monat nicht erwartet, ' .
-                'aber gefunden: ' . join('; ', $more_found);
+            $result[] = 'Die folgenden Mitarbeiter werden im Monat '
+                . $this->formattedMonth
+                . ' nicht erwartet, aber gefunden: ' . join('; ', $more_found);
         }
         return $result;
     }
@@ -229,13 +231,13 @@ class Planparser
         // The submitted days must be exactly one month.
         // so check that the next day is the first of a month.
         if ($submitted_days > 31) {
-            $result[] = 'Es wurden mehr als 31 Tage in den Schichten gefunden.';
+            $result[] = $this->formattedMonth . ': Es wurden mehr als 31 Tage in den Schichten gefunden.';
         }
         $date = date_create($this->formattedMonth . '-01');
         date_add($date, date_interval_create_from_date_string($submitted_days . ' days'));
         $end_day = date_format($date, 'd');
         if ($end_day != '01') {
-            $result[] = 'Die Anzahl der Tage in den Schichten stimmt nicht mit der Anzahl der Tage des Monats überein.';
+            $result[] = $this->formattedMonth . ': Die Anzahl der Tage in den Schichten stimmt nicht mit der Anzahl der Tage des Monats überein.';
         }
         // Do not error out if there's one line break appended.
         if (end($plan_lines) == '') {
@@ -247,11 +249,19 @@ class Planparser
         }
         // Ensure that the number of lines in plan is a multiple of people's lines.
         if ((count($plan_lines) % count($this->parsedNames)) != 0) {
-            $result[] = 'Es wurden mehr Zeilen in den Schichten gefunden als Mitarbeiter vorhanden sind.';
+            $result[] = $this->formattedMonth . ': Es wurden mehr Zeilen in den Schichten gefunden als Mitarbeiter vorhanden sind.';
         }
         $lines_per_person = count($plan_lines) / count($this->parsedNames);
         if ($lines_per_person != 1 and $lines_per_person != 3) {
-            $result[] = 'Die Anzahl der Zeilen in den Schichten muss entweder eine oder drei pro Mitarbeiter sein.';
+            $result[] = $this->formattedMonth . ': Die Anzahl der Zeilen in den Schichten muss entweder eine oder drei pro Mitarbeiter sein.';
+        }
+        // Try parsing all shifts to detect unknown shifts.
+        foreach ($this->parsedNames as $id => $name) {
+            $shifts = $this->calculateShifts($this->parsedShifts[$id]);
+            if (!is_array($shifts)) {
+                // Add the error message from calculateShifts().
+                $result[] = $this->formattedMonth . ': ' . $shifts;
+            }
         }
         return $result;
     }
