@@ -18,6 +18,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{{ url('report/' . date('Y')) }}">Jahre</a></li>
                             <li><a href="{{ url('report/' . date('Y/m')) }}">Monate</a></li>
+                            <li><a href="{{ url('report/buandcon/' . date('Y')) }}">BU und Con</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">

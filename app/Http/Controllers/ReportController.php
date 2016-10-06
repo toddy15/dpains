@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Dpains\Helper;
 use App\Dpains\Planparser;
+use App\Employee;
 use App\Rawplan;
 use App\Staffgroup;
 use Carbon\Carbon;
@@ -74,6 +75,56 @@ class ReportController extends Controller
         $tables = Helper::getTablesForYear($request, $year, $worked_month);
         return view('reports.show_year', compact('year',
             'latest_change', 'readable_planned_month', 'readable_worked_month', 'tables'));
+    }
+
+    public function showBuAndCon(Request $request, $year)
+    {
+        $all_bu_and_con = [];
+        // Get all employees with bu and con in the last, current, and next year
+        for ($current_year = $year - 1; $current_year <= $year + 1; $current_year++) {
+            $all_bu_and_con[$current_year] = DB::table('analyzed_months')
+                ->where('month', 'LIKE', "$current_year%")
+                ->where(function ($query) {
+                    $query->where('bus', '>', 0)
+                        ->orWhere('cons', '>', 0);
+                })
+                ->get();
+        }
+        // This is sorted by year, then months with employee ids.
+        // Create a new array with employee id as key, then year, then bu and con.
+        $employees = [];
+        foreach ($all_bu_and_con as $current_year => $months) {
+            // $months contains the month as key, then employee id and bu/con.
+            foreach ($months as $month => $data) {
+                // Initialize the result array
+                if (!isset($employees[$data->employee_id])) {
+                    $employees[$data->employee_id] = [
+                        'name' => Employee::findOrFail($data->employee_id)->name,
+                        'data' => [
+                            $year - 1 => ['bus' => 0, 'cons' => 0],
+                            $year     => ['bus' => 0, 'cons' => 0],
+                            $year + 1 => ['bus' => 0, 'cons' => 0],
+                        ]
+                    ];
+                }
+                // Sum up bus and cons for the given year
+                $employees[$data->employee_id]['data'][$current_year]['bus'] += $data->bus;
+                $employees[$data->employee_id]['data'][$current_year]['cons'] += $data->cons;
+            }
+        }
+        // Sort by name
+        uasort($employees, function ($a, $b) {
+            if ($a['name'] < $b['name']) {
+                return -1;
+            }
+            if ($a['name'] > $b['name']) {
+                return 1;
+            }
+            return 0;
+        });
+        $previous_year_url = Helper::getPreviousYearUrl('report/buandcon/', $year);
+        $next_year_url = Helper::getNextYearUrl('report/buandcon/', $year);
+        return view('reports.show_bu_and_con', compact('year', 'previous_year_url', 'next_year_url', 'employees'));
     }
 
     public function refresh(Request $request)
