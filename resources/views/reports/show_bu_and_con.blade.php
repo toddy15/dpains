@@ -16,9 +16,11 @@
         <thead>
         <tr>
             <th rowspan="2">Name</th>
+            <th rowspan="2">BU-Beginn</th>
             <th colspan="2" style="text-align: center">{{ $year - 1 }}</th>
             <th colspan="2" style="text-align: center">{{ $year }}</th>
             <th colspan="2" style="text-align: center">{{ $year + 1 }}</th>
+            <th rowspan="2">Summe</th>
         </tr>
         <tr>
             <th>BU</th>
@@ -33,10 +35,12 @@
         @foreach($employees as $employee)
             <tr>
                 <td>{{ $employee['name'] }}</td>
+                <td>{{ $employee['bu_cleartext'] }}</td>
                 @foreach($employee['data'] as $buandcon)
                     <td>{{ $buandcon['bus'] }}</td>
                     <td>{{ $buandcon['cons'] }}</td>
                 @endforeach
+                <td>{{ $employee['sum'] }}</td>
             </tr>
         @endforeach
         </tbody>

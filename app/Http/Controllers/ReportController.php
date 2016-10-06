@@ -98,8 +98,17 @@ class ReportController extends Controller
             foreach ($months as $month => $data) {
                 // Initialize the result array
                 if (!isset($employees[$data->employee_id])) {
+                    $e = Employee::findOrFail($data->employee_id);
+                    $bu_cleartext = 'Nicht hinterlegt';
+                    if ($e->bu_start == 'even') {
+                        $bu_cleartext = 'Gerades Jahr';
+                    }
+                    else if ($e->bu_start == 'odd') {
+                        $bu_cleartext = 'Ungerades Jahr';
+                    }
                     $employees[$data->employee_id] = [
-                        'name' => Employee::findOrFail($data->employee_id)->name,
+                        'name' => $e->name,
+                        'bu_cleartext' => $bu_cleartext,
                         'data' => [
                             $year - 1 => ['bus' => 0, 'cons' => 0],
                             $year     => ['bus' => 0, 'cons' => 0],
@@ -110,6 +119,46 @@ class ReportController extends Controller
                 // Sum up bus and cons for the given year
                 $employees[$data->employee_id]['data'][$current_year]['bus'] += $data->bus;
                 $employees[$data->employee_id]['data'][$current_year]['cons'] += $data->cons;
+            }
+        }
+        // Remove the previous or next year, depending on the start of BU
+        // and sum up the total
+        foreach ($employees as $id => $employee) {
+            $bu_cleartext = $employee['bu_cleartext'];
+            if ($year % 2) {
+                // Year is odd
+                if ($bu_cleartext == 'Gerades Jahr') {
+                    // If the BU start is even, it's last and this year.
+                    // Unset next.
+                    $employees[$id]['data'][$year + 1]['bus'] = '&ndash;';
+                    $employees[$id]['data'][$year + 1]['cons'] = '&ndash;';
+                }
+                else if ($bu_cleartext == 'Ungerades Jahr') {
+                    // Otherwise, it's this and next year.
+                    // Unset previous.
+                    $employees[$id]['data'][$year - 1]['bus'] = '&ndash;';
+                    $employees[$id]['data'][$year - 1]['cons'] = '&ndash;';
+                }
+            }
+            else {
+                // Year is even
+                if ($bu_cleartext == 'Gerades Jahr') {
+                    // If the BU start is even, it's this and next year.
+                    // Unset previous.
+                    $employees[$id]['data'][$year - 1]['bus'] = '&ndash;';
+                    $employees[$id]['data'][$year - 1]['cons'] = '&ndash;';
+                }
+                else if ($bu_cleartext == 'Ungerades Jahr') {
+                    // Otherwise, it's last and this year.
+                    // Unset next.
+                    $employees[$id]['data'][$year + 1]['bus'] = '&ndash;';
+                    $employees[$id]['data'][$year + 1]['cons'] = '&ndash;';
+                }
+            }
+            // Sum up the total.
+            $employees[$id]['sum'] = 0;
+            foreach ($employee['data'] as $buandcon) {
+                $employees[$id]['sum'] += $buandcon['bus'] + $buandcon['cons'];
             }
         }
         // Sort by name
