@@ -157,7 +157,7 @@ class ReportController extends Controller
             }
             // Sum up the total.
             $employees[$id]['sum'] = 0;
-            foreach ($employee['data'] as $buandcon) {
+            foreach ($employees[$id]['data'] as $buandcon) {
                 $employees[$id]['sum'] += $buandcon['bus'] + $buandcon['cons'];
             }
         }

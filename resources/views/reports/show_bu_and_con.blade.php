@@ -35,12 +35,24 @@
         @foreach($employees as $employee)
             <tr>
                 <td>{{ $employee['name'] }}</td>
-                <td>{{ $employee['bu_cleartext'] }}</td>
+                @if ($employee['bu_cleartext'] == 'Nicht hinterlegt')
+                    <td class="alert-danger">{{ $employee['bu_cleartext'] }}</td>
+                @else
+                    <td>{{ $employee['bu_cleartext'] }}</td>
+                @endif
                 @foreach($employee['data'] as $buandcon)
                     <td>{{ $buandcon['bus'] }}</td>
-                    <td>{{ $buandcon['cons'] }}</td>
+                    @if ($buandcon['cons'] > 3)
+                        <td class="alert-danger">{{ $buandcon['cons'] }}</td>
+                    @else
+                        <td>{{ $buandcon['cons'] }}</td>
+                    @endif
                 @endforeach
-                <td>{{ $employee['sum'] }}</td>
+                @if ($employee['sum'] > 10)
+                    <td class="alert-danger">{{ $employee['sum'] }}</td>
+                @else
+                    <td>{{ $employee['sum'] }}</td>
+                @endif
             </tr>
         @endforeach
         </tbody>
