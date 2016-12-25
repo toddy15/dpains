@@ -72,8 +72,12 @@ class ReportController extends Controller
         // Get the date and time of latest change
         $latest_change = Rawplan::orderBy('updated_at', 'desc')->value('updated_at');
         $latest_change = Carbon::parse($latest_change)->formatLocalized('%e. %B %Y, %H:%M');
+        // Generate the next and previous year urls
+        $previous_year_url = Helper::getPreviousYearUrl('report/', $year);
+        $next_year_url = Helper::getNextYearUrl('report/', $year);
         $tables = Helper::getTablesForYear($request, $year, $worked_month);
         return view('reports.show_year', compact('year',
+            'previous_year_url', 'next_year_url',
             'latest_change', 'readable_planned_month', 'readable_worked_month', 'tables'));
     }
 

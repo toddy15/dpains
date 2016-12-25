@@ -3,6 +3,16 @@
 
 @section('content')
     <h1>Auswertung für {{ $year }}</h1>
+    <nav>
+        <ul class="pager">
+            @if (empty($previous_year_url))
+                <li class="previous disabled"><span aria-hidden="true">&larr; Vorheriges Jahr</span></li>
+            @else
+                <li class="previous"><a href="{{ $previous_year_url }}"><span aria-hidden="true">&larr;</span> Vorheriges Jahr</a></li>
+            @endif
+            <li class="next"><a href="{{ $next_year_url }}">Nächstes Jahr <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+    </nav>
     @if ($readable_worked_month)
         <h2>Gearbeitet bis Ende {{ $readable_worked_month }}, geplant bis Ende {{ $readable_planned_month }}</h2>
     @else
