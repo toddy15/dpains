@@ -40,8 +40,7 @@
                 {{-- Add items for anonymous access, if hash is available --}}
                 @if (isset($hash) and !empty($hash))
                     <li {!! Request::is('anon/episodes/' . $hash) ? 'class="active"' : '' !!}><a href="{{ url('anon/episodes/' . $hash) }}">Einträge</a></li>
-                    {{-- @TODO: Do not hardcode --}}
-                    <li {!! Request::is('anon/2016/' . $hash) ? 'class="active"' : '' !!}><a href="{{ url('anon/2016/' . $hash) }}">Auswertung 2016</a></li>
+                    <li {!! Request::is('anon/' . date('Y') . '/' . $hash) ? 'class="active"' : '' !!}><a href="{{ url('anon/' . date('Y') . '/' . $hash) }}">Jahresauswertungen</a></li>
                 @endif
             </ul>
 
