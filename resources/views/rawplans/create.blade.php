@@ -9,9 +9,9 @@
     <div class="form-group">
         {!! Form::label('month', 'Monat:', ['class' => 'control-label']) !!}
         <div class="form-inline">
-            {!! Form::selectMonth('month', date('m'), ['class' => 'form-control']) !!}
+            {!! Form::selectMonth('month', $selected_month, ['class' => 'form-control']) !!}
             {!! Form::label('year', 'Jahr:', ['class' => 'sr-only control-label']) !!}
-            {!! Form::selectYear('year', $start_year, $end_year, date('Y'), ['class' => 'form-control']) !!}
+            {!! Form::selectYear('year', $start_year, $end_year, $selected_year, ['class' => 'form-control']) !!}
         </div>
     </div>
 

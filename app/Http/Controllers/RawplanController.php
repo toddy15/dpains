@@ -62,7 +62,15 @@ class RawplanController extends Controller
         $start_year = Helper::$firstYear;
         // ... to next year
         $end_year = date('Y') + 1;
-        return view('rawplans.create', compact('start_year', 'end_year'));
+        // Select highest planned month, either in the next year ...
+        $month = Helper::getPlannedMonth(date('Y') + 1);
+        if (is_null($month)) {
+            // ... or, if not yet planned, in this year.
+            $month = Helper::getPlannedMonth(date('Y'));
+        }
+        list($selected_year, $selected_month) = explode('-', $month);
+        return view('rawplans.create', compact('start_year', 'end_year',
+            'selected_year', 'selected_month'));
     }
 
     /**
