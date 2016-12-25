@@ -117,8 +117,11 @@ class AnonController extends Controller
         $latest_change = Rawplan::where('anon_report', 1)->orderBy('updated_at', 'desc')->value('updated_at');
         $latest_change = Carbon::parse($latest_change)->formatLocalized('%e. %B %Y, %H:%M');
         // Generate the next and previous year urls
-        $previous_year_url = Helper::getPreviousYearUrl('report/', $year);
-        $next_year_url = Helper::getNextYearUrl('report/', $year);
+        $previous_year_url = Helper::getPreviousYearUrl('anon/', $year);
+        if (!empty($previous_year_url)) {
+            $previous_year_url .= '/' . $hash;
+        }
+        $next_year_url = Helper::getNextYearUrl('anon/', $year) . '/' . $hash;
         $tables = Helper::getTablesForYear($request, $year, $worked_month, $employee->id);
         return view('anon.show_year', compact('hash', 'year',
             'previous_year_url', 'next_year_url',
