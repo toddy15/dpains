@@ -162,7 +162,7 @@ class ReportController extends Controller
             // Sum up the total.
             $employees[$id]['sum'] = 0;
             foreach ($employees[$id]['data'] as $buandcon) {
-                $employees[$id]['sum'] += $buandcon['bus'] + $buandcon['cons'];
+                $employees[$id]['sum'] += (int) $buandcon['bus'] + (int) $buandcon['cons'];
             }
         }
         // Sort by name
