@@ -153,7 +153,7 @@ class Planparser
         $nefs = ['n1', 'n2'];
         $bus = ['BU'];
         $cons = ['Con'];
-        $ignored = ['1', '2', 'st', '25', '26', '27', 'D2', 'i28', 'i29', 'i33', 'i35', 'dt0', 'dt1',
+        $ignored = ['1', '2', '3', 'st', '25', '26', '27', 'D2', 'i28', 'i29', 'i33', 'i35', 'dt0', 'dt1',
             'FÜ', 'BF', 'TZ', 'MS', 'EZ', 'U', 'FBi*', 'FBe*', 'K', 'KO', 'Kol', 'KP', 'KK',
             'KÜ', 'ZU', 'BR', 'F.', '', 'DB', 'Ve', 'US', '--', 'BV', 'PZU = Platzhalt',
             'B4', 'B3', 'B2', 'SU', 'ir28', 'ir29'
