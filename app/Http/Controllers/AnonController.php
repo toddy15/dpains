@@ -141,6 +141,13 @@ class AnonController extends Controller
             $email .= '@dienstplan-an.de';
         }
         $employee = Employee::where('email', $email)->first();
+        // @TODO: Remove this part after the conversion
+        if (!$employee) {
+            // Try asklepios.com instead of dienstplan-an.de
+            $parts = explode('@', $email);
+            $email = $parts[0] . '@asklepios.com';
+            $employee = Employee::where('email', $email)->first();
+        }
         // Feedback if there is no such mail
         if (!$employee) {
             $request->session()->flash('warning', "Die E-Mail $email wurde nicht gefunden.");
