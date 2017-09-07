@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Dienstplan AN</h1>
-    <p>Hier geht es zum <a href="https://webmail.dienstplan-an.de/">Webmail-Service</a>.</p>
+    <p>Hier geht es zum <a href="https://mail.asklepios.com/">Asklepios Webmail-Service</a>.</p>
 
     @if ($hash)
         <!-- Show logout button -->
@@ -15,7 +15,7 @@
             Zugriffscode anfordern.
         </p>
         <p>
-            Die Domain @dienstplan-an.de muss nicht eingegeben werden.
+            Die Domain @asklepios.com muss nicht eingegeben werden.
         </p>
 
         <div class="text-center">
@@ -26,7 +26,7 @@
                 {!! Form::label('email', 'E-Mail:', ['class' => 'control-label']) !!}
                 <div class="input-group">
                     {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'name', 'autofocus' => 'autofocus', 'aria-describedby' => 'domain-addon']) !!}
-                    <span class="input-group-addon" id="domain-addon">@dienstplan-an.de</span>
+                    <span class="input-group-addon" id="domain-addon">@asklepios.com</span>
                 </div>
             </div>
 
