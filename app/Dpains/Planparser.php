@@ -150,7 +150,7 @@ class Planparser
     {
         // @TODO: Do not hardcode.
         $nights = ['0r', 'D0', 'D1', 'i30', 'i36', 'n2'];
-        $nefs = ['n1', 'n2'];
+        $nefs = ['n1', 'n2', 'n3'];
         $bus = ['BU'];
         $cons = ['Con'];
         $ignored = ['1', '2', '3', 'st', '25', '26', '27', 'D2', 'i28', 'i29', 'i33', 'i35', 'dt0', 'dt1',
