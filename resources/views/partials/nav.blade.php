@@ -16,9 +16,9 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Auswertungen <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ url('report/' . date('Y')) }}">Jahre</a></li>
+                            <li><a href="{{ url('report/' . \App\Dpains\Helper::getPlannedYear()) }}">Jahre</a></li>
                             <li><a href="{{ url('report/' . date('Y/m')) }}">Monate</a></li>
-                            <li><a href="{{ url('report/buandcon/' . date('Y')) }}">BU und Con</a></li>
+                            <li><a href="{{ url('report/buandcon/' . \App\Dpains\Helper::getPlannedYear()) }}">BU und Con</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -30,9 +30,9 @@
                             <li {!! Request::is('staffgroup') ? 'class="active"' : '' !!}><a href="{{ url('staffgroup') }}">Mitarbeitergruppen</a></li>
                             <li {!! Request::is('due_shift') ? 'class="active"' : '' !!}><a href="{{ url('due_shift') }}">Sollzahlen</a></li>
                             <li><a href="{{ url('employee/month/' . date('Y/m')) }}">Monatsübersichten</a></li>
-                            <li><a href="{{ url('employee/vk/all/' . date('Y')) }}">Jahresübersichten VK</a></li>
-                            <li><a href="{{ url('employee/vk/night/' . date('Y')) }}">Jahresübersichten VK Nächte</a></li>
-                            <li><a href="{{ url('employee/vk/nef/' . date('Y')) }}">Jahresübersichten VK NEF</a></li>
+                            <li><a href="{{ url('employee/vk/all/' . \App\Dpains\Helper::getPlannedYear()) }}">Jahresübersichten VK</a></li>
+                            <li><a href="{{ url('employee/vk/night/' . \App\Dpains\Helper::getPlannedYear()) }}">Jahresübersichten VK Nächte</a></li>
+                            <li><a href="{{ url('employee/vk/nef/' . \App\Dpains\Helper::getPlannedYear()) }}">Jahresübersichten VK NEF</a></li>
                             <li {!! Request::is('backup') ? 'class="active"' : '' !!}><a href="{{ url('backup') }}">Backup</a></li>
                         </ul>
                     </li>
