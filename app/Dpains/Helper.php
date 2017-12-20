@@ -460,6 +460,8 @@ class Helper
         $employee_info = [];
         // Initialize the counter for all VK
         $vk_per_month['all'] = array_fill(1, 12, 0);
+        // Initialize the counter for yearly mean of all VK
+        $vk_per_month['all']['yearly_mean'] = 0;
         for ($month = 1; $month <= 12; $month++) {
             $formatted_month = Helper::validateAndFormatDate($year, $month);
             // Get all episodes valid in this month
@@ -472,6 +474,8 @@ class Helper
                 // Fill the VK sum array from 1 to 12 with 0, if not set
                 if (!isset($vk_per_month[$episode->staffgroup])) {
                     $vk_per_month[$episode->staffgroup] = array_fill(1, 12, 0);
+                    // Initialize the counter for yearly mean of staffgroup VK
+                    $vk_per_month[$episode->staffgroup]['yearly_mean'] = 0;
                 }
                 // Initialize a month array, if not set
                 if (!isset($months[$episode->staffgroup][$episode->employee_id])) {
@@ -506,7 +510,11 @@ class Helper
                 }
                 // Sum up for the month
                 $vk_per_month[$episode->staffgroup][$month] += (float) $vk;
+                // Sum up for the grand total per month
                 $vk_per_month['all'][$month] += (float) $vk;
+                // Sum up for the mean vk per year
+                $vk_per_month[$episode->staffgroup]['yearly_mean'] += (float) $vk;
+                $vk_per_month['all']['yearly_mean'] += (float) $vk;
             }
         }
         // Format the 'all' counter nicely
@@ -514,6 +522,8 @@ class Helper
             for ($month = 1; $month <= 12; $month++) {
                 $vk_per_month[$staffgroup][$month] = sprintf('%.3f', $vk_per_month[$staffgroup][$month]);
             }
+            // Calculate the yearly mean vk per staffgroup
+            $vk_per_month[$staffgroup]['yearly_mean'] = sprintf('%.3f', $vk_per_month[$staffgroup]['yearly_mean'] / 12);
         }
         // Merge the final array for display
         foreach ($employee_info as $staffgroup => $info) {
