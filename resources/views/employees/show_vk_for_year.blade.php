@@ -24,19 +24,19 @@
         <h3>{{ $staffgroup }}</h3>
         <table class="table table-striped">
             <thead>
-                <th>Name</th>
-                <th>Jan</th>
-                <th>Feb</th>
-                <th>Mär</th>
-                <th>Apr</th>
-                <th>Mai</th>
-                <th>Jun</th>
-                <th>Jul</th>
-                <th>Aug</th>
-                <th>Sep</th>
-                <th>Okt</th>
-                <th>Nov</th>
-                <th>Dez</th>
+                <th width="20%">Name</th>
+                <th width="7%">Jan</th>
+                <th width="7%">Feb</th>
+                <th width="7%">Mär</th>
+                <th width="7%">Apr</th>
+                <th width="7%">Mai</th>
+                <th width="7%">Jun</th>
+                <th width="7%">Jul</th>
+                <th width="7%">Aug</th>
+                <th width="7%">Sep</th>
+                <th width="7%">Okt</th>
+                <th width="7%">Nov</th>
+                <th width="7%">Dez</th>
             </thead>
             <tbody>
             @foreach($employees as $employee)
@@ -60,19 +60,19 @@
     <h3>Gesamt-VK</h3>
     <table class="table table-striped">
         <thead>
-        <th>Name</th>
-        <th>Jan</th>
-        <th>Feb</th>
-        <th>Mär</th>
-        <th>Apr</th>
-        <th>Mai</th>
-        <th>Jun</th>
-        <th>Jul</th>
-        <th>Aug</th>
-        <th>Sep</th>
-        <th>Okt</th>
-        <th>Nov</th>
-        <th>Dez</th>
+        <th width="20%">Name</th>
+        <th width="7%">Jan</th>
+        <th width="7%">Feb</th>
+        <th width="7%">Mär</th>
+        <th width="7%">Apr</th>
+        <th width="7%">Mai</th>
+        <th width="7%">Jun</th>
+        <th width="7%">Jul</th>
+        <th width="7%">Aug</th>
+        <th width="7%">Sep</th>
+        <th width="7%">Okt</th>
+        <th width="7%">Nov</th>
+        <th width="7%">Dez</th>
         </thead>
         <tbody>
         <tr class="success">
