@@ -32,8 +32,10 @@ class EpisodeController extends Controller
         if (!$episode) {
             // There are no episodes, so create a new employee
             // using sane default values.
+            $wb_id = Staffgroup::where('staffgroup', 'WB')->first()->id;
             $episode = new Episode();
             $episode->start_date = date("Y-m");
+            $episode->staffgroup_id = $wb_id;
             $episode->vk = "1.000";
             $episode->factor_night = "0.000";
             $episode->factor_nef = "0.000";
