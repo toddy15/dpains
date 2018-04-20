@@ -84,7 +84,20 @@ class EpisodeController extends Controller
         $episode = $request->all();
         if ($episode['employee_id'] == 0) {
             // This is a new employee, so create a new entry.
-            $employee = Employee::create(['email' => str_random(), 'hash' => str_random()]);
+            // The BU cycle always starts in the next year.
+            if (date("Y") % 2 == 0) {
+                // Currently an even year, so start cycle next year (odd)
+                $bu_start = 'odd';
+            }
+            else {
+                // Currently an odd year, so start cycle next year (even)
+                $bu_start = 'even';
+            }
+            $employee = Employee::create([
+                'email' => $episode['name'],
+                'hash' => str_random(),
+                'bu_start' => $bu_start,
+            ]);
             $episode['employee_id'] = $employee->id;
         }
         Episode::create($episode);
