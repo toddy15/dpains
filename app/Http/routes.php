@@ -45,10 +45,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('report/buandcon/{year}', 'ReportController@showBuAndCon')
         ->where(['year' => '[0-9]+']);
     Route::get('report/refresh', 'ReportController@refresh');
-
-    Route::get('backup', 'BackupController@index');
-    Route::get('backup/download', 'BackupController@download');
-    Route::post('backup/restore', 'BackupController@restore');
 });
 
 /*

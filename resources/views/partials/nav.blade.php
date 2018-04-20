@@ -33,7 +33,6 @@
                             <li><a href="{{ url('employee/vk/all/' . \App\Dpains\Helper::getPlannedYear()) }}">Jahresübersichten VK</a></li>
                             <li><a href="{{ url('employee/vk/night/' . \App\Dpains\Helper::getPlannedYear()) }}">Jahresübersichten VK Nächte</a></li>
                             <li><a href="{{ url('employee/vk/nef/' . \App\Dpains\Helper::getPlannedYear()) }}">Jahresübersichten VK NEF</a></li>
-                            <li {!! Request::is('backup') ? 'class="active"' : '' !!}><a href="{{ url('backup') }}">Backup</a></li>
                         </ul>
                     </li>
                 @endunless
