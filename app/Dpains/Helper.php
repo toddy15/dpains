@@ -168,6 +168,36 @@ class Helper
     }
 
     /**
+     * Returns an array of people previously working.
+     *
+     * @param $month
+     * @return mixed
+     */
+    public static function getPastPeople($month)
+    {
+        return DB::table('episodes as e1')
+            ->leftJoin('staffgroups', 'e1.staffgroup_id', '=', 'staffgroups.id')
+            ->leftJoin('comments', 'e1.comment_id', '=', 'comments.id')
+            // With this complicated subquery we get the last row.
+            ->where('e1.start_date', function ($query) use ($month) {
+                $query->selectRaw('MAX(`e2`.`start_date`)')
+                    ->from('episodes as e2')
+                    ->whereRaw('`e1`.`employee_id` = `e2`.`employee_id`');
+            })
+            // This returns only the episodes with "Vertragsende".
+            ->where(function ($query) {
+                $query->where('comment', 'like', 'Vertragsende');
+            })
+            // Now make sure the last row is already in the past.
+            ->where('e1.start_date', '<=', $month)
+            // First, order by staffgroups (weight parameter)
+            ->orderBy('weight')
+            // Second, order by name within the staffgroups
+            ->orderBy('name')
+            ->get();
+    }
+
+    /**
      * Returns all people with changes in the given month.
      *
      * @param $month

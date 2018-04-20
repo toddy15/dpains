@@ -27,7 +27,7 @@
         </tbody>
     </table>
 
-    <h1>Frühere und zukünftige Mitarbeiter</h1>
+    <h1>Zukünftige Mitarbeiter</h1>
     <table class="table table-striped">
         <thead>
         <th>Name</th>
@@ -35,7 +35,7 @@
         <th>Aktion</th>
         </thead>
         <tbody>
-        @foreach($past_and_future as $employee)
+        @foreach($future as $employee)
             <tr>
                 <td>{{ $employee->name }}</td>
                 <td>{{ $employee->email }}</td>
@@ -49,4 +49,6 @@
         @endforeach
         </tbody>
     </table>
+
+    <a class="btn btn-primary" href="{{ action('EmployeeController@showPastEmployees') }}">Frühere Mitarbeiter anzeigen</a>
 @endsection

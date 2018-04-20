@@ -37,6 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
         ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
     Route::get('employee/vk/{which_vk}/{year}', 'EmployeeController@showVKForYear')
         ->where(['year' => '[0-9]+']);
+    Route::get('employee/past', 'EmployeeController@showPastEmployees');
 
     Route::get('report/{year}/{month}', 'ReportController@showMonth')
         ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);

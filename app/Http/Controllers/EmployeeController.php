@@ -22,6 +22,8 @@ class EmployeeController extends Controller
         // Display current employees first, already sorted by staffgroup and name
         $current_month = date("Y-m");
         $people = Helper::getPeopleForMonth($current_month);
+        // Exclude the past employees.
+        $past_people = Helper::getPastPeople($current_month);
         // Construct an array with id, name, and email address
         $current = array_map(function ($employee) use ($employees) {
             // Extract information from employee table
@@ -39,10 +41,17 @@ class EmployeeController extends Controller
         $current_ids = array_map(function ($employee) {
             return $employee->id;
         }, $current);
-        $past_and_future = $employees->filter(function ($employee) use ($current_ids) {
+        $future = $employees->filter(function ($employee) use ($current_ids) {
             return !in_array($employee->id, $current_ids);
         })->sortBy('name');
-        return view('employees.index', compact('current', 'past_and_future'));
+        // Exclude the past employees
+        $past_ids = array_map(function ($employee) {
+            return $employee->employee_id;
+        }, $past_people);
+        $future = $future->filter(function ($employee) use ($past_ids) {
+            return !in_array($employee->id, $past_ids);
+        })->sortBy('name');
+        return view('employees.index', compact('current', 'future'));
     }
 
     /**
@@ -74,6 +83,30 @@ class EmployeeController extends Controller
         $employee->update($request->all());
         $request->session()->flash('info', 'Der Mitarbeiter wurde geändert.');
         return redirect(action('EmployeeController@index'));
+    }
+
+    /**
+     * Show past employees.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showPastEmployees(Request $request)
+    {
+        $employees = Employee::all();
+        $current_month = date("Y-m");
+        $past_people = Helper::getPastPeople($current_month);
+        // Construct an array with id, name, and email address
+        $past = array_map(function ($employee) use ($employees) {
+            // Extract information from employee table
+            $data = $employees->where('id', $employee->employee_id)->first();
+            return (object) [
+                'id' => $employee->employee_id,
+                'name' => $employee->name,
+                'email' => $data->email,
+            ];
+        }, $past_people);
+        return view('employees.past', compact('past'));
     }
 
     /**
