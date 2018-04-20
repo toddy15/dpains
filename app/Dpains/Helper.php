@@ -598,4 +598,20 @@ class Helper
         }
         return 0;
     }
+
+    /**
+     * Determine whether the given staffgroup may receive emails.
+     *
+     * Currently, all staffgroups below 8 may receive emails.
+     * Starting from 8, it's Bundeswehr, Dummy, Hospitation etc.
+     *
+     * @TODO: Fix this if more staffgroups get added.
+     *
+     * @param $staffgroup
+     * @return boolean
+     */
+    public static function staffgroupMayReceiveEMail($staffgroup)
+    {
+        return ($staffgroup < 8) ? true : false;
+    }
 }

@@ -12,7 +12,11 @@
         </thead>
         <tbody>
         @foreach($current as $employee)
-            <tr>
+            @if ($employee->warning)
+                <tr class="danger">
+            @else
+                <tr>
+            @endif
                 <td>{{ $employee->name }}</td>
                 <td>{{ $employee->email }}</td>
                 <td>{{ $employee->bu_start }}</td>

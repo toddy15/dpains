@@ -30,11 +30,20 @@ class EmployeeController extends Controller
             $data = $employees->where('id', $employee->employee_id)->first();
             $bu = $this->_calculateBUStart();
             $bu_start = $bu[$data->bu_start];
+            if (Helper::staffgroupMayReceiveEMail($employee->staffgroup_id)) {
+                // Warn if people do *not* have a valid email, although they should.
+                $warning = !str_contains($data->email, "@");
+            }
+            else {
+                // Warn if people *do* have a valid email, although they should not.
+                $warning = str_contains($data->email, "@");
+            }
             return (object) [
                 'id' => $employee->employee_id,
                 'name' => $employee->name,
                 'email' => $data->email,
                 'bu_start' => $bu_start,
+                'warning' => $warning,
             ];
         }, $people);
         // Now collect all remaining employees
