@@ -49,7 +49,10 @@ class Planparser
             // Remove comma, space and end dates from names.
             $person_line = preg_replace("/\s*,?\s*[0-9.]+$/", '', $person_line);
             // Remove skills
-            $skills = ['/Chefarzt-V/', '/Chefarzt/', '/OA/', '/ASS\/FA/', '/FA/', '/Ass-Arzt/', '/ITS MED/'];
+            $skills = [
+                '/Chefarzt-V/', '/Chefarzt/', '/OA/', '/ASS\/FA/',
+                '/FA/', '/Ass-Arzt/', '/ITS MED/', '/xITS Pflege/'
+            ];
             $person_line = preg_replace($skills, '', $person_line);
             // If the line only consists of whitespace and comma, it
             // was a skills line, not a name. Remove it.
