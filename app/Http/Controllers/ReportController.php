@@ -70,7 +70,9 @@ class ReportController extends Controller
             $readable_worked_month = Carbon::parse($worked_month)->formatLocalized('%B %Y');
         }
         // Get the date and time of latest change
-        $latest_change = Rawplan::orderBy('updated_at', 'desc')->value('updated_at');
+        $latest_change = Rawplan::orderBy('updated_at', 'desc')
+            ->where('month', 'LIKE', "$year%")
+            ->value('updated_at');
         $latest_change = Carbon::parse($latest_change)->formatLocalized('%e. %B %Y, %H:%M');
         // Generate the next and previous year urls
         $previous_year_url = Helper::getPreviousYearUrl('report/', $year);
