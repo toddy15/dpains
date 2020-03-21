@@ -25,7 +25,7 @@
                 <td>{{ $episode->vk }}</td>
                 <td>{{ $episode->factor_night }}</td>
                 <td>{{ $episode->factor_nef }}</td>
-                <td>{{ $episode->comment['comment'] }}</td>
+                <td>{{ $episode->comment['comment'] ?? '' }}</td>
                 <td>
                     {!! Form::open(['action' => ['EpisodeController@destroy', $episode->id], 'method' => 'delete']) !!}
                     <a class="btn btn-primary" href="{{ action('EpisodeController@edit', $episode->id) }}">Bearbeiten</a>
