@@ -21,7 +21,7 @@
                 <td>{{ $episode->vk }}</td>
                 <td>{{ $episode->factor_night }}</td>
                 <td>{{ $episode->factor_nef }}</td>
-                <td>{{ $episode->comment['comment'] }}</td>
+                <td>{{ $episode->comment['comment'] ?? '' }}</td>
             </tr>
         @endforeach
         </tbody>
