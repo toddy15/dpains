@@ -301,14 +301,9 @@ class Helper
                 $info['diff_planned_nefs'] = (int)round($info['planned_nefs'] + $bonus - $due_nefs);
                 // Use the sorting key as the array index, to enable the
                 // sorting within the staffgroups.
-                // If this is for anonymous access, use diff_planned_nights instead of name.
+                // Always use diff_planned_nights instead of name.
                 if (!array_key_exists($sort_key, $info)) {
-                    if ($non_anon_employee_id) {
-                        $sort_key = 'diff_planned_nights';
-                    }
-                    else {
-                        $sort_key = 'name';
-                    }
+                    $sort_key = 'diff_planned_nights';
                 }
                 // Is the employee part of this staffgroup?
                 if ($non_anon_employee_id) {
