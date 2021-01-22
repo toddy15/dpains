@@ -385,7 +385,7 @@ class Helper
     public static function sortTableBy($column, $body, $year, $hash='')
     {
         // Provide default values, if the parameters are not set
-        $currentColumn = Request::get('sort') ?: 'name';
+        $currentColumn = Request::get('sort') ?: 'diff_planned_nights';
         $currentDirection = Request::get('direction') ?: 'asc';
         // If the hash is given, use anonymous access and another default
         if ($hash) {
