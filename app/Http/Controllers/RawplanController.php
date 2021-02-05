@@ -140,6 +140,12 @@ class RawplanController extends Controller
     public function destroy(Request $request, $id)
     {
         $rawplan = Rawplan::findOrFail($id);
+        // Only delete the rawplan if it's still in progress
+        // and has not been worked through completely.
+        if ($rawplan->month <= Helper::getWorkedMonth()) {
+            $request->session()->flash('warning', 'Der Dienstplan wurde nicht gelöscht.');
+            return redirect(action('RawplanController@index'));
+        }
         // Also delete every parsed plan ...
         DB::table('analyzed_months')->where('month', $rawplan->month)->delete();
         $rawplan->delete();

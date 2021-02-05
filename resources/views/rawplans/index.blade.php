@@ -47,9 +47,6 @@
                 <td>{{ $rawplan->updated_at }}</td>
                 <td>{{ $rawplan->anon_report ? 'Ja' : 'Nein' }}</td>
                 <td>
-                    {!! Form::open(['action' => ['RawplanController@destroy', $rawplan->id], 'method' => 'delete']) !!}
-                    {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
-                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach
