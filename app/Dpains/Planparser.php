@@ -51,8 +51,8 @@ class Planparser
             // Remove skills
             $skills = [
                 '/Chefarzt-V/', '/Chefarzt/', '/OA/', '/ASS\/FA/',
-                '/FA/', '/Ass-Arzt/', '/ITS MED/', '/xITS Pflege/',
-                '/SpWB INT/', '/FA-ÄD_1/',
+                '/FA-ÄD_1/', '/FA/', '/Ass-Arzt/', '/ITS MED/',
+                '/xITS Pflege/', '/SpWB INT/',
             ];
             $person_line = preg_replace($skills, '', $person_line);
             // If the line only consists of whitespace and comma, it
