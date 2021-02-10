@@ -46,15 +46,17 @@ class Planparser
         foreach ($person_lines as $person_line) {
             // Remove whitespace.
             $person_line = trim($person_line);
-            // Remove comma, space and end dates from names.
-            $person_line = preg_replace("/\s*,?\s*[0-9.]+$/", '', $person_line);
             // Remove skills
+            // This needs to happen before removal of the date, because
+            // otherwise the skill 'FA-ÄD_1' will be truncated.
             $skills = [
                 '/Chefarzt-V/', '/Chefarzt/', '/OA/', '/ASS\/FA/',
                 '/FA-ÄD_1/', '/FA/', '/Ass-Arzt/', '/ITS MED/',
                 '/xITS Pflege/', '/SpWB INT/',
             ];
             $person_line = preg_replace($skills, '', $person_line);
+            // Remove comma, space and end dates from names.
+            $person_line = preg_replace("/\s*,?\s*[0-9.]+$/", '', $person_line);
             // If the line only consists of whitespace and comma, it
             // was a skills line, not a name. Remove it.
             if (preg_match("/^[, ]+$/", $person_line)) {
@@ -67,6 +69,7 @@ class Planparser
             // Finally, add the name to list.
             $this->parsedNames[] = $person_line;
         }
+        dd($this->parsedNames);
     }
 
     public function parseShifts()
