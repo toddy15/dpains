@@ -69,7 +69,6 @@ class Planparser
             // Finally, add the name to list.
             $this->parsedNames[] = $person_line;
         }
-        dd($this->parsedNames);
     }
 
     public function parseShifts()
