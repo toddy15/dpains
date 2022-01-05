@@ -52,7 +52,7 @@ class Planparser
             $skills = [
                 '/Chefarzt-V/', '/Chefarzt/', '/OA/', '/ASS\/FA/',
                 '/FA-ÄD_1/', '/FA/', '/Ass-Arzt/', '/ITS MED/',
-                '/xITS Pflege/', '/SpWB INT/',
+                '/xITS Pflege/', '/SpWB INT/', '/"weiblich"/',
             ];
             $person_line = preg_replace($skills, '', $person_line);
             // Remove comma, space and end dates from names.
