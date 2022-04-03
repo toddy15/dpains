@@ -2,7 +2,7 @@
 
 namespace App\Dpains;
 
-use App\Rawplan;
+use App\Models\Rawplan;
 use Illuminate\Support\Facades\DB;
 
 class Planparser

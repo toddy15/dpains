@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Dpains\Helper;
 use App\Dpains\Planparser;
-use App\Employee;
-use App\Rawplan;
+use App\Models\Employee;
+use App\Models\Rawplan;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dpains\Helper;
-use App\Employee;
+use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

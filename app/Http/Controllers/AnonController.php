@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Dpains\Helper;
-use App\Employee;
-use App\Rawplan;
+use App\Models\Employee;
+use App\Models\Rawplan;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;

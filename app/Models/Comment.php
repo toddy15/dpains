@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Staffgroup extends Model
+class Comment extends Model
 {
     protected $fillable = [
-        'staffgroup', 'weight',
+        'comment',
     ];
 
     /**

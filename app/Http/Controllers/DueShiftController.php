@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Dpains\Helper;
-use App\DueShift;
-use App\Staffgroup;
+use App\Models\DueShift;
+use App\Models\Staffgroup;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

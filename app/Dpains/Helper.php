@@ -2,10 +2,10 @@
 
 namespace App\Dpains;
 
-use App\DueShift;
-use App\Episode;
-use App\Rawplan;
-use App\Staffgroup;
+use App\Models\DueShift;
+use App\Models\Episode;
+use App\Models\Rawplan;
+use App\Models\Staffgroup;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;

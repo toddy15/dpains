@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
 use App\Dpains\Helper;
-use App\Employee;
-use App\Episode;
-use App\Staffgroup;
+use App\Models\Comment;
+use App\Models\Employee;
+use App\Models\Episode;
+use App\Models\Staffgroup;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
