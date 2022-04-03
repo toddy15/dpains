@@ -175,11 +175,12 @@ class AnonController extends Controller
         $employee->hash = Str::random();
         $employee->save();
         // Send the mail
-        $url = action('AnonController@showYear', [date('Y'), $employee->hash]);
-        Mail::queue(['text' => 'emails.new_hash'], compact('url'), function ($m) use ($employee) {
-            $m->to($employee->email);
-            $m->subject('Neuer Zugriffscode für www.dienstplan-an.de');
-        });
+        $url = action([AnonController::class, 'showYear'], [date('Y'), $employee->hash]);
+        //@TODO mail
+//        Mail::queue(['text' => 'emails.new_hash'], compact('url'), function ($m) use ($employee) {
+//            $m->to($employee->email);
+//            $m->subject('Neuer Zugriffscode für www.dienstplan-an.de');
+//        });
         $request->session()->flash('info', "Der neue Zugriffscode wurde an $email gesendet.");
 
         return redirect(url('/'));

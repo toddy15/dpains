@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #FEF08A;">
     <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ url('/' . ($hash ?? '')) }}">
             Home
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

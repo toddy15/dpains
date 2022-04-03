@@ -35,7 +35,7 @@
             <tbody>
                 @foreach($table['rows'] as $rows)
                     @foreach($rows as $row)
-                        <tr {!! isset($row->highlight_row) ? 'class="info"' : '' !!}>
+                        <tr {!! isset($row->highlight_row) ? 'class="table-info"' : '' !!}>
                             <td>{{ $row->name }}</td>
                             <td>{{ $row->worked_nights }}</td>
                             <td>{{ $row->planned_nights }}</td>
