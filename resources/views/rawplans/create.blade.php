@@ -3,7 +3,7 @@
 @section('content')
     <h1>Dienstplan hochladen</h1>
 
-    {!! Form::open(['action' => 'RawplanController@store']) !!}
+    {!! Form::open(['action' => 'App\Http\Controllers\RawplanController@store']) !!}
 
     <!-- Month Form Input  -->
     <div class="form-group">
@@ -37,7 +37,7 @@
         <!-- Speichern Form Input  -->
         {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
         <!-- Cancel Button -->
-        <a class="btn btn-default" href="{{ action('RawplanController@index') }}">Abbrechen</a>
+        <a class="btn btn-default" href="{{ action('App\Http\Controllers\RawplanController@index') }}">Abbrechen</a>
     </div>
 
     {!! Form::close() !!}

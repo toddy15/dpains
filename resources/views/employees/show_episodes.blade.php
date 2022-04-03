@@ -3,7 +3,7 @@
 @section('content')
     <h1>Einträge für {{ $latest_name }}</h1>
     <p>
-        <a class="btn btn-primary" href="{{ action('EpisodeController@create', ['employee_id' => $id]) }}">Neuen Eintrag erstellen</a>
+        <a class="btn btn-primary" href="{{ action('App\Http\Controllers\EpisodeController@create', ['employee_id' => $id]) }}">Neuen Eintrag erstellen</a>
     </p>
     <table class="table table-striped">
         <thead>
@@ -27,8 +27,8 @@
                 <td>{{ $episode->factor_nef }}</td>
                 <td>{{ $episode->comment['comment'] ?? '' }}</td>
                 <td>
-                    {!! Form::open(['action' => ['EpisodeController@destroy', $episode->id], 'method' => 'delete']) !!}
-                    <a class="btn btn-primary" href="{{ action('EpisodeController@edit', $episode->id) }}">Bearbeiten</a>
+                    {!! Form::open(['action' => ['App\Http\Controllers\EpisodeController@destroy', $episode->id], 'method' => 'delete']) !!}
+                    <a class="btn btn-primary" href="{{ action('App\Http\Controllers\EpisodeController@edit', $episode->id) }}">Bearbeiten</a>
                     {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
                     {!! Form::close() !!}
                 </td>

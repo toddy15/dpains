@@ -7,7 +7,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{ action('AnonController@homepage', isset($hash) ? $hash : '') }}">Home</a>
+            <a class="navbar-brand" href="{{ action('App\Http\Controllers\AnonController@homepage', isset($hash) ? $hash : '') }}">Home</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

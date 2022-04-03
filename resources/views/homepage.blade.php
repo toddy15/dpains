@@ -6,7 +6,7 @@
 
     @if ($hash)
         <!-- Show logout button -->
-        <a role="button" class="btn btn-default" href="{{ action('AnonController@logout', $hash) }}">Abmelden</a>
+        <a role="button" class="btn btn-default" href="{{ action('App\Http\Controllers\AnonController@logout', $hash) }}">Abmelden</a>
     @else
         <p>
             Um Zugriff auf die Auswertungen der Dienste zu bekommen,
@@ -19,7 +19,7 @@
         </p>
 
         <div class="text-center">
-            {!! Form::open(['action' => 'AnonController@requestNewHashPerMail', 'class' => 'form-inline']) !!}
+            {!! Form::open(['action' => 'App\Http\Controllers\AnonController@requestNewHashPerMail', 'class' => 'form-inline']) !!}
 
             <!-- E-Mail Form Input  -->
             <div class="form-group {{ $errors->has('email') ? 'has-error has-feedback' : '' }}">

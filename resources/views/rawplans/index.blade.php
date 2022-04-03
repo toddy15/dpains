@@ -3,10 +3,10 @@
 @section('content')
     <h1>Dienstpläne</h1>
     <p>
-        <a class="btn btn-primary" href="{{ action('RawplanController@create') }}">Neuen Dienstplan hochladen</a>
+        <a class="btn btn-primary" href="{{ action('App\Http\Controllers\RawplanController@create') }}">Neuen Dienstplan hochladen</a>
     </p>
 
-    {!! Form::open(['action' => 'RawplanController@setAnonReportMonth', 'method' => 'put', 'class' => 'form-inline']) !!}
+    {!! Form::open(['action' => 'App\Http\Controllers\RawplanController@setAnonReportMonth', 'method' => 'put', 'class' => 'form-inline']) !!}
 
     <!-- Month Form Input  -->
     <div class="form-group">
@@ -35,7 +35,7 @@
                 <td>{{ $rawplan->updated_at }}</td>
                 <td>{{ $rawplan->anon_report ? 'Ja' : 'Nein' }}</td>
                 <td>
-                    {!! Form::open(['action' => ['RawplanController@destroy', $rawplan->id], 'method' => 'delete']) !!}
+                    {!! Form::open(['action' => ['App\Http\Controllers\RawplanController@destroy', $rawplan->id], 'method' => 'delete']) !!}
                     {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
                     {!! Form::close() !!}
                 </td>
