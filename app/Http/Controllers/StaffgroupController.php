@@ -3,20 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Staffgroup;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\ValidationException;
 
 class StaffgroupController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         $staffgroups = Staffgroup::all()->sortBy('weight');
         return view('staffgroups.index', compact('staffgroups'));
@@ -25,9 +27,9 @@ class StaffgroupController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('staffgroups.create');
     }
@@ -35,8 +37,9 @@ class StaffgroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return RedirectResponse
+     * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -53,9 +56,9 @@ class StaffgroupController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Response
+     * @return View
      */
-    public function edit($id)
+    public function edit($id): View
     {
         $staffgroup = Staffgroup::findOrFail($id);
         return view('staffgroups.edit', compact('staffgroup'));
@@ -64,9 +67,10 @@ class StaffgroupController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @param int $id
      * @return RedirectResponse
+     * @throws ValidationException
      */
     public function update(Request $request, int $id): RedirectResponse
     {
