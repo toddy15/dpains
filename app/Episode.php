@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Episode extends Model
 {
@@ -13,16 +14,16 @@ class Episode extends Model
     /**
      * Get the comment for an episode.
      */
-    public function comment()
+    public function comment(): BelongsTo
     {
-        return $this->belongsTo('App\Comment');
+        return $this->belongsTo(Comment::class);
     }
 
     /**
      * Get the staffgroup for an episode.
      */
-    public function staffgroup()
+    public function staffgroup(): BelongsTo
     {
-        return $this->belongsTo('App\Staffgroup');
+        return $this->belongsTo(Staffgroup::class);
     }
 }

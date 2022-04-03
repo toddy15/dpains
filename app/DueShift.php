@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DueShift extends Model
 {
@@ -20,8 +21,8 @@ class DueShift extends Model
     /**
      * Get the staffgroup for the entry.
      */
-    public function staffgroup()
+    public function staffgroup(): BelongsTo
     {
-        return $this->belongsTo('App\Staffgroup');
+        return $this->belongsTo(Staffgroup::class);
     }
 }

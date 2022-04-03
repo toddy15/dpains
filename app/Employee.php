@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Employee extends Model
 {
@@ -13,9 +14,9 @@ class Employee extends Model
     /**
      * Get the episodes for the employee.
      */
-    public function episodes()
+    public function episodes(): HasMany
     {
-        return $this->hasMany('App\Episode');
+        return $this->hasMany(Episode::class);
     }
 
     /**
