@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #A5F3FC;">
+<nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #FEF08A;">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
             Home

@@ -16,7 +16,7 @@ return new class () extends Migration {
             $table->id();
             $table->string('email', 64)->unique();
             $table->string('hash', 64);
-            $table->text('bu_start');
+            $table->string('bu_start')->nullable();
             $table->timestamps();
         });
     }
