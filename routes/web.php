@@ -1,59 +1,33 @@
 <?php
 
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\DueShiftController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EpisodeController;
+use App\Http\Controllers\RawplanController;
+use App\Http\Controllers\StaffgroupController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-/*
- * These routes are only accessible by authenticated users.
- */
 Route::middleware([Authenticate::class])->group(function () {
-    Route::resource(
-        'episode',
-        'App\Http\Controllers\EpisodeController',
-        ['except' => ['index', 'show']]
-    );
-    Route::resource(
-        'staffgroup',
-        'App\Http\Controllers\StaffgroupController',
-        ['except' => ['show', 'destroy']]
-    );
-    Route::resource(
-        'comment',
-        'App\Http\Controllers\CommentController',
-        ['except' => ['show', 'destroy']]
-    );
-    Route::resource(
-        'rawplan',
-        'App\Http\Controllers\RawplanController',
-        ['except' => ['show', 'edit', 'update']]
-    );
-    Route::resource(
-        'due_shift',
-        'App\Http\Controllers\DueShiftController',
-        ['except' => ['show', 'destroy']]
-    );
-    Route::put('rawplan/setAnonReportMonth', 'App\Http\Controllers\RawplanController@setAnonReportMonth');
-    Route::resource(
-        'employee',
-        'App\Http\Controllers\EmployeeController',
-        ['except' => ['create', 'store', 'show', 'destroy']]
-    );
+    Route::resource('episode', EpisodeController::class)
+        ->except(['index', 'show']);
+    Route::resource('staffgroup', StaffgroupController::class)
+        ->except(['show', 'destroy']);
+    Route::resource('comment', CommentController::class)
+        ->except(['show', 'destroy']);
+    Route::resource('rawplan', RawplanController::class)
+        ->except(['show', 'edit', 'update']);
+    Route::resource('due_shift', DueShiftController::class)
+        ->except(['show', 'destroy']);
+    Route::put('rawplan/setAnonReportMonth', [RawplanController::class, 'setAnonReportMonth']);
+    Route::resource('employee', EmployeeController::class)
+        ->except(['create', 'store', 'show', 'destroy']);
     Route::get('employee/{id}/episodes', 'App\Http\Controllers\EmployeeController@showEpisodes');
     Route::get('employee/month/{year}/{month}', 'App\Http\Controllers\EmployeeController@showMonth')
         ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
