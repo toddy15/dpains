@@ -69,19 +69,22 @@
                     @endif
                 </ul>
             @endunless
-            @unless (Auth::guest())
-                <a class="nav-link dropdown-toggle" href="#" id="navbarUser" role="button"
-                   data-bs-toggle="dropdown" aria-expanded="false">
-                    {{ Auth::user()->name }}
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarUser">
-                    <li><a href="{{ url('/logout') }}">Logout</a></li>
-                </ul>
-            @else
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="{{ url('/login') }}">Login</a></li>
-                </ul>
-            @endunless
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                @unless (Auth::guest())
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarUser" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ Auth::user()->name }}</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarUser">
+                            <li><a class="dropdown-item" href="{{ url('/logout') }}">Logout</a></li>
+                        </ul>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/login') }}">Login</a>
+                    </li>
+                @endunless
+            </ul>
         </div>
     </div>
 </nav>
