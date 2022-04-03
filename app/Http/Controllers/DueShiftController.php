@@ -6,6 +6,7 @@ use App\Dpains\Helper;
 use App\DueShift;
 use App\Staffgroup;
 use Illuminate\Database\QueryException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -63,9 +64,9 @@ class DueShiftController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'year' => 'required|numeric|min:' . Helper::$firstYear,
@@ -81,7 +82,7 @@ class DueShiftController extends Controller
         catch (QueryException $e) {
             $request->session()->flash('danger', 'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.');
         }
-        return redirect(action('DueShiftController@index'));
+        return redirect(action([DueShiftController::class, 'index']));
     }
 
     /**
@@ -113,9 +114,9 @@ class DueShiftController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
         $due_shift = DueShift::findOrFail($id);
         $this->validate($request, [
@@ -132,6 +133,6 @@ class DueShiftController extends Controller
         catch (QueryException $e) {
             $request->session()->flash('danger', 'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.');
         }
-        return redirect(action('DueShiftController@index'));
+        return redirect(action([DueShiftController::class, 'index']));
     }
 }

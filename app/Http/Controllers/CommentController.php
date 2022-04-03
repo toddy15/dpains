@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -35,16 +36,16 @@ class CommentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return Response
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'comment' => 'required'
         ]);
         Comment::create($request->all());
         $request->session()->flash('info', 'Die Bemerkung wurde gespeichert.');
-        return redirect(action('CommentController@index'));
+        return redirect(action([CommentController::class, 'index']));
     }
 
     /**
@@ -64,13 +65,13 @@ class CommentController extends Controller
      *
      * @param  Request  $request
      * @param  int  $id
-     * @return Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
         $comment = Comment::findOrFail($id);
         $comment->update($request->all());
         $request->session()->flash('info', 'Die Bemerkung wurde geändert.');
-        return redirect(action('CommentController@index'));
+        return redirect(action([CommentController::class, 'index']));
     }
 }

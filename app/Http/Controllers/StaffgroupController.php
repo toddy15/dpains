@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Staffgroup;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -35,9 +36,9 @@ class StaffgroupController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return Response
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'staffgroup' => 'required',
@@ -45,7 +46,7 @@ class StaffgroupController extends Controller
         ]);
         Staffgroup::create($request->all());
         $request->session()->flash('info', 'Die Mitarbeitergruppe wurde gespeichert.');
-        return redirect(action('StaffgroupController@index'));
+        return redirect(action([StaffgroupController::class, 'index']));
     }
 
     /**
@@ -64,10 +65,10 @@ class StaffgroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param  int  $id
-     * @return Response
+     * @param int $id
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): RedirectResponse
     {
         $this->validate($request, [
             'staffgroup' => 'required',
@@ -76,6 +77,6 @@ class StaffgroupController extends Controller
         $staffgroup = Staffgroup::findOrFail($id);
         $staffgroup->update($request->all());
         $request->session()->flash('info', 'Die Mitarbeitergruppe wurde geändert.');
-        return redirect(action('StaffgroupController@index'));
+        return redirect(action([StaffgroupController::class, 'index']));
     }
 }

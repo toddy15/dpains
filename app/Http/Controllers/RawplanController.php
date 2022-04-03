@@ -6,6 +6,7 @@ use App\Dpains\Helper;
 use App\Dpains\Planparser;
 use App\Dpains\Reporter;
 use App\Rawplan;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -79,9 +80,9 @@ class RawplanController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return Response
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         // Perform validation before actually saving entry.
         $validator = Validator::make($request->all(), [
@@ -110,7 +111,7 @@ class RawplanController extends Controller
         });
         // Determine whether there was an error.
         if ($validator->fails()) {
-            return redirect(action('RawplanController@create'))
+            return redirect(action([RawplanController::class, 'index']))
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -128,16 +129,16 @@ class RawplanController extends Controller
         }
         $rawplan->save();
         $request->session()->flash('info', 'Der Dienstplan wurde gespeichert.');
-        return redirect(action('RawplanController@index'));
+        return redirect(action([RawplanController::class, 'index']));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return Response
+     * @return RedirectResponse
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, $id): RedirectResponse
     {
         $rawplan = Rawplan::findOrFail($id);
         // Only delete the rawplan if it's still in progress
@@ -150,17 +151,16 @@ class RawplanController extends Controller
         DB::table('analyzed_months')->where('month', $rawplan->month)->delete();
         $rawplan->delete();
         $request->session()->flash('info', 'Der Dienstplan wurde gelöscht.');
-        return redirect(action('RawplanController@index'));
+        return redirect(action([RawplanController::class, 'index']));
     }
 
     /**
      * Flip the status of inclusion for the month in the anonymous report.
      *
      * @param Request $request
-     * @param $id
      * @return RedirectResponse
      */
-    public function setAnonReportMonth(Request $request)
+    public function setAnonReportMonth(Request $request): RedirectResponse
     {
         // Format the month
         $formatted_month = Helper::validateAndFormatDate($request->year, $request->month);
@@ -171,6 +171,6 @@ class RawplanController extends Controller
         DB::table('rawplans')->where('month', '>', $formatted_month)
             ->update(['anon_report' => 0]);
         $request->session()->flash('info', 'Der Status der anonymen Auswertung wurde geändert.');
-        return redirect(action('RawplanController@index'));
+        return redirect(action([RawplanController::class, 'index']));
     }
 }

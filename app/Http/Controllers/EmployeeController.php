@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dpains\Helper;
 use App\Employee;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -81,9 +82,9 @@ class EmployeeController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
         $this->validate($request, [
             'email' => 'required'
@@ -91,7 +92,7 @@ class EmployeeController extends Controller
         $employee = Employee::findOrFail($id);
         $employee->update($request->all());
         $request->session()->flash('info', 'Der Mitarbeiter wurde geändert.');
-        return redirect(action('EmployeeController@index'));
+        return redirect(action([EmployeeController::class, 'index']));
     }
 
     /**

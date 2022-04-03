@@ -8,11 +8,13 @@ use App\Episode;
 use App\Comment;
 use App\PersonInfo;
 use App\Staffgroup;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\DocBlock\Tags\Reference\Reference;
 
 class EpisodeController extends Controller
 {
@@ -64,9 +66,9 @@ class EpisodeController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request $request
-     * @return Response
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'name' => 'required',
@@ -102,7 +104,7 @@ class EpisodeController extends Controller
         }
         Episode::create($episode);
         $request->session()->flash('info', 'Der Eintrag wurde gespeichert.');
-        return redirect(action('EmployeeController@showEpisodes', $episode['employee_id']));
+        return redirect(action([EmployeeController::class, 'showEpisodes', $episode['employee_id']]));
     }
 
     /**
@@ -139,9 +141,9 @@ class EpisodeController extends Controller
      *
      * @param  Request $request
      * @param  int $id
-     * @return Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): RedirectResponse
     {
         $episode = Episode::findOrFail($id);
         // Set the month to the formatted string for database storage.
@@ -150,16 +152,16 @@ class EpisodeController extends Controller
         $request->merge(['start_date' => $start_date]);
         $episode->update($request->all());
         $request->session()->flash('info', 'Der Eintrag wurde geändert.');
-        return redirect(action('EmployeeController@showEpisodes', $episode->employee_id));
+        return redirect(action([EmployeeController::class, 'showEpisodes', $episode->employee_id]));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     * @return Response
+     * @return RedirectResponse
      */
-    public function destroy(Request $request, $id)
+    public function destroy(Request $request, $id): RedirectResponse
     {
         $episode = Episode::findOrFail($id);
         Episode::destroy($id);
@@ -168,8 +170,8 @@ class EpisodeController extends Controller
         $next_episode = Episode::where('employee_id', $episode->employee_id)->first();
         if (!$next_episode) {
             Employee::where('id', $episode->employee_id)->delete();
-            return redirect(action('EmployeeController@index'));
+            return redirect(action([EmployeeController::class, 'index']));
         }
-        return redirect(action('EmployeeController@showEpisodes', $episode->employee_id));
+        return redirect(action([EmployeeController::class, 'showEpisodes', $episode->employee_id]));
     }
 }
