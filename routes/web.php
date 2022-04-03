@@ -14,60 +14,60 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Authentication routes...
-Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
+Route::get('auth/login', 'App\Http\Controllers\Auth\AuthController@getLogin');
+Route::post('auth/login', 'App\Http\Controllers\Auth\AuthController@postLogin');
+Route::get('auth/logout', 'App\Http\Controllers\Auth\AuthController@getLogout');
 
 // Registration routes...
-//Route::get('auth/register', 'Auth\AuthController@getRegister');
-//Route::post('auth/register', 'Auth\AuthController@postRegister');
+//Route::get('auth/register', 'App\Http\Controllers\Auth\AuthController@getRegister');
+//Route::post('auth/register', 'App\Http\Controllers\Auth\AuthController@postRegister');
 
 // Password reset link request routes...
-Route::get('password/email', 'Auth\PasswordController@getEmail');
-Route::post('password/email', 'Auth\PasswordController@postEmail');
-Route::get('password/reset/{token}', 'Auth\PasswordController@getReset');
-Route::post('password/reset', 'Auth\PasswordController@postReset');
+Route::get('password/email', 'App\Http\Controllers\Auth\PasswordController@getEmail');
+Route::post('password/email', 'App\Http\Controllers\Auth\PasswordController@postEmail');
+Route::get('password/reset/{token}', 'App\Http\Controllers\Auth\PasswordController@getReset');
+Route::post('password/reset', 'App\Http\Controllers\Auth\PasswordController@postReset');
 
 /*
  * These routes are only accessible by authenticated users.
  */
 Route::group(['middleware' => 'auth'], function () {
-    Route::resource('episode', 'EpisodeController',
+    Route::resource('episode', 'App\Http\Controllers\EpisodeController',
         ['except' => ['index', 'show']]);
-    Route::resource('staffgroup', 'StaffgroupController',
+    Route::resource('staffgroup', 'App\Http\Controllers\StaffgroupController',
         ['except' => ['show', 'destroy']]);
-    Route::resource('comment', 'CommentController',
+    Route::resource('comment', 'App\Http\Controllers\CommentController',
         ['except' => ['show', 'destroy']]);
-    Route::resource('rawplan', 'RawplanController',
+    Route::resource('rawplan', 'App\Http\Controllers\RawplanController',
         ['except' => ['show', 'edit', 'update']]);
-    Route::resource('due_shift', 'DueShiftController',
+    Route::resource('due_shift', 'App\Http\Controllers\DueShiftController',
         ['except' => ['show', 'destroy']]);
-    Route::put('rawplan/setAnonReportMonth', 'RawplanController@setAnonReportMonth');
-    Route::resource('employee', 'EmployeeController',
+    Route::put('rawplan/setAnonReportMonth', 'App\Http\Controllers\RawplanController@setAnonReportMonth');
+    Route::resource('employee', 'App\Http\Controllers\EmployeeController',
         ['except' => ['create', 'store', 'show', 'destroy']]);
-    Route::get('employee/{id}/episodes', 'EmployeeController@showEpisodes');
-    Route::get('employee/month/{year}/{month}', 'EmployeeController@showMonth')
+    Route::get('employee/{id}/episodes', 'App\Http\Controllers\EmployeeController@showEpisodes');
+    Route::get('employee/month/{year}/{month}', 'App\Http\Controllers\EmployeeController@showMonth')
         ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
-    Route::get('employee/vk/{which_vk}/{year}', 'EmployeeController@showVKForYear')
+    Route::get('employee/vk/{which_vk}/{year}', 'App\Http\Controllers\EmployeeController@showVKForYear')
         ->where(['year' => '[0-9]+']);
-    Route::get('employee/past', 'EmployeeController@showPastEmployees');
+    Route::get('employee/past', 'App\Http\Controllers\EmployeeController@showPastEmployees');
 
-    Route::get('report/{year}/{month}', 'ReportController@showMonth')
+    Route::get('report/{year}/{month}', 'App\Http\Controllers\ReportController@showMonth')
         ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
-    Route::get('report/{year}', 'ReportController@showYear')
+    Route::get('report/{year}', 'App\Http\Controllers\ReportController@showYear')
         ->where(['year' => '[0-9]+']);
-    Route::get('report/buandcon/{year}', 'ReportController@showBuAndCon')
+    Route::get('report/buandcon/{year}', 'App\Http\Controllers\ReportController@showBuAndCon')
         ->where(['year' => '[0-9]+']);
-    Route::get('report/refresh', 'ReportController@refresh');
+    Route::get('report/refresh', 'App\Http\Controllers\ReportController@refresh');
 });
 
 /*
  * From here on, the routes are accessible by anybody.
  */
 
-Route::get('/{hash?}', 'AnonController@homepage');
-Route::get('anon/logout/{hash}', 'AnonController@logout');
-Route::get('anon/episodes/{hash}', 'AnonController@showEpisodes');
-Route::post('anon/newHash', 'AnonController@requestNewHashPerMail');
-Route::get('anon/{year}/{hash}', 'AnonController@showYear')
+Route::get('/{hash?}', 'App\Http\Controllers\AnonController@homepage');
+Route::get('anon/logout/{hash}', 'App\Http\Controllers\AnonController@logout');
+Route::get('anon/episodes/{hash}', 'App\Http\Controllers\AnonController@showEpisodes');
+Route::post('anon/newHash', 'App\Http\Controllers\AnonController@requestNewHashPerMail');
+Route::get('anon/{year}/{hash}', 'App\Http\Controllers\AnonController@showYear')
     ->where(['year' => '[0-9]+']);
