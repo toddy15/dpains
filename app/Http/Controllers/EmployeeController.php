@@ -22,9 +22,9 @@ class EmployeeController extends Controller
         $employees = Employee::all();
         // Display current employees first, already sorted by staffgroup and name
         $current_month = date("Y-m");
-        $people = Helper::getPeopleForMonth($current_month);
+        $people = Helper::getPeopleForMonth($current_month)->toArray();
         // Exclude the past employees.
-        $past_people = Helper::getPastPeople($current_month);
+        $past_people = Helper::getPastPeople($current_month)->toArray();
         // Construct an array with id, name, and email address
         $current = array_map(function ($employee) use ($employees) {
             // Extract information from employee table
