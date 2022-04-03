@@ -2,9 +2,9 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class AddBuStartField extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      *
@@ -28,4 +28,4 @@ class AddBuStartField extends Migration
             $table->dropColumn('bu_start');
         });
     }
-}
+};
