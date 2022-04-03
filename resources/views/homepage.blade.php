@@ -6,7 +6,7 @@
 
     @if ($hash)
         <!-- Show logout button -->
-        <a role="button" class="btn btn-default" href="{{ action('App\Http\Controllers\AnonController@logout', $hash) }}">Abmelden</a>
+        <a class="btn btn-primary" href="{{ action('App\Http\Controllers\AnonController@logout', $hash) }}">Abmelden</a>
     @else
         <p>
             Um Zugriff auf die Auswertungen der Dienste zu bekommen,
@@ -19,21 +19,19 @@
         </p>
 
         <div class="text-center">
-            {!! Form::open(['action' => 'App\Http\Controllers\AnonController@requestNewHashPerMail', 'class' => 'form-inline']) !!}
+            {!! Form::open(['action' => 'App\Http\Controllers\AnonController@requestNewHashPerMail']) !!}
 
-            <!-- E-Mail Form Input  -->
-            <div class="form-group {{ $errors->has('email') ? 'has-error has-feedback' : '' }}">
-                {!! Form::label('email', 'E-Mail:', ['class' => 'form-label']) !!}
-                <div class="input-group">
-                    {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'name', 'autofocus' => 'autofocus', 'aria-describedby' => 'domain-addon']) !!}
-                    <span class="input-group-addon" id="domain-addon">@asklepios.com</span>
+            <div class="row mb-4">
+                {!! Form::label('email', 'E-Mail:', ['class' => 'col-sm-2 col-form-label']) !!}
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'name', 'autofocus' => 'autofocus', 'aria-label'=> 'Recipient\'s username', 'aria-describedby'=>'domain-addon']) !!}
+                        <span class="input-group-text" id="domain-addon">@asklepios.com</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Send Form -->
-            <div class="form-group">
-                {!! Form::submit('Freischalten', ['class' => 'btn btn-primary']) !!}
-            </div>
+            {!! Form::submit('Freischalten', ['class' => 'btn btn-primary']) !!}
 
             {!! Form::close() !!}
         </div>
