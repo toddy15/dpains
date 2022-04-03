@@ -13,7 +13,7 @@ return new class () extends Migration {
     public function up()
     {
         Schema::create('rawplans', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('month', 7)->unique();
             $table->text('people');
             $table->text('shifts');

@@ -13,7 +13,7 @@ return new class () extends Migration {
     public function up()
     {
         Schema::create('employees', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('email', 64)->unique();
             $table->string('hash', 64);
             $table->text('bu_start');

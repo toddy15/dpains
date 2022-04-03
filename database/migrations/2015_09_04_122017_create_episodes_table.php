@@ -13,7 +13,7 @@ return new class () extends Migration {
     public function up()
     {
         Schema::create('episodes', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->integer('employee_id')->references('id')->on('employees');
             $table->string('name');
             $table->string('start_date');

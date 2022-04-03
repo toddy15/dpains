@@ -13,7 +13,7 @@ return new class () extends Migration {
     public function up()
     {
         Schema::create('due_shifts', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->integer('year');
             $table->integer('staffgroup_id')->references('id')->on('staffgroups');
             $table->integer('nights');
