@@ -17,7 +17,7 @@
     <!-- BU Form Input  -->
     <div class="form-group {{ $errors->has('bu_start') ? 'has-error has-feedback' : '' }}">
         {!! Form::label('bu_start', 'BU-Beginn:', ['class' => 'form-label']) !!}
-        {!! Form::select('bu_start', $bu, null, ['class' => 'form-control']) !!}
+        {!! Form::select('bu_start', $bu, null, ['class' => 'form-select']) !!}
         @if ($errors->has('bu_start'))
             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
         @endif

@@ -11,16 +11,16 @@
 <div class="form-group">
     {!! Form::label('month', 'Beginnt im Monat:', ['class' => 'form-label']) !!}
     <div class="form-inline">
-        {!! Form::selectMonth('month', null, ['class' => 'form-control']) !!}
+        {!! Form::selectMonth('month', null, ['class' => 'form-select']) !!}
         {!! Form::label('year', 'Jahr:', ['class' => 'sr-only form-label']) !!}
-        {!! Form::selectYear('year', $start_year, $end_year, null, ['class' => 'form-control']) !!}
+        {!! Form::selectYear('year', $start_year, $end_year, null, ['class' => 'form-select']) !!}
     </div>
 </div>
 
 <!-- Staffgroup Form Input  -->
 <div class="form-group {{ $errors->has('staffgroup_id') ? 'has-error has-feedback' : '' }}">
     {!! Form::label('staffgroup_id', 'Mitarbeitergruppe:', ['class' => 'form-label']) !!}
-    {!! Form::select('staffgroup_id', $staffgroups, null, ['class' => 'form-control']) !!}
+    {!! Form::select('staffgroup_id', $staffgroups, null, ['class' => 'form-select']) !!}
     @if ($errors->has('staffgroup_id'))
         <span class="glyphicon glyphicon-remove form-control-feedback"></span>
     @endif
@@ -56,7 +56,7 @@
 <!-- Comment Form Input  -->
 <div class="form-group {{ $errors->has('comment_id') ? 'has-error has-feedback' : '' }}">
     {!! Form::label('comment_id', 'Bemerkung:', ['class' => 'form-label']) !!}
-    {!! Form::select('comment_id', $comments, null, ['class' => 'form-control']) !!}
+    {!! Form::select('comment_id', $comments, null, ['class' => 'form-select']) !!}
     @if ($errors->has('comment_id'))
         <span class="glyphicon glyphicon-remove form-control-feedback"></span>
     @endif
