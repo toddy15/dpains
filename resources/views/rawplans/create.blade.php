@@ -17,22 +17,18 @@
         </div>
     </div>
 
-    <!-- People Form Input  -->
-    <div class="form-group {{ $errors->has('people') ? 'has-error has-feedback' : '' }}">
-        {!! Form::label('people', 'Mitarbeiter:', ['class' => 'form-label']) !!}
-        {!! Form::textarea('people', null, ['class' => 'form-control']) !!}
-    </div>
+    {{--    <div class="form-group {{ $errors->has('people') ? 'has-error has-feedback' : '' }}">--}}
+    {!! Form::label('people', 'Mitarbeiter:', ['class' => 'form-label']) !!}
+    {!! Form::textarea('people', null, ['class' => 'form-control']) !!}
+    {{--    </div>--}}
 
-    <!-- Shifts Form Input  -->
-    <div class="form-group {{ $errors->has('shifts') ? 'has-error has-feedback' : '' }}">
-        {!! Form::label('shifts', 'Schichten:', ['class' => 'form-label']) !!}
-        {!! Form::textarea('shifts', null, ['class' => 'form-control']) !!}
-    </div>
+    {{--    <div class="form-group {{ $errors->has('shifts') ? 'has-error has-feedback' : '' }}">--}}
+    {!! Form::label('shifts', 'Schichten:', ['class' => 'form-label']) !!}
+    {!! Form::textarea('shifts', null, ['class' => 'form-control']) !!}
+    {{--    </div>--}}
 
-    <div class="form-group text-center">
-        <!-- Speichern Form Input  -->
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
-    <!-- Cancel Button -->
+    <div class="text-center">
+        {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
         <a class="btn btn-secondary" href="{{ action('App\Http\Controllers\RawplanController@index') }}">Abbrechen</a>
     </div>
 

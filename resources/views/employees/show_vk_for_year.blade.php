@@ -44,13 +44,13 @@
                     @endfor
                 </tr>
             @endforeach
-                <tr class="success">
+                <tr class="table-success">
                     <td><strong>Summe</strong></td>
                     @for ($month = 1; $month <= 12; $month++)
                         <td><strong>{{ $vk_per_month[$staffgroup][$month] }}</strong></td>
                     @endfor
                 </tr>
-                <tr class="success">
+                <tr class="table-success">
                     <td colspan="12"><strong>Jahresmittel</strong></td>
                     <td><strong>{{ $vk_per_month[$staffgroup]['yearly_mean'] }}</strong></td>
                 </tr>
@@ -76,13 +76,13 @@
         <th width="7%">Dez</th>
         </thead>
         <tbody>
-        <tr class="success">
+        <tr class="table-success">
             <td><strong>Summe</strong></td>
             @for ($month = 1; $month <= 12; $month++)
                 <td><strong>{{ $vk_per_month['all'][$month] }}</strong></td>
             @endfor
         </tr>
-        <tr class="success">
+        <tr class="table-success">
             <td colspan="12"><strong>Jahresmittel</strong></td>
             <td><strong>{{ $vk_per_month['all']['yearly_mean'] }}</strong></td>
         </tr>

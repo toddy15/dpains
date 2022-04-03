@@ -3,30 +3,34 @@
 @section('content')
     <h1>Dienstpläne</h1>
     <p>
-        <a class="btn btn-primary" href="{{ action('App\Http\Controllers\RawplanController@create') }}">Neuen Dienstplan hochladen</a>
+        <a class="btn btn-primary" href="{{ action('App\Http\Controllers\RawplanController@create') }}">Neuen Dienstplan
+            hochladen</a>
     </p>
 
-    {!! Form::open(['action' => 'App\Http\Controllers\RawplanController@setAnonReportMonth', 'method' => 'put', 'class' => 'form-inline']) !!}
+    {!! Form::open(['action' => 'App\Http\Controllers\RawplanController@setAnonReportMonth', 'method' => 'put']) !!}
 
-    <!-- Month Form Input  -->
-    <div class="form-group">
-        {!! Form::label('month', 'Anonyme Auswertung bis einschließlich Monat:', ['class' => 'form-label']) !!}
-        {!! Form::selectMonth('month', $current_anon_month, ['class' => 'form-control']) !!}
+    <div class="row">
+        {!! Form::label('month', 'Anonyme Auswertung bis einschließlich Monat:', ['class' => 'col-sm-3 col-form-label']) !!}
+        <div class="col-sm-3">
+            {!! Form::selectMonth('month', $current_anon_month, ['class' => 'form-select']) !!}
+        </div>
+        {!! Form::label('year', 'Jahr:', ['class' => 'visually-hidden col-form-label']) !!}
+        <div class="col-sm-3">
+            {!! Form::selectYear('year', $start_year, $end_year, $current_anon_year, ['class' => 'form-select']) !!}
+        </div>
+        <div class="col-sm-3">
+            {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
+        </div>
     </div>
-    <div class="form-group">
-        {!! Form::label('year', 'Jahr:', ['class' => 'sr-only form-label']) !!}
-        {!! Form::selectYear('year', $start_year, $end_year, $current_anon_year, ['class' => 'form-control']) !!}
-    </div>
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
 
     {!! Form::close() !!}
 
     <table class="table table-striped">
         <thead>
-            <th>Monat</th>
-            <th>Aktualisiert</th>
-            <th>Auswertung für anonymen Zugriff</th>
-            <th>Aktion</th>
+        <th>Monat</th>
+        <th>Aktualisiert</th>
+        <th>Auswertung für anonymen Zugriff</th>
+        <th>Aktion</th>
         </thead>
         <tbody>
         @foreach($rawplans_planned as $rawplan)
@@ -42,7 +46,7 @@
             </tr>
         @endforeach
         @foreach($rawplans_worked as $rawplan)
-            <tr class="success">
+            <tr class="table-success">
                 <td>{{ $rawplan->month }}</td>
                 <td>{{ $rawplan->updated_at }}</td>
                 <td>{{ $rawplan->anon_report ? 'Ja' : 'Nein' }}</td>
