@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 
 @section('content')
     {!! Form::model($comment, ['method' => 'PUT', 'action' => ['App\Http\Controllers\CommentController@update', $comment->id]]) !!}

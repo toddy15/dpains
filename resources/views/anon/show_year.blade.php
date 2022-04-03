@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 @inject('helper', 'App\Dpains\Helper')
 
 @section('content')

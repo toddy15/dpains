@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 
 @section('content')
     {!! Form::model($staffgroup, ['method' => 'PUT', 'action' => ['App\Http\Controllers\StaffgroupController@update', $staffgroup->id]]) !!}

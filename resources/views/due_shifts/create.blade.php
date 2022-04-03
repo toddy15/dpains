@@ -1,4 +1,4 @@
-@extends('app')
+@extends('layouts.app')
 
 @section('content')
     {!! Form::open(['action' => 'App\Http\Controllers\DueShiftController@store']) !!}
