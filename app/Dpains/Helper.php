@@ -21,28 +21,6 @@ class Helper
     public static $firstYear = 2016;
 
     /**
-     * Validates the given year and month, returning a formatted
-     * representation. If the date is not valid, the app will abort
-     * with a HTTP 404 error.
-     *
-     * @param $year
-     * @param $month
-     * @return string
-     */
-    public static function validateAndFormatDate($year, $month)
-    {
-        // Ensure a valid date and return in a format usable for database queries.
-        $year = (int)$year;
-        $month = (int)$month;
-        // Do not show years before the database started and keep month between 1 and 12
-        if (($year < Helper::$firstYear) or ($month < 1) or ($month > 12)) {
-            abort(404);
-        }
-        // Convert to internal representation in the database (YYYY-MM)
-        return sprintf("%4d-%02d", $year, $month);
-    }
-
-    /**
      * Generate a url for the next month.
      *
      * @param $prefix
@@ -381,6 +359,38 @@ class Helper
         }
     }
 
+    public static function getDueNightShifts($staffgroup, $year)
+    {
+        $due_shift = self::getDueShifts($staffgroup, $year);
+        if ($due_shift) {
+            return $due_shift->nights;
+        }
+
+        return 0;
+    }
+
+    private static function getDueShifts($staffgroup, $year)
+    {
+        // Special case for combined staffgroup
+        if ($staffgroup == 'FA und WB mit Nachtdienst') {
+            $staffgroup = 'FA';
+        }
+        $staffgroup = Staffgroup::where('staffgroup', $staffgroup)->first();
+
+        return DueShift::where('year', $year)
+            ->where('staffgroup_id', $staffgroup->id)->first();
+    }
+
+    public static function getDueNefShifts($staffgroup, $year)
+    {
+        $due_shift = self::getDueShifts($staffgroup, $year);
+        if ($due_shift) {
+            return $due_shift->nefs;
+        }
+
+        return 0;
+    }
+
     public static function sortTableBy($column, $body, $year, $hash = '')
     {
         // Provide default values, if the parameters are not set
@@ -412,9 +422,9 @@ class Helper
         // Append arrows to the current sorted column
         if ($column == $currentColumn) {
             if ($currentDirection == 'asc') {
-                $link .= '<span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>';
+                $link .= '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>';
             } else {
-                $link .= '<span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>';
+                $link .= '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"></path></svg>';
             }
         }
 
@@ -546,12 +556,12 @@ class Helper
                     }
                 }
                 // Sum up for the month
-                $vk_per_month[$episode->staffgroup][$month] += (float) $vk;
+                $vk_per_month[$episode->staffgroup][$month] += (float)$vk;
                 // Sum up for the grand total per month
-                $vk_per_month['all'][$month] += (float) $vk;
+                $vk_per_month['all'][$month] += (float)$vk;
                 // Sum up for the mean vk per year
-                $vk_per_month[$episode->staffgroup]['yearly_mean'] += (float) $vk;
-                $vk_per_month['all']['yearly_mean'] += (float) $vk;
+                $vk_per_month[$episode->staffgroup]['yearly_mean'] += (float)$vk;
+                $vk_per_month['all']['yearly_mean'] += (float)$vk;
             }
         }
         // Format the 'all' counter nicely
@@ -577,36 +587,26 @@ class Helper
         }
     }
 
-    private static function getDueShifts($staffgroup, $year)
+    /**
+     * Validates the given year and month, returning a formatted
+     * representation. If the date is not valid, the app will abort
+     * with a HTTP 404 error.
+     *
+     * @param $year
+     * @param $month
+     * @return string
+     */
+    public static function validateAndFormatDate($year, $month)
     {
-        // Special case for combined staffgroup
-        if ($staffgroup == 'FA und WB mit Nachtdienst') {
-            $staffgroup = 'FA';
+        // Ensure a valid date and return in a format usable for database queries.
+        $year = (int)$year;
+        $month = (int)$month;
+        // Do not show years before the database started and keep month between 1 and 12
+        if (($year < Helper::$firstYear) or ($month < 1) or ($month > 12)) {
+            abort(404);
         }
-        $staffgroup = Staffgroup::where('staffgroup', $staffgroup)->first();
-
-        return DueShift::where('year', $year)
-            ->where('staffgroup_id', $staffgroup->id)->first();
-    }
-
-    public static function getDueNightShifts($staffgroup, $year)
-    {
-        $due_shift = self::getDueShifts($staffgroup, $year);
-        if ($due_shift) {
-            return $due_shift->nights;
-        }
-
-        return 0;
-    }
-
-    public static function getDueNefShifts($staffgroup, $year)
-    {
-        $due_shift = self::getDueShifts($staffgroup, $year);
-        if ($due_shift) {
-            return $due_shift->nefs;
-        }
-
-        return 0;
+        // Convert to internal representation in the database (YYYY-MM)
+        return sprintf("%4d-%02d", $year, $month);
     }
 
     /**
