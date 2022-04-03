@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Dienstplan AN AKA</title>
-        <link href="{{ asset(elixir('css/app.css')) }}" rel="stylesheet">
+        <link href="{{ asset(mix('css/app.css')) }}" rel="stylesheet">
     </head>
     <body>
         @include('partials.nav')
@@ -24,6 +24,6 @@
             @yield('content')
         </div>
 
-        <script src="{{ asset(elixir('js/app.js')) }}"></script>
+        <script src="{{ asset(mix('js/app.js')) }}"></script>
     </body>
 </html>
