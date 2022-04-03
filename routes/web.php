@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,7 +22,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 /*
  * These routes are only accessible by authenticated users.
  */
-Route::group(['middleware' => 'auth'], function () {
+Route::middleware([Authenticate::class])->group(function () {
     Route::resource(
         'episode',
         'App\Http\Controllers\EpisodeController',
