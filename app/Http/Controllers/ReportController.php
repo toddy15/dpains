@@ -41,8 +41,8 @@ class ReportController extends Controller
         foreach ($reports as $report) {
             $shifts[$report->employee_id] = $report;
         }
-        // In order to use the grouping by staffgroups, it it necessary
-        // to set up an new array of names and counted shifts. The
+        // In order to use the grouping by staffgroups, it is necessary
+        // to set up a new array of names and counted shifts. The
         // array $names is already sorted correctly with staffgroups.
         foreach ($names as $employee_id => $name) {
             $results[] = (object)[
