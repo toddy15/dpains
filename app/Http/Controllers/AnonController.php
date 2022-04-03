@@ -6,9 +6,12 @@ use App\Dpains\Helper;
 use App\Employee;
 use App\Rawplan;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class AnonController extends Controller
 {
@@ -16,9 +19,9 @@ class AnonController extends Controller
      * Show the homepage
      *
      * @param string $hash
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return View
      */
-    public function homepage(Request $request, $hash = '')
+    public function homepage(Request $request, string $hash = ''): View
     {
         if (! empty($hash)) {
             $employee = Employee::where('hash', $hash)->first();
@@ -39,9 +42,9 @@ class AnonController extends Controller
      * Logout current user by disabling the hash
      *
      * @param string $hash
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return RedirectResponse
      */
-    public function logout(Request $request, $hash)
+    public function logout(Request $request, string $hash): RedirectResponse
     {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
@@ -51,7 +54,7 @@ class AnonController extends Controller
             return redirect(url('/'));
         }
         // Remove the currently valid hash
-        $employee->hash = str_random();
+        $employee->hash = Str::random();
         $employee->save();
         $request->session()->flash('info', 'Du wurdest abgemeldet.');
 
@@ -64,7 +67,7 @@ class AnonController extends Controller
      * The hash is mapped to the employees id.
      *
      * @param string $hash
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function showEpisodes(Request $request, $hash)
     {
@@ -89,7 +92,7 @@ class AnonController extends Controller
      * The hash is mapped to the employees id.
      *
      * @param string $hash
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function showYear(Request $request, $year, $hash)
     {
@@ -161,7 +164,7 @@ class AnonController extends Controller
             return redirect(url('/'));
         }
         // Generate a new hash with some pseudo random bits
-        $employee->hash = str_random();
+        $employee->hash = Str::random();
         $employee->save();
         // Send the mail
         $url = action('AnonController@showYear', [date('Y'), $employee->hash]);

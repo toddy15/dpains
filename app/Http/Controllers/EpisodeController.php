@@ -9,6 +9,7 @@ use App\Episode;
 use App\Staffgroup;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class EpisodeController extends Controller
 {
@@ -95,7 +96,7 @@ class EpisodeController extends Controller
             }
             $employee = Employee::create([
                 'email' => $episode['name'],
-                'hash' => str_random(),
+                'hash' => Str::random(),
                 'bu_start' => $bu_start,
             ]);
             $episode['employee_id'] = $employee->id;

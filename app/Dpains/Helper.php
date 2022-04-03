@@ -9,6 +9,7 @@ use App\Staffgroup;
 use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Str;
 
 class Helper
 {
@@ -317,7 +318,7 @@ class Helper
                         // Anonymize the information of other employees
                         // Use the underscore as first character to always
                         // sort the employee's name above the random names.
-                        $info['name'] = '_' . str_random();
+                        $info['name'] = '_' . Str::random();
                         $info['worked_nights'] = 0;
                         $info['planned_nights'] = 0;
                         $info['worked_nefs'] = 0;
