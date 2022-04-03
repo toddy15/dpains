@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 /*
  * These routes are only accessible by authenticated users.
  */
@@ -56,7 +60,3 @@ Route::get('anon/episodes/{hash}', 'App\Http\Controllers\AnonController@showEpis
 Route::post('anon/newHash', 'App\Http\Controllers\AnonController@requestNewHashPerMail');
 Route::get('anon/{year}/{hash}', 'App\Http\Controllers\AnonController@showYear')
     ->where(['year' => '[0-9]+']);
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
