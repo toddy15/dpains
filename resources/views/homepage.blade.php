@@ -23,7 +23,7 @@
 
             <!-- E-Mail Form Input  -->
             <div class="form-group {{ $errors->has('email') ? 'has-error has-feedback' : '' }}">
-                {!! Form::label('email', 'E-Mail:', ['class' => 'control-label']) !!}
+                {!! Form::label('email', 'E-Mail:', ['class' => 'form-label']) !!}
                 <div class="input-group">
                     {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'name', 'autofocus' => 'autofocus', 'aria-describedby' => 'domain-addon']) !!}
                     <span class="input-group-addon" id="domain-addon">@asklepios.com</span>

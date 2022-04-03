@@ -7,17 +7,17 @@
 
     <!-- Month Form Input  -->
     <div class="form-group">
-        {!! Form::label('month', 'Monat:', ['class' => 'control-label']) !!}
+        {!! Form::label('month', 'Monat:', ['class' => 'form-label']) !!}
         <div class="form-inline">
             {!! Form::selectMonth('month', $selected_month, ['class' => 'form-control']) !!}
-            {!! Form::label('year', 'Jahr:', ['class' => 'sr-only control-label']) !!}
+            {!! Form::label('year', 'Jahr:', ['class' => 'sr-only form-label']) !!}
             {!! Form::selectYear('year', $start_year, $end_year, $selected_year, ['class' => 'form-control']) !!}
         </div>
     </div>
 
     <!-- People Form Input  -->
     <div class="form-group {{ $errors->has('people') ? 'has-error has-feedback' : '' }}">
-        {!! Form::label('people', 'Mitarbeiter:', ['class' => 'control-label']) !!}
+        {!! Form::label('people', 'Mitarbeiter:', ['class' => 'form-label']) !!}
         {!! Form::textarea('people', null, ['class' => 'form-control']) !!}
         @if ($errors->has('people'))
             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -26,7 +26,7 @@
 
     <!-- Shifts Form Input  -->
     <div class="form-group {{ $errors->has('shifts') ? 'has-error has-feedback' : '' }}">
-        {!! Form::label('shifts', 'Schichten:', ['class' => 'control-label']) !!}
+        {!! Form::label('shifts', 'Schichten:', ['class' => 'form-label']) !!}
         {!! Form::textarea('shifts', null, ['class' => 'form-control']) !!}
         @if ($errors->has('shifts'))
             <span class="glyphicon glyphicon-remove form-control-feedback"></span>

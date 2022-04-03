@@ -12,7 +12,7 @@
                             <input type="hidden" name="token" value="{{ $token }}">
 
                             <div class="form-group {{ $errors->has('email') ? 'has-error has-feedback' : '' }}">
-                                <label class="col-md-4 control-label">E-Mail-Adresse</label>
+                                <label class="col-md-4 form-label">E-Mail-Adresse</label>
 
                                 <div class="col-md-6">
                                     <input type="email" class="form-control" name="email" value="{{ old('email') }}">
@@ -23,7 +23,7 @@
                             </div>
 
                             <div class="form-group {{ $errors->has('password') ? 'has-error has-feedback' : '' }}">
-                                <label class="col-md-4 control-label">Passwort</label>
+                                <label class="col-md-4 form-label">Passwort</label>
 
                                 <div class="col-md-6">
                                     <input type="password" class="form-control" name="password">
@@ -34,7 +34,7 @@
                             </div>
 
                             <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error has-feedback' : '' }}">
-                                <label class="col-md-4 control-label">Passwort bestätigen</label>
+                                <label class="col-md-4 form-label">Passwort bestätigen</label>
 
                                 <div class="col-md-6">
                                     <input type="password" class="form-control" name="password_confirmation">

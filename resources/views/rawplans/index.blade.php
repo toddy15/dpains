@@ -10,11 +10,11 @@
 
     <!-- Month Form Input  -->
     <div class="form-group">
-        {!! Form::label('month', 'Anonyme Auswertung bis einschließlich Monat:', ['class' => 'control-label']) !!}
+        {!! Form::label('month', 'Anonyme Auswertung bis einschließlich Monat:', ['class' => 'form-label']) !!}
         {!! Form::selectMonth('month', $current_anon_month, ['class' => 'form-control']) !!}
     </div>
     <div class="form-group">
-        {!! Form::label('year', 'Jahr:', ['class' => 'sr-only control-label']) !!}
+        {!! Form::label('year', 'Jahr:', ['class' => 'sr-only form-label']) !!}
         {!! Form::selectYear('year', $start_year, $end_year, $current_anon_year, ['class' => 'form-control']) !!}
     </div>
     {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}

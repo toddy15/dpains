@@ -17,7 +17,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             <div class="form-group {{ $errors->has('email') ? 'has-error has-feedback' : '' }}">
-                                <label class="col-md-4 control-label">E-Mail-Adresse</label>
+                                <label class="col-md-4 form-label">E-Mail-Adresse</label>
 
                                 <div class="col-md-6">
                                     <input type="email" class="form-control" name="email" value="{{ old('email') }}">

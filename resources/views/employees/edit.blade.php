@@ -7,7 +7,7 @@
 
     <!-- email Form Input  -->
     <div class="form-group {{ $errors->has('email') ? 'has-error has-feedback' : '' }}">
-        {!! Form::label('email', 'E-Mail:', ['class' => 'control-label']) !!}
+        {!! Form::label('email', 'E-Mail:', ['class' => 'form-label']) !!}
         {!! Form::text('email', null, ['class' => 'form-control']) !!}
         @if ($errors->has('email'))
             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
@@ -16,7 +16,7 @@
 
     <!-- BU Form Input  -->
     <div class="form-group {{ $errors->has('bu_start') ? 'has-error has-feedback' : '' }}">
-        {!! Form::label('bu_start', 'BU-Beginn:', ['class' => 'control-label']) !!}
+        {!! Form::label('bu_start', 'BU-Beginn:', ['class' => 'form-label']) !!}
         {!! Form::select('bu_start', $bu, null, ['class' => 'form-control']) !!}
         @if ($errors->has('bu_start'))
             <span class="glyphicon glyphicon-remove form-control-feedback"></span>
