@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class AnonController extends Controller
@@ -18,6 +19,7 @@ class AnonController extends Controller
     /**
      * Show the homepage
      *
+     * @param Request $request
      * @param string $hash
      * @return View
      */
@@ -41,6 +43,7 @@ class AnonController extends Controller
     /**
      * Logout current user by disabling the hash
      *
+     * @param Request $request
      * @param string $hash
      * @return RedirectResponse
      */
@@ -66,10 +69,11 @@ class AnonController extends Controller
      *
      * The hash is mapped to the employees id.
      *
+     * @param Request $request
      * @param string $hash
-     * @return View
+     * @return View|RedirectResponse
      */
-    public function showEpisodes(Request $request, $hash)
+    public function showEpisodes(Request $request, string $hash): View|RedirectResponse
     {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
@@ -91,10 +95,12 @@ class AnonController extends Controller
      *
      * The hash is mapped to the employees id.
      *
+     * @param Request $request
+     * @param $year
      * @param string $hash
-     * @return View
+     * @return View|RedirectResponse
      */
-    public function showYear(Request $request, $year, $hash)
+    public function showYear(Request $request, $year, string $hash): View|RedirectResponse
     {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
@@ -145,8 +151,11 @@ class AnonController extends Controller
 
     /**
      * Request a new hash via mail for accessing the stats.
+     * @param Request $request
+     * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function requestNewHashPerMail(Request $request)
+    public function requestNewHashPerMail(Request $request): RedirectResponse
     {
         $this->validate($request, [
             'email' => 'required',

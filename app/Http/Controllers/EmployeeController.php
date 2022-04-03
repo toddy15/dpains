@@ -7,15 +7,17 @@ use App\Employee;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         $employees = Employee::all();
         // Display current employees first, already sorted by staffgroup and name
@@ -66,10 +68,10 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return View
      */
-    public function edit($id)
+    public function edit(int $id): View
     {
         $employee = Employee::findOrFail($id);
         $bu = $this->_calculateBUStart();
@@ -80,11 +82,12 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param Request $request
+     * @param int $id
      * @return RedirectResponse
+     * @throws ValidationException
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, int $id): RedirectResponse
     {
         $this->validate($request, [
             'email' => 'required',
@@ -99,10 +102,10 @@ class EmployeeController extends Controller
     /**
      * Show past employees.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return View
      */
-    public function showPastEmployees(Request $request)
+    public function showPastEmployees(Request $request): View
     {
         $employees = Employee::all();
         $current_month = date("Y-m");
@@ -129,9 +132,9 @@ class EmployeeController extends Controller
      * Show all episodes for the given employee id.
      *
      * @param int $id
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function showEpisodes($id)
+    public function showEpisodes(int $id): View
     {
         $employee = Employee::findOrFail($id);
         $episodes = $employee->episodes()->orderBy('start_date')->get();
@@ -146,9 +149,9 @@ class EmployeeController extends Controller
      *
      * @param $year
      * @param $month
-     * @return mixed
+     * @return View
      */
-    public function showMonth($year, $month)
+    public function showMonth($year, $month): View
     {
         $formatted_month = Helper::validateAndFormatDate($year, $month);
         // Get all episodes valid in this month
@@ -176,9 +179,9 @@ class EmployeeController extends Controller
      *
      * @param $which_vk
      * @param $year
-     * @return mixed
+     * @return View
      */
-    public function showVKForYear($which_vk, $year)
+    public function showVKForYear($which_vk, $year): View
     {
         // Set up result arrays
         $staffgroups = [];
@@ -201,7 +204,7 @@ class EmployeeController extends Controller
     /**
      * Calculate the string for BU starts
      */
-    private function _calculateBUStart()
+    private function _calculateBUStart(): array
     {
         $current_year = date('Y');
         $bu = [];

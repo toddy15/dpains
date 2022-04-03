@@ -10,15 +10,17 @@ use App\Staffgroup;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 
 class EpisodeController extends Controller
 {
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return View
      */
-    public function create(Request $request)
+    public function create(Request $request): View
     {
         // See if there is a valid employee
         $employee_id = (int)$request->get('employee_id');
@@ -65,8 +67,9 @@ class EpisodeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request $request
+     * @param Request $request
      * @return RedirectResponse
+     * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
@@ -110,10 +113,10 @@ class EpisodeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return Response
+     * @param int $id
+     * @return View
      */
-    public function edit($id)
+    public function edit(int $id): View
     {
         $episode = Episode::findOrFail($id);
         // Get the comments for the select box
@@ -145,10 +148,10 @@ class EpisodeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Request $request
-     * @param  int $id
+     * @param int $id
      * @return RedirectResponse
      */
-    public function update(Request $request, $id): RedirectResponse
+    public function update(Request $request, int $id): RedirectResponse
     {
         $episode = Episode::findOrFail($id);
         // Set the month to the formatted string for database storage.
@@ -164,10 +167,11 @@ class EpisodeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param Request $request
+     * @param int $id
      * @return RedirectResponse
      */
-    public function destroy(Request $request, $id): RedirectResponse
+    public function destroy(Request $request, int $id): RedirectResponse
     {
         $episode = Episode::findOrFail($id);
         Episode::destroy($id);

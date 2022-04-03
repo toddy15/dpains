@@ -7,13 +7,14 @@ use App\Dpains\Planparser;
 use App\Employee;
 use App\Rawplan;
 use Carbon\Carbon;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
-    public function showMonth($year, $month)
+    public function showMonth($year, $month): View
     {
         $results = [];
         $formatted_month = Helper::validateAndFormatDate($year, $month);
@@ -58,7 +59,7 @@ class ReportController extends Controller
         ));
     }
 
-    public function showYear(Request $request, $year)
+    public function showYear(Request $request, $year): View
     {
         // Determine which month has been planned
         $planned_month = Helper::getPlannedMonth($year);
@@ -96,7 +97,7 @@ class ReportController extends Controller
         ));
     }
 
-    public function showBuAndCon(Request $request, $year)
+    public function showBuAndCon(Request $request, $year): View
     {
         $all_bu_and_con = [];
         // Get all employees with bu and con in the last, current, and next year
@@ -193,7 +194,7 @@ class ReportController extends Controller
         return view('reports.show_bu_and_con', compact('year', 'previous_year_url', 'next_year_url', 'employees'));
     }
 
-    public function refresh(Request $request)
+    public function refresh(Request $request): View
     {
         // Determine the highest month with data.
         $highest_month = Helper::getPlannedMonth(date('Y') + 1);
