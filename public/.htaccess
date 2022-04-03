@@ -1,33 +1,21 @@
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
-        Options -MultiViews
+        Options -MultiViews -Indexes
     </IfModule>
 
     RewriteEngine On
-    RewriteBase /~toddy/dpains/public
 
-    # Always use the www. prefix
-    RewriteCond %{HTTP_HOST} !^www\. [NC]
-    RewriteCond %{HTTP_HOST} !^localhost$ [NC]
-    RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [L,R=301]
-
-    # Enforce the secure connection via https
-    RewriteCond %{HTTPS} !=on
-    RewriteCond %{HTTP_HOST} ^www.dienstplan-an.de$ [NC]
-    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)/$ /$1 [L,R=301]
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
 
-    # Handle Front Controller...
+    # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
-</IfModule>
-
-# Enforce SSL
-<IfModule mod_headers.c>
-  # max-age is set to a year (365 * 86400)
-  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 </IfModule>

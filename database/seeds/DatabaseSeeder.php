@@ -1,23 +1,19 @@
 <?php
 
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Seed the application's database.
      *
      * @return void
      */
     public function run()
     {
-        Model::unguard();
-
-        $this->call(UserTableSeeder::class);
-        $this->call(StaffgroupTableSeeder::class);
-        $this->call(CommentTableSeeder::class);
-
-        Model::reguard();
+        // \App\Models\User::factory(10)->create();
     }
 }
