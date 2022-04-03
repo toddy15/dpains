@@ -27,7 +27,7 @@
         <!-- Speichern Form Input  -->
         {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
         <!-- Cancel Button -->
-        <a class="btn btn-default" href="{{ action('App\Http\Controllers\EmployeeController@index') }}">Abbrechen</a>
+        <a class="btn btn-secondary" href="{{ action('App\Http\Controllers\EmployeeController@index') }}">Abbrechen</a>
     </div>
 
     {!! Form::close() !!}
