@@ -398,13 +398,13 @@ class Helper
         }
         // Create link
         $link = link_to_action(
-            'ReportController@showYear',
+            'App\Http\Controllers\ReportController@showYear',
             $body,
             ['year' => $year, 'sort' => $column, 'direction' => $direction]
         );
         if ($hash) {
             $link = link_to_action(
-                'AnonController@showYear',
+                'App\Http\Controllers\AnonController@showYear',
                 $body,
                 ['year' => $year, 'hash' => $hash, 'sort' => $column, 'direction' => $direction]
             );
