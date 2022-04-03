@@ -224,7 +224,7 @@ class Helper
         $sort_key = $request->get('sort');
         $direction = $request->get('direction');
         // Set up the staffgroups to get the correct sorting
-        $staffgroup_names = Staffgroup::orderBy('weight')->lists('staffgroup')->toArray();
+        $staffgroup_names = Staffgroup::orderBy('weight')->pluck('staffgroup')->toArray();
         foreach ($staffgroup_names as $staffgroup_name) {
             // Reduce staffgroups
             if ($staffgroup_name == 'FA' or $staffgroup_name == 'WB mit Nachtdienst') {

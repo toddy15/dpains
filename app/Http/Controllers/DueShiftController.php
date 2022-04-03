@@ -48,7 +48,7 @@ class DueShiftController extends Controller
     {
         // Get the staffgroups for the select box
         $staffgroups = Staffgroup::all()->sortBy('weight')
-            ->lists('staffgroup', 'id')->toArray();
+            ->pluck('staffgroup', 'id')->toArray();
         // Special case: Merge "FA" and "WB mit Nachtdiensten"
         foreach ($staffgroups as $key => $staffgroup) {
             if ($staffgroup == 'FA') {
@@ -99,7 +99,7 @@ class DueShiftController extends Controller
         $due_shift = DueShift::findOrFail($id);
         // Get the staffgroups for the select box
         $staffgroups = Staffgroup::all()->sortBy('weight')
-            ->lists('staffgroup', 'id')->toArray();
+            ->pluck('staffgroup', 'id')->toArray();
         // Special case: Merge "FA" and "WB mit Nachtdiensten"
         foreach ($staffgroups as $key => $staffgroup) {
             if ($staffgroup == 'FA') {
