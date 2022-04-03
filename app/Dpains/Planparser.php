@@ -22,15 +22,14 @@ class Planparser
      * @param $formattedMonth
      * @param null $rawInput
      */
-    public function __construct($formattedMonth, $rawInput=null)
+    public function __construct($formattedMonth, $rawInput = null)
     {
         $this->formattedMonth = $formattedMonth;
         // Ensure that there is data for names and shifts.
-        if (!empty($rawInput)) {
+        if (! empty($rawInput)) {
             $this->rawNames = trim($rawInput['people'], "\r\n");
             $this->rawShifts = trim($rawInput['shifts'], "\r\n");
-        }
-        else {
+        } else {
             $rawplan = Rawplan::where('month', $this->formattedMonth)->first();
             $this->rawNames = $rawplan->people;
             $this->rawShifts = $rawplan->shifts;
@@ -98,9 +97,11 @@ class Planparser
             switch ($current_line_count) {
                 case 1:
                     $plan[$parsed_person_id] = explode("\t", $plan_line);
+
                     break;
                 case 2:
                     $work[$parsed_person_id] = explode("\t", $plan_line);
+
                     break;
                 case 3:
                     // Overwork hours, simply to be discarded.
@@ -134,7 +135,7 @@ class Planparser
         foreach ($this->parsedNames as $id => $name) {
             $person_id = array_search($name, $expected_names);
             $shifts = $this->calculateShifts($this->parsedShifts[$id]);
-            if (!is_array($shifts)) {
+            if (! is_array($shifts)) {
                 // Clean all previously parsed results.
                 DB::table('analyzed_months')->where('month', $this->formattedMonth)->delete();
                 // Return the error message from calculateShifts().
@@ -163,37 +164,38 @@ class Planparser
             'FÜ', 'BF', 'TZ', 'MS', 'EZ', 'U', 'FBi*', 'FBe*', 'K', 'KO', 'Kol', 'KP', 'KK',
             'KÜ', 'ZU', 'BR', 'F.', '', 'DB', 'Ve', 'US', '--', 'BV', 'PZU = Platzhalt',
             'B4', 'B3', 'B2', 'B1', 'SU', 'ir28', 'ir29', 'FSI', 'TPB', 'TxB',
-            'FZ', 'Avk', 'FS', 'USB', '????', 'RWe', 'F', 'S', 'N', 'S2W', 'iOA'
+            'FZ', 'Avk', 'FS', 'USB', '????', 'RWe', 'F', 'S', 'N', 'S2W', 'iOA',
         ];
         $night_counter = 0;
         $nef_counter = 0;
         $bu_counter = 0;
         $con_counter = 0;
         foreach ($shifts as $shift) {
-            $unknown_shift = TRUE;
+            $unknown_shift = true;
             if (in_array($shift, $nights)) {
                 $night_counter++;
-                $unknown_shift = FALSE;
+                $unknown_shift = false;
             }
             if (in_array($shift, $nefs)) {
                 $nef_counter++;
-                $unknown_shift = FALSE;
+                $unknown_shift = false;
             }
             if (in_array($shift, $bus)) {
                 $bu_counter++;
-                $unknown_shift = FALSE;
+                $unknown_shift = false;
             }
             if (in_array($shift, $cons)) {
                 $con_counter++;
-                $unknown_shift = FALSE;
+                $unknown_shift = false;
             }
             if (in_array($shift, $ignored)) {
-                $unknown_shift = FALSE;
+                $unknown_shift = false;
             }
             if ($unknown_shift) {
                 return 'Unbekannte Dienstart: ' . $shift;
             }
         }
+
         return [
             'nights' => $night_counter,
             'nefs' => $nef_counter,
@@ -221,6 +223,7 @@ class Planparser
                 . $this->formattedMonth
                 . ' nicht erwartet, aber gefunden: ' . join('; ', $more_found);
         }
+
         return $result;
     }
 
@@ -265,11 +268,12 @@ class Planparser
         // Try parsing all shifts to detect unknown shifts.
         foreach ($this->parsedNames as $id => $name) {
             $shifts = $this->calculateShifts($this->parsedShifts[$id]);
-            if (!is_array($shifts)) {
+            if (! is_array($shifts)) {
                 // Add the error message from calculateShifts().
                 $result[] = $this->formattedMonth . ': ' . $shifts;
             }
         }
+
         return $result;
     }
 }

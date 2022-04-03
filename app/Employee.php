@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Employee extends Model
 {
     protected $fillable = [
-        'email', 'hash', 'bu_start'
+        'email', 'hash', 'bu_start',
     ];
 
     /**
@@ -24,7 +24,7 @@ class Employee extends Model
     public function getNameAttribute()
     {
         $last_episode = $this->episodes()->orderBy('start_date', 'DESC')->first();
+
         return $last_episode->name;
     }
-
 }

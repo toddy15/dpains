@@ -57,6 +57,7 @@ class Helper
         } else {
             $month++;
         }
+
         return url($prefix . sprintf('%4d/%02d', $year, $month));
     }
 
@@ -80,8 +81,7 @@ class Helper
         }
         if ($year < Helper::$firstYear) {
             return '';
-        }
-        else {
+        } else {
             return url($prefix . sprintf('%4d/%02d', $year, $month));
         }
     }
@@ -96,6 +96,7 @@ class Helper
     public static function getNextYearUrl($prefix, $year)
     {
         $year++;
+
         return url($prefix . sprintf('%4d/', $year));
     }
 
@@ -111,8 +112,7 @@ class Helper
         $year--;
         if ($year < Helper::$firstYear) {
             return '';
-        }
-        else {
+        } else {
             return url($prefix . sprintf('%4d/', $year));
         }
     }
@@ -131,6 +131,7 @@ class Helper
         foreach ($employees as $employee) {
             $names[$employee->employee_id] = $employee->name;
         }
+
         return $names;
     }
 
@@ -247,7 +248,9 @@ class Helper
             // should be included.
             if ($non_anon_employee_id) {
                 $include_in_anon_report = Rawplan::where('month', $formattedMonth)->value('anon_report');
-                if (!$include_in_anon_report) continue;
+                if (! $include_in_anon_report) {
+                    continue;
+                }
             }
             // Get all analyzed shifts for the current month
             $shifts = DB::table('analyzed_months')->where('month', $formattedMonth)->get();
@@ -260,7 +263,7 @@ class Helper
                     $employee->staffgroup = 'FA und WB mit Nachtdienst';
                 }
                 // Set up the result array, grouped by staffgroup
-                if (!isset($staffgroups[$employee->staffgroup][$employee->employee_id])) {
+                if (! isset($staffgroups[$employee->staffgroup][$employee->employee_id])) {
                     $staffgroups[$employee->staffgroup][$employee->employee_id] = Helper::newResultArray((array)$employee);
                 }
                 // Calculate the boni for vk and factors
@@ -302,7 +305,7 @@ class Helper
                 // Use the sorting key as the array index, to enable the
                 // sorting within the staffgroups.
                 // Always use diff_planned_nights instead of name.
-                if (!array_key_exists($sort_key, $info)) {
+                if (! array_key_exists($sort_key, $info)) {
                     $sort_key = 'diff_planned_nights';
                 }
                 // Is the employee part of this staffgroup?
@@ -310,8 +313,7 @@ class Helper
                     if ($employee_id == $non_anon_employee_id) {
                         $include_staffgroup_in_tables = true;
                         $info['highlight_row'] = true;
-                    }
-                    else {
+                    } else {
                         // Anonymize the information of other employees
                         // Use the underscore as first character to always
                         // sort the employee's name above the random names.
@@ -345,6 +347,7 @@ class Helper
                 ];
             }
         }
+
         return $tables;
     }
 
@@ -377,7 +380,7 @@ class Helper
         }
     }
 
-    public static function sortTableBy($column, $body, $year, $hash='')
+    public static function sortTableBy($column, $body, $year, $hash = '')
     {
         // Provide default values, if the parameters are not set
         $currentColumn = Request::get('sort') ?: 'diff_planned_nights';
@@ -393,21 +396,27 @@ class Helper
             $direction = 'asc';
         }
         // Create link
-        $link = link_to_action('ReportController@showYear', $body,
-            ['year' => $year, 'sort' => $column, 'direction' => $direction]);
+        $link = link_to_action(
+            'ReportController@showYear',
+            $body,
+            ['year' => $year, 'sort' => $column, 'direction' => $direction]
+        );
         if ($hash) {
-            $link = link_to_action('AnonController@showYear', $body,
-                ['year' => $year, 'hash' => $hash, 'sort' => $column, 'direction' => $direction]);
+            $link = link_to_action(
+                'AnonController@showYear',
+                $body,
+                ['year' => $year, 'hash' => $hash, 'sort' => $column, 'direction' => $direction]
+            );
         }
         // Append arrows to the current sorted column
         if ($column == $currentColumn) {
             if ($currentDirection == 'asc') {
                 $link .= '<span class="glyphicon glyphicon-sort-by-attributes" aria-hidden="true"></span>';
-            }
-            else {
+            } else {
                 $link .= '<span class="glyphicon glyphicon-sort-by-attributes-alt" aria-hidden="true"></span>';
             }
         }
+
         return $link;
     }
 
@@ -418,7 +427,8 @@ class Helper
      */
     public static function getPlannedYear()
     {
-        $month =  Rawplan::all()->max('month');
+        $month = Rawplan::all()->max('month');
+
         return substr($month, 0, 4);
     }
 
@@ -444,13 +454,12 @@ class Helper
      * @param int $year
      * @return string|null Formatted month (YYYY-MM)
      */
-    public static function getWorkedMonth($year=null)
+    public static function getWorkedMonth($year = null)
     {
         if ($year) {
             return Rawplan::where('month', 'like', "$year%")
                 ->whereRaw('left(updated_at, 7) > month')->max('month');
-        }
-        else {
+        } else {
             return Rawplan::whereRaw('left(updated_at, 7) > month')->max('month');
         }
     }
@@ -497,13 +506,13 @@ class Helper
                     $episode->staffgroup = 'FA und WB mit Nachtdienst';
                 }
                 // Fill the VK sum array from 1 to 12 with 0, if not set
-                if (!isset($vk_per_month[$episode->staffgroup])) {
+                if (! isset($vk_per_month[$episode->staffgroup])) {
                     $vk_per_month[$episode->staffgroup] = array_fill(1, 12, 0);
                     // Initialize the counter for yearly mean of staffgroup VK
                     $vk_per_month[$episode->staffgroup]['yearly_mean'] = 0;
                 }
                 // Initialize a month array, if not set
-                if (!isset($months[$episode->staffgroup][$episode->employee_id])) {
+                if (! isset($months[$episode->staffgroup][$episode->employee_id])) {
                     $months[$episode->staffgroup][$episode->employee_id] = array_fill(1, 12, [
                         'vk' => '&ndash;',
                         'changed' => false,
@@ -512,16 +521,18 @@ class Helper
                 // Always use the last available name,
                 // overwrite previous information.
                 $employee_info[$episode->staffgroup][$episode->employee_id] = [
-                    'name' => $episode->name
+                    'name' => $episode->name,
                 ];
                 // Store the VK for the current month
                 $vk = $episode->vk;
                 switch ($which_vk) {
                     case 'night':
                         $vk = $episode->vk * $episode->factor_night;
+
                         break;
                     case 'nef':
                         $vk = $episode->vk * $episode->factor_nef;
+
                         break;
                 }
                 // Ensure a nicely formatted VK
@@ -572,6 +583,7 @@ class Helper
             $staffgroup = 'FA';
         }
         $staffgroup = Staffgroup::where('staffgroup', $staffgroup)->first();
+
         return DueShift::where('year', $year)
             ->where('staffgroup_id', $staffgroup->id)->first();
     }
@@ -582,6 +594,7 @@ class Helper
         if ($due_shift) {
             return $due_shift->nights;
         }
+
         return 0;
     }
 
@@ -591,6 +604,7 @@ class Helper
         if ($due_shift) {
             return $due_shift->nefs;
         }
+
         return 0;
     }
 
@@ -603,7 +617,7 @@ class Helper
      * @TODO: Fix this if more staffgroups get added.
      *
      * @param $staffgroup
-     * @return boolean
+     * @return bool
      */
     public static function staffgroupMayReceiveEMail($staffgroup)
     {

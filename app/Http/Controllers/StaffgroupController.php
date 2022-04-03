@@ -7,8 +7,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Validation\ValidationException;
 
 class StaffgroupController extends Controller
@@ -21,6 +19,7 @@ class StaffgroupController extends Controller
     public function index(): View
     {
         $staffgroups = Staffgroup::all()->sortBy('weight');
+
         return view('staffgroups.index', compact('staffgroups'));
     }
 
@@ -49,6 +48,7 @@ class StaffgroupController extends Controller
         ]);
         Staffgroup::create($request->all());
         $request->session()->flash('info', 'Die Mitarbeitergruppe wurde gespeichert.');
+
         return redirect(action([StaffgroupController::class, 'index']));
     }
 
@@ -61,6 +61,7 @@ class StaffgroupController extends Controller
     public function edit($id): View
     {
         $staffgroup = Staffgroup::findOrFail($id);
+
         return view('staffgroups.edit', compact('staffgroup'));
     }
 
@@ -81,6 +82,7 @@ class StaffgroupController extends Controller
         $staffgroup = Staffgroup::findOrFail($id);
         $staffgroup->update($request->all());
         $request->session()->flash('info', 'Die Mitarbeitergruppe wurde geändert.');
+
         return redirect(action([StaffgroupController::class, 'index']));
     }
 }

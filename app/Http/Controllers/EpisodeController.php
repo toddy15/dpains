@@ -2,19 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Dpains\Helper;
 use App\Employee;
 use App\Episode;
-use App\Comment;
-use App\PersonInfo;
 use App\Staffgroup;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\DB;
-use phpDocumentor\Reflection\DocBlock\Tags\Reference\Reference;
 
 class EpisodeController extends Controller
 {
@@ -31,7 +25,7 @@ class EpisodeController extends Controller
         // If yes, retrieve the latest episode for the default values.
         $episode = Episode::where('employee_id', $employee_id)
             ->orderBy('start_date', 'desc')->first();
-        if (!$episode) {
+        if (! $episode) {
             // There are no episodes, so create a new employee
             // using sane default values.
             $wb_id = Staffgroup::where('staffgroup', 'WB')->first()->id;
@@ -57,8 +51,13 @@ class EpisodeController extends Controller
         $end_year = date('Y') + 3;
         // Turn the start_date field into year and month for the form
         list($episode->year, $episode->month) = explode('-', $episode->start_date);
+
         return view('episodes.create', compact(
-            'episode', 'comments', 'staffgroups', 'start_year', 'end_year'
+            'episode',
+            'comments',
+            'staffgroups',
+            'start_year',
+            'end_year'
         ));
     }
 
@@ -90,8 +89,7 @@ class EpisodeController extends Controller
             if (date("Y") % 2 == 0) {
                 // Currently an even year, so start cycle next year (odd)
                 $bu_start = 'odd';
-            }
-            else {
+            } else {
                 // Currently an odd year, so start cycle next year (even)
                 $bu_start = 'even';
             }
@@ -104,6 +102,7 @@ class EpisodeController extends Controller
         }
         Episode::create($episode);
         $request->session()->flash('info', 'Der Eintrag wurde gespeichert.');
+
         return redirect(action([EmployeeController::class, 'showEpisodes', $episode['employee_id']]));
     }
 
@@ -131,8 +130,13 @@ class EpisodeController extends Controller
         $end_year = date('Y') + 3;
         // Turn the start_date field into year and month for the form
         list($episode->year, $episode->month) = explode('-', $episode->start_date);
+
         return view('episodes.edit', compact(
-            'episode', 'comments', 'staffgroups', 'start_year', 'end_year'
+            'episode',
+            'comments',
+            'staffgroups',
+            'start_year',
+            'end_year'
         ));
     }
 
@@ -152,6 +156,7 @@ class EpisodeController extends Controller
         $request->merge(['start_date' => $start_date]);
         $episode->update($request->all());
         $request->session()->flash('info', 'Der Eintrag wurde geändert.');
+
         return redirect(action([EmployeeController::class, 'showEpisodes', $episode->employee_id]));
     }
 
@@ -168,10 +173,12 @@ class EpisodeController extends Controller
         $request->session()->flash('info', 'Der Eintrag wurde gelöscht.');
         // Remove employee if the last episode has been removed.
         $next_episode = Episode::where('employee_id', $episode->employee_id)->first();
-        if (!$next_episode) {
+        if (! $next_episode) {
             Employee::where('id', $episode->employee_id)->delete();
+
             return redirect(action([EmployeeController::class, 'index']));
         }
+
         return redirect(action([EmployeeController::class, 'showEpisodes', $episode->employee_id]));
     }
 }

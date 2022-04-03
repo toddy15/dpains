@@ -6,12 +6,9 @@ use App\Dpains\Helper;
 use App\Dpains\Planparser;
 use App\Employee;
 use App\Rawplan;
-use App\Staffgroup;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
@@ -31,8 +28,12 @@ class ReportController extends Controller
         $reports = DB::table('analyzed_months')->where('month', $formatted_month)->get();
         // If there is no data yet, abort here.
         if (empty($reports)) {
-            return view('reports.show_month', compact('results',
-                'readable_month', 'next_month_url', 'previous_month_url'));
+            return view('reports.show_month', compact(
+                'results',
+                'readable_month',
+                'next_month_url',
+                'previous_month_url'
+            ));
         }
         // Create an array with a mapping of employee_id -> shifts
         $shifts = [];
@@ -48,15 +49,20 @@ class ReportController extends Controller
                 'shifts' => $shifts[$employee_id],
             ];
         }
-        return view('reports.show_month', compact('results',
-            'readable_month', 'next_month_url', 'previous_month_url'));
+
+        return view('reports.show_month', compact(
+            'results',
+            'readable_month',
+            'next_month_url',
+            'previous_month_url'
+        ));
     }
 
     public function showYear(Request $request, $year)
     {
         // Determine which month has been planned
         $planned_month = Helper::getPlannedMonth($year);
-        if (!$planned_month) {
+        if (! $planned_month) {
             // There is no data at all, so abort.
             abort(404);
         }
@@ -66,7 +72,7 @@ class ReportController extends Controller
         // Set up readable month names
         $readable_planned_month = Carbon::parse($planned_month)->formatLocalized('%B %Y');
         $readable_worked_month = '';
-        if (!empty($worked_month)) {
+        if (! empty($worked_month)) {
             $readable_worked_month = Carbon::parse($worked_month)->formatLocalized('%B %Y');
         }
         // Get the date and time of latest change
@@ -78,9 +84,16 @@ class ReportController extends Controller
         $previous_year_url = Helper::getPreviousYearUrl('report/', $year);
         $next_year_url = Helper::getNextYearUrl('report/', $year);
         $tables = Helper::getTablesForYear($request, $year, $worked_month);
-        return view('reports.show_year', compact('year',
-            'previous_year_url', 'next_year_url',
-            'latest_change', 'readable_planned_month', 'readable_worked_month', 'tables'));
+
+        return view('reports.show_year', compact(
+            'year',
+            'previous_year_url',
+            'next_year_url',
+            'latest_change',
+            'readable_planned_month',
+            'readable_worked_month',
+            'tables'
+        ));
     }
 
     public function showBuAndCon(Request $request, $year)
@@ -103,13 +116,12 @@ class ReportController extends Controller
             // $months contains the month as key, then employee id and bu/con.
             foreach ($months as $month => $data) {
                 // Initialize the result array
-                if (!isset($employees[$data->employee_id])) {
+                if (! isset($employees[$data->employee_id])) {
                     $e = Employee::findOrFail($data->employee_id);
                     $bu_cleartext = 'Nicht hinterlegt';
                     if ($e->bu_start == 'even') {
                         $bu_cleartext = 'Gerades Jahr';
-                    }
-                    else if ($e->bu_start == 'odd') {
+                    } elseif ($e->bu_start == 'odd') {
                         $bu_cleartext = 'Ungerades Jahr';
                     }
                     $employees[$data->employee_id] = [
@@ -117,9 +129,9 @@ class ReportController extends Controller
                         'bu_cleartext' => $bu_cleartext,
                         'data' => [
                             $year - 1 => ['bus' => 0, 'cons' => 0],
-                            $year     => ['bus' => 0, 'cons' => 0],
+                            $year => ['bus' => 0, 'cons' => 0],
                             $year + 1 => ['bus' => 0, 'cons' => 0],
-                        ]
+                        ],
                     ];
                 }
                 // Sum up bus and cons for the given year
@@ -138,23 +150,20 @@ class ReportController extends Controller
                     // Unset next.
                     $employees[$id]['data'][$year + 1]['bus'] = '&ndash;';
                     $employees[$id]['data'][$year + 1]['cons'] = '&ndash;';
-                }
-                else if ($bu_cleartext == 'Ungerades Jahr') {
+                } elseif ($bu_cleartext == 'Ungerades Jahr') {
                     // Otherwise, it's this and next year.
                     // Unset previous.
                     $employees[$id]['data'][$year - 1]['bus'] = '&ndash;';
                     $employees[$id]['data'][$year - 1]['cons'] = '&ndash;';
                 }
-            }
-            else {
+            } else {
                 // Year is even
                 if ($bu_cleartext == 'Gerades Jahr') {
                     // If the BU start is even, it's this and next year.
                     // Unset previous.
                     $employees[$id]['data'][$year - 1]['bus'] = '&ndash;';
                     $employees[$id]['data'][$year - 1]['cons'] = '&ndash;';
-                }
-                else if ($bu_cleartext == 'Ungerades Jahr') {
+                } elseif ($bu_cleartext == 'Ungerades Jahr') {
                     // Otherwise, it's last and this year.
                     // Unset next.
                     $employees[$id]['data'][$year + 1]['bus'] = '&ndash;';
@@ -175,10 +184,12 @@ class ReportController extends Controller
             if ($a['name'] > $b['name']) {
                 return 1;
             }
+
             return 0;
         });
         $previous_year_url = Helper::getPreviousYearUrl('report/buandcon/', $year);
         $next_year_url = Helper::getNextYearUrl('report/buandcon/', $year);
+
         return view('reports.show_bu_and_con', compact('year', 'previous_year_url', 'next_year_url', 'employees'));
     }
 
@@ -187,7 +198,7 @@ class ReportController extends Controller
         // Determine the highest month with data.
         $highest_month = Helper::getPlannedMonth(date('Y') + 1);
         // If the next year does not have data, this will return NULL.
-        if (!$highest_month) {
+        if (! $highest_month) {
             $highest_month = Helper::getPlannedMonth(date('Y'));
         }
         // Set up result array
@@ -216,13 +227,14 @@ class ReportController extends Controller
         // Make a flat collection from the error_messages array
         $errors = collect($error_messages)->flatten();
         // Only store the new calculation if there are no errors
-        if (!$errors->count()) {
+        if (! $errors->count()) {
             foreach ($recalculation_months as $month) {
                 $planparser = new Planparser($month);
                 $planparser->storeShiftsForPeople();
             }
             $request->session()->flash('info', 'Alle Monate wurden neu berechnet.');
         }
+
         return view('reports.refresh')->withErrors($errors);
     }
 }

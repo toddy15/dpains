@@ -22,19 +22,37 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
  * These routes are only accessible by authenticated users.
  */
 Route::group(['middleware' => 'auth'], function () {
-    Route::resource('episode', 'App\Http\Controllers\EpisodeController',
-        ['except' => ['index', 'show']]);
-    Route::resource('staffgroup', 'App\Http\Controllers\StaffgroupController',
-        ['except' => ['show', 'destroy']]);
-    Route::resource('comment', 'App\Http\Controllers\CommentController',
-        ['except' => ['show', 'destroy']]);
-    Route::resource('rawplan', 'App\Http\Controllers\RawplanController',
-        ['except' => ['show', 'edit', 'update']]);
-    Route::resource('due_shift', 'App\Http\Controllers\DueShiftController',
-        ['except' => ['show', 'destroy']]);
+    Route::resource(
+        'episode',
+        'App\Http\Controllers\EpisodeController',
+        ['except' => ['index', 'show']]
+    );
+    Route::resource(
+        'staffgroup',
+        'App\Http\Controllers\StaffgroupController',
+        ['except' => ['show', 'destroy']]
+    );
+    Route::resource(
+        'comment',
+        'App\Http\Controllers\CommentController',
+        ['except' => ['show', 'destroy']]
+    );
+    Route::resource(
+        'rawplan',
+        'App\Http\Controllers\RawplanController',
+        ['except' => ['show', 'edit', 'update']]
+    );
+    Route::resource(
+        'due_shift',
+        'App\Http\Controllers\DueShiftController',
+        ['except' => ['show', 'destroy']]
+    );
     Route::put('rawplan/setAnonReportMonth', 'App\Http\Controllers\RawplanController@setAnonReportMonth');
-    Route::resource('employee', 'App\Http\Controllers\EmployeeController',
-        ['except' => ['create', 'store', 'show', 'destroy']]);
+    Route::resource(
+        'employee',
+        'App\Http\Controllers\EmployeeController',
+        ['except' => ['create', 'store', 'show', 'destroy']]
+    );
     Route::get('employee/{id}/episodes', 'App\Http\Controllers\EmployeeController@showEpisodes');
     Route::get('employee/month/{year}/{month}', 'App\Http\Controllers\EmployeeController@showMonth')
         ->where(['year' => '[0-9]+', 'month' => '[0-9]+']);

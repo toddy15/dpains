@@ -6,9 +6,6 @@ use App\Comment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
 class CommentController extends Controller
 {
     /**
@@ -19,6 +16,7 @@ class CommentController extends Controller
     public function index()
     {
         $comments = Comment::all()->sortBy('comment');
+
         return view('comments.index', compact('comments'));
     }
 
@@ -41,10 +39,11 @@ class CommentController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
-            'comment' => 'required'
+            'comment' => 'required',
         ]);
         Comment::create($request->all());
         $request->session()->flash('info', 'Die Bemerkung wurde gespeichert.');
+
         return redirect(action([CommentController::class, 'index']));
     }
 
@@ -57,6 +56,7 @@ class CommentController extends Controller
     public function edit($id)
     {
         $comment = Comment::findOrFail($id);
+
         return view('comments.edit', compact('comment'));
     }
 
@@ -72,6 +72,7 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
         $comment->update($request->all());
         $request->session()->flash('info', 'Die Bemerkung wurde geändert.');
+
         return redirect(action([CommentController::class, 'index']));
     }
 }

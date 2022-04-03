@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class DueShift extends Model
 {
     protected $fillable = [
-        'staffgroup_id', 'year', 'nights', 'nefs'
+        'staffgroup_id', 'year', 'nights', 'nefs',
     ];
 
     /**

@@ -9,9 +9,6 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
 class DueShiftController extends Controller
 {
     /**
@@ -30,11 +27,13 @@ class DueShiftController extends Controller
                     // Normally, this should not happen ...
                     return 0;
                 }
+
                 return ($a->staffgroup['weight'] < $b->staffgroup['weight']) ? -1 : 1;
             }
             // Sort the year descending
             return ($a->year < $b->year) ? 1 : -1;
         });
+
         return view('due_shifts.index', compact('due_shifts'));
     }
 
@@ -57,6 +56,7 @@ class DueShiftController extends Controller
                 unset($staffgroups[$key]);
             }
         }
+
         return view('due_shifts.create', compact('staffgroups'));
     }
 
@@ -78,10 +78,10 @@ class DueShiftController extends Controller
         try {
             DueShift::create($request->all());
             $request->session()->flash('info', 'Die Sollzahlen wurden gespeichert.');
-        }
-        catch (QueryException $e) {
+        } catch (QueryException $e) {
             $request->session()->flash('danger', 'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.');
         }
+
         return redirect(action([DueShiftController::class, 'index']));
     }
 
@@ -93,7 +93,7 @@ class DueShiftController extends Controller
      */
     public function edit($id)
     {
-        $due_shift= DueShift::findOrFail($id);
+        $due_shift = DueShift::findOrFail($id);
         // Get the staffgroups for the select box
         $staffgroups = Staffgroup::all()->sortBy('weight')
             ->lists('staffgroup', 'id')->toArray();
@@ -106,6 +106,7 @@ class DueShiftController extends Controller
                 unset($staffgroups[$key]);
             }
         }
+
         return view('due_shifts.edit', compact('due_shift', 'staffgroups'));
     }
 
@@ -129,10 +130,10 @@ class DueShiftController extends Controller
         try {
             $due_shift->update($request->all());
             $request->session()->flash('info', 'Die Sollzahlen wurden geändert.');
-        }
-        catch (QueryException $e) {
+        } catch (QueryException $e) {
             $request->session()->flash('danger', 'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.');
         }
+
         return redirect(action([DueShiftController::class, 'index']));
     }
 }

@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Dpains\Helper;
 use App\Dpains\Planparser;
-use App\Dpains\Reporter;
 use App\Rawplan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -32,8 +29,7 @@ class RawplanController extends Controller
         // Format accordingly
         if ($current_anon_month) {
             list($current_anon_year, $current_anon_month) = explode('-', $current_anon_month);
-        }
-        else {
+        } else {
             $current_anon_month = '00';
             $current_anon_year = '0000';
         }
@@ -48,8 +44,15 @@ class RawplanController extends Controller
         // This is just for a nice colouring in the view.
         $rawplans_worked = Rawplan::orderBy('month', 'desc')
             ->where('month', '<=', $worked_month)->get();
-        return view('rawplans.index', compact('start_year', 'end_year',
-            'current_anon_month', 'current_anon_year', 'rawplans_planned', 'rawplans_worked'));
+
+        return view('rawplans.index', compact(
+            'start_year',
+            'end_year',
+            'current_anon_month',
+            'current_anon_year',
+            'rawplans_planned',
+            'rawplans_worked'
+        ));
     }
 
     /**
@@ -72,8 +75,13 @@ class RawplanController extends Controller
             $month = Helper::getPlannedMonth(date('Y') + $year_offset);
         }
         list($selected_year, $selected_month) = explode('-', $month);
-        return view('rawplans.create', compact('start_year', 'end_year',
-            'selected_year', 'selected_month'));
+
+        return view('rawplans.create', compact(
+            'start_year',
+            'end_year',
+            'selected_year',
+            'selected_month'
+        ));
     }
 
     /**
@@ -97,7 +105,7 @@ class RawplanController extends Controller
         // Extend with custom validation rules
         // In the first attempt to validate, check for
         // recognized people and shifts.
-        $validator->after(function($validator) use ($planparser) {
+        $validator->after(function ($validator) use ($planparser) {
             // Check that the given people match the expected people.
             $error_messages = $planparser->validatePeople();
             foreach ($error_messages as $error_message) {
@@ -122,13 +130,14 @@ class RawplanController extends Controller
         // Check if there is already an entry in the database,
         // if so, update it.
         $rawplan = Rawplan::where('month', $month)->first();
-        if (!$rawplan) {
+        if (! $rawplan) {
             $rawplan = Rawplan::create($request->all());
         } else {
             $rawplan->update($request->all());
         }
         $rawplan->save();
         $request->session()->flash('info', 'Der Dienstplan wurde gespeichert.');
+
         return redirect(action([RawplanController::class, 'index']));
     }
 
@@ -145,12 +154,14 @@ class RawplanController extends Controller
         // and has not been worked through completely.
         if ($rawplan->month <= Helper::getWorkedMonth()) {
             $request->session()->flash('warning', 'Der Dienstplan wurde nicht gelöscht.');
+
             return redirect(action('RawplanController@index'));
         }
         // Also delete every parsed plan ...
         DB::table('analyzed_months')->where('month', $rawplan->month)->delete();
         $rawplan->delete();
         $request->session()->flash('info', 'Der Dienstplan wurde gelöscht.');
+
         return redirect(action([RawplanController::class, 'index']));
     }
 
@@ -171,6 +182,7 @@ class RawplanController extends Controller
         DB::table('rawplans')->where('month', '>', $formatted_month)
             ->update(['anon_report' => 0]);
         $request->session()->flash('info', 'Der Status der anonymen Auswertung wurde geändert.');
+
         return redirect(action([RawplanController::class, 'index']));
     }
 }
