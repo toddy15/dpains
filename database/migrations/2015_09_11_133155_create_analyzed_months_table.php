@@ -17,6 +17,8 @@ return new class () extends Migration {
             $table->integer('employee_id')->references('id')->on('employees');
             $table->integer('nights');
             $table->integer('nefs');
+            $table->integer('bus');
+            $table->integer('cons');
             $table->primary(['month', 'employee_id']);
         });
     }

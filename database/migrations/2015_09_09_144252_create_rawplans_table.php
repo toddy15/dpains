@@ -17,6 +17,7 @@ return new class () extends Migration {
             $table->string('month', 7)->unique();
             $table->text('people');
             $table->text('shifts');
+            $table->boolean('anon_report');
             $table->timestamps();
         });
     }
