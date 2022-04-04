@@ -120,7 +120,7 @@ class RawplanController extends Controller
         });
         // Determine whether there was an error.
         if ($validator->fails()) {
-            return redirect(action([RawplanController::class, 'index']))
+            return redirect(action([RawplanController::class, 'create']))
                 ->withErrors($validator)
                 ->withInput();
         }
