@@ -1,9 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
-    {!! Form::open(['action' => 'App\Http\Controllers\CommentController@store']) !!}
+    <form action="{{ route('comment.store') }}" method="POST">
+        @csrf
+        @include('comments.form')
 
-    @include('comments.form', ['cancel_url' => action('App\Http\Controllers\CommentController@index')])
-
-    {!! Form::close() !!}
+        <div class="form-group text-center">
+            {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
+            <a class="btn btn-secondary" href="{{ route('comment.index') }}">Abbrechen</a>
+        </div>
+    </form>
 @endsection

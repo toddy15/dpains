@@ -66,12 +66,17 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @param int $id
      * @return RedirectResponse
+     * @throws ValidationException
      */
     public function update(Request $request, int $id): RedirectResponse
     {
+        $this->validate($request, [
+            'comment' => 'required',
+        ]);
+
         $comment = Comment::findOrFail($id);
         $comment->update($request->all());
         $request->session()->flash('info', 'Die Bemerkung wurde geändert.');
