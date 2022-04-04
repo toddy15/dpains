@@ -109,7 +109,7 @@ class EmployeeController extends Controller
     {
         $employees = Employee::all();
         $current_month = date("Y-m");
-        $past_people = Helper::getPastPeople($current_month);
+        $past_people = Helper::getPastPeople($current_month)->toArray();
         // Construct an array with id, name, and email address
         $past = array_map(function ($employee) use ($employees) {
             // Extract information from employee table

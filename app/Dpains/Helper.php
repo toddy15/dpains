@@ -525,7 +525,7 @@ class Helper
                 // Initialize a month array, if not set
                 if (! isset($months[$episode->staffgroup][$episode->employee_id])) {
                     $months[$episode->staffgroup][$episode->employee_id] = array_fill(1, 12, [
-                        'vk' => '&ndash;',
+                        'vk' => '–',
                         'changed' => false,
                     ]);
                 }

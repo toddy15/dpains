@@ -40,7 +40,7 @@
                 <tr>
                     <td>{{ $employee['name'] }}</td>
                     @for ($month = 1; $month <= 12; $month++)
-                        <td {!! $employee['months'][$month]['changed'] ? 'class="info"' : '' !!}>{{ $employee['months'][$month]['vk'] }}</td>
+                        <td {!! $employee['months'][$month]['changed'] ? 'class="table-info"' : '' !!}>{{ $employee['months'][$month]['vk'] }}</td>
                     @endfor
                 </tr>
             @endforeach
