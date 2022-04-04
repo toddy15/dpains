@@ -76,7 +76,7 @@ class DueShiftController extends Controller
         try {
             DueShift::create($request->all());
             $request->session()->flash('info', 'Die Sollzahlen wurden gespeichert.');
-        } catch (QueryException $e) {
+        } catch (QueryException) {
             $request->session()->flash('danger', 'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.');
         }
 
@@ -129,7 +129,7 @@ class DueShiftController extends Controller
         try {
             $due_shift->update($request->all());
             $request->session()->flash('info', 'Die Sollzahlen wurden geändert.');
-        } catch (QueryException $e) {
+        } catch (QueryException) {
             $request->session()->flash('danger', 'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.');
         }
 
