@@ -23,17 +23,12 @@ class DueShiftController extends Controller
         // Sort with a callback to respect both year and staffgroup
         $due_shifts = DueShift::all()->sort(function ($a, $b) {
             // First sort by year
-            if ($a->year == $b->year) {
-                // Same year, sort by staffgroup weight
-                if ($a->staffgroup['weight'] == $b->staffgroup['weight']) {
-                    // Normally, this should not happen ...
-                    return 0;
-                }
-
-                return ($a->staffgroup['weight'] < $b->staffgroup['weight']) ? -1 : 1;
+            if ($a->year === $b->year) {
+                // Same year, sort by staffgroup weight ascending
+                return $a->staffgroup['weight'] <=> $b->staffgroup['weight'];
             }
             // Sort the year descending
-            return ($a->year < $b->year) ? 1 : -1;
+            return $b->year <=> $a->year;
         });
 
         return view('due_shifts.index', compact('due_shifts'));
