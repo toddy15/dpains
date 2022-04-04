@@ -3,7 +3,7 @@
 @section('content')
     <h1>Bemerkungen</h1>
     <p>
-        <a class="btn btn-primary" href="{{ route('comments.create') }}">Neue Bemerkung erstellen</a>
+        <x-link-button class="btn-primary" href="{{ route('comments.create') }}">Neue Bemerkung erstellen</x-link-button>
     </p>
     <table class="table table-striped">
         <thead>
@@ -14,7 +14,7 @@
             @foreach($comments as $comment)
                 <tr>
                     <td>{{ $comment->comment }}</td>
-                    <td><a class="btn btn-primary" href="{{ route('comments.edit', $comment) }}">Bearbeiten</a></td>
+                    <td><x-link-button class="btn-primary" href="{{ route('comments.edit', $comment) }}">Bearbeiten</x-link-button></td>
                 </tr>
             @endforeach
         </tbody>
