@@ -17,7 +17,7 @@ Route::middleware([Authenticate::class])->group(function () {
         ->except(['index', 'show']);
     Route::resource('staffgroup', StaffgroupController::class)
         ->except(['show', 'destroy']);
-    Route::resource('comment', CommentController::class)
+    Route::resource('comments', CommentController::class)
         ->except(['show', 'destroy']);
     Route::resource('rawplan', RawplanController::class)
         ->except(['show', 'edit', 'update']);

@@ -38,7 +38,7 @@
                         <a class="dropdown-item"
                            href="{{ url('employee') }}">Mitarbeiter</a>
                         <a class="dropdown-item"
-                           href="{{ url('comment') }}">Bemerkungen</a>
+                           href="{{ route('comments.index') }}">Bemerkungen</a>
                         <a
                             class="dropdown-item" href="{{ url('staffgroup') }}">Mitarbeitergruppen</a>
                         <a

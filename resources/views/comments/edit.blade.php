@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <form action="{{ route('comment.update', $comment) }}" method="POST">
+    <form action="{{ route('comments.update', $comment) }}" method="POST">
         @csrf
         @method('PUT')
 
@@ -9,7 +9,7 @@
 
         <div class="form-group text-center">
             {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
-            <a class="btn btn-secondary" href="{{ route('comment.index') }}">Abbrechen</a>
+            <a class="btn btn-secondary" href="{{ route('comments.index') }}">Abbrechen</a>
         </div>
     </form>
 @endsection
