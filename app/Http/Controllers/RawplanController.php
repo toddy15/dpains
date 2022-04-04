@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dpains\Helper;
 use App\Dpains\Planparser;
 use App\Models\Rawplan;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,7 @@ class RawplanController extends Controller
         // Allow anon reporting from the beginning of database storage
         $start_year = Helper::$firstYear;
         // ... to next year
-        $end_year = date('Y') + 1;
+        $end_year = Carbon::now()->addYear()->yearIso;
         // Determine the current month for anon reporting
         $current_anon_month = Rawplan::where('anon_report', true)->max('month');
         // Format accordingly
@@ -65,14 +66,14 @@ class RawplanController extends Controller
         // Allow from the beginning of database storage
         $start_year = Helper::$firstYear;
         // ... to next year
-        $end_year = date('Y') + 1;
+        $end_year = Carbon::now()->addYear()->yearIso;
         // Select highest planned month, either in the next year ...
-        $year_offset = 1;
-        $month = Helper::getPlannedMonth(date('Y') + $year_offset);
+        $year = Carbon::now()->addYear()->yearIso;
+        $month = Helper::getPlannedMonth($year);
         while (is_null($month)) {
             // ... or, if not yet planned, in this or previous years.
-            $year_offset--;
-            $month = Helper::getPlannedMonth(date('Y') + $year_offset);
+            $year--;
+            $month = Helper::getPlannedMonth($year);
         }
         list($selected_year, $selected_month) = explode('-', $month);
 

@@ -196,10 +196,10 @@ class ReportController extends Controller
     public function refresh(Request $request): View
     {
         // Determine the highest month with data.
-        $highest_month = Helper::getPlannedMonth(date('Y') + 1);
+        $highest_month = Helper::getPlannedMonth(Carbon::now()->addYear()->yearIso);
         // If the next year does not have data, this will return NULL.
         if (! $highest_month) {
-            $highest_month = Helper::getPlannedMonth(date('Y'));
+            $highest_month = Helper::getPlannedMonth(Carbon::now()->yearIso);
         }
         // Set up result array
         $recalculation_months = [];

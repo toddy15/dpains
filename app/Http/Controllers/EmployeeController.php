@@ -21,7 +21,7 @@ class EmployeeController extends Controller
     {
         $employees = Employee::all();
         // Display current employees first, already sorted by staffgroup and name
-        $current_month = date("Y-m");
+        $current_month = Carbon::now()->isoFormat('YYYY-MM');
         $people = Helper::getPeopleForMonth($current_month)->toArray();
         // Exclude the past employees.
         $past_people = Helper::getPastPeople($current_month)->toArray();
@@ -108,7 +108,7 @@ class EmployeeController extends Controller
     public function showPastEmployees(Request $request): View
     {
         $employees = Employee::all();
-        $current_month = date("Y-m");
+        $current_month = Carbon::now()->isoFormat('YYYY-MM');
         $past_people = Helper::getPastPeople($current_month)->toArray();
         // Construct an array with id, name, and email address
         $past = array_map(function ($employee) use ($employees) {
@@ -206,7 +206,7 @@ class EmployeeController extends Controller
      */
     private function _calculateBUStart(): array
     {
-        $current_year = date('Y');
+        $current_year = Carbon::now()->yearIso;
         $bu = [];
         $bu[''] = 'Nicht hinterlegt';
         if ($current_year % 2) {

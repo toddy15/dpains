@@ -175,7 +175,7 @@ class AnonController extends Controller
         $employee->hash = Str::random();
         $employee->save();
         // Send the mail
-        $url = action([AnonController::class, 'showYear'], [date('Y'), $employee->hash]);
+        $url = action([AnonController::class, 'showYear'], [Carbon::now()->yearIso, $employee->hash]);
         //@TODO mail
 //        Mail::queue(['text' => 'emails.new_hash'], compact('url'), function ($m) use ($employee) {
 //            $m->to($employee->email);

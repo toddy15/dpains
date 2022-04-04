@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\Employee;
 use App\Models\Episode;
 use App\Models\Staffgroup;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -34,7 +35,7 @@ class EpisodeController extends Controller
             // using sane default values.
             $wb_id = Staffgroup::where('staffgroup', 'WB')->first()->id;
             $episode = new Episode();
-            $episode->start_date = date("Y-m");
+            $episode->start_date = Carbon::now()->isoFormat('YYYY-MM');
             $episode->staffgroup_id = $wb_id;
             $episode->vk = "1.000";
             $episode->factor_night = "0.000";
@@ -50,9 +51,9 @@ class EpisodeController extends Controller
         $staffgroups = Staffgroup::all()->sortBy('weight')
             ->pluck('staffgroup', 'id')->toArray();
         // Allow from the beginning of database storage or some years back
-        $start_year = max(Helper::$firstYear, date('Y') - 3);
+        $start_year = max(Helper::$firstYear, Carbon::now()->subYears(3)->yearIso);
         // ... to some years ahead
-        $end_year = date('Y') + 3;
+        $end_year = Carbon::now()->addYears(3)->yearIso;
         // Turn the start_date field into year and month for the form
         list($episode->year, $episode->month) = explode('-', $episode->start_date);
 
@@ -91,7 +92,7 @@ class EpisodeController extends Controller
         if ($episode['employee_id'] == 0) {
             // This is a new employee, so create a new entry.
             // The BU cycle always starts in the next year.
-            if (date("Y") % 2 == 0) {
+            if (Carbon::now()->yearIso % 2 == 0) {
                 // Currently an even year, so start cycle next year (odd)
                 $bu_start = 'odd';
             } else {
@@ -132,7 +133,7 @@ class EpisodeController extends Controller
         // Allow from the beginning of database storage
         $start_year = Helper::$firstYear;
         // ... to some years ahead
-        $end_year = date('Y') + 3;
+        $end_year = Carbon::now()->addYears(3)->yearIso;
         // Turn the start_date field into year and month for the form
         list($episode->year, $episode->month) = explode('-', $episode->start_date);
 
