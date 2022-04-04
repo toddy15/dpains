@@ -27,7 +27,7 @@
     {!! Form::textarea('shifts', null, ['class' => 'form-control']) !!}
     {{--    </div>--}}
 
-    <div class="text-center">
+    <div class="text-center mt-4">
         {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
         <a class="btn btn-secondary" href="{{ action('App\Http\Controllers\RawplanController@index') }}">Abbrechen</a>
     </div>

@@ -62,7 +62,7 @@
     @endif
 </div>
 
-<div class="form-group text-center">
+<div class="form-group text-center mt-4">
     <!-- Speichern Form Input  -->
     {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
     <!-- Cancel Button -->
