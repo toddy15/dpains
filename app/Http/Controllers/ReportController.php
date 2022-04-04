@@ -148,26 +148,26 @@ class ReportController extends Controller
                 if ($bu_cleartext == 'Gerades Jahr') {
                     // If the BU start is even, it's last and this year.
                     // Unset next.
-                    $employees[$id]['data'][$year + 1]['bus'] = '&ndash;';
-                    $employees[$id]['data'][$year + 1]['cons'] = '&ndash;';
+                    $employees[$id]['data'][$year + 1]['bus'] = '–';
+                    $employees[$id]['data'][$year + 1]['cons'] = '–';
                 } elseif ($bu_cleartext == 'Ungerades Jahr') {
                     // Otherwise, it's this and next year.
                     // Unset previous.
-                    $employees[$id]['data'][$year - 1]['bus'] = '&ndash;';
-                    $employees[$id]['data'][$year - 1]['cons'] = '&ndash;';
+                    $employees[$id]['data'][$year - 1]['bus'] = '–';
+                    $employees[$id]['data'][$year - 1]['cons'] = '–';
                 }
             } else {
                 // Year is even
                 if ($bu_cleartext == 'Gerades Jahr') {
                     // If the BU start is even, it's this and next year.
                     // Unset previous.
-                    $employees[$id]['data'][$year - 1]['bus'] = '&ndash;';
-                    $employees[$id]['data'][$year - 1]['cons'] = '&ndash;';
+                    $employees[$id]['data'][$year - 1]['bus'] = '–';
+                    $employees[$id]['data'][$year - 1]['cons'] = '–';
                 } elseif ($bu_cleartext == 'Ungerades Jahr') {
                     // Otherwise, it's last and this year.
                     // Unset next.
-                    $employees[$id]['data'][$year + 1]['bus'] = '&ndash;';
-                    $employees[$id]['data'][$year + 1]['cons'] = '&ndash;';
+                    $employees[$id]['data'][$year + 1]['bus'] = '–';
+                    $employees[$id]['data'][$year + 1]['cons'] = '–';
                 }
             }
             // Sum up the total.
@@ -178,14 +178,7 @@ class ReportController extends Controller
         }
         // Sort by name
         uasort($employees, function ($a, $b) {
-            if ($a['name'] < $b['name']) {
-                return -1;
-            }
-            if ($a['name'] > $b['name']) {
-                return 1;
-            }
-
-            return 0;
+            return $a['name'] <=> $b['name'];
         });
         $previous_year_url = Helper::getPreviousYearUrl('report/buandcon/', $year);
         $next_year_url = Helper::getNextYearUrl('report/buandcon/', $year);
