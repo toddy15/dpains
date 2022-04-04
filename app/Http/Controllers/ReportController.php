@@ -27,7 +27,7 @@ class ReportController extends Controller
         // Get information for all people in this month
         $reports = DB::table('analyzed_months')->where('month', $formatted_month)->get();
         // If there is no data yet, abort here.
-        if (empty($reports)) {
+        if ($reports->isEmpty()) {
             return view('reports.show_month', compact(
                 'results',
                 'readable_month',
