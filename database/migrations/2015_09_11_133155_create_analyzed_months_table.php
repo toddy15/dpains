@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Employee;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,7 +15,7 @@ return new class () extends Migration {
     {
         Schema::create('analyzed_months', function (Blueprint $table) {
             $table->string('month', 7);
-            $table->integer('employee_id')->references('id')->on('employees');
+            $table->foreignIdFor(Employee::class)->constrained();
             $table->integer('nights');
             $table->integer('nefs');
             $table->integer('bus');
@@ -30,6 +31,6 @@ return new class () extends Migration {
      */
     public function down()
     {
-        Schema::drop('analyzed_months');
+        Schema::dropIfExists('analyzed_months');
     }
 };
