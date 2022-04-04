@@ -161,7 +161,7 @@ class AnonController extends Controller
         ]);
         $email = trim($request->get('email'));
         // Append the domain, if necessary
-        if (! str_contains($email, '@')) {
+        if (! Str::contains($email, '@')) {
             $email .= '@asklepios.com';
         }
         $employee = Employee::where('email', $email)->first();

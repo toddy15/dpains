@@ -7,6 +7,7 @@ use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -33,10 +34,10 @@ class EmployeeController extends Controller
             $bu_start = $bu[$data->bu_start];
             if (Helper::staffgroupMayReceiveEMail($employee->staffgroup_id)) {
                 // Warn if people do *not* have a valid email, although they should.
-                $warning = ! str_contains($data->email, "@");
+                $warning = ! Str::contains($data->email, "@");
             } else {
                 // Warn if people *do* have a valid email, although they should not.
-                $warning = str_contains($data->email, "@");
+                $warning = Str::contains($data->email, "@");
             }
 
             return (object) [
@@ -115,7 +116,7 @@ class EmployeeController extends Controller
             // Extract information from employee table
             $data = $employees->where('id', $employee->employee_id)->first();
             // Warn if people *do* have a valid email -- past employees should not.
-            $warning = str_contains($data->email, "@");
+            $warning = Str::contains($data->email, "@");
 
             return (object) [
                 'id' => $employee->employee_id,
