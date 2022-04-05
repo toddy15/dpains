@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dpains\Helper;
+use App\Mail\NewHash;
 use App\Models\Employee;
 use App\Models\Rawplan;
 use Carbon\Carbon;
@@ -176,11 +177,9 @@ class AnonController extends Controller
         $employee->save();
         // Send the mail
         $url = action([AnonController::class, 'showYear'], [Carbon::now()->yearIso, $employee->hash]);
-        //@TODO mail
-//        Mail::queue(['text' => 'emails.new_hash'], compact('url'), function ($m) use ($employee) {
-//            $m->to($employee->email);
-//            $m->subject('Neuer Zugriffscode für www.dienstplan-an.de');
-//        });
+
+        Mail::to($employee->email)->queue(new NewHash($url));
+
         $request->session()->flash('info', "Der neue Zugriffscode wurde an $email gesendet.");
 
         return redirect(url('/'));
