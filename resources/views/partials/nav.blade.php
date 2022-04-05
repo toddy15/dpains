@@ -42,7 +42,7 @@
                         <a
                             class="dropdown-item" href="{{ url('staffgroup') }}">Mitarbeitergruppen</a>
                         <a
-                            class="dropdown-item" href="{{ url('due_shift') }}">Sollzahlen</a>
+                            class="dropdown-item" href="{{ route('due_shifts.index') }}">Sollzahlen</a>
                         <a class="dropdown-item"
                            href="{{ url('employee/month/' . date('Y/m')) }}">Monatsübersichten</a>
                         <a class="dropdown-item"

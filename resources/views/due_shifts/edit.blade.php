@@ -1,9 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    {!! Form::model($due_shift, ['method' => 'PUT', 'action' => ['App\Http\Controllers\DueShiftController@update', $due_shift->id]]) !!}
+    <form action="{{ route('due_shifts.update', $due_shift) }}" method="POST">
+        @csrf
+        @method('PUT')
 
-    @include('due_shifts.form', ['cancel_url' => action('App\Http\Controllers\DueShiftController@index')])
-
-    {!! Form::close() !!}
+        @include('due_shifts.form')
+    </form>
 @endsection

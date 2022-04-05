@@ -21,7 +21,7 @@ Route::middleware([Authenticate::class])->group(function () {
         ->except(['show', 'destroy']);
     Route::resource('rawplan', RawplanController::class)
         ->except(['show', 'edit', 'update']);
-    Route::resource('due_shift', DueShiftController::class)
+    Route::resource('due_shifts', DueShiftController::class)
         ->except(['show', 'destroy']);
     Route::put('rawplan/setAnonReportMonth', [RawplanController::class, 'setAnonReportMonth']);
     Route::resource('employee', EmployeeController::class)
