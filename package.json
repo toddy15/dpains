@@ -8,6 +8,7 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production"
+        "format": "npm run prettier -w resources"
     },
     "devDependencies": {
         "@popperjs/core": "^2.10.2",
@@ -17,7 +18,7 @@
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
-        "prettier": "^2.6.2",
+        "prettier": "2.6.2",
         "prettier-plugin-tailwindcss": "^0.1.8",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.32.11",
