@@ -8,7 +8,6 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production"
-        "format": "npm run prettier -w resources"
     },
     "devDependencies": {
         "@popperjs/core": "^2.10.2",
