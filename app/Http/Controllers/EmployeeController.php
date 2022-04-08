@@ -6,9 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Dpains\Helper;
 use App\Models\Employee;
-use Illuminate\Support\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
@@ -51,11 +51,11 @@ class EmployeeController extends Controller
             ];
         }, $people);
         // Now collect all remaining employees
-        $current_ids = array_map(fn($employee) => $employee->id, $current);
-        $future = $employees->filter(fn($employee) => ! in_array($employee->id, $current_ids))->sortBy('name');
+        $current_ids = array_map(fn ($employee) => $employee->id, $current);
+        $future = $employees->filter(fn ($employee) => ! in_array($employee->id, $current_ids))->sortBy('name');
         // Exclude the past employees
-        $past_ids = array_map(fn($employee) => $employee->employee_id, $past_people);
-        $future = $future->filter(fn($employee) => ! in_array($employee->id, $past_ids))->sortBy('name');
+        $past_ids = array_map(fn ($employee) => $employee->employee_id, $past_people);
+        $future = $future->filter(fn ($employee) => ! in_array($employee->id, $past_ids))->sortBy('name');
 
         return view('employees.index', compact('current', 'future'));
     }

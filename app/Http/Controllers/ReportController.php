@@ -8,9 +8,9 @@ use App\Dpains\Helper;
 use App\Dpains\Planparser;
 use App\Models\Employee;
 use App\Models\Rawplan;
-use Illuminate\Support\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
@@ -179,7 +179,7 @@ class ReportController extends Controller
             }
         }
         // Sort by name
-        uasort($employees, fn($a, $b) => $a['name'] <=> $b['name']);
+        uasort($employees, fn ($a, $b) => $a['name'] <=> $b['name']);
         $previous_year_url = Helper::getPreviousYearUrl('report/buandcon/', $year);
         $next_year_url = Helper::getNextYearUrl('report/buandcon/', $year);
 
