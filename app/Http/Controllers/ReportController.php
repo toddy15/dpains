@@ -177,9 +177,7 @@ class ReportController extends Controller
             }
         }
         // Sort by name
-        uasort($employees, function ($a, $b) {
-            return $a['name'] <=> $b['name'];
-        });
+        uasort($employees, fn($a, $b) => $a['name'] <=> $b['name']);
         $previous_year_url = Helper::getPreviousYearUrl('report/buandcon/', $year);
         $next_year_url = Helper::getNextYearUrl('report/buandcon/', $year);
 
