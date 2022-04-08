@@ -86,7 +86,7 @@ class AnonController extends Controller
         }
         // Refresh last access
         $employee->touch();
-        $episodes = $employee->episodes()->orderBy('start_date')->get();
+        $episodes = $employee->episodes()->oldest('start_date')->get();
         $latest_name = $employee->name;
 
         return view('anon.show_episodes', compact('hash', 'episodes', 'latest_name'));
@@ -129,7 +129,7 @@ class AnonController extends Controller
             $readable_worked_month = Carbon::parse($worked_month)->locale('de')->isoFormat('MMMM YYYY');
         }
         // Get the date and time of latest change
-        $latest_change = Rawplan::where('anon_report', 1)->orderBy('updated_at', 'desc')->value('updated_at');
+        $latest_change = Rawplan::where('anon_report', 1)->latest('updated_at')->value('updated_at');
         $latest_change = Carbon::parse($latest_change)->locale('de')->isoFormat('Do MMMM YYYY, HH:mm');
         // Generate the next and previous year urls
         $previous_year_url = Helper::getPreviousYearUrl('anon/', $year);

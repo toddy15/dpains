@@ -26,7 +26,7 @@ class Employee extends Model
      */
     public function getNameAttribute()
     {
-        $last_episode = $this->episodes()->orderBy('start_date', 'DESC')->first();
+        $last_episode = $this->episodes()->latest('start_date')->first();
 
         return $last_episode->name;
     }

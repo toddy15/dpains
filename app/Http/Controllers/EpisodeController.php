@@ -31,7 +31,7 @@ class EpisodeController extends Controller
         // Is there already an episode for this employee?
         // If yes, retrieve the latest episode for the default values.
         $episode = Episode::where('employee_id', $employee_id)
-            ->orderBy('start_date', 'desc')->first();
+            ->latest('start_date')->first();
         if (! $episode) {
             // There are no episodes, so create a new employee
             // using sane default values.

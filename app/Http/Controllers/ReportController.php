@@ -78,7 +78,7 @@ class ReportController extends Controller
             $readable_worked_month = Carbon::parse($worked_month)->locale('de')->isoFormat('MMMM YYYY');
         }
         // Get the date and time of latest change
-        $latest_change = Rawplan::orderBy('updated_at', 'desc')
+        $latest_change = Rawplan::latest('updated_at')
             ->where('month', 'LIKE', "$year%")
             ->value('updated_at');
         $latest_change = Carbon::parse($latest_change)->locale('de')->isoFormat('Do MMMM YYYY, HH:mm');

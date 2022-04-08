@@ -41,11 +41,11 @@ class RawplanController extends Controller
             $worked_month = '0000-00';
         }
         // Differentiate between months which are still ongoing ...
-        $rawplans_planned = Rawplan::orderBy('month', 'desc')
+        $rawplans_planned = Rawplan::latest('month')
             ->where('month', '>', $worked_month)->get();
         // ... and months which are in the past and won't change.
         // This is just for a nice colouring in the view.
-        $rawplans_worked = Rawplan::orderBy('month', 'desc')
+        $rawplans_worked = Rawplan::latest('month')
             ->where('month', '<=', $worked_month)->get();
 
         return view('rawplans.index', compact(

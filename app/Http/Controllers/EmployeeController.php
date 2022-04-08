@@ -132,7 +132,7 @@ class EmployeeController extends Controller
     public function showEpisodes(int $id): View
     {
         $employee = Employee::findOrFail($id);
-        $episodes = $employee->episodes()->orderBy('start_date')->get();
+        $episodes = $employee->episodes()->oldest('start_date')->get();
         $latest_name = $employee->name;
 
         return view('employees.show_episodes', compact('episodes', 'id', 'latest_name'));
