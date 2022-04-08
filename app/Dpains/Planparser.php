@@ -9,7 +9,6 @@ class Planparser
 {
     public $rawNames = [];
     public $rawShifts = [];
-    public $formattedMonth = '';
     public $parsedNames = [];
     public $parsedShifts = [];
 
@@ -22,9 +21,8 @@ class Planparser
      * @param $formattedMonth
      * @param null $rawInput
      */
-    public function __construct($formattedMonth, $rawInput = null)
+    public function __construct(public $formattedMonth, $rawInput = null)
     {
-        $this->formattedMonth = $formattedMonth;
         // Ensure that there is data for names and shifts.
         if (! empty($rawInput)) {
             $this->rawNames = trim($rawInput['people'], "\r\n");
