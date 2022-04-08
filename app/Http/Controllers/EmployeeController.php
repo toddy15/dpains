@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Dpains\Helper;
 use App\Models\Employee;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;

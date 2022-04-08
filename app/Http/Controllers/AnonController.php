@@ -8,7 +8,7 @@ use App\Dpains\Helper;
 use App\Mail\NewHash;
 use App\Models\Employee;
 use App\Models\Rawplan;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;

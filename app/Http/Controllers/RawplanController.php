@@ -7,7 +7,7 @@ namespace App\Http\Controllers;
 use App\Dpains\Helper;
 use App\Dpains\Planparser;
 use App\Models\Rawplan;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

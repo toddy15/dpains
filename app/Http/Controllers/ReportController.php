@@ -8,7 +8,7 @@ use App\Dpains\Helper;
 use App\Dpains\Planparser;
 use App\Models\Employee;
 use App\Models\Rawplan;
-use Carbon\Carbon;
+use Illuminate\Support\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
