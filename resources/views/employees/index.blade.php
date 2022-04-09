@@ -13,7 +13,7 @@
         <tbody>
         @foreach($current as $employee)
             @if ($employee->warning)
-                <tr class="danger">
+                <tr class="table-danger">
             @else
                 <tr>
             @endif
