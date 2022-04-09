@@ -1,4 +1,5 @@
 {
     "phpVersion": "8.0",
-    "singleQuote": true
+    "singleQuote": true,
+    "plugins": ["@shufo/prettier-plugin-blade"]
 }
