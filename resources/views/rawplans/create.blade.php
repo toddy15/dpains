@@ -5,15 +5,23 @@
 
     {!! Form::open(['action' => 'App\Http\Controllers\RawplanController@store']) !!}
 
-    <!-- Month Form Input  -->
     <div class="row">
-        {!! Form::label('month', 'Monat:', ['class' => 'col-sm-4 col-form-label']) !!}
+        <x-label for="month" value="Monat:" class="col-sm-4 col-form-label"/>
         <div class="col-sm-4">
-            {!! Form::selectMonth('month', $selected_month, ['class' => 'form-select']) !!}
+            <select id="month" name="month" class="form-select" aria-label="Monat">
+                @foreach($month_names as $number => $month_name)
+                    <option value="{{ $number }}" {{ old('month', $selected_month) == $number ? 'selected' : '' }}>{{ $month_name }}</option>
+                @endforeach
+            </select>
         </div>
-        {!! Form::label('year', 'Jahr:', ['class' => 'visually-hidden col-sm-4 col-form-label']) !!}
+
+        <x-label for="year" value="Jahr:" class="visually-hidden col-sm-4 col-form-label"/>
         <div class="col-sm-4">
-            {!! Form::selectYear('year', $start_year, $end_year, $selected_year, ['class' => 'form-select']) !!}
+            <select id="year" name="year" class="form-select" aria-label="Jahr">
+                @for($y=$start_year; $y <= $end_year; $y++)
+                    <option {{ old('year', $selected_year) == $y ? 'selected' : '' }}>{{ $y }}</option>
+                @endfor
+            </select>
         </div>
     </div>
 

@@ -77,11 +77,16 @@ class RawplanController extends Controller
         }
         list($selected_year, $selected_month) = explode('-', $month);
 
+        for ($m = 1; $m <= 12; $m++) {
+            $month_names[$m] = Carbon::create(2022, $m)->locale('de')->isoFormat('MMMM');
+        }
+
         return view('rawplans.create', compact(
             'start_year',
             'end_year',
+            'month_names',
             'selected_year',
-            'selected_month'
+            'selected_month',
         ));
     }
 
