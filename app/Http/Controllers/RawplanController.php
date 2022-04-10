@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Dpains\Helper;
-use App\Dpains\Planparser;
+use App\Services\Helper;
+use App\Services\Planparser;
 use App\Models\Rawplan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

@@ -19,10 +19,10 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAuswertungen">
                             <a class="dropdown-item"
-                                href="{{ url('report/' . \App\Dpains\Helper::getPlannedYear()) }}">Jahre</a>
+                                href="{{ url('report/' . \App\Services\Helper::getPlannedYear()) }}">Jahre</a>
                             <a class="dropdown-item" href="{{ url('report/' . date('Y/m')) }}">Monate</a>
                             <a class="dropdown-item"
-                                href="{{ url('report/buandcon/' . \App\Dpains\Helper::getPlannedYear()) }}">BU und
+                                href="{{ url('report/buandcon/' . \App\Services\Helper::getPlannedYear()) }}">BU und
                                 Con</a>
                         </div>
                     </li>
@@ -40,13 +40,13 @@
                             <a class="dropdown-item"
                                 href="{{ url('employee/month/' . date('Y/m')) }}">Monatsübersichten</a>
                             <a class="dropdown-item"
-                                href="{{ url('employee/vk/all/' . \App\Dpains\Helper::getPlannedYear()) }}">Jahresübersichten
+                                href="{{ url('employee/vk/all/' . \App\Services\Helper::getPlannedYear()) }}">Jahresübersichten
                                 VK</a>
                             <a class="dropdown-item"
-                                href="{{ url('employee/vk/night/' . \App\Dpains\Helper::getPlannedYear()) }}">Jahresübersichten
+                                href="{{ url('employee/vk/night/' . \App\Services\Helper::getPlannedYear()) }}">Jahresübersichten
                                 VK Nächte</a>
                             <a class="dropdown-item"
-                                href="{{ url('employee/vk/nef/' . \App\Dpains\Helper::getPlannedYear()) }}">Jahresübersichten
+                                href="{{ url('employee/vk/nef/' . \App\Services\Helper::getPlannedYear()) }}">Jahresübersichten
                                 VK NEF</a>
                         </div>
                     </li>
@@ -87,7 +87,7 @@
 
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                             document.getElementById('logout-form').submit();">
+                                                                 document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
                         </a>
 

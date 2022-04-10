@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dpains;
+namespace App\Services;
 
 use App\Models\DueShift;
 use App\Models\Episode;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Dpains\Helper;
+use App\Services\Helper;
 use App\Models\DueShift;
 use App\Models\Staffgroup;
 use Illuminate\Database\QueryException;

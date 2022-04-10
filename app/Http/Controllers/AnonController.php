@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Dpains\Helper;
+use App\Services\Helper;
 use App\Mail\NewHash;
 use App\Models\Employee;
 use App\Models\Rawplan;

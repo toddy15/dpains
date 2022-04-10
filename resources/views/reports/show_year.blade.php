@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@inject('helper', 'App\Dpains\Helper')
+@inject('helper', 'App\Services\Helper')
 
 @section('content')
     <h1>Auswertung für {{ $year }}</h1>

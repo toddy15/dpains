@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Dpains\Helper;
+use App\Services\Helper;
 use App\Models\Employee;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
