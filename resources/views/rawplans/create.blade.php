@@ -17,19 +17,19 @@
         </div>
     </div>
 
-    <x-label for="people" value="Mitarbeiter:" />
+    <x-label for="people" value="Mitarbeiter:"/>
     <x-textarea id="people" name="people" cols="50" rows="10" invalid="{{ $errors->has('people') }}">
         {{ old('people') }}
     </x-textarea>
 
-    <x-label for="shifts" value="Schichten:" />
+    <x-label for="shifts" value="Schichten:"/>
     <x-textarea id="shifts" name="shifts" cols="50" rows="10" invalid="{{ $errors->has('shifts') }}">
         {{ old('shifts') }}
     </x-textarea>
 
-    <div class="text-center mt-4">
-        {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
-        <a class="btn btn-secondary" href="{{ action('App\Http\Controllers\RawplanController@index') }}">Abbrechen</a>
+    <div class="form-group text-center mt-4">
+        <x-button>Speichern</x-button>
+        <x-link-button href="{{ route('rawplan.index') }}" class="btn-secondary">Abbrechen</x-link-button>
     </div>
 
     {!! Form::close() !!}
