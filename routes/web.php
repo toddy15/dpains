@@ -19,7 +19,7 @@ Route::middleware([Authenticate::class])->group(function () {
         ->except(['show', 'destroy']);
     Route::resource('comments', CommentController::class)
         ->except(['show', 'destroy']);
-    Route::resource('rawplan', RawplanController::class)
+    Route::resource('rawplans', RawplanController::class)
         ->except(['show', 'edit', 'update']);
     Route::resource('due_shifts', DueShiftController::class)
         ->except(['show', 'destroy']);

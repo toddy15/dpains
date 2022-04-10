@@ -34,7 +34,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarVerwaltung">
                         <a class="dropdown-item"
-                           href="{{ url('rawplan') }}">Dienstpläne</a>
+                           href="{{ route('rawplans.index') }}">Dienstpläne</a>
                         <a class="dropdown-item"
                            href="{{ url('employee') }}">Mitarbeiter</a>
                         <a class="dropdown-item"

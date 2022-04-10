@@ -29,7 +29,7 @@
 
     <div class="form-group text-center mt-4">
         <x-button>Speichern</x-button>
-        <x-link-button href="{{ route('rawplan.index') }}" class="btn-secondary">Abbrechen</x-link-button>
+        <x-link-button href="{{ route('rawplans.index') }}" class="btn-secondary">Abbrechen</x-link-button>
     </div>
 
     {!! Form::close() !!}
