@@ -8,8 +8,7 @@
         "hot": "mix watch --hot",
         "prod": "npm run production",
         "production": "mix --production",
-        "format-code": "npx prettier -w app bootstrap config database lang resources routes tests",
-        "format-blade": "npx prettier -w resources/views"
+        "format": "npx prettier -w ."
     },
     "devDependencies": {
         "@popperjs/core": "^2.10.2",
