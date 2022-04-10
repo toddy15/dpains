@@ -33,7 +33,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error has-feedback' : '' }}">
+                            <div
+                                class="form-group {{ $errors->has('password_confirmation') ? 'has-error has-feedback' : '' }}">
                                 <label class="col-md-4 form-label">Passwort bestätigen</label>
 
                                 <div class="col-md-6">

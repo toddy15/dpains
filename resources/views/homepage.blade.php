@@ -25,7 +25,7 @@
                 {!! Form::label('email', 'E-Mail:', ['class' => 'col-sm-2 col-form-label']) !!}
                 <div class="col-sm-10">
                     <div class="input-group">
-                        {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'name', 'autofocus' => 'autofocus', 'aria-label'=> 'Recipient\'s username', 'aria-describedby'=>'domain-addon']) !!}
+                        {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'name', 'autofocus' => 'autofocus', 'aria-label' => 'Recipient\'s username', 'aria-describedby' => 'domain-addon']) !!}
                         <span class="input-group-text" id="domain-addon">@asklepios.com</span>
                     </div>
                 </div>

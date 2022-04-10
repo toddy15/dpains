@@ -7,32 +7,33 @@
         @csrf
 
         <div class="row">
-            <x-label for="month" value="Monat:" class="col-sm-4 col-form-label"/>
+            <x-label for="month" value="Monat:" class="col-sm-4 col-form-label" />
             <div class="col-sm-4">
                 <select id="month" name="month" class="form-select" aria-label="Monat">
-                    @foreach($month_names as $number => $month_name)
-                        <option
-                            value="{{ $number }}" {{ old('month', $selected_month) == $number ? 'selected' : '' }}>{{ $month_name }}</option>
+                    @foreach ($month_names as $number => $month_name)
+                        <option value="{{ $number }}"
+                            {{ old('month', $selected_month) == $number ? 'selected' : '' }}>{{ $month_name }}</option>
                     @endforeach
                 </select>
             </div>
 
-            <x-label for="year" value="Jahr:" class="visually-hidden col-sm-4 col-form-label"/>
+            <x-label for="year" value="Jahr:" class="visually-hidden col-sm-4 col-form-label" />
             <div class="col-sm-4">
                 <select id="year" name="year" class="form-select" aria-label="Jahr">
-                    @for($y=$start_year; $y <= $end_year; $y++)
+                    @for ($y = $start_year; $y <= $end_year; $y++)
                         <option {{ old('year', $selected_year) == $y ? 'selected' : '' }}>{{ $y }}</option>
                     @endfor
                 </select>
             </div>
         </div>
 
-        <x-label for="people" value="Mitarbeiter:"/>
-        <x-textarea id="people" name="people" cols="50" rows="10" autofocus required invalid="{{ $errors->has('people') }}">
+        <x-label for="people" value="Mitarbeiter:" />
+        <x-textarea id="people" name="people" cols="50" rows="10" autofocus required
+            invalid="{{ $errors->has('people') }}">
             {{ old('people') }}
         </x-textarea>
 
-        <x-label for="shifts" value="Schichten:"/>
+        <x-label for="shifts" value="Schichten:" />
         <x-textarea id="shifts" name="shifts" cols="50" rows="10" required invalid="{{ $errors->has('shifts') }}">
             {{ old('shifts') }}
         </x-textarea>

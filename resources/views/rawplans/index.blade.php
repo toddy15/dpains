@@ -27,33 +27,33 @@
 
     <table class="table table-striped">
         <thead>
-        <th>Monat</th>
-        <th>Aktualisiert</th>
-        <th>Auswertung für anonymen Zugriff</th>
-        <th>Aktion</th>
+            <th>Monat</th>
+            <th>Aktualisiert</th>
+            <th>Auswertung für anonymen Zugriff</th>
+            <th>Aktion</th>
         </thead>
         <tbody>
-        @foreach($rawplans_planned as $rawplan)
-            <tr>
-                <td>{{ $rawplan->month }}</td>
-                <td>{{ $rawplan->updated_at }}</td>
-                <td>{{ $rawplan->anon_report ? 'Ja' : 'Nein' }}</td>
-                <td>
-                    {!! Form::open(['action' => ['App\Http\Controllers\RawplanController@destroy', $rawplan->id], 'method' => 'delete']) !!}
-                    {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
-                    {!! Form::close() !!}
-                </td>
-            </tr>
-        @endforeach
-        @foreach($rawplans_worked as $rawplan)
-            <tr class="table-success">
-                <td>{{ $rawplan->month }}</td>
-                <td>{{ $rawplan->updated_at }}</td>
-                <td>{{ $rawplan->anon_report ? 'Ja' : 'Nein' }}</td>
-                <td>
-                </td>
-            </tr>
-        @endforeach
+            @foreach ($rawplans_planned as $rawplan)
+                <tr>
+                    <td>{{ $rawplan->month }}</td>
+                    <td>{{ $rawplan->updated_at }}</td>
+                    <td>{{ $rawplan->anon_report ? 'Ja' : 'Nein' }}</td>
+                    <td>
+                        {!! Form::open(['action' => ['App\Http\Controllers\RawplanController@destroy', $rawplan->id], 'method' => 'delete']) !!}
+                        {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
+                        {!! Form::close() !!}
+                    </td>
+                </tr>
+            @endforeach
+            @foreach ($rawplans_worked as $rawplan)
+                <tr class="table-success">
+                    <td>{{ $rawplan->month }}</td>
+                    <td>{{ $rawplan->updated_at }}</td>
+                    <td>{{ $rawplan->anon_report ? 'Ja' : 'Nein' }}</td>
+                    <td>
+                    </td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
 @endsection

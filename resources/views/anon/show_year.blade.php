@@ -5,9 +5,11 @@
     <h1>Auswertung für {{ $year }}</h1>
     <nav aria-label="Navigation des Jahres">
         <ul class="pagination">
-            <li class="page-item {{ empty($previous_year_url) ? 'disabled' : '' }}"><a class="page-link" href="{{ $previous_year_url }}"><span aria-hidden="true">&larr;</span>
+            <li class="page-item {{ empty($previous_year_url) ? 'disabled' : '' }}"><a class="page-link"
+                    href="{{ $previous_year_url }}"><span aria-hidden="true">&larr;</span>
                     Vorheriges Jahr</a></li>
-            <li class="page-item"><a class="page-link" href="{{ $next_year_url }}">Nächstes Jahr <span aria-hidden="true">&rarr;</span></a></li>
+            <li class="page-item"><a class="page-link" href="{{ $next_year_url }}">Nächstes Jahr <span
+                        aria-hidden="true">&rarr;</span></a></li>
         </ul>
     </nav>
     @if ($readable_worked_month)
@@ -16,7 +18,7 @@
         <h2>Geplant bis Ende {{ $readable_planned_month }}</h2>
     @endif
     <p>Stand der Auswertung: {{ $latest_change }}</p>
-    @foreach($tables as $staffgroup => $table)
+    @foreach ($tables as $staffgroup => $table)
         <h3>{{ $staffgroup }}</h3>
         <p>
             Sollzahl Nächte pro Jahr: {{ $table['due_nights'] }}<br />
@@ -33,8 +35,8 @@
                 <th>{!! $helper->sortTableBy('diff_planned_nefs', 'Abweichung', $year, $hash) !!}</th>
             </thead>
             <tbody>
-                @foreach($table['rows'] as $rows)
-                    @foreach($rows as $row)
+                @foreach ($table['rows'] as $rows)
+                    @foreach ($rows as $row)
                         <tr {!! isset($row->highlight_row) ? 'class="table-info"' : '' !!}>
                             <td>{{ $row->name }}</td>
                             <td>{{ $row->worked_nights }}</td>
