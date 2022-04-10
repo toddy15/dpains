@@ -17,15 +17,15 @@
         </div>
     </div>
 
-    {{--    <div class="form-group {{ $errors->has('people') ? 'has-error has-feedback' : '' }}">--}}
-    {!! Form::label('people', 'Mitarbeiter:', ['class' => 'form-label']) !!}
-    {!! Form::textarea('people', null, ['class' => 'form-control']) !!}
-    {{--    </div>--}}
+    <x-label for="people" value="Mitarbeiter:" />
+    <x-textarea id="people" name="people" cols="50" rows="10" invalid="{{ $errors->has('people') }}">
+        {{ old('people') }}
+    </x-textarea>
 
-    {{--    <div class="form-group {{ $errors->has('shifts') ? 'has-error has-feedback' : '' }}">--}}
-    {!! Form::label('shifts', 'Schichten:', ['class' => 'form-label']) !!}
-    {!! Form::textarea('shifts', null, ['class' => 'form-control']) !!}
-    {{--    </div>--}}
+    <x-label for="shifts" value="Schichten:" />
+    <x-textarea id="shifts" name="shifts" cols="50" rows="10" invalid="{{ $errors->has('shifts') }}">
+        {{ old('shifts') }}
+    </x-textarea>
 
     <div class="text-center mt-4">
         {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
