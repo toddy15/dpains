@@ -34,10 +34,10 @@ class EmployeeController extends Controller
             $bu_start = $bu[$data->bu_start];
             if (Helper::staffgroupMayReceiveEMail($employee->staffgroup_id)) {
                 // Warn if people do *not* have a valid email, although they should.
-                $warning = ! Str::contains($data->email, "@");
+                $warning = !Str::contains($data->email, '@');
             } else {
                 // Warn if people *do* have a valid email, although they should not.
-                $warning = Str::contains($data->email, "@");
+                $warning = Str::contains($data->email, '@');
             }
 
             return (object) [
@@ -49,11 +49,18 @@ class EmployeeController extends Controller
             ];
         }, $people);
         // Now collect all remaining employees
-        $current_ids = array_map(fn ($employee) => $employee->id, $current);
-        $future = $employees->filter(fn ($employee) => ! in_array($employee->id, $current_ids))->sortBy('name');
+        $current_ids = array_map(fn($employee) => $employee->id, $current);
+        $future = $employees
+            ->filter(fn($employee) => !in_array($employee->id, $current_ids))
+            ->sortBy('name');
         // Exclude the past employees
-        $past_ids = array_map(fn ($employee) => $employee->employee_id, $past_people);
-        $future = $future->filter(fn ($employee) => ! in_array($employee->id, $past_ids))->sortBy('name');
+        $past_ids = array_map(
+            fn($employee) => $employee->employee_id,
+            $past_people,
+        );
+        $future = $future
+            ->filter(fn($employee) => !in_array($employee->id, $past_ids))
+            ->sortBy('name');
 
         return view('employees.index', compact('current', 'future'));
     }
@@ -108,7 +115,7 @@ class EmployeeController extends Controller
             // Extract information from employee table
             $data = $employees->where('id', $employee->employee_id)->first();
             // Warn if people *do* have a valid email -- past employees should not.
-            $warning = Str::contains($data->email, "@");
+            $warning = Str::contains($data->email, '@');
 
             return (object) [
                 'id' => $employee->employee_id,
@@ -130,10 +137,16 @@ class EmployeeController extends Controller
     public function showEpisodes(int $id): View
     {
         $employee = Employee::findOrFail($id);
-        $episodes = $employee->episodes()->oldest('start_date')->get();
+        $episodes = $employee
+            ->episodes()
+            ->oldest('start_date')
+            ->get();
         $latest_name = $employee->name;
 
-        return view('employees.show_episodes', compact('episodes', 'id', 'latest_name'));
+        return view(
+            'employees.show_episodes',
+            compact('episodes', 'id', 'latest_name'),
+        );
     }
 
     /**
@@ -152,18 +165,31 @@ class EmployeeController extends Controller
         // Get all changes in this month
         $episode_changes = Helper::getChangesForMonth($formatted_month);
         // Set up a readable month name
-        $readable_month = Carbon::createFromDate($year, $month)->locale('de')->isoFormat('MMMM YYYY');
+        $readable_month = Carbon::createFromDate($year, $month)
+            ->locale('de')
+            ->isoFormat('MMMM YYYY');
         // Generate the next and previous month urls
-        $next_month_url = Helper::getNextMonthUrl('employee/month/', $year, $month);
-        $previous_month_url = Helper::getPreviousMonthUrl('employee/month/', $year, $month);
+        $next_month_url = Helper::getNextMonthUrl(
+            'employee/month/',
+            $year,
+            $month,
+        );
+        $previous_month_url = Helper::getPreviousMonthUrl(
+            'employee/month/',
+            $year,
+            $month,
+        );
 
-        return view('employees.show_month', compact(
-            'episode_changes',
-            'episodes',
-            'readable_month',
-            'next_month_url',
-            'previous_month_url'
-        ));
+        return view(
+            'employees.show_month',
+            compact(
+                'episode_changes',
+                'episodes',
+                'readable_month',
+                'next_month_url',
+                'previous_month_url',
+            ),
+        );
     }
 
     /**
@@ -181,17 +207,26 @@ class EmployeeController extends Controller
         $vk_per_month = [];
         Helper::sumUpVKForYear($which_vk, $year, $staffgroups, $vk_per_month);
         // Generate the next and previous year urls
-        $next_year_url = Helper::getNextYearUrl('employee/vk/'. $which_vk . '/', $year);
-        $previous_year_url = Helper::getPreviousYearUrl('employee/vk/'. $which_vk . '/', $year);
+        $next_year_url = Helper::getNextYearUrl(
+            'employee/vk/' . $which_vk . '/',
+            $year,
+        );
+        $previous_year_url = Helper::getPreviousYearUrl(
+            'employee/vk/' . $which_vk . '/',
+            $year,
+        );
 
-        return view('employees.show_vk_for_year', compact(
-            'which_vk',
-            'year',
-            'staffgroups',
-            'vk_per_month',
-            'next_year_url',
-            'previous_year_url'
-        ));
+        return view(
+            'employees.show_vk_for_year',
+            compact(
+                'which_vk',
+                'year',
+                'staffgroups',
+                'vk_per_month',
+                'next_year_url',
+                'previous_year_url',
+            ),
+        );
     }
 
     /**
@@ -205,15 +240,35 @@ class EmployeeController extends Controller
         if ($current_year % 2) {
             // Current year is odd
             // If the BU start is even, it's last and this year.
-            $bu['even'] = 'Gerades Jahr (' . ($current_year - 1) . ' - ' . $current_year . ')';
+            $bu['even'] =
+                'Gerades Jahr (' .
+                ($current_year - 1) .
+                ' - ' .
+                $current_year .
+                ')';
             // Otherwise, it's this and next year.
-            $bu['odd'] = 'Ungerades Jahr (' . $current_year . ' - ' . ($current_year + 1) . ')';
+            $bu['odd'] =
+                'Ungerades Jahr (' .
+                $current_year .
+                ' - ' .
+                ($current_year + 1) .
+                ')';
         } else {
             // Current year is even.
             // If the BU start is even, it's this and next year.
-            $bu['even'] = 'Gerades Jahr (' . $current_year . ' - ' . ($current_year + 1) . ')';
+            $bu['even'] =
+                'Gerades Jahr (' .
+                $current_year .
+                ' - ' .
+                ($current_year + 1) .
+                ')';
             // Otherwise, it's last and this year.
-            $bu['odd'] = 'Ungerades Jahr (' . ($current_year - 1) . ' - ' . $current_year . ')';
+            $bu['odd'] =
+                'Ungerades Jahr (' .
+                ($current_year - 1) .
+                ' - ' .
+                $current_year .
+                ')';
         }
 
         return $bu;

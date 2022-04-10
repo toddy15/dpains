@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DueShift extends Model
 {
-    protected $fillable = [
-        'staffgroup_id', 'year', 'nights', 'nefs',
-    ];
+    protected $fillable = ['staffgroup_id', 'year', 'nights', 'nefs'];
 
     /**
      * Indicates if the model should be timestamped.

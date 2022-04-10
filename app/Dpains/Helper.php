@@ -128,7 +128,8 @@ class Helper
             // With this complicated subquery we get the row with the
             // current data for the specified month.
             ->where('e1.start_date', function ($query) use ($month) {
-                $query->selectRaw('MAX(`e2`.`start_date`)')
+                $query
+                    ->selectRaw('MAX(`e2`.`start_date`)')
                     ->from('episodes as e2')
                     ->whereRaw('`e1`.`employee_id` = `e2`.`employee_id`')
                     ->where('e2.start_date', '<=', $month);
@@ -137,7 +138,8 @@ class Helper
             // In order to get episodes without a comment (= NULL)
             // as well, we need to include those comments explicitely.
             ->where(function ($query) {
-                $query->where('comment', 'not like', 'Vertragsende')
+                $query
+                    ->where('comment', 'not like', 'Vertragsende')
                     ->orWhereNull('comment');
             })
             // First, order by staffgroups (weight parameter)
@@ -160,7 +162,8 @@ class Helper
             ->leftJoin('comments', 'e1.comment_id', '=', 'comments.id')
             // With this complicated subquery we get the last row.
             ->where('e1.start_date', function ($query) use ($month) {
-                $query->selectRaw('MAX(`e2`.`start_date`)')
+                $query
+                    ->selectRaw('MAX(`e2`.`start_date`)')
                     ->from('episodes as e2')
                     ->whereRaw('`e1`.`employee_id` = `e2`.`employee_id`');
             })
@@ -195,17 +198,26 @@ class Helper
             ->get();
     }
 
-    public static function getTablesForYear(HttpRequest $request, $year, $worked_month, $non_anon_employee_id = 0)
-    {
+    public static function getTablesForYear(
+        HttpRequest $request,
+        $year,
+        $worked_month,
+        $non_anon_employee_id = 0,
+    ) {
         $tables = [];
         // Get the sorting key and direction from the request
         $sort_key = $request->get('sort');
         $direction = $request->get('direction');
         // Set up the staffgroups to get the correct sorting
-        $staffgroup_names = Staffgroup::orderBy('weight')->pluck('staffgroup')->toArray();
+        $staffgroup_names = Staffgroup::orderBy('weight')
+            ->pluck('staffgroup')
+            ->toArray();
         foreach ($staffgroup_names as $staffgroup_name) {
             // Reduce staffgroups
-            if ($staffgroup_name == 'FA' or $staffgroup_name == 'WB mit Nachtdienst') {
+            if (
+                $staffgroup_name == 'FA' or
+                $staffgroup_name == 'WB mit Nachtdienst'
+            ) {
                 $staffgroup_name = 'FA und WB mit Nachtdienst';
             }
             $staffgroups[$staffgroup_name] = [];
@@ -226,37 +238,66 @@ class Helper
             // If this is anonymous access, determine if the current month
             // should be included.
             if ($non_anon_employee_id) {
-                $include_in_anon_report = Rawplan::where('month', $formattedMonth)->value('anon_report');
-                if (! $include_in_anon_report) {
+                $include_in_anon_report = Rawplan::where(
+                    'month',
+                    $formattedMonth,
+                )->value('anon_report');
+                if (!$include_in_anon_report) {
                     continue;
                 }
             }
             // Get all analyzed shifts for the current month
-            $shifts = DB::table('analyzed_months')->where('month', $formattedMonth)->get();
+            $shifts = DB::table('analyzed_months')
+                ->where('month', $formattedMonth)
+                ->get();
             // Cycle through all people and add up the shifts
             foreach ($shifts as $shift) {
                 // Determine the current person (for staffgroup etc.)
                 $employee = $employees[$shift->employee_id];
                 // Reduce staffgroups
-                if ($employee->staffgroup == 'FA' or $employee->staffgroup == 'WB mit Nachtdienst') {
+                if (
+                    $employee->staffgroup == 'FA' or
+                    $employee->staffgroup == 'WB mit Nachtdienst'
+                ) {
                     $employee->staffgroup = 'FA und WB mit Nachtdienst';
                 }
                 // Set up the result array, grouped by staffgroup
-                if (! isset($staffgroups[$employee->staffgroup][$employee->employee_id])) {
-                    $staffgroups[$employee->staffgroup][$employee->employee_id] = Helper::newResultArray((array)$employee);
+                if (
+                    !isset(
+                        $staffgroups[$employee->staffgroup][
+                            $employee->employee_id
+                        ],
+                    )
+                ) {
+                    $staffgroups[$employee->staffgroup][
+                        $employee->employee_id
+                    ] = Helper::newResultArray((array) $employee);
                 }
                 // Calculate the boni for vk and factors
-                $person_bonus_night = 1 - ($employee->vk * $employee->factor_night);
-                $person_bonus_nef = 1 - ($employee->vk * $employee->factor_nef);
+                $person_bonus_night =
+                    1 - $employee->vk * $employee->factor_night;
+                $person_bonus_nef = 1 - $employee->vk * $employee->factor_nef;
                 // Add up the shifts to the result array
-                $staffgroups[$employee->staffgroup][$employee->employee_id]['planned_nights'] += $shift->nights;
-                $staffgroups[$employee->staffgroup][$employee->employee_id]['planned_nefs'] += $shift->nefs;
-                $staffgroups[$employee->staffgroup][$employee->employee_id]['bonus_planned_nights'][$month] = $person_bonus_night;
-                $staffgroups[$employee->staffgroup][$employee->employee_id]['bonus_planned_nefs'][$month] = $person_bonus_nef;
+                $staffgroups[$employee->staffgroup][$employee->employee_id][
+                    'planned_nights'
+                ] += $shift->nights;
+                $staffgroups[$employee->staffgroup][$employee->employee_id][
+                    'planned_nefs'
+                ] += $shift->nefs;
+                $staffgroups[$employee->staffgroup][$employee->employee_id][
+                    'bonus_planned_nights'
+                ][$month] = $person_bonus_night;
+                $staffgroups[$employee->staffgroup][$employee->employee_id][
+                    'bonus_planned_nefs'
+                ][$month] = $person_bonus_nef;
                 // Now add to the worked results, if the month has passed.
                 if ($formattedMonth <= $worked_month) {
-                    $staffgroups[$employee->staffgroup][$employee->employee_id]['worked_nights'] += $shift->nights;
-                    $staffgroups[$employee->staffgroup][$employee->employee_id]['worked_nefs'] += $shift->nefs;
+                    $staffgroups[$employee->staffgroup][$employee->employee_id][
+                        'worked_nights'
+                    ] += $shift->nights;
+                    $staffgroups[$employee->staffgroup][$employee->employee_id][
+                        'worked_nefs'
+                    ] += $shift->nefs;
                 }
             }
         }
@@ -277,14 +318,18 @@ class Helper
             foreach ($employee as $employee_id => $info) {
                 // Calculate bonus nights and nefs by multiplying the
                 // bonus VK with the average shifts per month.
-                $bonus = $due_nights / 12 * $info['bonus_planned_nights'];
-                $info['diff_planned_nights'] = (int)round($info['planned_nights'] + $bonus - $due_nights);
-                $bonus = $due_nefs / 12 * $info['bonus_planned_nefs'];
-                $info['diff_planned_nefs'] = (int)round($info['planned_nefs'] + $bonus - $due_nefs);
+                $bonus = ($due_nights / 12) * $info['bonus_planned_nights'];
+                $info['diff_planned_nights'] = (int) round(
+                    $info['planned_nights'] + $bonus - $due_nights,
+                );
+                $bonus = ($due_nefs / 12) * $info['bonus_planned_nefs'];
+                $info['diff_planned_nefs'] = (int) round(
+                    $info['planned_nefs'] + $bonus - $due_nefs,
+                );
                 // Use the sorting key as the array index, to enable the
                 // sorting within the staffgroups.
                 // Always use diff_planned_nights instead of name.
-                if (! array_key_exists($sort_key, $info)) {
+                if (!array_key_exists($sort_key, $info)) {
                     $sort_key = 'diff_planned_nights';
                 }
                 // Is the employee part of this staffgroup?
@@ -308,10 +353,10 @@ class Helper
                 // filling with the name. This way, the second sorting
                 // after the first sorting will automatically use the name.
                 $row_index = $info[$sort_key];
-                $rows[$row_index][$info['name']] = (object)$info;
+                $rows[$row_index][$info['name']] = (object) $info;
             }
             // Sort all staffgroups either asc or desc
-            ($direction == 'desc') ? krsort($rows) : ksort($rows);
+            $direction == 'desc' ? krsort($rows) : ksort($rows);
             // Now sort by name
             foreach ($rows as $index => $data) {
                 ksort($rows[$index]);
@@ -350,11 +395,15 @@ class Helper
                 $bonus = array_sum($info['bonus_planned_nights']);
                 // The total bonus is the sum of all data plus 1 for each month
                 // without data.
-                $staffgroups[$staffgroup][$person_number]['bonus_planned_nights'] = $bonus + $missing_months;
+                $staffgroups[$staffgroup][$person_number][
+                    'bonus_planned_nights'
+                ] = $bonus + $missing_months;
                 // Now do the same three steps for the NEF bonus counter.
                 $missing_months = 12 - count($info['bonus_planned_nefs']);
                 $bonus = array_sum($info['bonus_planned_nefs']);
-                $staffgroups[$staffgroup][$person_number]['bonus_planned_nefs'] = $bonus + $missing_months;
+                $staffgroups[$staffgroup][$person_number][
+                    'bonus_planned_nefs'
+                ] = $bonus + $missing_months;
             }
         }
     }
@@ -378,7 +427,8 @@ class Helper
         $staffgroup = Staffgroup::where('staffgroup', $staffgroup)->first();
 
         return DueShift::where('year', $year)
-            ->where('staffgroup_id', $staffgroup->id)->first();
+            ->where('staffgroup_id', $staffgroup->id)
+            ->first();
     }
 
     public static function getDueNefShifts($staffgroup, $year)
@@ -401,7 +451,7 @@ class Helper
             $currentColumn = Request::get('sort') ?: 'diff_planned_nights';
         }
         // Flip direction if clicked on same header
-        $direction = ($currentDirection == 'asc') ? 'desc' : 'asc';
+        $direction = $currentDirection == 'asc' ? 'desc' : 'asc';
         // Always use ascending direction if a new column is selected
         if ($currentColumn != $column) {
             $direction = 'asc';
@@ -410,21 +460,28 @@ class Helper
         $link = link_to_action(
             'App\Http\Controllers\ReportController@showYear',
             $body,
-            ['year' => $year, 'sort' => $column, 'direction' => $direction]
+            ['year' => $year, 'sort' => $column, 'direction' => $direction],
         );
         if ($hash) {
             $link = link_to_action(
                 'App\Http\Controllers\AnonController@showYear',
                 $body,
-                ['year' => $year, 'hash' => $hash, 'sort' => $column, 'direction' => $direction]
+                [
+                    'year' => $year,
+                    'hash' => $hash,
+                    'sort' => $column,
+                    'direction' => $direction,
+                ],
             );
         }
         // Append arrows to the current sorted column
         if ($column == $currentColumn) {
             if ($currentDirection == 'asc') {
-                $link .= '<svg style="width:1.5rem;height:1.5rem" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>';
+                $link .=
+                    '<svg style="width:1.5rem;height:1.5rem" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg>';
             } else {
-                $link .= '<svg style="width:1.5rem;height:1.5rem" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"></path></svg>';
+                $link .=
+                    '<svg style="width:1.5rem;height:1.5rem" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"></path></svg>';
             }
         }
 
@@ -469,9 +526,12 @@ class Helper
     {
         if ($year) {
             return Rawplan::where('month', 'like', "$year%")
-                ->whereRaw('left(updated_at, 7) > month')->max('month');
+                ->whereRaw('left(updated_at, 7) > month')
+                ->max('month');
         } else {
-            return Rawplan::whereRaw('left(updated_at, 7) > month')->max('month');
+            return Rawplan::whereRaw('left(updated_at, 7) > month')->max(
+                'month',
+            );
         }
     }
 
@@ -498,8 +558,12 @@ class Helper
      * @param $staffgroups
      * @param $vk_per_month
      */
-    public static function sumUpVKForYear($which_vk, $year, &$staffgroups, &$vk_per_month)
-    {
+    public static function sumUpVKForYear(
+        $which_vk,
+        $year,
+        &$staffgroups,
+        &$vk_per_month,
+    ) {
         // Set up temporary result arrays
         $months = [];
         $employee_info = [];
@@ -513,18 +577,25 @@ class Helper
             $episodes = Helper::getPeopleForMonth($formatted_month);
             foreach ($episodes as $episode) {
                 // Reduce staffgroups
-                if ($episode->staffgroup == 'FA' or $episode->staffgroup == 'WB mit Nachtdienst') {
+                if (
+                    $episode->staffgroup == 'FA' or
+                    $episode->staffgroup == 'WB mit Nachtdienst'
+                ) {
                     $episode->staffgroup = 'FA und WB mit Nachtdienst';
                 }
                 // Fill the VK sum array from 1 to 12 with 0, if not set
-                if (! isset($vk_per_month[$episode->staffgroup])) {
+                if (!isset($vk_per_month[$episode->staffgroup])) {
                     $vk_per_month[$episode->staffgroup] = array_fill(1, 12, 0);
                     // Initialize the counter for yearly mean of staffgroup VK
                     $vk_per_month[$episode->staffgroup]['yearly_mean'] = 0;
                 }
                 // Initialize a month array, if not set
-                if (! isset($months[$episode->staffgroup][$episode->employee_id])) {
-                    $months[$episode->staffgroup][$episode->employee_id] = array_fill(1, 12, [
+                if (
+                    !isset($months[$episode->staffgroup][$episode->employee_id])
+                ) {
+                    $months[$episode->staffgroup][
+                        $episode->employee_id
+                    ] = array_fill(1, 12, [
                         'vk' => '–',
                         'changed' => false,
                     ]);
@@ -548,29 +619,45 @@ class Helper
                 }
                 // Ensure a nicely formatted VK
                 $vk = sprintf('%.3f', round($vk, 3));
-                $months[$episode->staffgroup][$episode->employee_id][$month]['vk'] = $vk;
+                $months[$episode->staffgroup][$episode->employee_id][$month][
+                    'vk'
+                ] = $vk;
                 // Mark changes
                 if ($month > 1) {
-                    if ($months[$episode->staffgroup][$episode->employee_id][$month - 1]['vk'] != $vk) {
-                        $months[$episode->staffgroup][$episode->employee_id][$month]['changed'] = true;
+                    if (
+                        $months[$episode->staffgroup][$episode->employee_id][
+                            $month - 1
+                        ]['vk'] != $vk
+                    ) {
+                        $months[$episode->staffgroup][$episode->employee_id][
+                            $month
+                        ]['changed'] = true;
                     }
                 }
                 // Sum up for the month
-                $vk_per_month[$episode->staffgroup][$month] += (float)$vk;
+                $vk_per_month[$episode->staffgroup][$month] += (float) $vk;
                 // Sum up for the grand total per month
-                $vk_per_month['all'][$month] += (float)$vk;
+                $vk_per_month['all'][$month] += (float) $vk;
                 // Sum up for the mean vk per year
-                $vk_per_month[$episode->staffgroup]['yearly_mean'] += (float)$vk;
-                $vk_per_month['all']['yearly_mean'] += (float)$vk;
+                $vk_per_month[$episode->staffgroup][
+                    'yearly_mean'
+                ] += (float) $vk;
+                $vk_per_month['all']['yearly_mean'] += (float) $vk;
             }
         }
         // Format the 'all' counter nicely
         foreach ($vk_per_month as $staffgroup => $sums) {
             for ($month = 1; $month <= 12; $month++) {
-                $vk_per_month[$staffgroup][$month] = sprintf('%.3f', $vk_per_month[$staffgroup][$month]);
+                $vk_per_month[$staffgroup][$month] = sprintf(
+                    '%.3f',
+                    $vk_per_month[$staffgroup][$month],
+                );
             }
             // Calculate the yearly mean vk per staffgroup
-            $vk_per_month[$staffgroup]['yearly_mean'] = sprintf('%.3f', $vk_per_month[$staffgroup]['yearly_mean'] / 12);
+            $vk_per_month[$staffgroup]['yearly_mean'] = sprintf(
+                '%.3f',
+                $vk_per_month[$staffgroup]['yearly_mean'] / 12,
+            );
         }
         // Merge the final array for display
         foreach ($employee_info as $staffgroup => $info) {
@@ -599,14 +686,14 @@ class Helper
     public static function validateAndFormatDate($year, $month)
     {
         // Ensure a valid date and return in a format usable for database queries.
-        $year = (int)$year;
-        $month = (int)$month;
+        $year = (int) $year;
+        $month = (int) $month;
         // Do not show years before the database started and keep month between 1 and 12
-        if (($year < Helper::$firstYear) or ($month < 1) or ($month > 12)) {
+        if ($year < Helper::$firstYear or $month < 1 or $month > 12) {
             abort(404);
         }
         // Convert to internal representation in the database (YYYY-MM)
-        return sprintf("%4d-%02d", $year, $month);
+        return sprintf('%4d-%02d', $year, $month);
     }
 
     /**
@@ -622,6 +709,6 @@ class Helper
      */
     public static function staffgroupMayReceiveEMail($staffgroup)
     {
-        return ($staffgroup < 8) ? true : false;
+        return $staffgroup < 8 ? true : false;
     }
 }

@@ -24,7 +24,7 @@ class Planparser
     public function __construct(public $formattedMonth, $rawInput = null)
     {
         // Ensure that there is data for names and shifts.
-        if (! empty($rawInput)) {
+        if (!empty($rawInput)) {
             $this->rawNames = trim($rawInput['people'], "\r\n");
             $this->rawShifts = trim($rawInput['shifts'], "\r\n");
         } else {
@@ -47,9 +47,17 @@ class Planparser
             // This needs to happen before removal of the date, because
             // otherwise the skill 'FA-ÄD_1' will be truncated.
             $skills = [
-                '/Chefarzt-V/', '/Chefarzt/', '/OA/', '/ASS\/FA/',
-                '/FA-ÄD_1/', '/FA/', '/Ass-Arzt/', '/ITS MED/',
-                '/xITS Pflege/', '/SpWB INT/', '/"weiblich"/',
+                '/Chefarzt-V/',
+                '/Chefarzt/',
+                '/OA/',
+                '/ASS\/FA/',
+                '/FA-ÄD_1/',
+                '/FA/',
+                '/Ass-Arzt/',
+                '/ITS MED/',
+                '/xITS Pflege/',
+                '/SpWB INT/',
+                '/"weiblich"/',
             ];
             $person_line = preg_replace($skills, '', $person_line);
             // Remove comma, space and end dates from names.
@@ -126,16 +134,20 @@ class Planparser
     public function storeShiftsForPeople()
     {
         // Clean all previously parsed results.
-        DB::table('analyzed_months')->where('month', $this->formattedMonth)->delete();
+        DB::table('analyzed_months')
+            ->where('month', $this->formattedMonth)
+            ->delete();
         // Get an array with the unique person's number and name in this episode.
         $expected_names = Helper::getNamesForMonth($this->formattedMonth);
         $database_rows = [];
         foreach ($this->parsedNames as $id => $name) {
             $person_id = array_search($name, $expected_names);
             $shifts = $this->calculateShifts($this->parsedShifts[$id]);
-            if (! is_array($shifts)) {
+            if (!is_array($shifts)) {
                 // Clean all previously parsed results.
-                DB::table('analyzed_months')->where('month', $this->formattedMonth)->delete();
+                DB::table('analyzed_months')
+                    ->where('month', $this->formattedMonth)
+                    ->delete();
                 // Return the error message from calculateShifts().
                 return $shifts;
             }
@@ -158,11 +170,66 @@ class Planparser
         $nefs = ['n1', 'n2', 'n3'];
         $bus = ['BU'];
         $cons = ['Con'];
-        $ignored = ['1', '2', '3', 'st', '25', '26', '27', 'D2', 'i28', 'i29', 'i33', 'i35', 'dt0', 'dt1',
-            'FÜ', 'BF', 'TZ', 'MS', 'EZ', 'U', 'FBi*', 'FBe*', 'K', 'KO', 'Kol', 'KP', 'KK',
-            'KÜ', 'ZU', 'BR', 'F.', '', 'DB', 'Ve', 'US', '--', 'BV', 'PZU = Platzhalt',
-            'B4', 'B3', 'B2', 'B1', 'SU', 'ir28', 'ir29', 'FSI', 'TPB', 'TxB',
-            'FZ', 'Avk', 'FS', 'USB', '????', 'RWe', 'F', 'S', 'N', 'S2W', 'iOA',
+        $ignored = [
+            '1',
+            '2',
+            '3',
+            'st',
+            '25',
+            '26',
+            '27',
+            'D2',
+            'i28',
+            'i29',
+            'i33',
+            'i35',
+            'dt0',
+            'dt1',
+            'FÜ',
+            'BF',
+            'TZ',
+            'MS',
+            'EZ',
+            'U',
+            'FBi*',
+            'FBe*',
+            'K',
+            'KO',
+            'Kol',
+            'KP',
+            'KK',
+            'KÜ',
+            'ZU',
+            'BR',
+            'F.',
+            '',
+            'DB',
+            'Ve',
+            'US',
+            '--',
+            'BV',
+            'PZU = Platzhalt',
+            'B4',
+            'B3',
+            'B2',
+            'B1',
+            'SU',
+            'ir28',
+            'ir29',
+            'FSI',
+            'TPB',
+            'TxB',
+            'FZ',
+            'Avk',
+            'FS',
+            'USB',
+            '????',
+            'RWe',
+            'F',
+            'S',
+            'N',
+            'S2W',
+            'iOA',
         ];
         $night_counter = 0;
         $nef_counter = 0;
@@ -210,16 +277,20 @@ class Planparser
         // Check that all expected people have been found.
         $more_expected = array_diff($expected_people, $this->parsedNames);
         if ($more_expected) {
-            $result[] = 'Die folgenden Mitarbeiter werden im Monat '
-                . $this->formattedMonth
-                . ' erwartet, aber nicht gefunden: ' . join('; ', $more_expected);
+            $result[] =
+                'Die folgenden Mitarbeiter werden im Monat ' .
+                $this->formattedMonth .
+                ' erwartet, aber nicht gefunden: ' .
+                join('; ', $more_expected);
         }
         // Check that not more than the expected people have been found.
         $more_found = array_diff($this->parsedNames, $expected_people);
         if ($more_found) {
-            $result[] = 'Die folgenden Mitarbeiter werden im Monat '
-                . $this->formattedMonth
-                . ' nicht erwartet, aber gefunden: ' . join('; ', $more_found);
+            $result[] =
+                'Die folgenden Mitarbeiter werden im Monat ' .
+                $this->formattedMonth .
+                ' nicht erwartet, aber gefunden: ' .
+                join('; ', $more_found);
         }
 
         return $result;
@@ -239,13 +310,20 @@ class Planparser
         // The submitted days must be exactly one month.
         // so check that the next day is the first of a month.
         if ($submitted_days > 31) {
-            $result[] = $this->formattedMonth . ': Es wurden mehr als 31 Tage in den Schichten gefunden.';
+            $result[] =
+                $this->formattedMonth .
+                ': Es wurden mehr als 31 Tage in den Schichten gefunden.';
         }
         $date = date_create($this->formattedMonth . '-01');
-        date_add($date, date_interval_create_from_date_string($submitted_days . ' days'));
+        date_add(
+            $date,
+            date_interval_create_from_date_string($submitted_days . ' days'),
+        );
         $end_day = date_format($date, 'd');
         if ($end_day != '01') {
-            $result[] = $this->formattedMonth . ': Die Anzahl der Tage in den Schichten stimmt nicht mit der Anzahl der Tage des Monats überein.';
+            $result[] =
+                $this->formattedMonth .
+                ': Die Anzahl der Tage in den Schichten stimmt nicht mit der Anzahl der Tage des Monats überein.';
         }
         // Do not error out if there's one line break appended.
         if (end($plan_lines) == '') {
@@ -256,17 +334,21 @@ class Planparser
             return $result;
         }
         // Ensure that the number of lines in plan is a multiple of people's lines.
-        if ((count($plan_lines) % count($this->parsedNames)) != 0) {
-            $result[] = $this->formattedMonth . ': Es wurden mehr Zeilen in den Schichten gefunden als Mitarbeiter vorhanden sind.';
+        if (count($plan_lines) % count($this->parsedNames) != 0) {
+            $result[] =
+                $this->formattedMonth .
+                ': Es wurden mehr Zeilen in den Schichten gefunden als Mitarbeiter vorhanden sind.';
         }
         $lines_per_person = count($plan_lines) / count($this->parsedNames);
         if ($lines_per_person != 1 and $lines_per_person != 3) {
-            $result[] = $this->formattedMonth . ': Die Anzahl der Zeilen in den Schichten muss entweder eine oder drei pro Mitarbeiter sein.';
+            $result[] =
+                $this->formattedMonth .
+                ': Die Anzahl der Zeilen in den Schichten muss entweder eine oder drei pro Mitarbeiter sein.';
         }
         // Try parsing all shifts to detect unknown shifts.
         foreach ($this->parsedNames as $id => $name) {
             $shifts = $this->calculateShifts($this->parsedShifts[$id]);
-            if (! is_array($shifts)) {
+            if (!is_array($shifts)) {
                 // Add the error message from calculateShifts().
                 $result[] = $this->formattedMonth . ': ' . $shifts;
             }

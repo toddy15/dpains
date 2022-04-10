@@ -8,7 +8,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Episode extends Model
 {
     protected $fillable = [
-        'employee_id', 'name', 'start_date', 'staffgroup_id', 'vk', 'factor_night', 'factor_nef', 'comment_id',
+        'employee_id',
+        'name',
+        'start_date',
+        'staffgroup_id',
+        'vk',
+        'factor_night',
+        'factor_nef',
+        'comment_id',
     ];
 
     /**

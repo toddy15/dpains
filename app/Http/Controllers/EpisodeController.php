@@ -25,45 +25,56 @@ class EpisodeController extends Controller
     public function create(Request $request): View
     {
         // See if there is a valid employee
-        $employee_id = (int)$request->get('employee_id');
+        $employee_id = (int) $request->get('employee_id');
         // Is there already an episode for this employee?
         // If yes, retrieve the latest episode for the default values.
         $episode = Episode::where('employee_id', $employee_id)
-            ->latest('start_date')->first();
-        if (! $episode) {
+            ->latest('start_date')
+            ->first();
+        if (!$episode) {
             // There are no episodes, so create a new employee
             // using sane default values.
             $wb_id = Staffgroup::where('staffgroup', 'WB')->first()->id;
             $episode = new Episode();
             $episode->start_date = Carbon::now()->isoFormat('YYYY-MM');
             $episode->staffgroup_id = $wb_id;
-            $episode->vk = "1.000";
-            $episode->factor_night = "0.000";
-            $episode->factor_nef = "0.000";
+            $episode->vk = '1.000';
+            $episode->factor_night = '0.000';
+            $episode->factor_nef = '0.000';
         }
         // Get the comments for the select box
-        $comments = Comment::all()->pluck('comment', 'id')->toArray();
+        $comments = Comment::all()
+            ->pluck('comment', 'id')
+            ->toArray();
         // Add an empty comment
         $comments[0] = '--';
         // Sort by comment, maintaining the index association
         asort($comments);
         // Get the staffgroups for the select box
-        $staffgroups = Staffgroup::all()->sortBy('weight')
-            ->pluck('staffgroup', 'id')->toArray();
+        $staffgroups = Staffgroup::all()
+            ->sortBy('weight')
+            ->pluck('staffgroup', 'id')
+            ->toArray();
         // Allow from the beginning of database storage or some years back
-        $start_year = max(Helper::$firstYear, Carbon::now()->subYears(3)->yearIso);
+        $start_year = max(
+            Helper::$firstYear,
+            Carbon::now()->subYears(3)->yearIso,
+        );
         // ... to some years ahead
         $end_year = Carbon::now()->addYears(3)->yearIso;
         // Turn the start_date field into year and month for the form
-        list($episode->year, $episode->month) = explode('-', $episode->start_date);
+        [$episode->year, $episode->month] = explode('-', $episode->start_date);
 
-        return view('episodes.create', compact(
-            'episode',
-            'comments',
-            'staffgroups',
-            'start_year',
-            'end_year'
-        ));
+        return view(
+            'episodes.create',
+            compact(
+                'episode',
+                'comments',
+                'staffgroups',
+                'start_year',
+                'end_year',
+            ),
+        );
     }
 
     /**
@@ -84,7 +95,10 @@ class EpisodeController extends Controller
             'factor_nef' => 'required|numeric|between:0,2',
         ]);
         // Set the month to the formatted string for database storage.
-        $start_date = Helper::validateAndFormatDate($request->get('year'), $request->get('month'));
+        $start_date = Helper::validateAndFormatDate(
+            $request->get('year'),
+            $request->get('month'),
+        );
         // Set the start_date to the database format YYYY-MM.
         $request->merge(['start_date' => $start_date]);
         // Check if the episode is for a new employee
@@ -109,7 +123,12 @@ class EpisodeController extends Controller
         Episode::create($episode);
         $request->session()->flash('info', 'Der Eintrag wurde gespeichert.');
 
-        return redirect(action([EmployeeController::class, 'showEpisodes'], ['id' => $episode['employee_id']]));
+        return redirect(
+            action(
+                [EmployeeController::class, 'showEpisodes'],
+                ['id' => $episode['employee_id']],
+            ),
+        );
     }
 
     /**
@@ -122,28 +141,35 @@ class EpisodeController extends Controller
     {
         $episode = Episode::findOrFail($id);
         // Get the comments for the select box
-        $comments = Comment::all()->pluck('comment', 'id')->toArray();
+        $comments = Comment::all()
+            ->pluck('comment', 'id')
+            ->toArray();
         // Add an empty comment
         $comments[0] = '--';
         // Sort by comment, maintaining the index association
         asort($comments);
         // Get the staffgroups for the select box
-        $staffgroups = Staffgroup::all()->sortBy('weight')
-            ->pluck('staffgroup', 'id')->toArray();
+        $staffgroups = Staffgroup::all()
+            ->sortBy('weight')
+            ->pluck('staffgroup', 'id')
+            ->toArray();
         // Allow from the beginning of database storage
         $start_year = Helper::$firstYear;
         // ... to some years ahead
         $end_year = Carbon::now()->addYears(3)->yearIso;
         // Turn the start_date field into year and month for the form
-        list($episode->year, $episode->month) = explode('-', $episode->start_date);
+        [$episode->year, $episode->month] = explode('-', $episode->start_date);
 
-        return view('episodes.edit', compact(
-            'episode',
-            'comments',
-            'staffgroups',
-            'start_year',
-            'end_year'
-        ));
+        return view(
+            'episodes.edit',
+            compact(
+                'episode',
+                'comments',
+                'staffgroups',
+                'start_year',
+                'end_year',
+            ),
+        );
     }
 
     /**
@@ -157,13 +183,21 @@ class EpisodeController extends Controller
     {
         $episode = Episode::findOrFail($id);
         // Set the month to the formatted string for database storage.
-        $start_date = Helper::validateAndFormatDate($request->get('year'), $request->get('month'));
+        $start_date = Helper::validateAndFormatDate(
+            $request->get('year'),
+            $request->get('month'),
+        );
         // Set the start_date to the database format YYYY-MM.
         $request->merge(['start_date' => $start_date]);
         $episode->update($request->all());
         $request->session()->flash('info', 'Der Eintrag wurde geändert.');
 
-        return redirect(action([EmployeeController::class, 'showEpisodes'], ['id' => $episode->employee_id]));
+        return redirect(
+            action(
+                [EmployeeController::class, 'showEpisodes'],
+                ['id' => $episode->employee_id],
+            ),
+        );
     }
 
     /**
@@ -179,13 +213,21 @@ class EpisodeController extends Controller
         Episode::destroy($id);
         $request->session()->flash('info', 'Der Eintrag wurde gelöscht.');
         // Remove employee if the last episode has been removed.
-        $next_episode = Episode::where('employee_id', $episode->employee_id)->first();
-        if (! $next_episode) {
+        $next_episode = Episode::where(
+            'employee_id',
+            $episode->employee_id,
+        )->first();
+        if (!$next_episode) {
             Employee::where('id', $episode->employee_id)->delete();
 
             return redirect(action([EmployeeController::class, 'index']));
         }
 
-        return redirect(action([EmployeeController::class, 'showEpisodes'], ['id' => $episode->employee_id]));
+        return redirect(
+            action(
+                [EmployeeController::class, 'showEpisodes'],
+                ['id' => $episode->employee_id],
+            ),
+        );
     }
 }

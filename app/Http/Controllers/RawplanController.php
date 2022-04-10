@@ -29,7 +29,10 @@ class RawplanController extends Controller
         $current_anon_month = Rawplan::where('anon_report', true)->max('month');
         // Format accordingly
         if ($current_anon_month) {
-            list($current_anon_year, $current_anon_month) = explode('-', $current_anon_month);
+            [$current_anon_year, $current_anon_month] = explode(
+                '-',
+                $current_anon_month,
+            );
         } else {
             $current_anon_month = '00';
             $current_anon_year = '0000';
@@ -40,20 +43,25 @@ class RawplanController extends Controller
         }
         // Differentiate between months which are still ongoing ...
         $rawplans_planned = Rawplan::latest('month')
-            ->where('month', '>', $worked_month)->get();
+            ->where('month', '>', $worked_month)
+            ->get();
         // ... and months which are in the past and won't change.
         // This is just for a nice colouring in the view.
         $rawplans_worked = Rawplan::latest('month')
-            ->where('month', '<=', $worked_month)->get();
+            ->where('month', '<=', $worked_month)
+            ->get();
 
-        return view('rawplans.index', compact(
-            'start_year',
-            'end_year',
-            'current_anon_month',
-            'current_anon_year',
-            'rawplans_planned',
-            'rawplans_worked'
-        ));
+        return view(
+            'rawplans.index',
+            compact(
+                'start_year',
+                'end_year',
+                'current_anon_month',
+                'current_anon_year',
+                'rawplans_planned',
+                'rawplans_worked',
+            ),
+        );
     }
 
     /**
@@ -75,19 +83,24 @@ class RawplanController extends Controller
             $year--;
             $month = Helper::getPlannedMonth($year);
         }
-        list($selected_year, $selected_month) = explode('-', $month);
+        [$selected_year, $selected_month] = explode('-', $month);
 
         for ($m = 1; $m <= 12; $m++) {
-            $month_names[$m] = Carbon::create(2022, $m)->locale('de')->isoFormat('MMMM');
+            $month_names[$m] = Carbon::create(2022, $m)
+                ->locale('de')
+                ->isoFormat('MMMM');
         }
 
-        return view('rawplans.create', compact(
-            'start_year',
-            'end_year',
-            'month_names',
-            'selected_year',
-            'selected_month',
-        ));
+        return view(
+            'rawplans.create',
+            compact(
+                'start_year',
+                'end_year',
+                'month_names',
+                'selected_year',
+                'selected_month',
+            ),
+        );
     }
 
     /**
@@ -106,7 +119,10 @@ class RawplanController extends Controller
             'shifts' => 'required',
         ]);
         // Set the month to the formatted string for database storage.
-        $month = Helper::validateAndFormatDate($request->get('year'), $request->get('month'));
+        $month = Helper::validateAndFormatDate(
+            $request->get('year'),
+            $request->get('month'),
+        );
         $planparser = new Planparser($month, $request->all());
         // Extend with custom validation rules
         // In the first attempt to validate, check for
@@ -136,7 +152,7 @@ class RawplanController extends Controller
         // Check if there is already an entry in the database,
         // if so, update it.
         $rawplan = Rawplan::where('month', $month)->first();
-        if (! $rawplan) {
+        if (!$rawplan) {
             $rawplan = Rawplan::create($request->all());
         } else {
             $rawplan->update($request->all());
@@ -160,12 +176,16 @@ class RawplanController extends Controller
         // Only delete the rawplan if it's still in progress
         // and has not been worked through completely.
         if ($rawplan->month <= Helper::getWorkedMonth()) {
-            $request->session()->flash('warning', 'Der Dienstplan wurde nicht gelöscht.');
+            $request
+                ->session()
+                ->flash('warning', 'Der Dienstplan wurde nicht gelöscht.');
 
             return redirect(action('RawplanController@index'));
         }
         // Also delete every parsed plan ...
-        DB::table('analyzed_months')->where('month', $rawplan->month)->delete();
+        DB::table('analyzed_months')
+            ->where('month', $rawplan->month)
+            ->delete();
         $rawplan->delete();
         $request->session()->flash('info', 'Der Dienstplan wurde gelöscht.');
 
@@ -181,14 +201,24 @@ class RawplanController extends Controller
     public function setAnonReportMonth(Request $request): RedirectResponse
     {
         // Format the month
-        $formatted_month = Helper::validateAndFormatDate($request->year, $request->month);
+        $formatted_month = Helper::validateAndFormatDate(
+            $request->year,
+            $request->month,
+        );
         // Update table: Set anon_report to true for all previous months ...
-        DB::table('rawplans')->where('month', '<=', $formatted_month)
+        DB::table('rawplans')
+            ->where('month', '<=', $formatted_month)
             ->update(['anon_report' => 1]);
         // ... and to false for all following months
-        DB::table('rawplans')->where('month', '>', $formatted_month)
+        DB::table('rawplans')
+            ->where('month', '>', $formatted_month)
             ->update(['anon_report' => 0]);
-        $request->session()->flash('info', 'Der Status der anonymen Auswertung wurde geändert.');
+        $request
+            ->session()
+            ->flash(
+                'info',
+                'Der Status der anonymen Auswertung wurde geändert.',
+            );
 
         return redirect(action([RawplanController::class, 'index']));
     }

@@ -17,7 +17,8 @@ class NewHash extends Mailable
 
     public function build(): NewHash
     {
-        return $this->markdown('mail.new-hash', ['url' => $this->url])
-            ->subject('Neuer Zugriffscode für DPAINS');
+        return $this->markdown('mail.new-hash', ['url' => $this->url])->subject(
+            'Neuer Zugriffscode für DPAINS',
+        );
     }
 }

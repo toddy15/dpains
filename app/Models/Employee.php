@@ -7,9 +7,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Employee extends Model
 {
-    protected $fillable = [
-        'email', 'hash', 'bu_start',
-    ];
+    protected $fillable = ['email', 'hash', 'bu_start'];
 
     /**
      * Get the episodes for the employee.
@@ -24,7 +22,9 @@ class Employee extends Model
      */
     public function getNameAttribute()
     {
-        $last_episode = $this->episodes()->latest('start_date')->first();
+        $last_episode = $this->episodes()
+            ->latest('start_date')
+            ->first();
 
         return $last_episode->name;
     }

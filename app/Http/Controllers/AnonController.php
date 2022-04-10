@@ -25,11 +25,13 @@ class AnonController extends Controller
      */
     public function homepage(Request $request, string $hash = ''): View
     {
-        if (! empty($hash)) {
+        if (!empty($hash)) {
             $employee = Employee::where('hash', $hash)->first();
             // Feedback if there is no such hash
-            if (! $employee) {
-                $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
+            if (!$employee) {
+                $request
+                    ->session()
+                    ->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
                 $hash = '';
             } else {
                 // Refresh last access
@@ -51,8 +53,10 @@ class AnonController extends Controller
     {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
-        if (! $employee) {
-            $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
+        if (!$employee) {
+            $request
+                ->session()
+                ->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
 
             return redirect(url('/'));
         }
@@ -73,21 +77,31 @@ class AnonController extends Controller
      * @param string $hash
      * @return View|RedirectResponse
      */
-    public function showEpisodes(Request $request, string $hash): View|RedirectResponse
-    {
+    public function showEpisodes(
+        Request $request,
+        string $hash,
+    ): View|RedirectResponse {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
-        if (! $employee) {
-            $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
+        if (!$employee) {
+            $request
+                ->session()
+                ->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
 
             return redirect(url('/'));
         }
         // Refresh last access
         $employee->touch();
-        $episodes = $employee->episodes()->oldest('start_date')->get();
+        $episodes = $employee
+            ->episodes()
+            ->oldest('start_date')
+            ->get();
         $latest_name = $employee->name;
 
-        return view('anon.show_episodes', compact('hash', 'episodes', 'latest_name'));
+        return view(
+            'anon.show_episodes',
+            compact('hash', 'episodes', 'latest_name'),
+        );
     }
 
     /**
@@ -100,12 +114,17 @@ class AnonController extends Controller
      * @param string $hash
      * @return View|RedirectResponse
      */
-    public function showYear(Request $request, $year, string $hash): View|RedirectResponse
-    {
+    public function showYear(
+        Request $request,
+        $year,
+        string $hash,
+    ): View|RedirectResponse {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
-        if (! $employee) {
-            $request->session()->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
+        if (!$employee) {
+            $request
+                ->session()
+                ->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
 
             return redirect(url('/'));
         }
@@ -113,7 +132,7 @@ class AnonController extends Controller
         $employee->touch();
         // Determine which month has been planned
         $planned_month = Helper::getPlannedMonthForAnonAccess($year);
-        if (! $planned_month) {
+        if (!$planned_month) {
             // There is no data at all, so abort.
             abort(404);
         }
@@ -121,32 +140,48 @@ class AnonController extends Controller
         // represents the actually worked shifts.
         $worked_month = Helper::getWorkedMonth($year);
         // Set up readable month names
-        $readable_planned_month = Carbon::parse($planned_month)->locale('de')->isoFormat('MMMM YYYY');
+        $readable_planned_month = Carbon::parse($planned_month)
+            ->locale('de')
+            ->isoFormat('MMMM YYYY');
         $readable_worked_month = '';
-        if (! empty($worked_month)) {
-            $readable_worked_month = Carbon::parse($worked_month)->locale('de')->isoFormat('MMMM YYYY');
+        if (!empty($worked_month)) {
+            $readable_worked_month = Carbon::parse($worked_month)
+                ->locale('de')
+                ->isoFormat('MMMM YYYY');
         }
         // Get the date and time of latest change
-        $latest_change = Rawplan::where('anon_report', 1)->latest('updated_at')->value('updated_at');
-        $latest_change = Carbon::parse($latest_change)->locale('de')->isoFormat('Do MMMM YYYY, HH:mm');
+        $latest_change = Rawplan::where('anon_report', 1)
+            ->latest('updated_at')
+            ->value('updated_at');
+        $latest_change = Carbon::parse($latest_change)
+            ->locale('de')
+            ->isoFormat('Do MMMM YYYY, HH:mm');
         // Generate the next and previous year urls
         $previous_year_url = Helper::getPreviousYearUrl('anon/', $year);
-        if (! empty($previous_year_url)) {
+        if (!empty($previous_year_url)) {
             $previous_year_url .= '/' . $hash;
         }
         $next_year_url = Helper::getNextYearUrl('anon/', $year) . '/' . $hash;
-        $tables = Helper::getTablesForYear($request, $year, $worked_month, $employee->id);
+        $tables = Helper::getTablesForYear(
+            $request,
+            $year,
+            $worked_month,
+            $employee->id,
+        );
 
-        return view('anon.show_year', compact(
-            'hash',
-            'year',
-            'previous_year_url',
-            'next_year_url',
-            'latest_change',
-            'readable_planned_month',
-            'readable_worked_month',
-            'tables'
-        ));
+        return view(
+            'anon.show_year',
+            compact(
+                'hash',
+                'year',
+                'previous_year_url',
+                'next_year_url',
+                'latest_change',
+                'readable_planned_month',
+                'readable_worked_month',
+                'tables',
+            ),
+        );
     }
 
     /**
@@ -162,13 +197,15 @@ class AnonController extends Controller
         ]);
         $email = trim($request->get('email'));
         // Append the domain, if necessary
-        if (! Str::contains($email, '@')) {
+        if (!Str::contains($email, '@')) {
             $email .= '@asklepios.com';
         }
         $employee = Employee::where('email', $email)->first();
         // Feedback if there is no such mail
-        if (! $employee) {
-            $request->session()->flash('warning', "Die E-Mail $email wurde nicht gefunden.");
+        if (!$employee) {
+            $request
+                ->session()
+                ->flash('warning', "Die E-Mail $email wurde nicht gefunden.");
 
             return redirect(url('/'));
         }
@@ -176,11 +213,16 @@ class AnonController extends Controller
         $employee->hash = Str::random();
         $employee->save();
         // Send the mail
-        $url = action([AnonController::class, 'showYear'], [Carbon::now()->yearIso, $employee->hash]);
+        $url = action(
+            [AnonController::class, 'showYear'],
+            [Carbon::now()->yearIso, $employee->hash],
+        );
 
         Mail::to($employee->email)->queue(new NewHash($url));
 
-        $request->session()->flash('info', "Der neue Zugriffscode wurde an $email gesendet.");
+        $request
+            ->session()
+            ->flash('info', "Der neue Zugriffscode wurde an $email gesendet.");
 
         return redirect(url('/'));
     }

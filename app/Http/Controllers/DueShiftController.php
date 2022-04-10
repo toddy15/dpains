@@ -42,8 +42,10 @@ class DueShiftController extends Controller
     public function create(): View
     {
         // Get the staffgroups for the select box
-        $staffgroups = Staffgroup::all()->sortBy('weight')
-            ->pluck('staffgroup', 'id')->toArray();
+        $staffgroups = Staffgroup::all()
+            ->sortBy('weight')
+            ->pluck('staffgroup', 'id')
+            ->toArray();
         // Special case: Merge "FA" and "WB mit Nachtdiensten"
         foreach ($staffgroups as $key => $staffgroup) {
             if ($staffgroup == 'FA') {
@@ -75,9 +77,16 @@ class DueShiftController extends Controller
         // this will throw a QueryException.
         try {
             DueShift::create($request->all());
-            $request->session()->flash('info', 'Die Sollzahlen wurden gespeichert.');
+            $request
+                ->session()
+                ->flash('info', 'Die Sollzahlen wurden gespeichert.');
         } catch (QueryException) {
-            $request->session()->flash('danger', 'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.');
+            $request
+                ->session()
+                ->flash(
+                    'danger',
+                    'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.',
+                );
         }
 
         return redirect(action([DueShiftController::class, 'index']));
@@ -93,8 +102,10 @@ class DueShiftController extends Controller
     {
         $due_shift = DueShift::findOrFail($id);
         // Get the staffgroups for the select box
-        $staffgroups = Staffgroup::all()->sortBy('weight')
-            ->pluck('staffgroup', 'id')->toArray();
+        $staffgroups = Staffgroup::all()
+            ->sortBy('weight')
+            ->pluck('staffgroup', 'id')
+            ->toArray();
         // Special case: Merge "FA" and "WB mit Nachtdiensten"
         foreach ($staffgroups as $key => $staffgroup) {
             if ($staffgroup == 'FA') {
@@ -128,9 +139,16 @@ class DueShiftController extends Controller
         // this will throw a QueryException.
         try {
             $due_shift->update($request->all());
-            $request->session()->flash('info', 'Die Sollzahlen wurden geändert.');
+            $request
+                ->session()
+                ->flash('info', 'Die Sollzahlen wurden geändert.');
         } catch (QueryException) {
-            $request->session()->flash('danger', 'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.');
+            $request
+                ->session()
+                ->flash(
+                    'danger',
+                    'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.',
+                );
         }
 
         return redirect(action([DueShiftController::class, 'index']));

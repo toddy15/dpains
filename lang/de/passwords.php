@@ -1,8 +1,7 @@
 <?php
 
 return [
-
-  /*
+    /*
   |--------------------------------------------------------------------------
   | Password Reminder Language Lines
   |--------------------------------------------------------------------------
@@ -13,10 +12,12 @@ return [
   |
   */
 
-  'password' => 'Passwörter müssen mindestens sechs Zeichen enthalten und mit der Bestätigung übereinstimmen.',
-  'reset' => 'Dein Passwort wurde zurückgesetzt!',
-  'sent' => 'Wir haben Dir einen Link für das Zurücksetzen Deines Passworts zugeschickt!',
-  'token' => 'Dieser Zugriffscode für das Zurücksetzen eines Passworts ist nicht gültig.',
-  'user' => "Wir können keinen Benutzer mit dieser E-Mail-Adresse finden.",
-
+    'password' =>
+        'Passwörter müssen mindestens sechs Zeichen enthalten und mit der Bestätigung übereinstimmen.',
+    'reset' => 'Dein Passwort wurde zurückgesetzt!',
+    'sent' =>
+        'Wir haben Dir einen Link für das Zurücksetzen Deines Passworts zugeschickt!',
+    'token' =>
+        'Dieser Zugriffscode für das Zurücksetzen eines Passworts ist nicht gültig.',
+    'user' => 'Wir können keinen Benutzer mit dieser E-Mail-Adresse finden.',
 ];
