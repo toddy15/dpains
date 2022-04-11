@@ -3,27 +3,42 @@
 @section('content')
     <h1>Dienstpläne</h1>
     <p>
-        <a class="btn btn-primary" href="{{ action('App\Http\Controllers\RawplanController@create') }}">Neuen Dienstplan
-            hochladen</a>
+        <x-link-button class="btn-primary" href="{{ route('rawplans.create') }}">
+            Neuen Dienstplan hochladen
+        </x-link-button>
     </p>
 
-    {!! Form::open(['action' => 'App\Http\Controllers\RawplanController@setAnonReportMonth', 'method' => 'put']) !!}
+    <form action="{{ route('rawplans.setAnonReportMonth') }}" method="POST">
+        @csrf
+        @method('PUT')
 
-    <div class="row">
-        {!! Form::label('month', 'Anonyme Auswertung bis einschließlich Monat:', ['class' => 'col-sm-3 col-form-label']) !!}
-        <div class="col-sm-3">
-            {!! Form::selectMonth('month', $current_anon_month, ['class' => 'form-select']) !!}
-        </div>
-        {!! Form::label('year', 'Jahr:', ['class' => 'visually-hidden col-form-label']) !!}
-        <div class="col-sm-3">
-            {!! Form::selectYear('year', $start_year, $end_year, $current_anon_year, ['class' => 'form-select']) !!}
-        </div>
-        <div class="col-sm-3">
-            {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
-        </div>
-    </div>
+        <div class="row">
+            <x-label for="month" value="Anonyme Auswertung bis einschließlich Monat:" class="col-sm-3 col-form-label" />
+            <div class="col-sm-3">
+                <select id="month" name="month" class="form-select" aria-label="Monat">
+                    @foreach ($month_names as $number => $month_name)
+                        <option value="{{ $number }}"
+                            {{ old('month', $current_anon_month) == $number ? 'selected' : '' }}>
+                            {{ $month_name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-    {!! Form::close() !!}
+            <x-label for="year" value="Jahr:" class="visually-hidden col-sm-3 col-form-label" />
+            <div class="col-sm-3">
+                <select id="year" name="year" class="form-select" aria-label="Jahr">
+                    @for ($y = $start_year; $y <= $end_year; $y++)
+                        <option {{ old('year', $current_anon_year) == $y ? 'selected' : '' }}>{{ $y }}</option>
+                    @endfor
+                </select>
+            </div>
+
+            <div class="col-sm-3">
+                <x-button>Speichern</x-button>
+            </div>
+        </div>
+    </form>
 
     <table class="table table-striped">
         <thead>

@@ -51,9 +51,17 @@ class RawplanController extends Controller
             ->where('month', '<=', $worked_month)
             ->get();
 
+        // Set up readable month names
+        for ($m = 1; $m <= 12; $m++) {
+            $month_names[$m] = Carbon::create(2022, $m)
+                ->locale('de')
+                ->isoFormat('MMMM');
+        }
+
         return view(
             'rawplans.index',
             compact(
+                'month_names',
                 'start_year',
                 'end_year',
                 'current_anon_month',

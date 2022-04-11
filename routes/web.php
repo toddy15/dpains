@@ -34,10 +34,10 @@ Route::middleware([Authenticate::class])->group(function () {
         'show',
         'destroy',
     ]);
-    Route::put('rawplan/setAnonReportMonth', [
+    Route::put('rawplans/setAnonReportMonth', [
         RawplanController::class,
         'setAnonReportMonth',
-    ]);
+    ])->name('rawplans.setAnonReportMonth');
     Route::resource('employee', EmployeeController::class)->except([
         'create',
         'store',
