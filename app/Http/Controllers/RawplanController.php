@@ -170,7 +170,7 @@ class RawplanController extends Controller
         $rawplan->save();
         $request->session()->flash('info', 'Der Dienstplan wurde gespeichert.');
 
-        return redirect(action([RawplanController::class, 'index']));
+        return to_route('rawplans.index');
     }
 
     /**
@@ -199,7 +199,7 @@ class RawplanController extends Controller
         $rawplan->delete();
         $request->session()->flash('info', 'Der Dienstplan wurde gelöscht.');
 
-        return redirect(action([RawplanController::class, 'index']));
+        return to_route('rawplans.index');
     }
 
     /**
@@ -230,6 +230,6 @@ class RawplanController extends Controller
                 'Der Status der anonymen Auswertung wurde geändert.',
             );
 
-        return redirect(action([RawplanController::class, 'index']));
+        return to_route('rawplans.index');
     }
 }
