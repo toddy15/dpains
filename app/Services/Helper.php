@@ -526,10 +526,10 @@ class Helper
     {
         if ($year) {
             return Rawplan::where('month', 'like', "$year%")
-                ->whereRaw('substr(updated_at, 0, 7) > month')
+                ->whereRaw('substr(updated_at, 1, 7) > month')
                 ->max('month');
         } else {
-            return Rawplan::whereRaw('substr(updated_at, 0, 7) > month')->max(
+            return Rawplan::whereRaw('substr(updated_at, 1, 7) > month')->max(
                 'month',
             );
         }
