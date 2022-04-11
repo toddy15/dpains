@@ -2,6 +2,8 @@
 
 use function Pest\Laravel\get;
 
-test('a guest can access the homepage', function () {
-    get('/')->assertOk();
+test('a guest can view the homepage', function () {
+    get('/')
+        ->assertOk()
+        ->assertViewIs('homepage');
 });
