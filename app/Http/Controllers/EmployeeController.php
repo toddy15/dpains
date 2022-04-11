@@ -96,7 +96,7 @@ class EmployeeController extends Controller
         $employee->update($request->all());
         $request->session()->flash('info', 'Der Mitarbeiter wurde geändert.');
 
-        return redirect(action([EmployeeController::class, 'index']));
+        return to_route('employees.index');
     }
 
     /**

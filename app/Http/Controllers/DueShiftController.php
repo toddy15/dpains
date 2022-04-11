@@ -89,7 +89,7 @@ class DueShiftController extends Controller
                 );
         }
 
-        return redirect(action([DueShiftController::class, 'index']));
+        return to_route('due_shifts.index');
     }
 
     /**
@@ -151,6 +151,6 @@ class DueShiftController extends Controller
                 );
         }
 
-        return redirect(action([DueShiftController::class, 'index']));
+        return to_route('due_shifts.index');
     }
 }

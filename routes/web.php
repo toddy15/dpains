@@ -38,26 +38,26 @@ Route::middleware([Authenticate::class])->group(function () {
         RawplanController::class,
         'setAnonReportMonth',
     ])->name('rawplans.setAnonReportMonth');
-    Route::resource('employee', EmployeeController::class)->except([
+    Route::resource('employees', EmployeeController::class)->except([
         'create',
         'store',
         'show',
         'destroy',
     ]);
     Route::get(
-        'employee/{id}/episodes',
+        'employees/{id}/episodes',
         'App\Http\Controllers\EmployeeController@showEpisodes',
     );
     Route::get(
-        'employee/month/{year}/{month}',
+        'employees/month/{year}/{month}',
         'App\Http\Controllers\EmployeeController@showMonth',
     )->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
     Route::get(
-        'employee/vk/{which_vk}/{year}',
+        'employees/vk/{which_vk}/{year}',
         'App\Http\Controllers\EmployeeController@showVKForYear',
     )->where(['year' => '[0-9]+']);
     Route::get(
-        'employee/past',
+        'employees/past',
         'App\Http\Controllers\EmployeeController@showPastEmployees',
     );
 

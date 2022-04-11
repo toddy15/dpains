@@ -47,7 +47,7 @@ class CommentController extends Controller
         Comment::create($request->all());
         $request->session()->flash('info', 'Die Bemerkung wurde gespeichert.');
 
-        return redirect(action([CommentController::class, 'index']));
+        return to_route('comments.index');
     }
 
     /**
@@ -81,6 +81,6 @@ class CommentController extends Controller
         $comment->update($request->all());
         $request->session()->flash('info', 'Die Bemerkung wurde geändert.');
 
-        return redirect(action([CommentController::class, 'index']));
+        return to_route('comments.index');
     }
 }
