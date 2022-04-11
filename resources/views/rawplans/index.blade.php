@@ -17,8 +17,7 @@
             <div class="col-sm-3">
                 <select id="month" name="month" class="form-select" aria-label="Monat">
                     @foreach ($month_names as $number => $month_name)
-                        <option value="{{ $number }}"
-                            {{ old('month', $current_anon_month) == $number ? 'selected' : '' }}>
+                        <option value="{{ $number }}" @selected(old('month', $current_anon_month) == $number)>
                             {{ $month_name }}
                         </option>
                     @endforeach
@@ -29,7 +28,7 @@
             <div class="col-sm-3">
                 <select id="year" name="year" class="form-select" aria-label="Jahr">
                     @for ($y = $start_year; $y <= $end_year; $y++)
-                        <option {{ old('year', $current_anon_year) == $y ? 'selected' : '' }}>{{ $y }}</option>
+                        <option @selected(old('year', $current_anon_year) == $y)>{{ $y }}</option>
                     @endfor
                 </select>
             </div>
