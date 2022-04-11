@@ -50,7 +50,7 @@ class StaffgroupController extends Controller
             ->session()
             ->flash('info', 'Die Mitarbeitergruppe wurde gespeichert.');
 
-        return redirect(action([StaffgroupController::class, 'index']));
+        return to_route('staffgroups.index');
     }
 
     /**
@@ -86,6 +86,6 @@ class StaffgroupController extends Controller
             ->session()
             ->flash('info', 'Die Mitarbeitergruppe wurde geändert.');
 
-        return redirect(action([StaffgroupController::class, 'index']));
+        return to_route('staffgroups.index');
     }
 }

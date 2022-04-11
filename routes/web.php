@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['register' => false]);
 
 Route::middleware([Authenticate::class])->group(function () {
-    Route::resource('episode', EpisodeController::class)->except([
+    Route::resource('episodes', EpisodeController::class)->except([
         'index',
         'show',
     ]);
-    Route::resource('staffgroup', StaffgroupController::class)->except([
+    Route::resource('staffgroups', StaffgroupController::class)->except([
         'show',
         'destroy',
     ]);

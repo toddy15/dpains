@@ -35,7 +35,7 @@
                             <a class="dropdown-item" href="{{ route('rawplans.index') }}">Dienstpläne</a>
                             <a class="dropdown-item" href="{{ route('employees.index') }}">Mitarbeiter</a>
                             <a class="dropdown-item" href="{{ route('comments.index') }}">Bemerkungen</a>
-                            <a class="dropdown-item" href="{{ url('staffgroup') }}">Mitarbeitergruppen</a>
+                            <a class="dropdown-item" href="{{ route('staffgroups.index') }}">Mitarbeitergruppen</a>
                             <a class="dropdown-item" href="{{ route('due_shifts.index') }}">Sollzahlen</a>
                             <a class="dropdown-item"
                                 href="{{ url('employees/month/' . date('Y/m')) }}">Monatsübersichten</a>
@@ -86,8 +86,8 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                                         document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
                         </a>
 
