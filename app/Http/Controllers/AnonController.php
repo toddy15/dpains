@@ -65,7 +65,7 @@ class AnonController extends Controller
         $employee->save();
         $request->session()->flash('info', 'Du wurdest abgemeldet.');
 
-        return redirect(url('/'));
+        return to_route('homepage');
     }
 
     /**
@@ -224,6 +224,6 @@ class AnonController extends Controller
             ->session()
             ->flash('info', "Der neue Zugriffscode wurde an $email gesendet.");
 
-        return redirect(url('/'));
+        return to_route('homepage');
     }
 }

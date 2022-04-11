@@ -83,7 +83,9 @@ Route::middleware([Authenticate::class])->group(function () {
  * From here on, the routes are accessible by anybody.
  */
 
-Route::get('/{hash?}', 'App\Http\Controllers\AnonController@homepage');
+Route::get('/{hash?}', 'App\Http\Controllers\AnonController@homepage')->name(
+    'homepage',
+);
 Route::get('anon/logout/{hash}', 'App\Http\Controllers\AnonController@logout');
 Route::get(
     'anon/episodes/{hash}',
