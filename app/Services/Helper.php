@@ -526,10 +526,10 @@ class Helper
     {
         if ($year) {
             return Rawplan::where('month', 'like', "$year%")
-                ->whereRaw('left(updated_at, 7) > month')
+                ->whereRaw('substr(updated_at, 0, 7) > month')
                 ->max('month');
         } else {
-            return Rawplan::whereRaw('left(updated_at, 7) > month')->max(
+            return Rawplan::whereRaw('substr(updated_at, 0, 7) > month')->max(
                 'month',
             );
         }
@@ -703,12 +703,9 @@ class Helper
      * Starting from 8, it's Bundeswehr, Dummy, Hospitation etc.
      *
      * @TODO: Fix this if more staffgroups get added.
-     *
-     * @param $staffgroup
-     * @return bool
      */
-    public static function staffgroupMayReceiveEMail($staffgroup)
+    public static function staffgroupMayReceiveEMail(int $staffgroup): bool
     {
-        return $staffgroup < 8 ? true : false;
+        return $staffgroup < 8;
     }
 }
