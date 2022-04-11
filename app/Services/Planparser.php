@@ -344,13 +344,14 @@ class Planparser
             $result[] =
                 $this->formattedMonth .
                 ': Die Anzahl der Zeilen in den Schichten muss entweder eine oder drei pro Mitarbeiter sein.';
-        }
-        // Try parsing all shifts to detect unknown shifts.
-        foreach ($this->parsedNames as $id => $name) {
-            $shifts = $this->calculateShifts($this->parsedShifts[$id]);
-            if (!is_array($shifts)) {
-                // Add the error message from calculateShifts().
-                $result[] = $this->formattedMonth . ': ' . $shifts;
+        } else {
+            // Try parsing all shifts to detect unknown shifts.
+            foreach ($this->parsedNames as $id => $name) {
+                $shifts = $this->calculateShifts($this->parsedShifts[$id]);
+                if (!is_array($shifts)) {
+                    // Add the error message from calculateShifts().
+                    $result[] = $this->formattedMonth . ': ' . $shifts;
+                }
             }
         }
 
