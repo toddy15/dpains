@@ -161,6 +161,8 @@ class RawplanController extends Controller
         // if so, update it.
         $rawplan = Rawplan::where('month', $month)->first();
         if (!$rawplan) {
+            // @TODO: Do not inject the anon field
+            $request->merge(['anon_report' => false]);
             $rawplan = Rawplan::create($request->all());
         } else {
             $rawplan->update($request->all());
