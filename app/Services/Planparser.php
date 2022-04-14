@@ -25,13 +25,18 @@ class Planparser
     {
         // Ensure that there is data for names and shifts.
         if (!empty($rawInput)) {
-            $this->rawNames = trim($rawInput['people'], "\r\n");
-            $this->rawShifts = trim($rawInput['shifts'], "\r\n");
+            $this->rawNames = $rawInput['people'];
+            $this->rawShifts = $rawInput['shifts'];
         } else {
             $rawplan = Rawplan::where('month', $this->formattedMonth)->first();
             $this->rawNames = $rawplan->people;
             $this->rawShifts = $rawplan->shifts;
         }
+
+        // Trim the input, as Laravel does this by default now
+        $this->rawNames = trim($this->rawNames);
+        $this->rawShifts = trim($this->rawShifts);
+
         $this->parseNames();
         $this->parseShifts();
     }
