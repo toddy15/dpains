@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class Planparser
 {
-    public $rawNames = [];
-    public $rawShifts = [];
-    public $parsedNames = [];
-    public $parsedShifts = [];
+    public string $rawNames = '';
+    public string $rawShifts = '';
+    public array $parsedNames = [];
+    public array $parsedShifts = [];
+    public int $lines_per_person = 1;
 
     /**
      * Planparser constructor.
@@ -18,11 +19,13 @@ class Planparser
      * If called with a rawInput array, this is always $request->all().
      * If there is no rawInput array, fetch the data from the DB.
      *
-     * @param $formattedMonth
+     * @param string $formattedMonth
      * @param null $rawInput
      */
-    public function __construct(public $formattedMonth, $rawInput = null)
-    {
+    public function __construct(
+        public string $formattedMonth,
+        array $rawInput = null,
+    ) {
         // Ensure that there is data for names and shifts.
         if (!empty($rawInput)) {
             $this->rawNames = $rawInput['people'];
@@ -41,43 +44,54 @@ class Planparser
         $this->parseShifts();
     }
 
-    public function parseNames()
+    public function parseNames(): void
     {
-        $this->parsedNames = [];
         $person_lines = explode("\n", $this->rawNames);
+
+        // Check number of lines per person
+        // The first line should always be a person's name
+        // The second line might be another person, then
+        // the number of lines per person is 1.
+        // Otherwise, if the second line is an attribute,
+        // the lines per person are 3.
+        $second_line = trim($person_lines[1]);
+        $attributes = [
+            'Chefarzt',
+            'Chefarzt-V',
+            'OA',
+            'ASS\/FA',
+            'FA-ÄD_1',
+            'FA',
+            'Ass-Arzt',
+            'ITS MED',
+            'xITS Pflege',
+            'SpWB INT',
+            '"weiblich"',
+        ];
+        $found_attribute = false;
+        foreach ($attributes as $attribute) {
+            if (str_contains($second_line, $attribute)) {
+                $found_attribute = true;
+                break;
+            }
+        }
+        if ($found_attribute) {
+            $this->lines_per_person = 3;
+        }
+
+        $line_counter = 0;
         foreach ($person_lines as $person_line) {
-            // Remove whitespace.
-            $person_line = trim($person_line);
-            // Remove skills
-            // This needs to happen before removal of the date, because
-            // otherwise the skill 'FA-ÄD_1' will be truncated.
-            $skills = [
-                '/Chefarzt-V/',
-                '/Chefarzt/',
-                '/OA/',
-                '/ASS\/FA/',
-                '/FA-ÄD_1/',
-                '/FA/',
-                '/Ass-Arzt/',
-                '/ITS MED/',
-                '/xITS Pflege/',
-                '/SpWB INT/',
-                '/"weiblich"/',
-            ];
-            $person_line = preg_replace($skills, '', $person_line);
-            // Remove comma, space and end dates from names.
-            $person_line = preg_replace("/\s*,?\s*[0-9.]+$/", '', $person_line);
-            // If the line only consists of whitespace and comma, it
-            // was a skills line, not a name. Remove it.
-            if (preg_match("/^[, ]+$/", $person_line)) {
-                continue;
+            if ($line_counter % $this->lines_per_person == 0) {
+                // Remove comma, space and end dates from names.
+                $person_line = preg_replace(
+                    "/\s*,?\s*[0-9.]+$/",
+                    '',
+                    $person_line,
+                );
+                // Finally, add the name to list.
+                $this->parsedNames[] = trim($person_line);
             }
-            // Skip empty lines
-            if (strlen($person_line) == 0) {
-                continue;
-            }
-            // Finally, add the name to list.
-            $this->parsedNames[] = $person_line;
+            $line_counter++;
         }
     }
 
