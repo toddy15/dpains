@@ -29,13 +29,13 @@ FA
 
 ";
 
-$input_three_lines['shifts'] = "1\t2\t3\t4
+$input_three_lines['shifts'] = "1p\t2p\t3p\t4p
 1\t2\t3\t4
 
-a\tb\tc\td
+ap\tbp\tcp\tdp
 a\tb\tc\td
 
-A\tB\tC\tD
+Ap\tBp\tCp\tDp
 A\tB\tC\tD
 
 \t\t\t
@@ -111,3 +111,23 @@ test(
         expect($p->parsedShifts)->toBe($result['shifts']);
     },
 );
+
+test('the planparser returns planned shifts (1 line)', function () use (
+    $input_one_line,
+    $result,
+) {
+    $p = new Planparser('2022-04', $input_one_line);
+
+    expect($p->parsedNames)->toBe($result['people']);
+    expect($p->parsedShifts)->toBe($result['shifts']);
+});
+
+test('the planparser returns worked shifts (3 lines)', function () use (
+    $input_three_lines,
+    $result,
+) {
+    $p = new Planparser('2022-04', $input_three_lines);
+
+    expect($p->parsedNames)->toBe($result['people']);
+    expect($p->parsedShifts)->toBe($result['shifts']);
+});
