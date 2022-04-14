@@ -20,7 +20,7 @@ class Planparser
      * If there is no rawInput array, fetch the data from the DB.
      *
      * @param string $formattedMonth
-     * @param null $rawInput
+     * @param array|null $rawInput
      */
     public function __construct(
         public string $formattedMonth,
@@ -63,10 +63,6 @@ class Planparser
             'FA-ÄD_1',
             'FA',
             'Ass-Arzt',
-            'ITS MED',
-            'xITS Pflege',
-            'SpWB INT',
-            '"weiblich"',
         ];
         $found_attribute = false;
         foreach ($attributes as $attribute) {
@@ -95,58 +91,35 @@ class Planparser
         }
     }
 
-    public function parseShifts()
+    public function parseShifts(): void
     {
-        $this->parsedShifts = [];
         $plan_lines = explode("\n", $this->rawShifts);
-        // Avoid a division by zero
-        if (count($this->parsedNames) == 0) {
-            return;
-        }
-        // Determine if there are 1 or 3 lines per person.
-        $lines_per_person = count($plan_lines) / count($this->parsedNames);
-        // This id is the index of the $this->names array. It has
-        // nothing to do with the person number in the database.
-        $parsed_person_id = 0;
-        // This counter is for the current line of a person
-        // and cycles between 1 and 3.
-        $current_line_count = 1;
-        // Set up arrays for the first line (plan) and the
-        // second line (actually worked)
-        $plan = [];
-        $work = [];
-        foreach ($plan_lines as $plan_line) {
-            // Remove line endings, but not tabs.
-            $plan_line = trim($plan_line, "\n\r");
-            // Parse the days of a line
-            switch ($current_line_count) {
-                case 1:
-                    $plan[$parsed_person_id] = explode("\t", $plan_line);
 
-                    break;
-                case 2:
-                    $work[$parsed_person_id] = explode("\t", $plan_line);
-
-                    break;
-                case 3:
-                    // Overwork hours, simply to be discarded.
-                    break;
+        // Cycle through all names and get the shifts for that person
+        $number_of_plan_lines = count($plan_lines);
+        foreach ($this->parsedNames as $index => $name) {
+            if ($this->lines_per_person == 3) {
+                $plan_index = 3 * $index + 1;
+            } else {
+                $plan_index = $index;
             }
-            // Increment counter and check for cycling.
-            $current_line_count++;
-            if ($current_line_count > $lines_per_person) {
-                $current_line_count = 1;
-                $parsed_person_id++;
+            // If there is data in the line, use it.
+            if ($plan_index < $number_of_plan_lines) {
+                // Remove line endings, but not tabs.
+                $this->parsedShifts[$index] = trim(
+                    $plan_lines[$plan_index],
+                    "\r\n",
+                );
+            } else {
+                // The whitespace line has been removed,
+                // so add tabs for empty shifts.
+                // Count the days in the first line
+                $submitted_days = count(explode("\t", $plan_lines[0]));
+                $this->parsedShifts[$index] = str_repeat(
+                    "\t",
+                    $submitted_days - 1,
+                );
             }
-        }
-        // The relevant shifts for a person are either in the plan array
-        // (if there is no second line yet) or in the work array (if
-        // there are three lines per person). Determine which to use for
-        // the analyzing.
-        if ($lines_per_person == 1) {
-            $this->parsedShifts = $plan;
-        } elseif ($lines_per_person == 3) {
-            $this->parsedShifts = $work;
         }
     }
 
