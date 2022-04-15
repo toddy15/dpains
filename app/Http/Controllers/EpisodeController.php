@@ -42,13 +42,9 @@ class EpisodeController extends Controller
             $episode->factor_night = '0.000';
             $episode->factor_nef = '0.000';
         }
-        // Get the comments for the select box
+        // Get values for the select boxes
         $comments = Comment::all()->sortBy('comment');
-        // Get the staffgroups for the select box
-        $staffgroups = Staffgroup::all()
-            ->sortBy('weight')
-            ->pluck('staffgroup', 'id')
-            ->toArray();
+        $staffgroups = Staffgroup::all()->sortBy('weight');
         // Allow from the beginning of database storage or some years back
         $start_year = max(
             Helper::$firstYear,
@@ -141,13 +137,9 @@ class EpisodeController extends Controller
     public function edit(int $id): View
     {
         $episode = Episode::findOrFail($id);
-        // Get the comments for the select box
+        // Get values for the select boxes
         $comments = Comment::all()->sortBy('comment');
-        // Get the staffgroups for the select box
-        $staffgroups = Staffgroup::all()
-            ->sortBy('weight')
-            ->pluck('staffgroup', 'id')
-            ->toArray();
+        $staffgroups = Staffgroup::all()->sortBy('weight');
         // Allow from the beginning of database storage
         $start_year = Helper::$firstYear;
         // ... to some years ahead

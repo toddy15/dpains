@@ -21,15 +21,12 @@
     @endfor
 </select>
 
-
-<!-- Staffgroup Form Input  -->
-<div class="form-group {{ $errors->has('staffgroup_id') ? 'has-error has-feedback' : '' }}">
-    {!! Form::label('staffgroup_id', 'Mitarbeitergruppe:', ['class' => 'form-label']) !!}
-    {!! Form::select('staffgroup_id', $staffgroups, null, ['class' => 'form-select']) !!}
-    @if ($errors->has('staffgroup_id'))
-        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-    @endif
-</div>
+<x-label for="staffgroup_id" value="Mitarbeitergruppe:" />
+<select id="staffgroup_id" name="staffgroup_id" class="form-select" aria-label="Mitarbeitergruppe">
+    @foreach ($staffgroups as $staffgroup)
+        <option value="{{ $staffgroup->id }}" @selected(old('staffgroup_id', $episode->staffgroup_id) == $staffgroup->id)>{{ $staffgroup->staffgroup }}</option>
+    @endforeach
+</select>
 
 <!-- Vk Form Input  -->
 <div class="form-group {{ $errors->has('vk') ? 'has-error has-feedback' : '' }}">
