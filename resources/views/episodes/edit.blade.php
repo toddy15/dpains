@@ -3,11 +3,17 @@
 @section('content')
     <h1>Eintrag bearbeiten</h1>
 
-    {!! Form::model($episode, ['method' => 'PUT', 'action' => ['App\Http\Controllers\EpisodeController@update', $episode->id]]) !!}
+    <form action="{{ route('episodes.update') }}" method="POST">
+        @csrf
+        @method('PUT')
 
-    @include('episodes.form', [
-        'cancel_url' => action('App\Http\Controllers\EmployeeController@showEpisodes', $episode->employee_id),
-    ])
+        @include('episodes.form')
 
-    {!! Form::close() !!}
+        <div class="form-group text-center mt-4">
+            <x-button>Speichern</x-button>
+            <x-link-button
+                href="{{ action('App\Http\Controllers\EmployeeController@showEpisodes', $episode->employee_id) }}"
+                class="btn-secondary">Abbrechen</x-link-button>
+        </div>
+    </form>
 @endsection

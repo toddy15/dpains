@@ -3,19 +3,21 @@
 @section('content')
     <h1>Neuen Eintrag erstellen</h1>
 
-    {!! Form::model($episode, ['action' => 'App\Http\Controllers\EpisodeController@store']) !!}
+    <form action="{{ route('episodes.store') }}" method="POST">
+        @csrf
+        <input type="hidden" name="employee_id" value="{{ $episode->employee_id }}">
 
-    {!! Form::hidden('employee_id', $episode->employee_id) !!}
+        @include('episodes.form')
 
-    @if (!empty($episode->employee_id))
-        @include('episodes.form', [
-            'cancel_url' => action('App\Http\Controllers\EmployeeController@showEpisodes', $episode->employee_id),
-        ])
-    @else
-        @include('episodes.form', [
-            'cancel_url' => action('App\Http\Controllers\EmployeeController@index'),
-        ])
-    @endif
-
-    {!! Form::close() !!}
+        <div class="form-group text-center mt-4">
+            <x-button>Speichern</x-button>
+            @if (!empty($episode->employee_id))
+                <x-link-button
+                    href="{{ action('App\Http\Controllers\EmployeeController@showEpisodes', $episode->employee_id) }}"
+                    class="btn-secondary">Abbrechen</x-link-button>
+            @else
+                <x-link-button href="{{ route('employees.index') }}" class="btn-secondary">Abbrechen</x-link-button>
+            @endif
+        </div>
+    </form>
 @endsection

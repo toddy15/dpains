@@ -1,11 +1,6 @@
-<!-- Name Form Input  -->
-<div class="form-group {{ $errors->has('name') ? 'has-error has-feedback' : '' }}">
-    {!! Form::label('name', 'Name:', ['class' => 'form-label']) !!}
-    {!! Form::text('name', null, ['class' => 'form-control']) !!}
-    @if ($errors->has('name'))
-        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-    @endif
-</div>
+<x-label for="name" value="Name:" />
+<x-input value="{{ old('name', $episode->name ?? '') }}" name="name" id="name" required autofocus
+    invalid="{{ $errors->has('name') }}" />
 
 <x-label for="month" value="Beginnt im Monat:" class="col-form-label" />
 <select id="month" name="month" class="form-select" aria-label="Monat">
@@ -28,32 +23,17 @@
     @endforeach
 </select>
 
-<!-- Vk Form Input  -->
-<div class="form-group {{ $errors->has('vk') ? 'has-error has-feedback' : '' }}">
-    {!! Form::label('vk', 'VK:', ['class' => 'form-label']) !!}
-    {!! Form::text('vk', null, ['class' => 'form-control']) !!}
-    @if ($errors->has('vk'))
-        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-    @endif
-</div>
+<x-label for="vk" value="VK:" />
+<x-input value="{{ old('vk', $episode->vk ?? '') }}" name="vk" id="vk" required
+    invalid="{{ $errors->has('vk') }}" />
 
-<!-- Factor_night Form Input  -->
-<div class="form-group {{ $errors->has('factor_night') ? 'has-error has-feedback' : '' }}">
-    {!! Form::label('factor_night', 'Faktor für Nachtdienste:', ['class' => 'form-label']) !!}
-    {!! Form::text('factor_night', null, ['class' => 'form-control']) !!}
-    @if ($errors->has('factor_night'))
-        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-    @endif
-</div>
+<x-label for="factor_night" value="Faktor für Nachtdienste:" />
+<x-input value="{{ old('factor_night', $episode->factor_night ?? '') }}" name="factor_night" id="factor_night"
+    required invalid="{{ $errors->has('factor_night') }}" />
 
-<!-- Factor_nef Form Input  -->
-<div class="form-group {{ $errors->has('factor_nef') ? 'has-error has-feedback' : '' }}">
-    {!! Form::label('factor_nef', 'Faktor für NEF-Dienste:', ['class' => 'form-label']) !!}
-    {!! Form::text('factor_nef', null, ['class' => 'form-control']) !!}
-    @if ($errors->has('factor_nef'))
-        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-    @endif
-</div>
+<x-label for="factor_nef" value="Faktor für NEF-Dienste:" />
+<x-input value="{{ old('factor_nef', $episode->factor_nef ?? '') }}" name="factor_nef" id="factor_nef" required
+    invalid="{{ $errors->has('factor_nef') }}" />
 
 <x-label for="comment_id" value="Bemerkung:" />
 <select id="comment_id" name="comment_id" class="form-select" aria-label="Bemerkung">
@@ -62,10 +42,3 @@
         <option value="{{ $comment->id }}" @selected(old('comment_id', $episode->comment_id) == $comment->id)>{{ $comment->comment }}</option>
     @endforeach
 </select>
-
-<div class="form-group text-center mt-4">
-    <!-- Speichern Form Input  -->
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
-    <!-- Cancel Button -->
-    <a class="btn btn-secondary" href="{{ $cancel_url }}">Abbrechen</a>
-</div>
