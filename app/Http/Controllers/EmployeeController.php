@@ -93,6 +93,10 @@ class EmployeeController extends Controller
             'email' => 'required',
         ]);
         $employee = Employee::findOrFail($id);
+        // Generate a new hash with some pseudo random bits.
+        // This way, people with "Vertragsende" can no longer
+        // access this site.
+        $employee->hash = Str::random();
         $employee->update($request->all());
         $request->session()->flash('info', 'Der Mitarbeiter wurde geändert.');
 
