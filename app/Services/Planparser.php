@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Rawplan;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class Planparser
@@ -78,6 +79,8 @@ class Planparser
         $line_counter = 0;
         foreach ($person_lines as $person_line) {
             if ($line_counter % $this->lines_per_person == 0) {
+                // Trim whitespace, so that the regexp matches dates at the end.
+                $person_line = trim($person_line);
                 // Remove comma, space and end dates from names.
                 $person_line = preg_replace(
                     "/\s*,?\s*[0-9.]+$/",
@@ -291,14 +294,8 @@ class Planparser
     public function validateShifts()
     {
         $result = [];
-        // Calculate length of episode.
-        $plan_lines = explode("\n", $this->rawShifts);
-        // Get first line of plan data.
-        $first_line = $plan_lines[0];
-        // Remove line endings, but not tabs.
-        $first_line = trim($first_line, "\n\r");
         // Count the days in the line
-        $submitted_days = count(explode("\t", $first_line));
+        $submitted_days = count(explode("\t", $this->parsedShifts[0]));
         // The submitted days must be exactly one month.
         // so check that the next day is the first of a month.
         if ($submitted_days > 31) {
@@ -306,44 +303,24 @@ class Planparser
                 $this->formattedMonth .
                 ': Es wurden mehr als 31 Tage in den Schichten gefunden.';
         }
-        $date = date_create($this->formattedMonth . '-01');
-        date_add(
-            $date,
-            date_interval_create_from_date_string($submitted_days . ' days'),
-        );
-        $end_day = date_format($date, 'd');
-        if ($end_day != '01') {
+        $end_day = Carbon::create($this->formattedMonth . '-01')
+            ->addDays($submitted_days)
+            ->isoFormat('D');
+        if ($end_day !== '1') {
             $result[] =
                 $this->formattedMonth .
                 ': Die Anzahl der Tage in den Schichten stimmt nicht mit der Anzahl der Tage des Monats überein.';
-        }
-        // Do not error out if there's one line break appended.
-        if (end($plan_lines) == '') {
-            array_pop($plan_lines);
         }
         // Avoid a division by zero
         if (count($this->parsedNames) == 0) {
             return $result;
         }
-        // Ensure that the number of lines in plan is a multiple of people's lines.
-        if (count($plan_lines) % count($this->parsedNames) != 0) {
-            $result[] =
-                $this->formattedMonth .
-                ': Es wurden mehr Zeilen in den Schichten gefunden als Mitarbeiter vorhanden sind.';
-        }
-        $lines_per_person = count($plan_lines) / count($this->parsedNames);
-        if ($lines_per_person != 1 and $lines_per_person != 3) {
-            $result[] =
-                $this->formattedMonth .
-                ': Die Anzahl der Zeilen in den Schichten muss entweder eine oder drei pro Mitarbeiter sein.';
-        } else {
-            // Try parsing all shifts to detect unknown shifts.
-            foreach ($this->parsedNames as $id => $name) {
-                $shifts = $this->calculateShifts($this->parsedShifts[$id]);
-                if (!is_array($shifts)) {
-                    // Add the error message from calculateShifts().
-                    $result[] = $this->formattedMonth . ': ' . $shifts;
-                }
+        // Try parsing all shifts to detect unknown shifts.
+        foreach ($this->parsedNames as $index => $name) {
+            $shifts = $this->calculateShifts($this->parsedShifts[$index]);
+            if (!is_array($shifts)) {
+                // Add the error message from calculateShifts().
+                $result[] = $this->formattedMonth . ': ' . $shifts;
             }
         }
 
