@@ -50,7 +50,12 @@ $result['people'] = [
     'Hooper, Clark',
 ];
 
-$result['shifts'] = ["1\t2\t3\t4", "a\tb\tc\td", "A\tB\tC\tD", "\t\t\t"];
+$result['shifts'] = [
+    ['1', '2', '3', '4'],
+    ['a', 'b', 'c', 'd'],
+    ['A', 'B', 'C', 'D'],
+    ['', '', '', ''],
+];
 
 test('the planparser removes trailing whitespace (1 line)', function () use (
     $input_one_line,

@@ -109,20 +109,15 @@ class Planparser
             // If there is data in the line, use it.
             if ($plan_index < $number_of_plan_lines) {
                 // Remove line endings, but not tabs.
-                $this->parsedShifts[$index] = trim(
-                    $plan_lines[$plan_index],
-                    "\r\n",
-                );
+                $result = trim($plan_lines[$plan_index], "\r\n");
             } else {
                 // The whitespace line has been removed,
                 // so add tabs for empty shifts.
                 // Count the days in the first line
                 $submitted_days = count(explode("\t", $plan_lines[0]));
-                $this->parsedShifts[$index] = str_repeat(
-                    "\t",
-                    $submitted_days - 1,
-                );
+                $result = str_repeat("\t", $submitted_days - 1);
             }
+            $this->parsedShifts[$index] = explode("\t", $result);
         }
     }
 
@@ -295,7 +290,7 @@ class Planparser
     {
         $result = [];
         // Count the days in the line
-        $submitted_days = count(explode("\t", $this->parsedShifts[0]));
+        $submitted_days = count($this->parsedShifts[0]);
         // The submitted days must be exactly one month.
         // so check that the next day is the first of a month.
         if ($submitted_days > 31) {
