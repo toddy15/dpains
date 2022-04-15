@@ -24,7 +24,10 @@ return new class extends Migration {
             $table->decimal('vk', 4, 3);
             $table->decimal('factor_night', 4, 3);
             $table->decimal('factor_nef', 4, 3);
-            $table->foreignIdFor(Comment::class)->constrained();
+            $table
+                ->foreignIdFor(Comment::class)
+                ->nullable()
+                ->constrained();
             $table->timestamps();
         });
     }

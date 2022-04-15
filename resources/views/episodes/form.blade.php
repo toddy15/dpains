@@ -53,14 +53,13 @@
     @endif
 </div>
 
-<!-- Comment Form Input  -->
-<div class="form-group {{ $errors->has('comment_id') ? 'has-error has-feedback' : '' }}">
-    {!! Form::label('comment_id', 'Bemerkung:', ['class' => 'form-label']) !!}
-    {!! Form::select('comment_id', $comments, null, ['class' => 'form-select']) !!}
-    @if ($errors->has('comment_id'))
-        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-    @endif
-</div>
+<x-label for="comment_id" value="Bemerkung:" />
+<select id="comment_id" name="comment_id" class="form-select" aria-label="Bemerkung">
+    <option value=""></option>
+    @foreach ($comments as $comment)
+        <option value="{{ $comment->id }}" @selected(old('comment_id', $episode->comment_id) == $comment->id)>{{ $comment->comment }}</option>
+    @endforeach
+</select>
 
 <div class="form-group text-center mt-4">
     <!-- Speichern Form Input  -->

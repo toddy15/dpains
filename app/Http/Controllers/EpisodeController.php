@@ -43,13 +43,7 @@ class EpisodeController extends Controller
             $episode->factor_nef = '0.000';
         }
         // Get the comments for the select box
-        $comments = Comment::all()
-            ->pluck('comment', 'id')
-            ->toArray();
-        // Add an empty comment
-        $comments[0] = '--';
-        // Sort by comment, maintaining the index association
-        asort($comments);
+        $comments = Comment::all()->sortBy('comment');
         // Get the staffgroups for the select box
         $staffgroups = Staffgroup::all()
             ->sortBy('weight')
@@ -106,7 +100,7 @@ class EpisodeController extends Controller
         if ($episode['employee_id'] == 0) {
             // This is a new employee, so create a new entry.
             // The BU cycle always starts in the next year.
-            if (Carbon::now()->yearIso % 2 == 0) {
+            if ((int) $request->get('year') % 2 === 0) {
                 // Currently an even year, so start cycle next year (odd)
                 $bu_start = 'odd';
             } else {
@@ -141,13 +135,7 @@ class EpisodeController extends Controller
     {
         $episode = Episode::findOrFail($id);
         // Get the comments for the select box
-        $comments = Comment::all()
-            ->pluck('comment', 'id')
-            ->toArray();
-        // Add an empty comment
-        $comments[0] = '--';
-        // Sort by comment, maintaining the index association
-        asort($comments);
+        $comments = Comment::all()->sortBy('comment');
         // Get the staffgroups for the select box
         $staffgroups = Staffgroup::all()
             ->sortBy('weight')
