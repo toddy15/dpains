@@ -72,7 +72,9 @@ class Planparser
                 break;
             }
         }
-        if ($found_attribute) {
+        // The old plans have all attributes stripped, so
+        // check for an empty line
+        if ($found_attribute or $second_line == '') {
             $this->lines_per_person = 3;
         }
 
@@ -98,26 +100,26 @@ class Planparser
     {
         $plan_lines = explode("\n", $this->rawShifts);
 
+        $number_of_days_in_month = Carbon::create($this->formattedMonth)
+            ->daysInMonth;
+
         // Cycle through all names and get the shifts for that person
-        $number_of_plan_lines = count($plan_lines);
         foreach ($this->parsedNames as $index => $name) {
             if ($this->lines_per_person == 3) {
                 $plan_index = 3 * $index + 1;
             } else {
                 $plan_index = $index;
             }
-            // If there is data in the line, use it.
-            if ($plan_index < $number_of_plan_lines) {
-                // Remove line endings, but not tabs.
-                $result = trim($plan_lines[$plan_index], "\r\n");
-            } else {
-                // The whitespace line has been removed,
-                // so add tabs for empty shifts.
-                // Count the days in the first line
-                $submitted_days = count(explode("\t", $plan_lines[0]));
-                $result = str_repeat("\t", $submitted_days - 1);
+            // Explode shift lines and trim single shifts
+            $result = array_map(
+                'trim',
+                explode("\t", $plan_lines[$plan_index] ?? ''),
+            );
+            // Prepend empty shifts if there are not enough days for the month
+            while (count($result) < $number_of_days_in_month) {
+                array_unshift($result, '');
             }
-            $this->parsedShifts[$index] = explode("\t", $result);
+            $this->parsedShifts[$index] = $result;
         }
     }
 
@@ -298,7 +300,7 @@ class Planparser
                 $this->formattedMonth .
                 ': Es wurden mehr als 31 Tage in den Schichten gefunden.';
         }
-        $end_day = Carbon::create($this->formattedMonth . '-01')
+        $end_day = Carbon::create($this->formattedMonth)
             ->addDays($submitted_days)
             ->isoFormat('D');
         if ($end_day !== '1') {
