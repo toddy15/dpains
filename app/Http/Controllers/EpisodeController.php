@@ -59,6 +59,12 @@ class EpisodeController extends Controller
         // Turn the start_date field into year and month for the form
         [$episode->year, $episode->month] = explode('-', $episode->start_date);
 
+        for ($m = 1; $m <= 12; $m++) {
+            $month_names[$m] = Carbon::create(2022, $m)
+                ->locale('de')
+                ->isoFormat('MMMM');
+        }
+
         return view(
             'episodes.create',
             compact(
@@ -67,6 +73,7 @@ class EpisodeController extends Controller
                 'staffgroups',
                 'start_year',
                 'end_year',
+                'month_names',
             ),
         );
     }
@@ -148,6 +155,12 @@ class EpisodeController extends Controller
         // Turn the start_date field into year and month for the form
         [$episode->year, $episode->month] = explode('-', $episode->start_date);
 
+        for ($m = 1; $m <= 12; $m++) {
+            $month_names[$m] = Carbon::create(2022, $m)
+                ->locale('de')
+                ->isoFormat('MMMM');
+        }
+
         return view(
             'episodes.edit',
             compact(
@@ -156,6 +169,7 @@ class EpisodeController extends Controller
                 'staffgroups',
                 'start_year',
                 'end_year',
+                'month_names',
             ),
         );
     }

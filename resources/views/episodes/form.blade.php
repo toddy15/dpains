@@ -7,15 +7,20 @@
     @endif
 </div>
 
-<!-- Month Form Input  -->
-<div class="form-group">
-    {!! Form::label('month', 'Beginnt im Monat:', ['class' => 'form-label']) !!}
-    <div class="form-inline">
-        {!! Form::selectMonth('month', null, ['class' => 'form-select']) !!}
-        {!! Form::label('year', 'Jahr:', ['class' => 'sr-only form-label']) !!}
-        {!! Form::selectYear('year', $start_year, $end_year, null, ['class' => 'form-select']) !!}
-    </div>
-</div>
+<x-label for="month" value="Beginnt im Monat:" class="col-form-label" />
+<select id="month" name="month" class="form-select" aria-label="Monat">
+    @foreach ($month_names as $number => $month_name)
+        <option value="{{ $number }}" @selected(old('month', $episode->month) == $number)>{{ $month_name }}</option>
+    @endforeach
+</select>
+
+<x-label for="year" value="Jahr:" class="col-form-label" />
+<select id="year" name="year" class="form-select" aria-label="Jahr">
+    @for ($y = $start_year; $y <= $end_year; $y++)
+        <option @selected(old('year', $episode->year) == $y)>{{ $y }}</option>
+    @endfor
+</select>
+
 
 <!-- Staffgroup Form Input  -->
 <div class="form-group {{ $errors->has('staffgroup_id') ? 'has-error has-feedback' : '' }}">
