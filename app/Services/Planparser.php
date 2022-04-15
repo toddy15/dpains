@@ -306,10 +306,6 @@ class Planparser
                 $this->formattedMonth .
                 ': Die Anzahl der Tage in den Schichten stimmt nicht mit der Anzahl der Tage des Monats überein.';
         }
-        // Avoid a division by zero
-        if (count($this->parsedNames) == 0) {
-            return $result;
-        }
         // Try parsing all shifts to detect unknown shifts.
         foreach ($this->parsedNames as $index => $name) {
             $shifts = $this->calculateShifts($this->parsedShifts[$index]);
