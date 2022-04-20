@@ -1,9 +1,9 @@
 <x-label for="staffgroup" value="Mitarbeitergruppe:" />
-<x-input value="{{ old('staffgroup', $staffgroup->staffgroup ?? '') }}" name="staffgroup" id="staffgroup" required
-    autofocus invalid="{{ $errors->has('staffgroup') }}" />
+<x-input value="{{ old('staffgroup', $staffgroup ?? '') }}" name="staffgroup" id="staffgroup" required autofocus
+    invalid="{{ $errors->has('staffgroup') }}" />
 
 <x-label for="weight" value="Reihenfolge:" />
-<x-input type="number" value="{{ old('weight', $staffgroup->weight ?? '') }}" name="weight" id="weight" required
+<x-input type="number" value="{{ old('weight', $staffgroup ?? '') }}" name="weight" id="weight" required
     invalid="{{ $errors->has('weight') }}" />
 
 <div class="form-group text-center mt-4">

@@ -28,7 +28,7 @@
                     <x-label for="email" value="E-Mail:" class="col-sm-2 col-form-label" />
                     <div class="col-sm-10">
                         <div class="input-group">
-                            <x-input value="{{ old('email', '') }}" name="email" id="email" required autofocus
+                            <x-input value="{{ old('email') }}" name="email" id="email" required autofocus
                                 placeholder="name" aria-label="E-Mail des Benutzers" aria-describedby="domain-addon" />
                             <span class="input-group-text" id="domain-addon">@asklepios.com</span>
                         </div>

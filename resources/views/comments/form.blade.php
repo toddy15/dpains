@@ -1,5 +1,5 @@
 <x-label for="comment" value="Bemerkung:" />
-<x-input value="{{ old('comment', $comment->comment ?? '') }}" name="comment" id="comment" required autofocus
+<x-input value="{{ old('comment', $comment ?? '') }}" name="comment" id="comment" required autofocus
     invalid="{{ $errors->has('comment') }}" />
 
 <div class="form-group text-center mt-4">
