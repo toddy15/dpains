@@ -3,8 +3,9 @@
 @section('content')
     <h1>Mitarbeitergruppen</h1>
     <p>
-        <a class="btn btn-primary" href="{{ action('App\Http\Controllers\StaffgroupController@create') }}">Neue
-            Mitarbeitergruppe erstellen</a>
+        <x-link-button class="btn btn-primary" href="{{ route('staffgroups.create') }}">
+            Neue Mitarbeitergruppe erstellen
+        </x-link-button>
     </p>
     <table class="table table-striped">
         <thead>
@@ -17,8 +18,10 @@
                 <tr>
                     <td>{{ $staffgroup->staffgroup }}</td>
                     <td>{{ $staffgroup->weight }}</td>
-                    <td><a class="btn btn-primary"
-                            href="{{ action('App\Http\Controllers\StaffgroupController@edit', $staffgroup->id) }}">Bearbeiten</a>
+                    <td>
+                        <x-link-button class="btn btn-primary" href="{{ route('staffgroups.edit', $staffgroup) }}">
+                            Bearbeiten
+                        </x-link-button>
                     </td>
                 </tr>
             @endforeach
