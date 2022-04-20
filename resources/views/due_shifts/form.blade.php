@@ -2,7 +2,12 @@
 <x-input name="year" id="year" value="{{ old('year', $due_shift ?? '') }}" invalid="{{ $errors->has('year') }}" />
 
 <x-label for="staffgroup_id" value="Mitarbeitergruppe:" />
-{!! Form::select('staffgroup_id', $staffgroups, null, ['class' => 'form-select']) !!}
+<select id="staffgroup_id" name="staffgroup_id" class="form-select" aria-label="Mitarbeitergruppe">
+    @foreach ($staffgroups as $staffgroup)
+        <option value="{{ $staffgroup->id }}" @selected(old('staffgroup_id', $due_shift ?? '') == $staffgroup->id)>{{ $staffgroup->staffgroup }}</option>
+    @endforeach
+</select>
+
 
 <x-label for="nights" value="Nächte:" />
 <x-input name="nights" id="nights" type="number" value="{{ old('nights', $due_shift ?? '') }}"
