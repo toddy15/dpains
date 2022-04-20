@@ -29,11 +29,15 @@
                     <td>{{ $episode->factor_nef }}</td>
                     <td>{{ $episode->comment['comment'] ?? '' }}</td>
                     <td>
-                        {!! Form::open(['action' => ['App\Http\Controllers\EpisodeController@destroy', $episode->id], 'method' => 'delete']) !!}
-                        <a class="btn btn-primary"
-                            href="{{ action('App\Http\Controllers\EpisodeController@edit', $episode->id) }}">Bearbeiten</a>
-                        {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
-                        {!! Form::close() !!}
+                        <form action="{{ route('episodes.destroy', $episode) }}" method="post">
+                            @csrf
+                            @method('DELETE')
+
+                            <x-link-button href="{{ route('episodes.edit', $episode) }}" class="btn-primary">
+                                Bearbeiten
+                            </x-link-button>
+                            <x-button class="btn-danger">Löschen</x-button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
