@@ -1,24 +1,12 @@
-<!-- Staffgroup Form Input  -->
-<div class="form-group {{ $errors->has('staffgroup') ? 'has-error has-feedback' : '' }}">
-    {!! Form::label('staffgroup', 'Mitarbeitergruppe:', ['class' => 'form-label']) !!}
-    {!! Form::text('staffgroup', null, ['class' => 'form-control']) !!}
-    @if ($errors->has('staffgroup'))
-        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-    @endif
-</div>
+<x-label for="staffgroup" value="Mitarbeitergruppe:" />
+<x-input value="{{ old('staffgroup', $staffgroup->staffgroup ?? '') }}" name="staffgroup" id="staffgroup" required
+    autofocus invalid="{{ $errors->has('staffgroup') }}" />
 
-<!-- Weight Form Input  -->
-<div class="form-group {{ $errors->has('weight') ? 'has-error has-feedback' : '' }}">
-    {!! Form::label('weight', 'Reihenfolge:', ['class' => 'form-label']) !!}
-    {!! Form::input('number', 'weight', null, ['class' => 'form-control']) !!}
-    @if ($errors->has('weight'))
-        <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-    @endif
-</div>
+<x-label for="weight" value="Reihenfolge:" />
+<x-input type="number" value="{{ old('weight', $staffgroup->weight ?? '') }}" name="weight" id="weight" required
+    invalid="{{ $errors->has('weight') }}" />
 
 <div class="form-group text-center mt-4">
-    <!-- Speichern Form Input  -->
-    {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
-    <!-- Cancel Button -->
-    <a class="btn btn-secondary" href="{{ $cancel_url }}">Abbrechen</a>
+    <x-button>Speichern</x-button>
+    <x-link-button href="{{ route('staffgroups.index') }}" class="btn-secondary">Abbrechen</x-link-button>
 </div>
