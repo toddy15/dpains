@@ -6,7 +6,9 @@
 
     @if ($hash)
         <!-- Show logout button -->
-        <a class="btn btn-primary" href="{{ action('App\Http\Controllers\AnonController@logout', $hash) }}">Abmelden</a>
+        <x-link-button href="{{ action('App\Http\Controllers\AnonController@logout', $hash) }}" class="btn btn-primary">
+            Abmelden
+        </x-link-button>
     @else
         <p>
             Um Zugriff auf die Auswertungen der Dienste zu bekommen,
@@ -19,21 +21,22 @@
         </p>
 
         <div class="text-center">
-            {!! Form::open(['action' => 'App\Http\Controllers\AnonController@requestNewHashPerMail']) !!}
+            <form action="{{ route('anon.newHash') }}" method="POST">
+                @csrf
 
-            <div class="row mb-4">
-                {!! Form::label('email', 'E-Mail:', ['class' => 'col-sm-2 col-form-label']) !!}
-                <div class="col-sm-10">
-                    <div class="input-group">
-                        {!! Form::text('email', null, ['class' => 'form-control', 'placeholder' => 'name', 'autofocus' => 'autofocus', 'aria-label' => 'Recipient\'s username', 'aria-describedby' => 'domain-addon']) !!}
-                        <span class="input-group-text" id="domain-addon">@asklepios.com</span>
+                <div class="row mb-4">
+                    <x-label for="email" value="E-Mail:" class="col-sm-2 col-form-label" />
+                    <div class="col-sm-10">
+                        <div class="input-group">
+                            <x-input value="{{ old('email', '') }}" name="email" id="email" required autofocus
+                                placeholder="name" aria-label="E-Mail des Benutzers" aria-describedby="domain-addon" />
+                            <span class="input-group-text" id="domain-addon">@asklepios.com</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <x-button>Freischalten</x-button>
+            </form>
 
-            {!! Form::submit('Freischalten', ['class' => 'btn btn-primary']) !!}
-
-            {!! Form::close() !!}
         </div>
     @endif
 @endsection

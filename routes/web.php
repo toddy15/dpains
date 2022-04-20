@@ -94,7 +94,7 @@ Route::get(
 Route::post(
     'anon/newHash',
     'App\Http\Controllers\AnonController@requestNewHashPerMail',
-);
+)->name('anon.newHash');
 Route::get(
     'anon/{year}/{hash}',
     'App\Http\Controllers\AnonController@showYear',
