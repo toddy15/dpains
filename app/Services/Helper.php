@@ -457,23 +457,22 @@ class Helper
             $direction = 'asc';
         }
         // Create link
-        $link = link_to_action(
-            'App\Http\Controllers\ReportController@showYear',
-            $body,
-            ['year' => $year, 'sort' => $column, 'direction' => $direction],
-        );
         if ($hash) {
-            $link = link_to_action(
-                'App\Http\Controllers\AnonController@showYear',
-                $body,
-                [
-                    'year' => $year,
-                    'hash' => $hash,
-                    'sort' => $column,
-                    'direction' => $direction,
-                ],
-            );
+            $url = route('anon.showYear', [
+                'year' => $year,
+                'hash' => $hash,
+                'sort' => $column,
+                'direction' => $direction,
+            ]);
+        } else {
+            $url = route('reports.showYear', [
+                'year' => $year,
+                'sort' => $column,
+                'direction' => $direction,
+            ]);
         }
+        $link = '<a href="' . $url . '">' . $body . '</a>';
+
         // Append arrows to the current sorted column
         if ($column == $currentColumn) {
             if ($currentDirection == 'asc') {

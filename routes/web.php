@@ -68,7 +68,9 @@ Route::middleware([Authenticate::class])->group(function () {
     Route::get(
         'report/{year}',
         'App\Http\Controllers\ReportController@showYear',
-    )->where(['year' => '[0-9]+']);
+    )
+        ->where(['year' => '[0-9]+'])
+        ->name('reports.showYear');
     Route::get(
         'report/buandcon/{year}',
         'App\Http\Controllers\ReportController@showBuAndCon',
@@ -95,7 +97,6 @@ Route::post(
     'anon/newHash',
     'App\Http\Controllers\AnonController@requestNewHashPerMail',
 )->name('anon.newHash');
-Route::get(
-    'anon/{year}/{hash}',
-    'App\Http\Controllers\AnonController@showYear',
-)->where(['year' => '[0-9]+']);
+Route::get('anon/{year}/{hash}', 'App\Http\Controllers\AnonController@showYear')
+    ->where(['year' => '[0-9]+'])
+    ->name('anon.showYear');
