@@ -3,32 +3,23 @@
 @section('content')
     <h1>{{ $employee->name }}</h1>
 
-    {!! Form::model($employee, ['method' => 'PUT', 'action' => ['App\Http\Controllers\EmployeeController@update', $employee->id]]) !!}
+    <form action="{{ route('employees.update', $employee) }}" method="post">
+        @csrf
+        @method('PUT')
 
-    <!-- email Form Input  -->
-    <div class="form-group {{ $errors->has('email') ? 'has-error has-feedback' : '' }}">
-        {!! Form::label('email', 'E-Mail:', ['class' => 'form-label']) !!}
-        {!! Form::text('email', null, ['class' => 'form-control']) !!}
-        @if ($errors->has('email'))
-            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-        @endif
-    </div>
+        <x-label for="email" value="E-Mail:" />
+        <x-input name="email" id="email" value="{{ old('email', $employee) }}" invalid="{{ $errors->has('email') }}" />
 
-    <!-- BU Form Input  -->
-    <div class="form-group {{ $errors->has('bu_start') ? 'has-error has-feedback' : '' }}">
-        {!! Form::label('bu_start', 'BU-Beginn:', ['class' => 'form-label']) !!}
-        {!! Form::select('bu_start', $bu, null, ['class' => 'form-select']) !!}
-        @if ($errors->has('bu_start'))
-            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
-        @endif
-    </div>
+        <x-label for="bu_start" value="BU-Beginn:" />
+        <select id="bu_start" name="bu_start" class="form-select">
+            @foreach ($bu as $value => $text)
+                <option value="{{ $value }}" @selected(old('bu_start', $employee) == $value)>{{ $text }}</option>
+            @endforeach
+        </select>
 
-    <div class="form-group text-center mt-4">
-        <!-- Speichern Form Input  -->
-        {!! Form::submit('Speichern', ['class' => 'btn btn-primary']) !!}
-        <!-- Cancel Button -->
-        <a class="btn btn-secondary" href="{{ action('App\Http\Controllers\EmployeeController@index') }}">Abbrechen</a>
-    </div>
-
-    {!! Form::close() !!}
+        <div class="form-group text-center mt-4">
+            <x-button>Speichern</x-button>
+            <x-link-button href="{{ route('employees.index') }}" class="btn-secondary">Abbrechen</x-link-button>
+        </div>
+    </form>
 @endsection

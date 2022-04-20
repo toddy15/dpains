@@ -53,9 +53,12 @@
                     <td>{{ $rawplan->updated_at }}</td>
                     <td>{{ $rawplan->anon_report ? 'Ja' : 'Nein' }}</td>
                     <td>
-                        {!! Form::open(['action' => ['App\Http\Controllers\RawplanController@destroy', $rawplan->id], 'method' => 'delete']) !!}
-                        {!! Form::submit('Löschen', ['class' => 'btn btn-danger']) !!}
-                        {!! Form::close() !!}
+                        <form action="{{ route('rawplans.destroy', $rawplan) }}">
+                            @csrf
+                            @method('DELETE')
+
+                            <x-button class="btn-danger">Löschen</x-button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
