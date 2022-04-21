@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\Staffgroup;
 use App\Models\User;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
@@ -17,5 +18,10 @@ test('a user can access protected pages', function () {
 
     get(route('employees.index'))->assertOk();
     get(route('rawplans.index'))->assertOk();
+
+    // @TODO: Could this be rewritten to not require a 'WB' group?
+    Staffgroup::factory()
+        ->set('staffgroup', 'WB')
+        ->create();
     get(route('episodes.create'))->assertOk();
 });
