@@ -20,16 +20,18 @@ class Planparser
      * If called with a rawInput array, this is always $request->all().
      *
      * @param string $formattedMonth
-     * @param array $rawInput
+     * @param string $people
+     * @param string $shifts
      */
-    public function __construct(public string $formattedMonth, array $rawInput)
-    {
-        $this->rawNames = $rawInput['people'];
-        $this->rawShifts = $rawInput['shifts'];
-
+    public function __construct(
+        public string $formattedMonth,
+        public string $people,
+        public string $shifts,
+    ) {
+        // @TODO: Refactor to use people and shifts directly
         // Trim the input's newlines
-        $this->rawNames = trim($this->rawNames, "\r\n");
-        $this->rawShifts = trim($this->rawShifts, "\r\n");
+        $this->rawNames = trim($people, "\r\n");
+        $this->rawShifts = trim($shifts, "\r\n");
 
         $this->parseNames();
         $this->parseShifts();

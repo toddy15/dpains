@@ -3,19 +3,19 @@
 use App\Services\Planparser;
 
 // Set up some fake data
-$input_one_line['people'] = "Ward, Layla
+$input_one_line_people = "Ward, Layla
 Palmer, Kenna
 Pratt, Terry
 Hooper, Clark
 ";
 
-$input_one_line['shifts'] = "1\t2\t3\t4
+$input_one_line_shifts = "1\t2\t3\t4
 a\tb\tc\td
 A\tB\tC\tD
 \t\t\t
 ";
 
-$input_three_lines['people'] = "Ward, Layla
+$input_three_lines_people = "Ward, Layla
 Chefarzt, SpWB INT
 
 Palmer, Kenna
@@ -29,7 +29,7 @@ FA
 
 ";
 
-$input_three_lines['shifts'] = "1p\t2p\t3p\t4p
+$input_three_lines_shifts = "1p\t2p\t3p\t4p
 1\t2\t3\t4
 
 ap\tbp\tcp\tdp
@@ -182,47 +182,61 @@ $result['shifts'] = [
 ];
 
 test('the planparser removes trailing whitespace (1 line)', function () use (
-    $input_one_line,
+    $input_one_line_people,
+    $input_one_line_shifts,
 ) {
-    $p = new Planparser('2022-04', $input_one_line);
+    $p = new Planparser(
+        '2022-04',
+        $input_one_line_people,
+        $input_one_line_shifts,
+    );
     expect($p)->toBeInstanceOf(Planparser::class);
 
     // The last newline should have been removed
     expect($p->rawNames)
         ->not()
-        ->toBe($input_one_line['people']);
-    expect($p->rawNames . "\n")->toBe($input_one_line['people']);
+        ->toBe($input_one_line_people);
+    expect($p->rawNames . "\n")->toBe($input_one_line_people);
 
     // The last newline should have been removed
     expect($p->rawShifts)
         ->not()
-        ->toBe($input_one_line['shifts']);
-    expect($p->rawShifts . "\n")->toBe($input_one_line['shifts']);
+        ->toBe($input_one_line_shifts);
+    expect($p->rawShifts . "\n")->toBe($input_one_line_shifts);
 });
 
 test('the planparser removes trailing whitespace (3 lines)', function () use (
-    $input_three_lines,
+    $input_three_lines_people,
+    $input_three_lines_shifts,
 ) {
-    $p = new Planparser('2022-04', $input_three_lines);
+    $p = new Planparser(
+        '2022-04',
+        $input_three_lines_people,
+        $input_three_lines_shifts,
+    );
     expect($p)->toBeInstanceOf(Planparser::class);
 
     // The last newline should have been removed
     expect($p->rawNames)
         ->not()
-        ->toBe($input_three_lines['people']);
-    expect($p->rawNames . "\n\n")->toBe($input_three_lines['people']);
+        ->toBe($input_three_lines_people);
+    expect($p->rawNames . "\n\n")->toBe($input_three_lines_people);
 
     // The last newline should have been removed
     expect($p->rawShifts)
         ->not()
-        ->toBe($input_three_lines['shifts']);
-    expect($p->rawShifts . "\n\n")->toBe($input_three_lines['shifts']);
+        ->toBe($input_three_lines_shifts);
+    expect($p->rawShifts . "\n\n")->toBe($input_three_lines_shifts);
 });
 
 test(
     'the planparser adds empty lines for removed trailing whitespace (1 line)',
-    function () use ($input_one_line, $result) {
-        $p = new Planparser('2022-04', $input_one_line);
+    function () use ($input_one_line_people, $input_one_line_shifts, $result) {
+        $p = new Planparser(
+            '2022-04',
+            $input_one_line_people,
+            $input_one_line_shifts,
+        );
 
         expect($p->parsedNames)->toBe($result['people']);
         expect($p->parsedShifts)->toBe($result['shifts']);
@@ -231,8 +245,16 @@ test(
 
 test(
     'the planparser adds empty lines for removed trailing whitespace (3 lines)',
-    function () use ($input_three_lines, $result) {
-        $p = new Planparser('2022-04', $input_three_lines);
+    function () use (
+        $input_three_lines_people,
+        $input_three_lines_shifts,
+        $result,
+    ) {
+        $p = new Planparser(
+            '2022-04',
+            $input_three_lines_people,
+            $input_three_lines_shifts,
+        );
 
         expect($p->parsedNames)->toBe($result['people']);
         expect($p->parsedShifts)->toBe($result['shifts']);
@@ -240,20 +262,30 @@ test(
 );
 
 test('the planparser returns planned shifts (1 line)', function () use (
-    $input_one_line,
+    $input_one_line_people,
+    $input_one_line_shifts,
     $result,
 ) {
-    $p = new Planparser('2022-04', $input_one_line);
+    $p = new Planparser(
+        '2022-04',
+        $input_one_line_people,
+        $input_one_line_shifts,
+    );
 
     expect($p->parsedNames)->toBe($result['people']);
     expect($p->parsedShifts)->toBe($result['shifts']);
 });
 
 test('the planparser returns worked shifts (3 lines)', function () use (
-    $input_three_lines,
+    $input_three_lines_people,
+    $input_three_lines_shifts,
     $result,
 ) {
-    $p = new Planparser('2022-04', $input_three_lines);
+    $p = new Planparser(
+        '2022-04',
+        $input_three_lines_people,
+        $input_three_lines_shifts,
+    );
 
     expect($p->parsedNames)->toBe($result['people']);
     expect($p->parsedShifts)->toBe($result['shifts']);

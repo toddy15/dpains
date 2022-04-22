@@ -131,7 +131,11 @@ class RawplanController extends Controller
             $request->get('year'),
             $request->get('month'),
         );
-        $planparser = new Planparser($month, $request->all());
+        $planparser = new Planparser(
+            $month,
+            $request->get('people'),
+            $request->get('shifts'),
+        );
         // Extend with custom validation rules
         // In the first attempt to validate, check for
         // recognized people and shifts.
