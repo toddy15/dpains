@@ -10,6 +10,7 @@ use function Pest\Laravel\get;
 test('a guest cannot access protected pages', function () {
     get(route('employees.index'))->assertRedirect(route('login'));
     get(route('rawplans.index'))->assertRedirect(route('login'));
+    get(route('rawplans.create'))->assertRedirect(route('login'));
     get(route('episodes.create'))->assertRedirect(route('login'));
 });
 
@@ -18,6 +19,8 @@ test('a user can access protected pages', function () {
 
     get(route('employees.index'))->assertOk();
     get(route('rawplans.index'))->assertOk();
+    // @TODO: This gets a time out
+    //    get(route('rawplans.create'))->assertOk();
 
     // @TODO: Could this be rewritten to not require a 'WB' group?
     Staffgroup::factory()
