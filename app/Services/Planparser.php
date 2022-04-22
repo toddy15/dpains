@@ -18,24 +18,14 @@ class Planparser
      * Planparser constructor.
      *
      * If called with a rawInput array, this is always $request->all().
-     * If there is no rawInput array, fetch the data from the DB.
      *
      * @param string $formattedMonth
-     * @param array|null $rawInput
+     * @param array $rawInput
      */
-    public function __construct(
-        public string $formattedMonth,
-        array $rawInput = null,
-    ) {
-        // Ensure that there is data for names and shifts.
-        if (!empty($rawInput)) {
-            $this->rawNames = $rawInput['people'];
-            $this->rawShifts = $rawInput['shifts'];
-        } else {
-            $rawplan = Rawplan::where('month', $this->formattedMonth)->first();
-            $this->rawNames = $rawplan->people;
-            $this->rawShifts = $rawplan->shifts;
-        }
+    public function __construct(public string $formattedMonth, array $rawInput)
+    {
+        $this->rawNames = $rawInput['people'];
+        $this->rawShifts = $rawInput['shifts'];
 
         // Trim the input's newlines
         $this->rawNames = trim($this->rawNames, "\r\n");

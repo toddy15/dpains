@@ -252,7 +252,10 @@ class ReportController extends Controller
         // everything can be parsed without errors
         $error_messages = [];
         foreach ($recalculation_months as $month) {
-            $planparser = new Planparser($month);
+            $rawInput = Rawplan::where('month', $month)
+                ->first()
+                ->only(['people', 'shifts']);
+            $planparser = new Planparser($month, $rawInput);
             $error_messages[] = $planparser->validatePeople();
             $error_messages[] = $planparser->validateShifts();
         }
@@ -261,7 +264,10 @@ class ReportController extends Controller
         // Only store the new calculation if there are no errors
         if (!$errors->count()) {
             foreach ($recalculation_months as $month) {
-                $planparser = new Planparser($month);
+                $rawInput = Rawplan::where('month', $month)
+                    ->first()
+                    ->only(['people', 'shifts']);
+                $planparser = new Planparser($month, $rawInput);
                 $planparser->storeShiftsForPeople();
             }
             $request
