@@ -37,9 +37,9 @@ class Planparser
             $this->rawShifts = $rawplan->shifts;
         }
 
-        // Trim the input, as Laravel does this by default now
-        $this->rawNames = trim($this->rawNames);
-        $this->rawShifts = trim($this->rawShifts);
+        // Trim the input's newlines
+        $this->rawNames = trim($this->rawNames, "\r\n");
+        $this->rawShifts = trim($this->rawShifts, "\r\n");
 
         $this->parseNames();
         $this->parseShifts();
@@ -60,7 +60,7 @@ class Planparser
             'Chefarzt',
             'Chefarzt-V',
             'OA',
-            'ASS\/FA',
+            'ASS/FA',
             'FA-ÄD_1',
             'FA',
             'Ass-Arzt',
@@ -89,6 +89,10 @@ class Planparser
                     '',
                     $person_line,
                 );
+                // Skip empty lines
+                if (empty($person_line)) {
+                    continue;
+                }
                 // Finally, add the name to list.
                 $this->parsedNames[] = trim($person_line);
             }
