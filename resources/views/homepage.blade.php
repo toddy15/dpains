@@ -2,7 +2,7 @@
 
 @section('content')
     <h1>Dienstplan AN</h1>
-    <p>Hier geht es zum <a href="https://mail.asklepios.com/">Asklepios Webmail-Service</a>.</p>
+    <p>Hier geht es zum <a href="https://mail.asklepios.com/owa/">Asklepios Webmail-Service</a>.</p>
 
     @if ($hash)
         <!-- Show logout button -->
