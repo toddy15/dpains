@@ -12,7 +12,7 @@
     @else
         <p>
             Um Zugriff auf die Auswertungen der Dienste zu bekommen,
-            kannst Du Dich freischalten lassen. Hierfür einfach in das
+            kannst du dich freischalten lassen. Hierfür einfach in das
             Feld die E-Mail-Adresse eintragen und einen neuen
             Zugriffscode anfordern.
         </p>
