@@ -1,14 +1,14 @@
 @component('mail::message')
-    # Neuer Zugriffscode
+# Neuer Zugriffscode
 
-    Hallo,
+Hallo,
 
-    unter dieser URL kannst Du Deine Daten einsehen:
+unter dieser URL kannst du deine Daten ansehen:
 
-    @component('mail::button', ['url' => $url])
-        Auswertung ansehen
-    @endcomponent
+@component('mail::button', ['url' => $url])
+    Auswertung ansehen
+@endcomponent
 
-    Schönen Gruß<br>
-    {{ config('app.name') }}
+Schönen Gruß<br>
+{{ config('app.name') }}
 @endcomponent

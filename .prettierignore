@@ -3,6 +3,8 @@
 /public/storage
 /storage/*.key
 /vendor
+# Do not reformat blade templates with markdown
+/resources/views/mail
 .env
 .env.backup
 .phpunit.result.cache
