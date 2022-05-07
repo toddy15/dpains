@@ -28,14 +28,11 @@
 
         <x-label for="people" value="Mitarbeiter:" />
         <x-textarea id="people" name="people" cols="50" rows="10" autofocus required
-            invalid="{{ $errors->has('people') }}">
-            {{ old('people') }}
-        </x-textarea>
+            invalid="{{ $errors->has('people') }}" value="{{ old('people') }}" />
 
         <x-label for="shifts" value="Schichten:" />
-        <x-textarea id="shifts" name="shifts" cols="50" rows="10" required invalid="{{ $errors->has('shifts') }}">
-            {{ old('shifts') }}
-        </x-textarea>
+        <x-textarea id="shifts" name="shifts" cols="50" rows="10" required invalid="{{ $errors->has('shifts') }}"
+            value="{{ old('shifts') }}" />
 
         <div class="form-group text-center mt-4">
             <x-button>Speichern</x-button>
