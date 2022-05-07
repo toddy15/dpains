@@ -47,7 +47,7 @@ class Planparser
         // the number of lines per person is 1.
         // Otherwise, if the second line is an attribute,
         // the lines per person are 3.
-        $second_line = trim($person_lines[1]);
+        $second_line = trim($person_lines[1] ?? $person_lines[0]);
         $attributes = [
             'Chefarzt',
             'Chefarzt-V',
@@ -112,9 +112,9 @@ class Planparser
                 explode("\t", $plan_lines[$plan_index] ?? ''),
             );
             // Prepend empty shifts if there are not enough days for the month
-            while (count($result) < $number_of_days_in_month) {
-                array_unshift($result, '');
-            }
+            //            while (count($result) < $number_of_days_in_month) {
+            //                array_unshift($result, '');
+            //            }
             $this->parsedShifts[$index] = $result;
         }
     }
@@ -303,6 +303,17 @@ class Planparser
             $result[] =
                 $this->formattedMonth .
                 ': Die Anzahl der Tage in den Schichten stimmt nicht mit der Anzahl der Tage des Monats überein.';
+        }
+        // Do not error out if there's one line break appended.
+        $shift_lines = count(explode("\n", $this->rawShifts));
+        $people_lines = count(explode("\n", $this->rawNames));
+        if (
+            $shift_lines !== $people_lines and
+            $shift_lines - 1 !== $people_lines
+        ) {
+            $result[] =
+                $this->formattedMonth .
+                ': Die Anzahl der Zeilen in den Schichten muss entweder eine oder drei pro Mitarbeiter sein.';
         }
         // Try parsing all shifts to detect unknown shifts.
         foreach ($this->parsedNames as $index => $name) {
