@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DueShiftController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EpisodeController;
+use App\Http\Controllers\PastEmployeeController;
 use App\Http\Controllers\RawplanController;
 use App\Http\Controllers\StaffgroupController;
 use App\Http\Middleware\Authenticate;
@@ -56,10 +57,9 @@ Route::middleware([Authenticate::class])->group(function () {
         'employees/vk/{which_vk}/{year}',
         'App\Http\Controllers\EmployeeController@showVKForYear',
     )->where(['year' => '[0-9]+']);
-    Route::get(
-        'employees/past',
-        'App\Http\Controllers\EmployeeController@showPastEmployees',
-    );
+    Route::resource('employees/past', PastEmployeeController::class)->only([
+        'index',
+    ]);
 
     Route::get(
         'report/{year}/{month}',

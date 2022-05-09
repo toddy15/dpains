@@ -55,6 +55,7 @@
         </tbody>
     </table>
 
-    <a class="btn btn-primary" href="{{ action('App\Http\Controllers\EmployeeController@showPastEmployees') }}">Frühere
-        Mitarbeiter anzeigen</a>
+    <a class="btn btn-primary" href="{{ route('past.index') }}">
+        Frühere Mitarbeiter anzeigen
+    </a>
 @endsection
