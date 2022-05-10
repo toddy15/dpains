@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DueShiftController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EmployeeEpisodeController;
 use App\Http\Controllers\EpisodeController;
 use App\Http\Controllers\PastEmployeeController;
 use App\Http\Controllers\RawplanController;
@@ -45,10 +46,7 @@ Route::middleware([Authenticate::class])->group(function () {
         'show',
         'destroy',
     ]);
-    Route::get(
-        'employees/{id}/episodes',
-        'App\Http\Controllers\EmployeeController@showEpisodes',
-    );
+    Route::resource('employees.episodes', EmployeeEpisodeController::class);
     Route::get(
         'employees/month/{year}/{month}',
         'App\Http\Controllers\EmployeeController@showMonth',

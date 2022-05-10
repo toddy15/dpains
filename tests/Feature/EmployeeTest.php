@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\EmployeeEpisodeController;
 use App\Models\Employee;
 use App\Models\Episode;
 use App\Models\User;
@@ -37,12 +38,7 @@ test('a user can access pages', function () {
         ),
     )->assertOk();
 
-    get(
-        action(
-            [EmployeeController::class, 'showEpisodes'],
-            ['id' => $employee->id],
-        ),
-    )->assertOk();
+    get(route('employees.episodes.index', $employee))->assertOk();
 });
 
 test('a user can view the VK for a year', function () {

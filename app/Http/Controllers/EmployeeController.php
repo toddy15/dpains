@@ -104,27 +104,6 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Show all episodes for the given employee id.
-     *
-     * @param int $id
-     * @return View
-     */
-    public function showEpisodes(int $id): View
-    {
-        $employee = Employee::findOrFail($id);
-        $episodes = $employee
-            ->episodes()
-            ->oldest('start_date')
-            ->get();
-        $latest_name = $employee->name;
-
-        return view(
-            'employees.show_episodes',
-            compact('episodes', 'id', 'latest_name'),
-        );
-    }
-
-    /**
      * Show the employees working in the given month with their
      * calculated night shifts and nef shifts.
      *
@@ -145,12 +124,12 @@ class EmployeeController extends Controller
             ->isoFormat('MMMM YYYY');
         // Generate the next and previous month urls
         $next_month_url = Helper::getNextMonthUrl(
-            'employee/month/',
+            'employees/month/',
             $year,
             $month,
         );
         $previous_month_url = Helper::getPreviousMonthUrl(
-            'employee/month/',
+            'employees/month/',
             $year,
             $month,
         );
@@ -183,11 +162,11 @@ class EmployeeController extends Controller
         Helper::sumUpVKForYear($which_vk, $year, $staffgroups, $vk_per_month);
         // Generate the next and previous year urls
         $next_year_url = Helper::getNextYearUrl(
-            'employee/vk/' . $which_vk . '/',
+            'employees/vk/' . $which_vk . '/',
             $year,
         );
         $previous_year_url = Helper::getPreviousYearUrl(
-            'employee/vk/' . $which_vk . '/',
+            'employees/vk/' . $which_vk . '/',
             $year,
         );
 

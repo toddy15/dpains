@@ -120,12 +120,9 @@ class EpisodeController extends Controller
         Episode::create($episode);
         $request->session()->flash('info', 'Der Eintrag wurde gespeichert.');
 
-        return redirect(
-            action(
-                [EmployeeController::class, 'showEpisodes'],
-                ['id' => $episode['employee_id']],
-            ),
-        );
+        return to_route('employees.episodes.index', [
+            'employee' => $episode['employee_id'],
+        ]);
     }
 
     /**
@@ -186,12 +183,9 @@ class EpisodeController extends Controller
         $episode->update($request->all());
         $request->session()->flash('info', 'Der Eintrag wurde geändert.');
 
-        return redirect(
-            action(
-                [EmployeeController::class, 'showEpisodes'],
-                ['id' => $episode->employee_id],
-            ),
-        );
+        return to_route('employees.episodes.index', [
+            'employee' => $episode->employee_id,
+        ]);
     }
 
     /**
@@ -217,11 +211,8 @@ class EpisodeController extends Controller
             return redirect(action([EmployeeController::class, 'index']));
         }
 
-        return redirect(
-            action(
-                [EmployeeController::class, 'showEpisodes'],
-                ['id' => $episode->employee_id],
-            ),
-        );
+        return to_route('employees.episodes.index', [
+            'employee' => $episode->employee_id,
+        ]);
     }
 }

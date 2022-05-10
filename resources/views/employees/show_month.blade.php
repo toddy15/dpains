@@ -35,7 +35,7 @@
                         <td>{{ $episode->factor_nef }}</td>
                         <td>{{ $episode->comment }}</td>
                         <td><a class="btn btn-primary"
-                                href="{{ action('App\Http\Controllers\EmployeeController@showEpisodes', $episode->employee_id) }}">Bearbeiten</a>
+                                href="{{ route('employees.episodes.index', $episode->employee_id) }}">Bearbeiten</a>
                         </td>
                     </tr>
                 @endforeach
@@ -65,7 +65,7 @@
                     <td>{{ $episode->factor_nef }}</td>
                     <td>{{ $episode->comment }}</td>
                     <td><a class="btn btn-primary"
-                            href="{{ action('App\Http\Controllers\EmployeeController@showEpisodes', $episode->employee_id) }}">Bearbeiten</a>
+                            href="{{ route('employees.episodes.index', $episode->employee_id) }}">Bearbeiten</a>
                     </td>
                 </tr>
             @endforeach
