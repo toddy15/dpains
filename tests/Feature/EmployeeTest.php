@@ -22,10 +22,73 @@ test('a user can access pages', function () {
             'email' => $employee->email,
         ]),
     )->assertRedirect(route('employees.index'));
+
+    get(
+        action(
+            [EmployeeController::class, 'showMonth'],
+            ['year' => 2022, 'month' => 5],
+        ),
+    )->assertOk();
+
+    get(
+        action(
+            [EmployeeController::class, 'showMonth'],
+            ['year' => 2022, 'month' => 5],
+        ),
+    )->assertOk();
+
+    get(
+        action(
+            [EmployeeController::class, 'showEpisodes'],
+            ['id' => $employee->id],
+        ),
+    )->assertOk();
 });
 
-/*
-  GET|HEAD        employees/month/{year}/{month} .................................................... EmployeeController@showMonth
-  GET|HEAD        employees/vk/{which_vk}/{year} ................................................ EmployeeController@showVKForYear
-  GET|HEAD        employees/{id}/episodes ........................................................ EmployeeController@showEpisodes
- */
+test('a user can view the VK for a year', function () {
+    actingAs(User::factory()->create());
+
+    get(
+        action(
+            [EmployeeController::class, 'showVKForYear'],
+            ['which_vk' => 'all', 'year' => 2021],
+        ),
+    )
+        ->assertSeeText('Übersicht der VK für 2021')
+        ->assertDontSeeText('(Nächte)')
+        ->assertDontSeeText('(NEF)')
+        ->assertOk();
+
+    get(
+        action(
+            [EmployeeController::class, 'showVKForYear'],
+            ['which_vk' => 'night', 'year' => 2018],
+        ),
+    )
+        ->assertSeeText('Übersicht der VK für 2018')
+        ->assertSeeText('(Nächte)')
+        ->assertDontSeeText('(NEF)')
+        ->assertOk();
+
+    get(
+        action(
+            [EmployeeController::class, 'showVKForYear'],
+            ['which_vk' => 'nef', 'year' => 2016],
+        ),
+    )
+        ->assertSeeText('Übersicht der VK für 2016')
+        ->assertDontSeeText('(Nächte)')
+        ->assertSeeText('(NEF)')
+        ->assertOk();
+
+    get(
+        action(
+            [EmployeeController::class, 'showVKForYear'],
+            ['which_vk' => 'non-existing-code', 'year' => 2023],
+        ),
+    )
+        ->assertSeeText('Übersicht der VK für 2023')
+        ->assertDontSeeText('(Nächte)')
+        ->assertDontSeeText('(NEF)')
+        ->assertOk();
+});
