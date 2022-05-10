@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Models\Employee;
 use App\Models\Episode;
 use App\Models\User;
@@ -15,11 +16,15 @@ test('a user can access pages', function () {
     get(route('employees.index'))->assertOk();
     get(route('past.index'))->assertOk();
     get(route('employees.edit', $employee))->assertOk();
-    //    put(route('employees.update', $employee))->assertOk();
+    put(
+        route('employees.update', [
+            'employee' => $employee->id,
+            'email' => $employee->email,
+        ]),
+    )->assertRedirect(route('employees.index'));
 });
 
 /*
-  PUT|PATCH       employees/{employee} .............................................. employees.update › EmployeeController@update
   GET|HEAD        employees/month/{year}/{month} .................................................... EmployeeController@showMonth
   GET|HEAD        employees/vk/{which_vk}/{year} ................................................ EmployeeController@showVKForYear
   GET|HEAD        employees/{id}/episodes ........................................................ EmployeeController@showEpisodes
