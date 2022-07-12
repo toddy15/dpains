@@ -2,7 +2,7 @@ import _ from 'lodash';
 window._ = _;
 
 try {
-    require('bootstrap');
+    import('bootstrap');
 } catch (e) {}
 
 /**
