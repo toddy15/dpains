@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Helper;
 use App\Models\Employee;
+use App\Services\Helper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -34,7 +34,7 @@ class EmployeeController extends Controller
             $bu_start = $bu[$data->bu_start];
             if (Helper::staffgroupMayReceiveEMail($employee->staffgroup_id)) {
                 // Warn if people do *not* have a valid email, although they should.
-                $warning = !Str::contains($data->email, '@');
+                $warning = ! Str::contains($data->email, '@');
             } else {
                 // Warn if people *do* have a valid email, although they should not.
                 $warning = Str::contains($data->email, '@');
@@ -49,17 +49,17 @@ class EmployeeController extends Controller
             ];
         }, $people);
         // Now collect all remaining employees
-        $current_ids = array_map(fn($employee) => $employee->id, $current);
+        $current_ids = array_map(fn ($employee) => $employee->id, $current);
         $future = $employees
-            ->filter(fn($employee) => !in_array($employee->id, $current_ids))
+            ->filter(fn ($employee) => ! in_array($employee->id, $current_ids))
             ->sortBy('name');
         // Exclude the past employees
         $past_ids = array_map(
-            fn($employee) => $employee->employee_id,
+            fn ($employee) => $employee->employee_id,
             $past_people,
         );
         $future = $future
-            ->filter(fn($employee) => !in_array($employee->id, $past_ids))
+            ->filter(fn ($employee) => ! in_array($employee->id, $past_ids))
             ->sortBy('name');
 
         return view('employees.index', compact('current', 'future'));
@@ -68,7 +68,7 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return View
      */
     public function edit(int $id): View
@@ -82,9 +82,10 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param int $id
+     * @param  Request  $request
+     * @param  int  $id
      * @return RedirectResponse
+     *
      * @throws ValidationException
      */
     public function update(Request $request, int $id): RedirectResponse
@@ -162,11 +163,11 @@ class EmployeeController extends Controller
         Helper::sumUpVKForYear($which_vk, $year, $staffgroups, $vk_per_month);
         // Generate the next and previous year urls
         $next_year_url = Helper::getNextYearUrl(
-            'employees/vk/' . $which_vk . '/',
+            'employees/vk/'.$which_vk.'/',
             $year,
         );
         $previous_year_url = Helper::getPreviousYearUrl(
-            'employees/vk/' . $which_vk . '/',
+            'employees/vk/'.$which_vk.'/',
             $year,
         );
 
@@ -195,33 +196,33 @@ class EmployeeController extends Controller
             // Current year is odd
             // If the BU start is even, it's last and this year.
             $bu['even'] =
-                'Gerades Jahr (' .
-                ($current_year - 1) .
-                ' - ' .
-                $current_year .
+                'Gerades Jahr ('.
+                ($current_year - 1).
+                ' - '.
+                $current_year.
                 ')';
             // Otherwise, it's this and next year.
             $bu['odd'] =
-                'Ungerades Jahr (' .
-                $current_year .
-                ' - ' .
-                ($current_year + 1) .
+                'Ungerades Jahr ('.
+                $current_year.
+                ' - '.
+                ($current_year + 1).
                 ')';
         } else {
             // Current year is even.
             // If the BU start is even, it's this and next year.
             $bu['even'] =
-                'Gerades Jahr (' .
-                $current_year .
-                ' - ' .
-                ($current_year + 1) .
+                'Gerades Jahr ('.
+                $current_year.
+                ' - '.
+                ($current_year + 1).
                 ')';
             // Otherwise, it's last and this year.
             $bu['odd'] =
-                'Ungerades Jahr (' .
-                ($current_year - 1) .
-                ' - ' .
-                $current_year .
+                'Ungerades Jahr ('.
+                ($current_year - 1).
+                ' - '.
+                $current_year.
                 ')';
         }
 

@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Helper;
 use App\Models\DueShift;
 use App\Models\Staffgroup;
+use App\Services\Helper;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -59,14 +59,15 @@ class DueShiftController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return RedirectResponse
+     *
      * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
     {
         $this->validate($request, [
-            'year' => 'required|numeric|min:' . Helper::$firstYear,
+            'year' => 'required|numeric|min:'.Helper::$firstYear,
             'nights' => 'required|numeric',
             'nefs' => 'required|numeric',
         ]);
@@ -92,7 +93,7 @@ class DueShiftController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return View
      */
     public function edit(int $id): View
@@ -116,16 +117,17 @@ class DueShiftController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param int $id
+     * @param  Request  $request
+     * @param  int  $id
      * @return RedirectResponse
+     *
      * @throws ValidationException
      */
     public function update(Request $request, int $id): RedirectResponse
     {
         $due_shift = DueShift::findOrFail($id);
         $this->validate($request, [
-            'year' => 'required|numeric|min:' . Helper::$firstYear,
+            'year' => 'required|numeric|min:'.Helper::$firstYear,
             'nights' => 'required|numeric',
             'nefs' => 'required|numeric',
         ]);

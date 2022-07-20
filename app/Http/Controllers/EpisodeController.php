@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Helper;
 use App\Models\Comment;
 use App\Models\Employee;
 use App\Models\Episode;
 use App\Models\Staffgroup;
+use App\Services\Helper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -19,7 +19,7 @@ class EpisodeController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return View
      */
     public function create(Request $request): View
@@ -31,7 +31,7 @@ class EpisodeController extends Controller
         $episode = Episode::where('employee_id', $employee_id)
             ->latest('start_date')
             ->first();
-        if (!$episode) {
+        if (! $episode) {
             // There are no episodes, so create a new employee
             // using sane default values.
             $wb_id = Staffgroup::where('staffgroup', 'WB')->first()->id;
@@ -77,8 +77,9 @@ class EpisodeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return RedirectResponse
+     *
      * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
@@ -128,7 +129,7 @@ class EpisodeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return View
      */
     public function edit(int $id): View
@@ -166,8 +167,8 @@ class EpisodeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request $request
-     * @param int $id
+     * @param  Request  $request
+     * @param  int  $id
      * @return RedirectResponse
      */
     public function update(Request $request, int $id): RedirectResponse
@@ -191,8 +192,8 @@ class EpisodeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Request $request
-     * @param int $id
+     * @param  Request  $request
+     * @param  int  $id
      * @return RedirectResponse
      */
     public function destroy(Request $request, int $id): RedirectResponse
@@ -205,7 +206,7 @@ class EpisodeController extends Controller
             'employee_id',
             $episode->employee_id,
         )->first();
-        if (!$next_episode) {
+        if (! $next_episode) {
             Employee::where('id', $episode->employee_id)->delete();
 
             return redirect(action([EmployeeController::class, 'index']));

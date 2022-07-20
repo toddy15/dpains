@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Helper;
 use App\Mail\NewHash;
 use App\Models\Employee;
 use App\Models\Rawplan;
+use App\Services\Helper;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -19,16 +19,16 @@ class AnonController extends Controller
     /**
      * Show the homepage
      *
-     * @param Request $request
-     * @param string $hash
+     * @param  Request  $request
+     * @param  string  $hash
      * @return View
      */
     public function homepage(Request $request, string $hash = ''): View
     {
-        if (!empty($hash)) {
+        if (! empty($hash)) {
             $employee = Employee::where('hash', $hash)->first();
             // Feedback if there is no such hash
-            if (!$employee) {
+            if (! $employee) {
                 $request
                     ->session()
                     ->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
@@ -45,15 +45,15 @@ class AnonController extends Controller
     /**
      * Logout current user by disabling the hash
      *
-     * @param Request $request
-     * @param string $hash
+     * @param  Request  $request
+     * @param  string  $hash
      * @return RedirectResponse
      */
     public function logout(Request $request, string $hash): RedirectResponse
     {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
-        if (!$employee) {
+        if (! $employee) {
             $request
                 ->session()
                 ->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
@@ -73,8 +73,8 @@ class AnonController extends Controller
      *
      * The hash is mapped to the employees id.
      *
-     * @param Request $request
-     * @param string $hash
+     * @param  Request  $request
+     * @param  string  $hash
      * @return View|RedirectResponse
      */
     public function showEpisodes(
@@ -83,7 +83,7 @@ class AnonController extends Controller
     ): View|RedirectResponse {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
-        if (!$employee) {
+        if (! $employee) {
             $request
                 ->session()
                 ->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
@@ -109,9 +109,9 @@ class AnonController extends Controller
      *
      * The hash is mapped to the employees id.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @param $year
-     * @param string $hash
+     * @param  string  $hash
      * @return View|RedirectResponse
      */
     public function showYear(
@@ -121,7 +121,7 @@ class AnonController extends Controller
     ): View|RedirectResponse {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
-        if (!$employee) {
+        if (! $employee) {
             $request
                 ->session()
                 ->flash('warning', 'Dieser Zugriffcode ist nicht gültig.');
@@ -132,7 +132,7 @@ class AnonController extends Controller
         $employee->touch();
         // Determine which month has been planned
         $planned_month = Helper::getPlannedMonthForAnonAccess($year);
-        if (!$planned_month) {
+        if (! $planned_month) {
             // There is no data at all, so abort.
             abort(404);
         }
@@ -144,7 +144,7 @@ class AnonController extends Controller
             ->locale('de')
             ->isoFormat('MMMM YYYY');
         $readable_worked_month = '';
-        if (!empty($worked_month)) {
+        if (! empty($worked_month)) {
             $readable_worked_month = Carbon::parse($worked_month)
                 ->locale('de')
                 ->isoFormat('MMMM YYYY');
@@ -158,10 +158,10 @@ class AnonController extends Controller
             ->isoFormat('Do MMMM YYYY, HH:mm');
         // Generate the next and previous year urls
         $previous_year_url = Helper::getPreviousYearUrl('anon/', $year);
-        if (!empty($previous_year_url)) {
-            $previous_year_url .= '/' . $hash;
+        if (! empty($previous_year_url)) {
+            $previous_year_url .= '/'.$hash;
         }
-        $next_year_url = Helper::getNextYearUrl('anon/', $year) . '/' . $hash;
+        $next_year_url = Helper::getNextYearUrl('anon/', $year).'/'.$hash;
         $tables = Helper::getTablesForYear(
             $request,
             $year,
@@ -186,8 +186,10 @@ class AnonController extends Controller
 
     /**
      * Request a new hash via mail for accessing the stats.
-     * @param Request $request
+     *
+     * @param  Request  $request
      * @return RedirectResponse
+     *
      * @throws ValidationException
      */
     public function requestNewHashPerMail(Request $request): RedirectResponse
@@ -197,12 +199,12 @@ class AnonController extends Controller
         ]);
         $email = trim($request->get('email'));
         // Append the domain, if necessary
-        if (!Str::contains($email, '@')) {
+        if (! Str::contains($email, '@')) {
             $email .= '@asklepios.com';
         }
         $employee = Employee::where('email', $email)->first();
         // Feedback if there is no such mail
-        if (!$employee) {
+        if (! $employee) {
             $request
                 ->session()
                 ->flash('warning', "Die E-Mail $email wurde nicht gefunden.");

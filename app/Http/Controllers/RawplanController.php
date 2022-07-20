@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rawplan;
 use App\Services\Helper;
 use App\Services\Planparser;
-use App\Models\Rawplan;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -164,7 +164,7 @@ class RawplanController extends Controller
         // Check if there is already an entry in the database,
         // if so, update it.
         $rawplan = Rawplan::where('month', $month)->first();
-        if (!$rawplan) {
+        if (! $rawplan) {
             // @TODO: Do not inject the anon field
             $request->merge(['anon_report' => false]);
             $rawplan = Rawplan::create($request->all());
@@ -180,8 +180,8 @@ class RawplanController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Request $request
-     * @param int $id
+     * @param  Request  $request
+     * @param  int  $id
      * @return RedirectResponse
      */
     public function destroy(Request $request, int $id): RedirectResponse
@@ -209,7 +209,7 @@ class RawplanController extends Controller
     /**
      * Flip the status of inclusion for the month in the anonymous report.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return RedirectResponse
      */
     public function setAnonReportMonth(Request $request): RedirectResponse

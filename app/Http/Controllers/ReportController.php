@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Helper;
-use App\Services\Planparser;
 use App\Models\Employee;
 use App\Models\Rawplan;
+use App\Services\Helper;
+use App\Services\Planparser;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -76,7 +76,7 @@ class ReportController extends Controller
     {
         // Determine which month has been planned
         $planned_month = Helper::getPlannedMonth($year);
-        if (!$planned_month) {
+        if (! $planned_month) {
             // There is no data at all, so abort.
             abort(404);
         }
@@ -88,7 +88,7 @@ class ReportController extends Controller
             ->locale('de')
             ->isoFormat('MMMM YYYY');
         $readable_worked_month = '';
-        if (!empty($worked_month)) {
+        if (! empty($worked_month)) {
             $readable_worked_month = Carbon::parse($worked_month)
                 ->locale('de')
                 ->isoFormat('MMMM YYYY');
@@ -142,7 +142,7 @@ class ReportController extends Controller
             // $months contains the month as key, then employee id and bu/con.
             foreach ($months as $month => $data) {
                 // Initialize the result array
-                if (!isset($employees[$data->employee_id])) {
+                if (! isset($employees[$data->employee_id])) {
                     $e = Employee::findOrFail($data->employee_id);
                     $bu_cleartext = 'Nicht hinterlegt';
                     if ($e->bu_start == 'even') {
@@ -206,7 +206,7 @@ class ReportController extends Controller
             }
         }
         // Sort by name
-        uasort($employees, fn($a, $b) => $a['name'] <=> $b['name']);
+        uasort($employees, fn ($a, $b) => $a['name'] <=> $b['name']);
         $previous_year_url = Helper::getPreviousYearUrl(
             'report/buandcon/',
             $year,
@@ -226,7 +226,7 @@ class ReportController extends Controller
             Carbon::now()->addYear()->yearIso,
         );
         // If the next year does not have data, this will return NULL.
-        if (!$highest_month) {
+        if (! $highest_month) {
             $highest_month = Helper::getPlannedMonth(Carbon::now()->yearIso);
         }
         // Set up result array
@@ -264,7 +264,7 @@ class ReportController extends Controller
         // Make a flat collection from the error_messages array
         $errors = collect($error_messages)->flatten();
         // Only store the new calculation if there are no errors
-        if (!$errors->count()) {
+        if (! $errors->count()) {
             foreach ($recalculation_months as $month) {
                 $rawplan = Rawplan::where('month', $month)->first();
                 $planparser = new Planparser(

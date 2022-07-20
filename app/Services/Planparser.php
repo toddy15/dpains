@@ -2,16 +2,19 @@
 
 namespace App\Services;
 
-use App\Models\Rawplan;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class Planparser
 {
     public string $rawNames = '';
+
     public string $rawShifts = '';
+
     public array $parsedNames = [];
+
     public array $parsedShifts = [];
+
     public int $lines_per_person = 1;
 
     /**
@@ -19,9 +22,9 @@ class Planparser
      *
      * If called with a rawInput array, this is always $request->all().
      *
-     * @param string $formattedMonth
-     * @param string $people
-     * @param string $shifts
+     * @param  string  $formattedMonth
+     * @param  string  $people
+     * @param  string  $shifts
      */
     public function __construct(
         public string $formattedMonth,
@@ -131,7 +134,7 @@ class Planparser
         foreach ($this->parsedNames as $id => $name) {
             $person_id = array_search($name, $expected_names);
             $shifts = $this->calculateShifts($this->parsedShifts[$id]);
-            if (!is_array($shifts)) {
+            if (! is_array($shifts)) {
                 // Clean all previously parsed results.
                 DB::table('analyzed_months')
                     ->where('month', $this->formattedMonth)
@@ -245,7 +248,7 @@ class Planparser
                 $unknown_shift = false;
             }
             if ($unknown_shift) {
-                return 'Unbekannte Dienstart: ' . $shift;
+                return 'Unbekannte Dienstart: '.$shift;
             }
         }
 
@@ -266,19 +269,19 @@ class Planparser
         $more_expected = array_diff($expected_people, $this->parsedNames);
         if ($more_expected) {
             $result[] =
-                'Die folgenden Mitarbeiter werden im Monat ' .
-                $this->formattedMonth .
-                ' erwartet, aber nicht gefunden: ' .
-                join('; ', $more_expected);
+                'Die folgenden Mitarbeiter werden im Monat '.
+                $this->formattedMonth.
+                ' erwartet, aber nicht gefunden: '.
+                implode('; ', $more_expected);
         }
         // Check that not more than the expected people have been found.
         $more_found = array_diff($this->parsedNames, $expected_people);
         if ($more_found) {
             $result[] =
-                'Die folgenden Mitarbeiter werden im Monat ' .
-                $this->formattedMonth .
-                ' nicht erwartet, aber gefunden: ' .
-                join('; ', $more_found);
+                'Die folgenden Mitarbeiter werden im Monat '.
+                $this->formattedMonth.
+                ' nicht erwartet, aber gefunden: '.
+                implode('; ', $more_found);
         }
 
         return $result;
@@ -293,7 +296,7 @@ class Planparser
         // so check that the next day is the first of a month.
         if ($submitted_days > 31) {
             $result[] =
-                $this->formattedMonth .
+                $this->formattedMonth.
                 ': Es wurden mehr als 31 Tage in den Schichten gefunden.';
         }
         $end_day = Carbon::create($this->formattedMonth)
@@ -301,7 +304,7 @@ class Planparser
             ->isoFormat('D');
         if ($end_day !== '1') {
             $result[] =
-                $this->formattedMonth .
+                $this->formattedMonth.
                 ': Die Anzahl der Tage in den Schichten stimmt nicht mit der Anzahl der Tage des Monats überein.';
         }
         // Do not error out if there's one line break appended.
@@ -312,15 +315,15 @@ class Planparser
             $shift_lines - 1 !== $people_lines
         ) {
             $result[] =
-                $this->formattedMonth .
+                $this->formattedMonth.
                 ': Die Anzahl der Zeilen in den Schichten muss entweder eine oder drei pro Mitarbeiter sein.';
         }
         // Try parsing all shifts to detect unknown shifts.
         foreach ($this->parsedNames as $index => $name) {
             $shifts = $this->calculateShifts($this->parsedShifts[$index]);
-            if (!is_array($shifts)) {
+            if (! is_array($shifts)) {
                 // Add the error message from calculateShifts().
-                $result[] = $this->formattedMonth . ': ' . $shifts;
+                $result[] = $this->formattedMonth.': '.$shifts;
             }
         }
 

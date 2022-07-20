@@ -37,7 +37,7 @@ class Helper
             $month++;
         }
 
-        return url($prefix . sprintf('%4d/%02d', $year, $month));
+        return url($prefix.sprintf('%4d/%02d', $year, $month));
     }
 
     /**
@@ -61,7 +61,7 @@ class Helper
         if ($year < Helper::$firstYear) {
             return '';
         } else {
-            return url($prefix . sprintf('%4d/%02d', $year, $month));
+            return url($prefix.sprintf('%4d/%02d', $year, $month));
         }
     }
 
@@ -76,7 +76,7 @@ class Helper
     {
         $year++;
 
-        return url($prefix . sprintf('%4d/', $year));
+        return url($prefix.sprintf('%4d/', $year));
     }
 
     /**
@@ -92,7 +92,7 @@ class Helper
         if ($year < Helper::$firstYear) {
             return '';
         } else {
-            return url($prefix . sprintf('%4d/', $year));
+            return url($prefix.sprintf('%4d/', $year));
         }
     }
 
@@ -161,7 +161,7 @@ class Helper
             ->leftJoin('staffgroups', 'e1.staffgroup_id', '=', 'staffgroups.id')
             ->leftJoin('comments', 'e1.comment_id', '=', 'comments.id')
             // With this complicated subquery we get the last row.
-            ->where('e1.start_date', function ($query) use ($month) {
+            ->where('e1.start_date', function ($query) {
                 $query
                     ->selectRaw('MAX(`e2`.`start_date`)')
                     ->from('episodes as e2')
@@ -242,7 +242,7 @@ class Helper
                     'month',
                     $formattedMonth,
                 )->value('anon_report');
-                if (!$include_in_anon_report) {
+                if (! $include_in_anon_report) {
                     continue;
                 }
             }
@@ -263,7 +263,7 @@ class Helper
                 }
                 // Set up the result array, grouped by staffgroup
                 if (
-                    !isset(
+                    ! isset(
                         $staffgroups[$employee->staffgroup][
                             $employee->employee_id
                         ],
@@ -329,7 +329,7 @@ class Helper
                 // Use the sorting key as the array index, to enable the
                 // sorting within the staffgroups.
                 // Always use diff_planned_nights instead of name.
-                if (!array_key_exists($sort_key, $info)) {
+                if (! array_key_exists($sort_key, $info)) {
                     $sort_key = 'diff_planned_nights';
                 }
                 // Is the employee part of this staffgroup?
@@ -341,7 +341,7 @@ class Helper
                         // Anonymize the information of other employees
                         // Use the underscore as first character to always
                         // sort the employee's name above the random names.
-                        $info['name'] = '_' . Str::random();
+                        $info['name'] = '_'.Str::random();
                         $info['worked_nights'] = 0;
                         $info['planned_nights'] = 0;
                         $info['worked_nefs'] = 0;
@@ -471,7 +471,7 @@ class Helper
                 'direction' => $direction,
             ]);
         }
-        $link = '<a href="' . $url . '">' . $body . '</a>';
+        $link = '<a href="'.$url.'">'.$body.'</a>';
 
         // Append arrows to the current sorted column
         if ($column == $currentColumn) {
@@ -503,7 +503,7 @@ class Helper
      * Returns the highest month in the given year. This might be
      * in the planned status.
      *
-     * @param int $year
+     * @param  int  $year
      * @return string|null Formatted month (YYYY-MM)
      */
     public static function getPlannedMonth($year)
@@ -518,7 +518,7 @@ class Helper
      *
      * If the year is null, returns the latest month.
      *
-     * @param int $year
+     * @param  int  $year
      * @return string|null Formatted month (YYYY-MM)
      */
     public static function getWorkedMonth($year = null)
@@ -538,7 +538,7 @@ class Helper
      * Returns the highest month in the given year for anonymous access.
      * This might be in the planned status.
      *
-     * @param int $year
+     * @param  int  $year
      * @return string|null Formatted month (YYYY-MM)
      */
     public static function getPlannedMonthForAnonAccess($year)
@@ -552,7 +552,7 @@ class Helper
      * Sum up the VK for the given year, grouped by the staffgroup.
      * With $which_vk, specify the VK calculation: all, nef, night
      *
-     * @param string $which_vk
+     * @param  string  $which_vk
      * @param $year
      * @param $staffgroups
      * @param $vk_per_month
@@ -583,14 +583,14 @@ class Helper
                     $episode->staffgroup = 'FA und WB mit Nachtdienst';
                 }
                 // Fill the VK sum array from 1 to 12 with 0, if not set
-                if (!isset($vk_per_month[$episode->staffgroup])) {
+                if (! isset($vk_per_month[$episode->staffgroup])) {
                     $vk_per_month[$episode->staffgroup] = array_fill(1, 12, 0);
                     // Initialize the counter for yearly mean of staffgroup VK
                     $vk_per_month[$episode->staffgroup]['yearly_mean'] = 0;
                 }
                 // Initialize a month array, if not set
                 if (
-                    !isset($months[$episode->staffgroup][$episode->employee_id])
+                    ! isset($months[$episode->staffgroup][$episode->employee_id])
                 ) {
                     $months[$episode->staffgroup][
                         $episode->employee_id

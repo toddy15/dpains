@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\EmployeeEpisodeController;
 use App\Models\Employee;
 use App\Models\Episode;
 use App\Models\User;

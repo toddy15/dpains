@@ -16,9 +16,8 @@ class EpisodeFactory extends Factory
         return [
             'employee_id' => Employee::factory()->create(),
             'name' => $this->faker->name(),
-            'start_date' =>
-                $this->faker->numberBetween(2016, 2020) .
-                '-' .
+            'start_date' => $this->faker->numberBetween(2016, 2020).
+                '-'.
                 $this->faker->numberBetween(1, 12),
             'staffgroup_id' => Staffgroup::factory()->create(),
             'vk' => $this->faker->randomFloat(3, 0, 1),

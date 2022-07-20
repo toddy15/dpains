@@ -3,11 +3,11 @@
 use App\Services\Planparser;
 
 // Set up some fake data
-$input_one_line_people = "Ward, Layla
+$input_one_line_people = 'Ward, Layla
 Palmer, Kenna
 Pratt, Terry
 Hooper, Clark
-";
+';
 
 $input_one_line_shifts = "1\t2\t3\t4
 a\tb\tc\td
@@ -15,7 +15,7 @@ A\tB\tC\tD
 \t\t\t
 ";
 
-$input_three_lines_people = "Ward, Layla
+$input_three_lines_people = 'Ward, Layla
 Chefarzt, SpWB INT
 
 Palmer, Kenna
@@ -27,7 +27,7 @@ OA, SpWB INT
 Hooper, Clark
 FA
 
-";
+';
 
 $input_three_lines_shifts = "1p\t2p\t3p\t4p
 1\t2\t3\t4
@@ -72,13 +72,13 @@ test('the planparser removes trailing whitespace (1 line)', function () use (
     expect($p->rawNames)
         ->not()
         ->toBe($input_one_line_people);
-    expect($p->rawNames . "\n")->toBe($input_one_line_people);
+    expect($p->rawNames."\n")->toBe($input_one_line_people);
 
     // The last newline should have been removed
     expect($p->rawShifts)
         ->not()
         ->toBe($input_one_line_shifts);
-    expect($p->rawShifts . "\n")->toBe($input_one_line_shifts);
+    expect($p->rawShifts."\n")->toBe($input_one_line_shifts);
 });
 
 test('the planparser removes trailing whitespace (3 lines)', function () use (
@@ -96,13 +96,13 @@ test('the planparser removes trailing whitespace (3 lines)', function () use (
     expect($p->rawNames)
         ->not()
         ->toBe($input_three_lines_people);
-    expect($p->rawNames . "\n\n")->toBe($input_three_lines_people);
+    expect($p->rawNames."\n\n")->toBe($input_three_lines_people);
 
     // The last newline should have been removed
     expect($p->rawShifts)
         ->not()
         ->toBe($input_three_lines_shifts);
-    expect($p->rawShifts . "\n\n")->toBe($input_three_lines_shifts);
+    expect($p->rawShifts."\n\n")->toBe($input_three_lines_shifts);
 });
 
 test(

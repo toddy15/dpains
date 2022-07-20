@@ -35,8 +35,9 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return RedirectResponse
+     *
      * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
@@ -53,7 +54,7 @@ class CommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return View
      */
     public function edit(int $id): View
@@ -66,9 +67,10 @@ class CommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param Request $request
-     * @param int $id
+     * @param  Request  $request
+     * @param  int  $id
      * @return RedirectResponse
+     *
      * @throws ValidationException
      */
     public function update(Request $request, int $id): RedirectResponse
