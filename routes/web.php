@@ -46,7 +46,8 @@ Route::middleware([Authenticate::class])->group(function () {
         'show',
         'destroy',
     ]);
-    Route::resource('employees.episodes', EmployeeEpisodeController::class);
+    Route::resource('employees.episodes', EmployeeEpisodeController::class)
+        ->only(['index']);
     Route::get(
         'employees/month/{year}/{month}',
         'App\Http\Controllers\EmployeeController@showMonth',
