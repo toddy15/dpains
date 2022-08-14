@@ -1,6 +1,6 @@
 {
   "resources/js/app.js": {
-    "file": "assets/app.a0817702.js",
+    "file": "assets/app.e2ace563.js",
     "src": "resources/js/app.js",
     "isEntry": true,
     "dynamicImports": [
@@ -8,7 +8,7 @@
     ]
   },
   "node_modules/bootstrap/dist/js/bootstrap.esm.js": {
-    "file": "assets/bootstrap.esm.ea71c936.js",
+    "file": "assets/bootstrap.esm.00f22210.js",
     "src": "node_modules/bootstrap/dist/js/bootstrap.esm.js",
     "isDynamicEntry": true
   },
