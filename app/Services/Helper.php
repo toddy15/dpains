@@ -494,7 +494,7 @@ class Helper
      */
     public static function getPlannedYear()
     {
-        $month = Rawplan::all()->max('month');
+        $month = Rawplan::max('month');
 
         return substr($month, 0, 4);
     }
