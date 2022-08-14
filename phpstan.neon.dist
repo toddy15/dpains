@@ -6,9 +6,6 @@ parameters:
     paths:
         - app
 
-    level: 0
-
-    ignoreErrors:
-        - '#PHPDoc tag @var#'
+    level: 1
 
     checkMissingIterableValueType: false
