@@ -38,9 +38,9 @@ class EpisodeController extends Controller
             $episode = new Episode();
             $episode->start_date = Carbon::now()->isoFormat('YYYY-MM');
             $episode->staffgroup_id = $wb_id;
-            $episode->vk = '1.000';
-            $episode->factor_night = '0.000';
-            $episode->factor_nef = '0.000';
+            $episode->vk = 1.0;
+            $episode->factor_night = 0.0;
+            $episode->factor_nef = 0.0;
         }
         // Get values for the select boxes
         $comments = Comment::all()->sortBy('comment');
