@@ -99,9 +99,6 @@ class Planparser
     {
         $plan_lines = explode("\n", $this->rawShifts);
 
-        $number_of_days_in_month = Carbon::create($this->formattedMonth)
-            ->daysInMonth;
-
         // Cycle through all names and get the shifts for that person
         foreach ($this->parsedNames as $index => $name) {
             if ($this->lines_per_person == 3) {
@@ -114,15 +111,11 @@ class Planparser
                 'trim',
                 explode("\t", $plan_lines[$plan_index] ?? ''),
             );
-            // Prepend empty shifts if there are not enough days for the month
-            //            while (count($result) < $number_of_days_in_month) {
-            //                array_unshift($result, '');
-            //            }
             $this->parsedShifts[$index] = $result;
         }
     }
 
-    public function storeShiftsForPeople()
+    public function storeShiftsForPeople(): void
     {
         // Clean all previously parsed results.
         DB::table('analyzed_months')
@@ -139,8 +132,8 @@ class Planparser
                 DB::table('analyzed_months')
                     ->where('month', $this->formattedMonth)
                     ->delete();
-                // Return the error message from calculateShifts().
-                return $shifts;
+
+                return;
             }
             $database_rows[] = [
                 'month' => $this->formattedMonth,
@@ -154,7 +147,7 @@ class Planparser
         DB::table('analyzed_months')->insert($database_rows);
     }
 
-    public function calculateShifts($shifts)
+    public function calculateShifts($shifts): array|string
     {
         // @TODO: Do not hardcode.
         $nights = ['0r', 'D0', 'D1', 'i30', 'i36', 'n2'];
@@ -260,7 +253,7 @@ class Planparser
         ];
     }
 
-    public function validatePeople()
+    public function validatePeople(): array
     {
         $result = [];
         // Get all people which are expected in this month.
@@ -287,7 +280,7 @@ class Planparser
         return $result;
     }
 
-    public function validateShifts()
+    public function validateShifts(): array
     {
         $result = [];
         // Count the days in the line
@@ -299,7 +292,7 @@ class Planparser
                 $this->formattedMonth.
                 ': Es wurden mehr als 31 Tage in den Schichten gefunden.';
         }
-        $end_day = Carbon::create($this->formattedMonth)
+        $end_day = Carbon::parse($this->formattedMonth)
             ->addDays($submitted_days)
             ->isoFormat('D');
         if ($end_day !== '1') {

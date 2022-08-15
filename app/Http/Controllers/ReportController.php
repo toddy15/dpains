@@ -279,6 +279,6 @@ class ReportController extends Controller
                 ->flash('info', 'Alle Monate wurden neu berechnet.');
         }
 
-        return view('reports.refresh')->withErrors($errors);
+        return view('reports.refresh')->withErrors($errors->toArray());
     }
 }
