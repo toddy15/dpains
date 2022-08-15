@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use Rector\CodeQuality\Rector\FuncCall\CompactToVariablesRector;
 use Rector\Config\RectorConfig;
+use Rector\Set\ValueObject\LevelSetList;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
@@ -24,10 +24,10 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     // register a single rule
-    $rectorConfig->rule(CompactToVariablesRector::class);
+//    $rectorConfig->rule(CompactToVariablesRector::class);
 
     // define sets of rules
-//    $rectorConfig->sets([
-//        LevelSetList::UP_TO_PHP_81,
-//    ]);
+    $rectorConfig->sets([
+        LevelSetList::UP_TO_PHP_80,
+    ]);
 };
