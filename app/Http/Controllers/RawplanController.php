@@ -58,17 +58,16 @@ class RawplanController extends Controller
                 ->isoFormat('MMMM');
         }
 
-        return view(
-            'rawplans.index',
-            compact(
-                'month_names',
-                'start_year',
-                'end_year',
-                'current_anon_month',
-                'current_anon_year',
-                'rawplans_planned',
-                'rawplans_worked',
-            ),
+        return view('rawplans.index',
+            [
+                'month_names' => $month_names,
+                'start_year' => $start_year,
+                'end_year' => $end_year,
+                'current_anon_month' => $current_anon_month,
+                'current_anon_year' => $current_anon_year,
+                'rawplans_planned' => $rawplans_planned,
+                'rawplans_worked' => $rawplans_worked,
+            ]
         );
     }
 
@@ -99,15 +98,14 @@ class RawplanController extends Controller
                 ->isoFormat('MMMM');
         }
 
-        return view(
-            'rawplans.create',
-            compact(
-                'start_year',
-                'end_year',
-                'month_names',
-                'selected_year',
-                'selected_month',
-            ),
+        return view('rawplans.create',
+            [
+                'start_year' => $start_year,
+                'end_year' => $end_year,
+                'month_names' => $month_names,
+                'selected_year' => $selected_year,
+                'selected_month' => $selected_month,
+            ]
         );
     }
 

@@ -17,9 +17,12 @@ class EmployeeEpisodeController extends Controller
             ->get();
         $latest_name = $employee->name;
 
-        return view(
-            'employees.show_episodes',
-            compact('employee', 'episodes', 'latest_name'),
+        return view('employees.show_episodes',
+            [
+                'employee' => $employee,
+                'episodes' => $episodes,
+                'latest_name' => $latest_name,
+            ]
         );
     }
 }

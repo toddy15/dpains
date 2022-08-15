@@ -36,14 +36,13 @@ class ReportController extends Controller
             ->get();
         // If there is no data yet, abort here.
         if ($reports->isEmpty()) {
-            return view(
-                'reports.show_month',
-                compact(
-                    'results',
-                    'readable_month',
-                    'next_month_url',
-                    'previous_month_url',
-                ),
+            return view('reports.show_month',
+                [
+                    'results' => $results,
+                    'readable_month' => $readable_month,
+                    'next_month_url' => $next_month_url,
+                    'previous_month_url' => $previous_month_url,
+                ]
             );
         }
         // Create an array with a mapping of employee_id -> shifts
@@ -61,14 +60,13 @@ class ReportController extends Controller
             ];
         }
 
-        return view(
-            'reports.show_month',
-            compact(
-                'results',
-                'readable_month',
-                'next_month_url',
-                'previous_month_url',
-            ),
+        return view('reports.show_month',
+            [
+                'results' => $results,
+                'readable_month' => $readable_month,
+                'next_month_url' => $next_month_url,
+                'previous_month_url' => $previous_month_url,
+            ]
         );
     }
 
@@ -105,17 +103,16 @@ class ReportController extends Controller
         $next_year_url = Helper::getNextYearUrl('report/', $year);
         $tables = Helper::getTablesForYear($request, $year, $worked_month);
 
-        return view(
-            'reports.show_year',
-            compact(
-                'year',
-                'previous_year_url',
-                'next_year_url',
-                'latest_change',
-                'readable_planned_month',
-                'readable_worked_month',
-                'tables',
-            ),
+        return view('reports.show_year',
+            [
+                'year' => $year,
+                'previous_year_url' => $previous_year_url,
+                'next_year_url' => $next_year_url,
+                'latest_change' => $latest_change,
+                'readable_planned_month' => $readable_planned_month,
+                'readable_worked_month' => $readable_worked_month,
+                'tables' => $tables,
+            ]
         );
     }
 
@@ -213,9 +210,13 @@ class ReportController extends Controller
         );
         $next_year_url = Helper::getNextYearUrl('report/buandcon/', $year);
 
-        return view(
-            'reports.show_bu_and_con',
-            compact('year', 'previous_year_url', 'next_year_url', 'employees'),
+        return view('reports.show_bu_and_con',
+            [
+                'year' => $year,
+                'previous_year_url' => $previous_year_url,
+                'next_year_url' => $next_year_url,
+                'employees' => $employees,
+            ]
         );
     }
 

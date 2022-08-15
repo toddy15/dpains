@@ -39,7 +39,7 @@ class AnonController extends Controller
             }
         }
 
-        return view('homepage', compact('hash'));
+        return view('homepage', ['hash' => $hash]);
     }
 
     /**
@@ -98,9 +98,12 @@ class AnonController extends Controller
             ->get();
         $latest_name = $employee->name;
 
-        return view(
-            'anon.show_episodes',
-            compact('hash', 'episodes', 'latest_name'),
+        return view('anon.show_episodes',
+            [
+                'hash' => $hash,
+                'episodes' => $episodes,
+                'latest_name' => $latest_name,
+            ],
         );
     }
 
@@ -169,18 +172,17 @@ class AnonController extends Controller
             $employee->id,
         );
 
-        return view(
-            'anon.show_year',
-            compact(
-                'hash',
-                'year',
-                'previous_year_url',
-                'next_year_url',
-                'latest_change',
-                'readable_planned_month',
-                'readable_worked_month',
-                'tables',
-            ),
+        return view('anon.show_year',
+            [
+                'hash' => $hash,
+                'year' => $year,
+                'previous_year_url' => $previous_year_url,
+                'next_year_url' => $next_year_url,
+                'latest_change' => $latest_change,
+                'readable_planned_month' => $readable_planned_month,
+                'readable_worked_month' => $readable_worked_month,
+                'tables' => $tables,
+            ]
         );
     }
 

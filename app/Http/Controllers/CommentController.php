@@ -19,7 +19,7 @@ class CommentController extends Controller
     {
         $comments = Comment::all()->sortBy('comment');
 
-        return view('comments.index', compact('comments'));
+        return view('comments.index', ['comments' => $comments]);
     }
 
     /**
@@ -61,7 +61,7 @@ class CommentController extends Controller
     {
         $comment = Comment::findOrFail($id);
 
-        return view('comments.edit', compact('comment'));
+        return view('comments.edit', ['comment' => $comment]);
     }
 
     /**

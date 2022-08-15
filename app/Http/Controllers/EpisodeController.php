@@ -59,16 +59,15 @@ class EpisodeController extends Controller
                 ->isoFormat('MMMM');
         }
 
-        return view(
-            'episodes.create',
-            compact(
-                'episode',
-                'comments',
-                'staffgroups',
-                'start_year',
-                'end_year',
-                'month_names',
-            ),
+        return view('episodes.create',
+            [
+                'episode' => $episode,
+                'comments' => $comments,
+                'staffgroups' => $staffgroups,
+                'start_year' => $start_year,
+                'end_year' => $end_year,
+                'month_names' => $month_names,
+            ]
         );
     }
 
@@ -147,16 +146,15 @@ class EpisodeController extends Controller
                 ->isoFormat('MMMM');
         }
 
-        return view(
-            'episodes.edit',
-            compact(
-                'episode',
-                'comments',
-                'staffgroups',
-                'start_year',
-                'end_year',
-                'month_names',
-            ),
+        return view('episodes.edit',
+            [
+                'episode' => $episode,
+                'comments' => $comments,
+                'staffgroups' => $staffgroups,
+                'start_year' => $start_year,
+                'end_year' => $end_year,
+                'month_names' => $month_names,
+            ]
         );
     }
 

@@ -30,6 +30,6 @@ class PastEmployeeController
             ];
         }, $past_people);
 
-        return view('employees.past', compact('past'));
+        return view('employees.past', ['past' => $past]);
     }
 }

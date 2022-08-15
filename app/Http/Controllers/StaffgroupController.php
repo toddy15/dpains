@@ -19,7 +19,7 @@ class StaffgroupController extends Controller
     {
         $staffgroups = Staffgroup::all()->sortBy('weight');
 
-        return view('staffgroups.index', compact('staffgroups'));
+        return view('staffgroups.index', ['staffgroups' => $staffgroups]);
     }
 
     /**
@@ -64,7 +64,7 @@ class StaffgroupController extends Controller
     {
         $staffgroup = Staffgroup::findOrFail($id);
 
-        return view('staffgroups.edit', compact('staffgroup'));
+        return view('staffgroups.edit', ['staffgroup' => $staffgroup]);
     }
 
     /**

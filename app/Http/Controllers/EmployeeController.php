@@ -62,7 +62,7 @@ class EmployeeController extends Controller
             ->filter(fn ($employee) => ! in_array($employee->id, $past_ids))
             ->sortBy('name');
 
-        return view('employees.index', compact('current', 'future'));
+        return view('employees.index', ['current' => $current, 'future' => $future]);
     }
 
     /**
@@ -76,7 +76,7 @@ class EmployeeController extends Controller
         $employee = Employee::findOrFail($id);
         $bu = $this->_calculateBUStart();
 
-        return view('employees.edit', compact('employee', 'bu'));
+        return view('employees.edit', ['employee' => $employee, 'bu' => $bu]);
     }
 
     /**
@@ -135,15 +135,14 @@ class EmployeeController extends Controller
             $month,
         );
 
-        return view(
-            'employees.show_month',
-            compact(
-                'episode_changes',
-                'episodes',
-                'readable_month',
-                'next_month_url',
-                'previous_month_url',
-            ),
+        return view('employees.show_month',
+            [
+                'episode_changes' => $episode_changes,
+                'episodes' => $episodes,
+                'readable_month' => $readable_month,
+                'next_month_url' => $next_month_url,
+                'previous_month_url' => $previous_month_url,
+            ]
         );
     }
 
@@ -171,16 +170,15 @@ class EmployeeController extends Controller
             $year,
         );
 
-        return view(
-            'employees.show_vk_for_year',
-            compact(
-                'which_vk',
-                'year',
-                'staffgroups',
-                'vk_per_month',
-                'next_year_url',
-                'previous_year_url',
-            ),
+        return view('employees.show_vk_for_year',
+            [
+                'which_vk' => $which_vk,
+                'year' => $year,
+                'staffgroups' => $staffgroups,
+                'vk_per_month' => $vk_per_month,
+                'next_year_url' => $next_year_url,
+                'previous_year_url' => $previous_year_url,
+            ]
         );
     }
 

@@ -31,7 +31,7 @@ class DueShiftController extends Controller
             return $b->year <=> $a->year;
         });
 
-        return view('due_shifts.index', compact('due_shifts'));
+        return view('due_shifts.index', ['due_shifts' => $due_shifts]);
     }
 
     /**
@@ -53,7 +53,7 @@ class DueShiftController extends Controller
             }
         }
 
-        return view('due_shifts.create', compact('staffgroups'));
+        return view('due_shifts.create', ['staffgroups' => $staffgroups]);
     }
 
     /**
@@ -111,7 +111,7 @@ class DueShiftController extends Controller
             }
         }
 
-        return view('due_shifts.edit', compact('due_shift', 'staffgroups'));
+        return view('due_shifts.edit', ['due_shift' => $due_shift, 'staffgroups' => $staffgroups]);
     }
 
     /**
