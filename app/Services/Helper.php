@@ -7,6 +7,7 @@ use App\Models\Episode;
 use App\Models\Rawplan;
 use App\Models\Staffgroup;
 use Illuminate\Http\Request as HttpRequest;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
@@ -18,17 +19,17 @@ class Helper
      *
      * @var int
      */
-    public static $firstYear = 2016;
+    public static int $firstYear = 2016;
 
     /**
      * Generate a url for the next month.
      *
-     * @param $prefix
-     * @param $year
-     * @param $month
+     * @param  string  $prefix
+     * @param  int  $year
+     * @param  int  $month
      * @return string
      */
-    public static function getNextMonthUrl($prefix, $year, $month)
+    public static function getNextMonthUrl(string $prefix, int $year, int $month): string
     {
         if ($month == 12) {
             $year++;
@@ -44,14 +45,13 @@ class Helper
      * Generate a url for the previous month. If there is no previous
      * month, returns an empty string.
      *
-     * @param $prefix
-     * @param $year
-     * @param $month
+     * @param  string  $prefix
+     * @param  int  $year
+     * @param  int  $month
      * @return string
      */
-    public static function getPreviousMonthUrl($prefix, $year, $month)
+    public static function getPreviousMonthUrl(string $prefix, int $year, int $month): string
     {
-        $url = '';
         if ($month == 1) {
             $year--;
             $month = 12;
@@ -68,11 +68,11 @@ class Helper
     /**
      * Generate an URL for the next year.
      *
-     * @param $prefix
-     * @param $year
+     * @param  string  $prefix
+     * @param  int  $year
      * @return string
      */
-    public static function getNextYearUrl($prefix, $year)
+    public static function getNextYearUrl(string $prefix, int $year): string
     {
         $year++;
 
@@ -82,11 +82,11 @@ class Helper
     /**
      * Generate an URL for the previous year.
      *
-     * @param $prefix
-     * @param $year
+     * @param  string  $prefix
+     * @param  int  $year
      * @return string
      */
-    public static function getPreviousYearUrl($prefix, $year)
+    public static function getPreviousYearUrl(string $prefix, int $year): string
     {
         $year--;
         if ($year < Helper::$firstYear) {
@@ -100,12 +100,12 @@ class Helper
      * Return an array of people's names in the given month.
      * The array keys are the people's unique number.
      *
-     * @param $month
+     * @param  string  $formatted_month
      * @return array
      */
-    public static function getNamesForMonth($month)
+    public static function getNamesForMonth(string $formatted_month): array
     {
-        $employees = Helper::getPeopleForMonth($month);
+        $employees = Helper::getPeopleForMonth($formatted_month);
         $names = [];
         foreach ($employees as $employee) {
             $names[$employee->employee_id] = $employee->name;
@@ -117,22 +117,22 @@ class Helper
     /**
      * Returns an array of people working in the given month.
      *
-     * @param $month
-     * @return mixed
+     * @param  string  $formatted_month
+     * @return Collection
      */
-    public static function getPeopleForMonth($month)
+    public static function getPeopleForMonth(string $formatted_month): Collection
     {
         return DB::table('episodes as e1')
             ->leftJoin('staffgroups', 'e1.staffgroup_id', '=', 'staffgroups.id')
             ->leftJoin('comments', 'e1.comment_id', '=', 'comments.id')
             // With this complicated subquery we get the row with the
             // current data for the specified month.
-            ->where('e1.start_date', function ($query) use ($month) {
+            ->where('e1.start_date', function ($query) use ($formatted_month) {
                 $query
                     ->selectRaw('MAX(`e2`.`start_date`)')
                     ->from('episodes as e2')
                     ->whereRaw('`e1`.`employee_id` = `e2`.`employee_id`')
-                    ->where('e2.start_date', '<=', $month);
+                    ->where('e2.start_date', '<=', $formatted_month);
             })
             // This filters out the episodes with "Vertragsende".
             // In order to get episodes without a comment (= NULL)
@@ -152,10 +152,10 @@ class Helper
     /**
      * Returns an array of people previously working.
      *
-     * @param $month
-     * @return mixed
+     * @param  string  $formatted_month
+     * @return Collection
      */
-    public static function getPastPeople($month)
+    public static function getPastPeople(string $formatted_month): Collection
     {
         return DB::table('episodes as e1')
             ->leftJoin('staffgroups', 'e1.staffgroup_id', '=', 'staffgroups.id')
@@ -172,7 +172,7 @@ class Helper
                 $query->where('comment', 'like', 'Vertragsende');
             })
             // Now make sure the last row is already in the past.
-            ->where('e1.start_date', '<=', $month)
+            ->where('e1.start_date', '<=', $formatted_month)
             // First, order by staffgroups (weight parameter)
             ->orderBy('weight')
             // Second, order by name within the staffgroups
@@ -183,12 +183,12 @@ class Helper
     /**
      * Returns all people with changes in the given month.
      *
-     * @param $month
-     * @return mixed
+     * @param  string  $formatted_month
+     * @return Collection
      */
-    public static function getChangesForMonth($month)
+    public static function getChangesForMonth(string $formatted_month): Collection
     {
-        return Episode::where('start_date', $month)
+        return Episode::where('start_date', $formatted_month)
             ->leftJoin('staffgroups', 'staffgroup_id', '=', 'staffgroups.id')
             ->leftJoin('comments', 'comment_id', '=', 'comments.id')
             // First, order by staffgroups (weight parameter)
@@ -200,10 +200,10 @@ class Helper
 
     public static function getTablesForYear(
         HttpRequest $request,
-        $year,
-        $worked_month,
-        $non_anon_employee_id = 0,
-    ) {
+        int $year,
+        string $worked_month,
+        int $non_anon_employee_id = 0,
+    ): array {
         $tables = [];
         // Get the sorting key and direction from the request
         $sort_key = $request->get('sort');
@@ -375,7 +375,7 @@ class Helper
         return $tables;
     }
 
-    public static function newResultArray($person)
+    public static function newResultArray(array $person): array
     {
         return array_merge($person, [
             'worked_nights' => 0,
@@ -385,7 +385,7 @@ class Helper
         ]);
     }
 
-    public static function fillUpBoni(&$staffgroups)
+    public static function fillUpBoni(array &$staffgroups): void
     {
         foreach ($staffgroups as $staffgroup => $person) {
             foreach ($person as $person_number => $info) {
@@ -408,7 +408,7 @@ class Helper
         }
     }
 
-    public static function getDueNightShifts($staffgroup, $year)
+    public static function getDueNightShifts(string $staffgroup, int $year): int
     {
         $due_shift = self::getDueShifts($staffgroup, $year);
         if ($due_shift) {
@@ -418,7 +418,7 @@ class Helper
         return 0;
     }
 
-    private static function getDueShifts($staffgroup, $year)
+    private static function getDueShifts(string $staffgroup, int $year): ?DueShift
     {
         // Special case for combined staffgroup
         if ($staffgroup == 'FA und WB mit Nachtdienst') {
@@ -431,7 +431,7 @@ class Helper
             ->first();
     }
 
-    public static function getDueNefShifts($staffgroup, $year)
+    public static function getDueNefShifts(string $staffgroup, int $year): int
     {
         $due_shift = self::getDueShifts($staffgroup, $year);
         if ($due_shift) {
@@ -441,7 +441,7 @@ class Helper
         return 0;
     }
 
-    public static function sortTableBy($column, $body, $year, $hash = '')
+    public static function sortTableBy(string $column, string $body, int $year, string $hash = ''): string
     {
         // Provide default values, if the parameters are not set
         $currentColumn = Request::get('sort') ?: 'diff_planned_nights';
@@ -492,7 +492,7 @@ class Helper
      *
      * @return string|null Formatted year (YYYY)
      */
-    public static function getPlannedYear()
+    public static function getPlannedYear(): ?string
     {
         $month = Rawplan::max('month');
 
@@ -506,7 +506,7 @@ class Helper
      * @param  int  $year
      * @return string|null Formatted month (YYYY-MM)
      */
-    public static function getPlannedMonth(int $year)
+    public static function getPlannedMonth(int $year): ?string
     {
         return Rawplan::where('month', 'like', "$year%")->max('month');
     }
@@ -521,16 +521,15 @@ class Helper
      * @param  int|null  $year
      * @return string|null Formatted month (YYYY-MM)
      */
-    public static function getWorkedMonth(?int $year = null)
+    public static function getWorkedMonth(?int $year = null): ?string
     {
         if ($year) {
             return Rawplan::where('month', 'like', "$year%")
                 ->whereRaw('substr(updated_at, 1, 7) > month')
                 ->max('month');
         } else {
-            return Rawplan::whereRaw('substr(updated_at, 1, 7) > month')->max(
-                'month',
-            );
+            return Rawplan::whereRaw('substr(updated_at, 1, 7) > month')
+                ->max('month');
         }
     }
 
@@ -560,9 +559,9 @@ class Helper
     public static function sumUpVKForYear(
         string $which_vk,
         int $year,
-        &$staffgroups,
-        &$vk_per_month,
-    ) {
+        array &$staffgroups,
+        array &$vk_per_month,
+    ): void {
         // Set up temporary result arrays
         $months = [];
         $employee_info = [];
