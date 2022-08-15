@@ -16,11 +16,10 @@ class RawplanController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return View
      */
     public function index(): View
     {
+        $month_names = [];
         // Allow anon reporting from the beginning of database storage
         $start_year = Helper::$firstYear;
         // ... to next year
@@ -73,11 +72,10 @@ class RawplanController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return View
      */
     public function create(): View
     {
+        $month_names = [];
         // Allow from the beginning of database storage
         $start_year = Helper::$firstYear;
         // ... to next year
@@ -111,9 +109,6 @@ class RawplanController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  Request  $request
-     * @return RedirectResponse
      */
     public function store(Request $request): RedirectResponse
     {
@@ -177,10 +172,6 @@ class RawplanController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return RedirectResponse
      */
     public function destroy(Request $request, int $id): RedirectResponse
     {
@@ -206,9 +197,6 @@ class RawplanController extends Controller
 
     /**
      * Flip the status of inclusion for the month in the anonymous report.
-     *
-     * @param  Request  $request
-     * @return RedirectResponse
      */
     public function setAnonReportMonth(Request $request): RedirectResponse
     {

@@ -23,11 +23,6 @@ class Helper
 
     /**
      * Generate a url for the next month.
-     *
-     * @param  string  $prefix
-     * @param  int  $year
-     * @param  int  $month
-     * @return string
      */
     public static function getNextMonthUrl(string $prefix, int $year, int $month): string
     {
@@ -44,11 +39,6 @@ class Helper
     /**
      * Generate a url for the previous month. If there is no previous
      * month, returns an empty string.
-     *
-     * @param  string  $prefix
-     * @param  int  $year
-     * @param  int  $month
-     * @return string
      */
     public static function getPreviousMonthUrl(string $prefix, int $year, int $month): string
     {
@@ -67,10 +57,6 @@ class Helper
 
     /**
      * Generate an URL for the next year.
-     *
-     * @param  string  $prefix
-     * @param  int  $year
-     * @return string
      */
     public static function getNextYearUrl(string $prefix, int $year): string
     {
@@ -81,10 +67,6 @@ class Helper
 
     /**
      * Generate an URL for the previous year.
-     *
-     * @param  string  $prefix
-     * @param  int  $year
-     * @return string
      */
     public static function getPreviousYearUrl(string $prefix, int $year): string
     {
@@ -99,9 +81,6 @@ class Helper
     /**
      * Return an array of people's names in the given month.
      * The array keys are the people's unique number.
-     *
-     * @param  string  $formatted_month
-     * @return array
      */
     public static function getNamesForMonth(string $formatted_month): array
     {
@@ -116,9 +95,6 @@ class Helper
 
     /**
      * Returns an array of people working in the given month.
-     *
-     * @param  string  $formatted_month
-     * @return Collection
      */
     public static function getPeopleForMonth(string $formatted_month): Collection
     {
@@ -151,9 +127,6 @@ class Helper
 
     /**
      * Returns an array of people previously working.
-     *
-     * @param  string  $formatted_month
-     * @return Collection
      */
     public static function getPastPeople(string $formatted_month): Collection
     {
@@ -182,9 +155,6 @@ class Helper
 
     /**
      * Returns all people with changes in the given month.
-     *
-     * @param  string  $formatted_month
-     * @return Collection
      */
     public static function getChangesForMonth(string $formatted_month): Collection
     {
@@ -390,7 +360,7 @@ class Helper
         foreach ($staffgroups as $staffgroup => $person) {
             foreach ($person as $person_number => $info) {
                 // Calculate the months with no data yet.
-                $missing_months = 12 - count($info['bonus_planned_nights']);
+                $missing_months = 12 - (is_countable($info['bonus_planned_nights']) ? count($info['bonus_planned_nights']) : 0);
                 // Sum up the bonus for all months with data.
                 $bonus = array_sum($info['bonus_planned_nights']);
                 // The total bonus is the sum of all data plus 1 for each month
@@ -399,7 +369,7 @@ class Helper
                     'bonus_planned_nights'
                 ] = $bonus + $missing_months;
                 // Now do the same three steps for the NEF bonus counter.
-                $missing_months = 12 - count($info['bonus_planned_nefs']);
+                $missing_months = 12 - (is_countable($info['bonus_planned_nefs']) ? count($info['bonus_planned_nefs']) : 0);
                 $bonus = array_sum($info['bonus_planned_nefs']);
                 $staffgroups[$staffgroup][$person_number][
                     'bonus_planned_nefs'
@@ -503,7 +473,6 @@ class Helper
      * Returns the highest month in the given year. This might be
      * in the planned status.
      *
-     * @param  int  $year
      * @return string|null Formatted month (YYYY-MM)
      */
     public static function getPlannedMonth(int $year): ?string
@@ -537,7 +506,6 @@ class Helper
      * Returns the highest month in the given year for anonymous access.
      * This might be in the planned status.
      *
-     * @param  int  $year
      * @return string|null Formatted month (YYYY-MM)
      */
     public static function getPlannedMonthForAnonAccess(int $year): ?string
@@ -551,8 +519,6 @@ class Helper
      * Sum up the VK for the given year, grouped by the staffgroup.
      * With $which_vk, specify the VK calculation: all, nef, night
      *
-     * @param  string  $which_vk
-     * @param  int  $year
      * @param $staffgroups
      * @param $vk_per_month
      */
@@ -676,10 +642,6 @@ class Helper
      * Validates the given year and month, returning a formatted
      * representation. If the date is not valid, the app will abort
      * with a HTTP 404 error.
-     *
-     * @param  int  $year
-     * @param  int  $month
-     * @return string
      */
     public static function validateAndFormatDate(int $year, int $month): string
     {

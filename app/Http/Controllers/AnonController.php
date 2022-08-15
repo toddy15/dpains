@@ -18,10 +18,6 @@ class AnonController extends Controller
 {
     /**
      * Show the homepage
-     *
-     * @param  Request  $request
-     * @param  string  $hash
-     * @return View
      */
     public function homepage(Request $request, string $hash = ''): View
     {
@@ -44,10 +40,6 @@ class AnonController extends Controller
 
     /**
      * Logout current user by disabling the hash
-     *
-     * @param  Request  $request
-     * @param  string  $hash
-     * @return RedirectResponse
      */
     public function logout(Request $request, string $hash): RedirectResponse
     {
@@ -75,7 +67,6 @@ class AnonController extends Controller
      *
      * @param  Request  $request
      * @param  string  $hash
-     * @return View|RedirectResponse
      */
     public function showEpisodes(
         Request $request,
@@ -115,7 +106,6 @@ class AnonController extends Controller
      * @param  Request  $request
      * @param  int  $year
      * @param  string  $hash
-     * @return View|RedirectResponse
      */
     public function showYear(
         Request $request,
@@ -189,8 +179,6 @@ class AnonController extends Controller
     /**
      * Request a new hash via mail for accessing the stats.
      *
-     * @param  Request  $request
-     * @return RedirectResponse
      *
      * @throws ValidationException
      */

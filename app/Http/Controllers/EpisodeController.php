@@ -18,12 +18,10 @@ class EpisodeController extends Controller
 {
     /**
      * Show the form for creating a new resource.
-     *
-     * @param  Request  $request
-     * @return View
      */
     public function create(Request $request): View
     {
+        $month_names = [];
         // See if there is a valid employee
         $employee_id = (int) $request->get('employee_id');
         // Is there already an episode for this employee?
@@ -74,8 +72,6 @@ class EpisodeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  Request  $request
-     * @return RedirectResponse
      *
      * @throws ValidationException
      */
@@ -125,12 +121,10 @@ class EpisodeController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return View
      */
     public function edit(int $id): View
     {
+        $month_names = [];
         $episode = Episode::findOrFail($id);
         // Get values for the select boxes
         $comments = Comment::all()->sortBy('comment');
@@ -160,10 +154,6 @@ class EpisodeController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return RedirectResponse
      */
     public function update(Request $request, int $id): RedirectResponse
     {
@@ -185,10 +175,6 @@ class EpisodeController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return RedirectResponse
      */
     public function destroy(Request $request, int $id): RedirectResponse
     {

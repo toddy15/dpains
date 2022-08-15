@@ -15,8 +15,6 @@ class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return View
      */
     public function index(): View
     {
@@ -67,9 +65,6 @@ class EmployeeController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return View
      */
     public function edit(int $id): View
     {
@@ -82,9 +77,6 @@ class EmployeeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return RedirectResponse
      *
      * @throws ValidationException
      */
@@ -107,10 +99,6 @@ class EmployeeController extends Controller
     /**
      * Show the employees working in the given month with their
      * calculated night shifts and nef shifts.
-     *
-     * @param  int  $year
-     * @param  int  $month
-     * @return View
      */
     public function showMonth(int $year, int $month): View
     {
@@ -149,10 +137,6 @@ class EmployeeController extends Controller
     /**
      * Show the employees working in the given year with their
      * VK, grouped by staffgroups.
-     *
-     * @param  string  $which_vk
-     * @param  int  $year
-     * @return View
      */
     public function showVKForYear(string $which_vk, int $year): View
     {
