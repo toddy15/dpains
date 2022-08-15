@@ -52,8 +52,6 @@ class EpisodeController extends Controller
         );
         // ... to some years ahead
         $end_year = Carbon::now()->addYears(3)->yearIso;
-        // Turn the start_date field into year and month for the form
-        [$episode->year, $episode->month] = explode('-', $episode->start_date);
 
         for ($m = 1; $m <= 12; $m++) {
             $month_names[$m] = Carbon::create(2022, $m)
@@ -142,8 +140,6 @@ class EpisodeController extends Controller
         $start_year = Helper::$firstYear;
         // ... to some years ahead
         $end_year = Carbon::now()->addYears(3)->yearIso;
-        // Turn the start_date field into year and month for the form
-        [$episode->year, $episode->month] = explode('-', $episode->start_date);
 
         for ($m = 1; $m <= 12; $m++) {
             $month_names[$m] = Carbon::create(2022, $m)

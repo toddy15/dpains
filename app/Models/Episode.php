@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,6 +21,20 @@ class Episode extends Model
         'factor_nef',
         'comment_id',
     ];
+
+    protected function year(): Attribute
+    {
+        return new Attribute(
+            get: fn () => explode('-', $this->start_date)[0]
+        );
+    }
+
+    protected function month(): Attribute
+    {
+        return new Attribute(
+            get: fn () => explode('-', $this->start_date)[1]
+        );
+    }
 
     /**
      * Get the comment for an episode.
