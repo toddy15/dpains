@@ -23,7 +23,7 @@ class Employee extends Model
     /**
      * Return the name of the last episode
      */
-    public function getNameAttribute()
+    public function getNameAttribute(): string
     {
         $last_episode = $this->episodes()
             ->latest('start_date')

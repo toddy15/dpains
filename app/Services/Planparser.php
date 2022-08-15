@@ -147,7 +147,7 @@ class Planparser
         DB::table('analyzed_months')->insert($database_rows);
     }
 
-    public function calculateShifts($shifts): array|string
+    public function calculateShifts(array $shifts): array|string
     {
         // @TODO: Do not hardcode.
         $nights = ['0r', 'D0', 'D1', 'i30', 'i36', 'n2'];

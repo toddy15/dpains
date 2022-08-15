@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
-    public function showMonth($year, $month): View
+    public function showMonth(int $year, int $month): View
     {
         $results = [];
         $formatted_month = Helper::validateAndFormatDate($year, $month);
@@ -72,7 +72,7 @@ class ReportController extends Controller
         );
     }
 
-    public function showYear(Request $request, $year): View
+    public function showYear(Request $request, int $year): View
     {
         // Determine which month has been planned
         $planned_month = Helper::getPlannedMonth($year);
@@ -119,7 +119,7 @@ class ReportController extends Controller
         );
     }
 
-    public function showBuAndCon(Request $request, $year): View
+    public function showBuAndCon(Request $request, int $year): View
     {
         $all_bu_and_con = [];
         // Get all employees with bu and con in the last, current, and next year

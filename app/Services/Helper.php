@@ -506,7 +506,7 @@ class Helper
      * @param  int  $year
      * @return string|null Formatted month (YYYY-MM)
      */
-    public static function getPlannedMonth($year)
+    public static function getPlannedMonth(int $year)
     {
         return Rawplan::where('month', 'like', "$year%")->max('month');
     }
@@ -518,10 +518,10 @@ class Helper
      *
      * If the year is null, returns the latest month.
      *
-     * @param  int  $year
+     * @param  int|null  $year
      * @return string|null Formatted month (YYYY-MM)
      */
-    public static function getWorkedMonth($year = null)
+    public static function getWorkedMonth(?int $year = null)
     {
         if ($year) {
             return Rawplan::where('month', 'like', "$year%")
@@ -541,7 +541,7 @@ class Helper
      * @param  int  $year
      * @return string|null Formatted month (YYYY-MM)
      */
-    public static function getPlannedMonthForAnonAccess($year)
+    public static function getPlannedMonthForAnonAccess(int $year): ?string
     {
         return Rawplan::where('month', 'like', "$year%")
             ->where('anon_report', true)
@@ -553,13 +553,13 @@ class Helper
      * With $which_vk, specify the VK calculation: all, nef, night
      *
      * @param  string  $which_vk
-     * @param $year
+     * @param  int  $year
      * @param $staffgroups
      * @param $vk_per_month
      */
     public static function sumUpVKForYear(
-        $which_vk,
-        $year,
+        string $which_vk,
+        int $year,
         &$staffgroups,
         &$vk_per_month,
     ) {
@@ -678,15 +678,12 @@ class Helper
      * representation. If the date is not valid, the app will abort
      * with a HTTP 404 error.
      *
-     * @param $year
-     * @param $month
+     * @param  int  $year
+     * @param  int  $month
      * @return string
      */
-    public static function validateAndFormatDate($year, $month)
+    public static function validateAndFormatDate(int $year, int $month): string
     {
-        // Ensure a valid date and return in a format usable for database queries.
-        $year = (int) $year;
-        $month = (int) $month;
         // Do not show years before the database started and keep month between 1 and 12
         if ($year < Helper::$firstYear or $month < 1 or $month > 12) {
             abort(404);

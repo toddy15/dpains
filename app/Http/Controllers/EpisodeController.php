@@ -92,8 +92,8 @@ class EpisodeController extends Controller
         ]);
         // Set the month to the formatted string for database storage.
         $start_date = Helper::validateAndFormatDate(
-            $request->get('year'),
-            $request->get('month'),
+            (int) $request->get('year'),
+            (int) $request->get('month'),
         );
         // Set the start_date to the database format YYYY-MM.
         $request->merge(['start_date' => $start_date]);
@@ -172,8 +172,8 @@ class EpisodeController extends Controller
         $episode = Episode::findOrFail($id);
         // Set the month to the formatted string for database storage.
         $start_date = Helper::validateAndFormatDate(
-            $request->get('year'),
-            $request->get('month'),
+            (int) $request->get('year'),
+            (int) $request->get('month'),
         );
         // Set the start_date to the database format YYYY-MM.
         $request->merge(['start_date' => $start_date]);

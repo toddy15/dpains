@@ -108,11 +108,11 @@ class EmployeeController extends Controller
      * Show the employees working in the given month with their
      * calculated night shifts and nef shifts.
      *
-     * @param $year
-     * @param $month
+     * @param  int  $year
+     * @param  int  $month
      * @return View
      */
-    public function showMonth($year, $month): View
+    public function showMonth(int $year, int $month): View
     {
         $formatted_month = Helper::validateAndFormatDate($year, $month);
         // Get all episodes valid in this month
@@ -151,11 +151,11 @@ class EmployeeController extends Controller
      * Show the employees working in the given year with their
      * VK, grouped by staffgroups.
      *
-     * @param $which_vk
-     * @param $year
+     * @param  string  $which_vk
+     * @param  int  $year
      * @return View
      */
-    public function showVKForYear($which_vk, $year): View
+    public function showVKForYear(string $which_vk, int $year): View
     {
         // Set up result arrays
         $staffgroups = [];

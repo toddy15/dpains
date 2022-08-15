@@ -110,13 +110,13 @@ class AnonController extends Controller
      * The hash is mapped to the employees id.
      *
      * @param  Request  $request
-     * @param $year
+     * @param  int  $year
      * @param  string  $hash
      * @return View|RedirectResponse
      */
     public function showYear(
         Request $request,
-        $year,
+        int $year,
         string $hash,
     ): View|RedirectResponse {
         $employee = Employee::where('hash', $hash)->first();

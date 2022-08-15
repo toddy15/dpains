@@ -128,8 +128,8 @@ class RawplanController extends Controller
         ]);
         // Set the month to the formatted string for database storage.
         $month = Helper::validateAndFormatDate(
-            $request->get('year'),
-            $request->get('month'),
+            (int) $request->get('year'),
+            (int) $request->get('month'),
         );
         $planparser = new Planparser(
             $month,
@@ -216,8 +216,8 @@ class RawplanController extends Controller
     {
         // Format the month
         $formatted_month = Helper::validateAndFormatDate(
-            $request->year,
-            $request->month,
+            (int) $request->year,
+            (int) $request->month,
         );
         // Update table: Set anon_report to true for all previous months ...
         DB::table('rawplans')
