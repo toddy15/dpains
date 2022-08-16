@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEpisodeRequest;
 use App\Models\Comment;
 use App\Models\Employee;
 use App\Models\Episode;
@@ -75,16 +76,8 @@ class EpisodeController extends Controller
      *
      * @throws ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreEpisodeRequest $request): RedirectResponse
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'month' => 'required',
-            'year' => 'required',
-            'vk' => 'required|numeric|between:0,1',
-            'factor_night' => 'required|numeric|between:0,2',
-            'factor_nef' => 'required|numeric|between:0,2',
-        ]);
         // Set the month to the formatted string for database storage.
         $start_date = Helper::validateAndFormatDate(
             (int) $request->get('year'),
@@ -155,7 +148,7 @@ class EpisodeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(StoreEpisodeRequest $request, int $id): RedirectResponse
     {
         $episode = Episode::findOrFail($id);
         // Set the month to the formatted string for database storage.
