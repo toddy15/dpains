@@ -31,7 +31,6 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     *
      * @throws ValidationException
      */
     public function store(Request $request): RedirectResponse
@@ -57,7 +56,6 @@ class CommentController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
      *
      * @throws ValidationException
      */

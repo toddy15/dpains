@@ -64,14 +64,9 @@ class AnonController extends Controller
      * Show all episodes for an employee, using anonymous access.
      *
      * The hash is mapped to the employees id.
-     *
-     * @param  Request  $request
-     * @param  string  $hash
      */
-    public function showEpisodes(
-        Request $request,
-        string $hash,
-    ): View|RedirectResponse {
+    public function showEpisodes(Request $request, string $hash): View|RedirectResponse
+    {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
         if (! $employee) {
@@ -102,16 +97,9 @@ class AnonController extends Controller
      * Show the year overview.
      *
      * The hash is mapped to the employees id.
-     *
-     * @param  Request  $request
-     * @param  int  $year
-     * @param  string  $hash
      */
-    public function showYear(
-        Request $request,
-        int $year,
-        string $hash,
-    ): View|RedirectResponse {
+    public function showYear(Request $request, int $year, string $hash): View|RedirectResponse
+    {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
         if (! $employee) {
@@ -178,7 +166,6 @@ class AnonController extends Controller
 
     /**
      * Request a new hash via mail for accessing the stats.
-     *
      *
      * @throws ValidationException
      */
