@@ -27,7 +27,7 @@ class Employee extends Model
     {
         $last_episode = $this->episodes()
             ->latest('start_date')
-            ->first();
+            ->firstOrFail();
 
         return $last_episode->name;
     }

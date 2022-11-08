@@ -18,7 +18,7 @@ class PastEmployeeController
         // Construct an array with id, name, and email address
         $past = array_map(function ($employee) use ($employees) {
             // Extract information from employee table
-            $data = $employees->where('id', $employee->employee_id)->first();
+            $data = $employees->where('id', $employee->employee_id)->firstOrFail();
             // Warn if people *do* have a valid email -- past employees should not.
             $warning = Str::contains($data->email, '@');
 

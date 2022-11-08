@@ -394,7 +394,7 @@ class Helper
         if ($staffgroup == 'FA und WB mit Nachtdienst') {
             $staffgroup = 'FA';
         }
-        $staffgroup = Staffgroup::where('staffgroup', $staffgroup)->first();
+        $staffgroup = Staffgroup::where('staffgroup', $staffgroup)->firstOrFail();
 
         return DueShift::where('year', $year)
             ->where('staffgroup_id', $staffgroup->id)

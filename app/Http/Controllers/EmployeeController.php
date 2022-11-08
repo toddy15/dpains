@@ -27,7 +27,7 @@ class EmployeeController extends Controller
         // Construct an array with id, name, and email address
         $current = array_map(function ($employee) use ($employees) {
             // Extract information from employee table
-            $data = $employees->where('id', $employee->employee_id)->first();
+            $data = $employees->where('id', $employee->employee_id)->firstOrFail();
             $bu = $this->_calculateBUStart();
             $bu_start = $bu[$data->bu_start];
             if (Helper::staffgroupMayReceiveEMail($employee->staffgroup_id)) {

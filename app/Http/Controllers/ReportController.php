@@ -251,7 +251,7 @@ class ReportController extends Controller
         // everything can be parsed without errors
         $error_messages = [];
         foreach ($recalculation_months as $month) {
-            $rawplan = Rawplan::where('month', $month)->first();
+            $rawplan = Rawplan::where('month', $month)->firstOrFail();
             $planparser = new Planparser(
                 $month,
                 $rawplan->people,
