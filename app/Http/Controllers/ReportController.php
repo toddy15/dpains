@@ -138,7 +138,7 @@ class ReportController extends Controller
             foreach ($months as $month => $data) {
                 // Initialize the result array
                 if (! isset($employees[$data->employee_id])) {
-                    $e = Employee::findOrFail($data->employee_id);
+                    $e = Employee::firstOrFail($data->employee_id);
                     $bu_cleartext = 'Nicht hinterlegt';
                     if ($e->bu_start == 'even') {
                         $bu_cleartext = 'Gerades Jahr';
