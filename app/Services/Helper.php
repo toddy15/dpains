@@ -171,7 +171,7 @@ class Helper
     public static function getTablesForYear(
         HttpRequest $request,
         int $year,
-        string $worked_month,
+        ?string $worked_month,
         int $non_anon_employee_id = 0,
     ): array {
         $tables = [];
