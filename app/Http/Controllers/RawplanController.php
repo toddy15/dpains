@@ -51,9 +51,9 @@ class RawplanController extends Controller
             ->get();
 
         // Set up readable month names
+        Carbon::setLocale('de');
         for ($m = 1; $m <= 12; $m++) {
-            $month_names[$m] = Carbon::create(2022, $m)
-                ->locale('de')
+            $month_names[$m] = Carbon::createFromDate(2022, $m)
                 ->isoFormat('MMMM');
         }
 
@@ -90,9 +90,9 @@ class RawplanController extends Controller
         }
         [$selected_year, $selected_month] = explode('-', $month);
 
+        Carbon::setLocale('de');
         for ($m = 1; $m <= 12; $m++) {
-            $month_names[$m] = Carbon::create(2022, $m)
-                ->locale('de')
+            $month_names[$m] = Carbon::createFromDate(2022, $m)
                 ->isoFormat('MMMM');
         }
 

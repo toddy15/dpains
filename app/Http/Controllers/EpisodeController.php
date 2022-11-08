@@ -52,9 +52,9 @@ class EpisodeController extends Controller
         // ... to some years ahead
         $end_year = Carbon::now()->addYears(3)->yearIso;
 
+        Carbon::setLocale('de');
         for ($m = 1; $m <= 12; $m++) {
-            $month_names[$m] = Carbon::create(2022, $m)
-                ->locale('de')
+            $month_names[$m] = Carbon::createFromDate(2022, $m)
                 ->isoFormat('MMMM');
         }
 
@@ -127,9 +127,9 @@ class EpisodeController extends Controller
         // ... to some years ahead
         $end_year = Carbon::now()->addYears(3)->yearIso;
 
+        Carbon::setLocale('de');
         for ($m = 1; $m <= 12; $m++) {
-            $month_names[$m] = Carbon::create(2022, $m)
-                ->locale('de')
+            $month_names[$m] = Carbon::createFromDate(2022, $m)
                 ->isoFormat('MMMM');
         }
 

@@ -121,13 +121,12 @@ class AnonController extends Controller
         // represents the actually worked shifts.
         $worked_month = Helper::getWorkedMonth($year);
         // Set up readable month names
+        Carbon::setLocale('de');
         $readable_planned_month = Carbon::parse($planned_month)
-            ->locale('de')
             ->isoFormat('MMMM YYYY');
         $readable_worked_month = '';
         if (! empty($worked_month)) {
             $readable_worked_month = Carbon::parse($worked_month)
-                ->locale('de')
                 ->isoFormat('MMMM YYYY');
         }
         // Get the date and time of latest change
@@ -135,7 +134,6 @@ class AnonController extends Controller
             ->latest('updated_at')
             ->value('updated_at');
         $latest_change = Carbon::parse($latest_change)
-            ->locale('de')
             ->isoFormat('Do MMMM YYYY, HH:mm');
         // Generate the next and previous year urls
         $previous_year_url = Helper::getPreviousYearUrl('anon/', $year);
