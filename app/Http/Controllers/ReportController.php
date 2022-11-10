@@ -228,6 +228,13 @@ class ReportController extends Controller
         if (! $highest_month) {
             $highest_month = Helper::getPlannedMonth(Carbon::now()->yearIso);
         }
+        // Ensure that there is a result
+        if ($highest_month == null) {
+            $request->session()->flash('warning', 'Es sind noch keine Dienstpläne gespeichert worden.');
+
+            return view('reports.refresh');
+        }
+
         // Set up result array
         $recalculation_months = [];
         // Now highest_month will be in the form YYYY-MM.
