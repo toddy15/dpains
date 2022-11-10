@@ -42,10 +42,10 @@ class DueShiftController extends Controller
         // Special case: Merge "FA" and "WB mit Nachtdiensten"
         foreach ($staffgroups as $key => $staffgroup) {
             if ($staffgroup->staffgroup == 'FA') {
-                $staffgroups[$key]->staffgroup = 'FA und WB mit Nachtdienst';
+                $staffgroup->staffgroup = 'FA und WB mit Nachtdienst';
             }
             if ($staffgroup->staffgroup == 'WB mit Nachtdienst') {
-                unset($staffgroups[$key]);
+                $staffgroups->forget($key);
             }
         }
 
@@ -95,10 +95,10 @@ class DueShiftController extends Controller
         // Special case: Merge "FA" and "WB mit Nachtdiensten"
         foreach ($staffgroups as $key => $staffgroup) {
             if ($staffgroup->staffgroup == 'FA') {
-                $staffgroups[$key]->staffgroup = 'FA und WB mit Nachtdienst';
+                $staffgroup->staffgroup = 'FA und WB mit Nachtdienst';
             }
-            if ($staffgroup == 'WB mit Nachtdienst') {
-                unset($staffgroups[$key]);
+            if ($staffgroup->staffgroup == 'WB mit Nachtdienst') {
+                $staffgroups->forget($key);
             }
         }
 
