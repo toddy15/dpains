@@ -232,14 +232,14 @@ class ReportController extends Controller
         $recalculation_months = [];
         // Now highest_month will be in the form YYYY-MM.
         // Cycle through all 12 months from beginning to highest_year - 1.
-        $highest_year = substr($highest_month, 0, 4);
-        $highest_month = substr($highest_month, 5, 2);
+        $highest_year = (int) substr($highest_month, 0, 4);
+        $highest_month = (int) substr($highest_month, 5, 2);
         for ($year = Helper::$firstYear; $year < $highest_year; $year++) {
             for ($month = 1; $month <= 12; $month++) {
                 $recalculation_months[] = sprintf('%04d-%02d', $year, $month);
             }
         }
-        // Cycle though all months up to current planned month in the highest year.
+        // Cycle through all months up to current planned month in the highest year.
         for ($month = 1; $month <= $highest_month; $month++) {
             $recalculation_months[] = sprintf(
                 '%04d-%02d',
