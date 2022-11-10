@@ -272,7 +272,7 @@ class ReportController extends Controller
         // Only store the new calculation if there are no errors
         if (! $errors->count()) {
             foreach ($recalculation_months as $month) {
-                $rawplan = Rawplan::where('month', $month)->first();
+                $rawplan = Rawplan::where('month', $month)->firstOrFail();
                 $planparser = new Planparser(
                     $month,
                     $rawplan->people,
