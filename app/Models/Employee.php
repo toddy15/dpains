@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -23,12 +24,16 @@ class Employee extends Model
     /**
      * Return the name of the last episode
      */
-    public function getNameAttribute(): string
+    protected function name(): Attribute
     {
-        $last_episode = $this->episodes()
-            ->latest('start_date')
-            ->firstOrFail();
+        return Attribute::get(
+            function () {
+                $last_episode = $this->episodes()
+                    ->latest('start_date')
+                    ->firstOrFail();
 
-        return $last_episode->name;
+                return $last_episode->name;
+            }
+        );
     }
 }
