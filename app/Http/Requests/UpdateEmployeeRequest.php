@@ -13,6 +13,8 @@ class UpdateEmployeeRequest extends FormRequest
      */
     public function rules()
     {
-        return ['email' => 'required'];
+        return ['email' => [
+                'required',
+            ],];
     }
 }

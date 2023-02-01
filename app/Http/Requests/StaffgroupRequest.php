@@ -14,8 +14,13 @@ class StaffgroupRequest extends FormRequest
     public function rules()
     {
         return [
-            'staffgroup' => 'required',
-            'weight' => 'required|numeric',
+            'staffgroup' => [
+                'required',
+            ],
+            'weight' => [
+                'required',
+                'numeric',
+            ],
         ];
     }
 }
