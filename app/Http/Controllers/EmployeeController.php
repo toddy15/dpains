@@ -109,7 +109,7 @@ class EmployeeController extends Controller
         $episode_changes = Helper::getChangesForMonth($formatted_month);
         // Set up a readable month name
         Carbon::setLocale('de');
-        $readable_month = Carbon::createFromDate($year, $month)
+        $readable_month = Carbon::createFromDate($year, $month, 1)
             ->isoFormat('MMMM YYYY');
         // Generate the next and previous month urls
         $next_month_url = Helper::getNextMonthUrl(
