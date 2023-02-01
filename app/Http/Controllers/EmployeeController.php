@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\Employee;
 use App\Services\Helper;
 use Illuminate\Http\RedirectResponse;
@@ -80,11 +81,8 @@ class EmployeeController extends Controller
      *
      * @throws ValidationException
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(UpdateEmployeeRequest $request, int $id): RedirectResponse
     {
-        $this->validate($request, [
-            'email' => 'required',
-        ]);
         $employee = Employee::findOrFail($id);
         // Generate a new hash with some pseudo random bits.
         // This way, people with "Vertragsende" can no longer

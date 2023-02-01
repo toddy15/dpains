@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StaffgroupRequest;
 use App\Models\Staffgroup;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -34,12 +35,8 @@ class StaffgroupController extends Controller
      *
      * @throws ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StaffgroupRequest $request): RedirectResponse
     {
-        $this->validate($request, [
-            'staffgroup' => 'required',
-            'weight' => 'required|numeric',
-        ]);
         Staffgroup::create($request->all());
         $request
             ->session()
@@ -64,12 +61,8 @@ class StaffgroupController extends Controller
      *
      * @throws ValidationException
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(StaffgroupRequest $request, int $id): RedirectResponse
     {
-        $this->validate($request, [
-            'staffgroup' => 'required',
-            'weight' => 'required|numeric',
-        ]);
         $staffgroup = Staffgroup::findOrFail($id);
         $staffgroup->update($request->all());
         $request

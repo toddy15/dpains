@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RequestNewHashPerMailAnonRequest;
 use App\Mail\NewHash;
 use App\Models\Employee;
 use App\Models\Rawplan;
@@ -167,11 +168,8 @@ class AnonController extends Controller
      *
      * @throws ValidationException
      */
-    public function requestNewHashPerMail(Request $request): RedirectResponse
+    public function requestNewHashPerMail(RequestNewHashPerMailAnonRequest $request): RedirectResponse
     {
-        $this->validate($request, [
-            'email' => 'required',
-        ]);
         $email = trim($request->get('email'));
         // Append the domain, if necessary
         if (! Str::contains($email, '@')) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DueShiftRequest;
 use App\Models\DueShift;
 use App\Models\Staffgroup;
 use App\Services\Helper;
@@ -62,13 +63,8 @@ class DueShiftController extends Controller
      *
      * @throws ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    public function store(DueShiftRequest $request): RedirectResponse
     {
-        $this->validate($request, [
-            'year' => 'required|numeric|min:'.Helper::$firstYear,
-            'nights' => 'required|numeric',
-            'nefs' => 'required|numeric',
-        ]);
         // If the combination year and staffgroup is not unique,
         // this will throw a QueryException.
         try {
@@ -115,14 +111,9 @@ class DueShiftController extends Controller
      *
      * @throws ValidationException
      */
-    public function update(Request $request, int $id): RedirectResponse
+    public function update(DueShiftRequest $request, int $id): RedirectResponse
     {
         $due_shift = DueShift::findOrFail($id);
-        $this->validate($request, [
-            'year' => 'required|numeric|min:'.Helper::$firstYear,
-            'nights' => 'required|numeric',
-            'nefs' => 'required|numeric',
-        ]);
         // If the combination year and staffgroup is not unique,
         // this will throw a QueryException.
         try {
