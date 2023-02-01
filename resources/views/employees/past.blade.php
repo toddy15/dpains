@@ -19,7 +19,7 @@
                 <td>{{ $employee->email }}</td>
                 <td>
                     <a class="btn btn-primary"
-                        href="{{ action('App\Http\Controllers\EmployeeController@edit', $employee->id) }}">Bearbeiten</a>
+                        href="{{ action([\App\Http\Controllers\EmployeeController::class, 'edit'], $employee->id) }}">Bearbeiten</a>
                     <a class="btn btn-primary"
                         href="{{ route('employees.episodes.index', ['employee' => $employee->id]) }}">Einträge</a>
                 </td>

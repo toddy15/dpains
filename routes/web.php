@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AnonController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DueShiftController;
 use App\Http\Controllers\EmployeeController;
@@ -50,11 +52,11 @@ Route::middleware([Authenticate::class])->group(function () {
         ->only(['index']);
     Route::get(
         'employees/month/{year}/{month}',
-        'App\Http\Controllers\EmployeeController@showMonth',
+        [App\Http\Controllers\EmployeeController::class, 'showMonth'],
     )->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
     Route::get(
         'employees/vk/{which_vk}/{year}',
-        'App\Http\Controllers\EmployeeController@showVKForYear',
+        [App\Http\Controllers\EmployeeController::class, 'showVKForYear'],
     )->where(['year' => '[0-9]+']);
     Route::resource('employees/past', PastEmployeeController::class)->only([
         'index',
@@ -62,21 +64,21 @@ Route::middleware([Authenticate::class])->group(function () {
 
     Route::get(
         'report/{year}/{month}',
-        'App\Http\Controllers\ReportController@showMonth',
+        [App\Http\Controllers\ReportController::class, 'showMonth'],
     )->where(['year' => '[0-9]+', 'month' => '[0-9]+']);
     Route::get(
         'report/{year}',
-        'App\Http\Controllers\ReportController@showYear',
+        [App\Http\Controllers\ReportController::class, 'showYear'],
     )
         ->where(['year' => '[0-9]+'])
         ->name('reports.showYear');
     Route::get(
         'report/buandcon/{year}',
-        'App\Http\Controllers\ReportController@showBuAndCon',
+        [App\Http\Controllers\ReportController::class, 'showBuAndCon'],
     )->where(['year' => '[0-9]+']);
     Route::get(
         'report/refresh',
-        'App\Http\Controllers\ReportController@refresh',
+        [App\Http\Controllers\ReportController::class, 'refresh'],
     );
 });
 
@@ -84,18 +86,18 @@ Route::middleware([Authenticate::class])->group(function () {
  * From here on, the routes are accessible by anybody.
  */
 
-Route::get('/{hash?}', 'App\Http\Controllers\AnonController@homepage')->name(
+Route::get('/{hash?}', [App\Http\Controllers\AnonController::class, 'homepage'])->name(
     'homepage',
 );
-Route::get('anon/logout/{hash}', 'App\Http\Controllers\AnonController@logout');
+Route::get('anon/logout/{hash}', [App\Http\Controllers\AnonController::class, 'logout']);
 Route::get(
     'anon/episodes/{hash}',
-    'App\Http\Controllers\AnonController@showEpisodes',
+    [App\Http\Controllers\AnonController::class, 'showEpisodes'],
 );
 Route::post(
     'anon/newHash',
-    'App\Http\Controllers\AnonController@requestNewHashPerMail',
+    [App\Http\Controllers\AnonController::class, 'requestNewHashPerMail'],
 )->name('anon.newHash');
-Route::get('anon/{year}/{hash}', 'App\Http\Controllers\AnonController@showYear')
+Route::get('anon/{year}/{hash}', [App\Http\Controllers\AnonController::class, 'showYear'])
     ->where(['year' => '[0-9]+'])
     ->name('anon.showYear');

@@ -4,7 +4,7 @@
     <h1>Einträge für {{ $latest_name }}</h1>
     <p>
         <a class="btn btn-primary"
-            href="{{ action('App\Http\Controllers\EpisodeController@create', ['employee_id' => $employee->id]) }}">Neuen
+            href="{{ action([\App\Http\Controllers\EpisodeController::class, 'create'], ['employee_id' => $employee->id]) }}">Neuen
             Eintrag
             erstellen</a>
     </p>

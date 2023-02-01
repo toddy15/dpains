@@ -183,7 +183,7 @@ class RawplanController extends Controller
                 ->session()
                 ->flash('warning', 'Der Dienstplan wurde nicht gelöscht.');
 
-            return redirect(action('RawplanController@index'));
+            return redirect(action([\App\Http\Controllers\RawplanController::class, 'index']));
         }
         // Also delete every parsed plan ...
         DB::table('analyzed_months')
