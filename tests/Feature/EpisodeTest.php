@@ -11,7 +11,8 @@ use function Pest\Laravel\post;
 
 test('a user can create a new episode for a new employee', function () {
     actingAs(User::factory()->create());
-    // This creates already an employee, so the next employee has ID 2.
+    // This creates already an employee, and there is another one,
+    // so the next employee has ID 3.
     $episode = Episode::factory()->make();
     $data = $episode->toArray();
     $data['employee_id'] = 0;
@@ -19,7 +20,7 @@ test('a user can create a new episode for a new employee', function () {
     $data['year'] = $episode->year;
 
     post(route('episodes.store', $data))
-        ->assertRedirect(route('employees.episodes.index', ['employee' => 2]));
+        ->assertRedirect(route('employees.episodes.index', ['employee' => 3]));
 });
 
 test('a user can create a new episode for an existing employee', function () {
@@ -40,10 +41,10 @@ test('a user can create a new episode for an existing employee', function () {
         ->assertDontSeeText($episode_2->name);
 
     post(route('episodes.store', $data))
-        ->assertRedirect(route('employees.episodes.index', ['employee' => $episode_1->id]));
+        ->assertRedirect(route('employees.episodes.index', ['employee' => $episode_1->employee_id]));
 
     // Now there should be two episodes with a name
-    get(route('employees.episodes.index', ['employee' => $episode_1->id]))
+    get(route('employees.episodes.index', ['employee' => $episode_1->employee_id]))
         ->assertSeeText($episode_1->name)
         ->assertSeeText($episode_2->name);
 });
