@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\AnonController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DueShiftController;
 use App\Http\Controllers\EmployeeController;

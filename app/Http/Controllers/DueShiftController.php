@@ -5,10 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DueShiftRequest;
 use App\Models\DueShift;
 use App\Models\Staffgroup;
-use App\Services\Helper;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 

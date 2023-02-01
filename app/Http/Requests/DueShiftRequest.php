@@ -15,9 +15,9 @@ class DueShiftRequest extends FormRequest
     public function rules()
     {
         return [
-'year'   => 'required|numeric|min:' . Helper::$firstYear,
-'nights' => 'required|numeric',
-'nefs'   => 'required|numeric',
-];
+            'year' => 'required|numeric|min:'.Helper::$firstYear,
+            'nights' => 'required|numeric',
+            'nefs' => 'required|numeric',
+        ];
     }
 }

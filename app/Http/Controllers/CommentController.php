@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -59,7 +58,6 @@ class CommentController extends Controller
      */
     public function update(CommentRequest $request, int $id): RedirectResponse
     {
-
         $comment = Comment::findOrFail($id);
         $comment->update($request->all());
         $request->session()->flash('info', 'Die Bemerkung wurde geändert.');
