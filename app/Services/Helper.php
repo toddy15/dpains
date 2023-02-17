@@ -16,8 +16,6 @@ class Helper
 {
     /**
      * The year with the first data available.
-     *
-     * @var int
      */
     public static int $firstYear = 2016;
 
@@ -517,9 +515,6 @@ class Helper
     /**
      * Sum up the VK for the given year, grouped by the staffgroup.
      * With $which_vk, specify the VK calculation: all, nef, night
-     *
-     * @param $staffgroups
-     * @param $vk_per_month
      */
     public static function sumUpVKForYear(
         string $which_vk,
