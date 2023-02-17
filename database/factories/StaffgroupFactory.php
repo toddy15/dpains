@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class StaffgroupFactory extends Factory
 {
-    public function definition()
+    public function definition(): array
     {
         return [
             'staffgroup' => $this->faker->jobTitle(),

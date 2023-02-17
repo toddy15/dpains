@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class DueShiftFactory extends Factory
 {
-    public function definition()
+    public function definition(): array
     {
         return [
             'year' => $this->faker->numberBetween(2016, 2058),
