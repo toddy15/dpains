@@ -21,10 +21,6 @@ class Planparser
      * Planparser constructor.
      *
      * If called with a rawInput array, this is always $request->all().
-     *
-     * @param  string  $formattedMonth
-     * @param  string  $people
-     * @param  string  $shifts
      */
     public function __construct(
         public string $formattedMonth,

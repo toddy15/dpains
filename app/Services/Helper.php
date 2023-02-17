@@ -487,7 +487,6 @@ class Helper
      *
      * If the year is null, returns the latest month.
      *
-     * @param  int|null  $year
      * @return string|null Formatted month (YYYY-MM)
      */
     public static function getWorkedMonth(?int $year = null): ?string
