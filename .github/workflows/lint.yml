@@ -13,6 +13,7 @@ jobs:
         with:
           php-version: '8.2'
           tools: phplint, laravel/pint
+          coverage: none
       - name: Check syntax
         run: phplint .
       - name: Check code style
