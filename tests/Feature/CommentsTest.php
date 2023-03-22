@@ -74,4 +74,4 @@ test('a user can update a comment', function () {
     ])->assertRedirect(route('comments.index'));
 
     assertDatabaseHas('comments', ['comment' => 'This is a new comment.']);
-})->only();
+});
