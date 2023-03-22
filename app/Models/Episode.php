@@ -25,14 +25,14 @@ class Episode extends Model
     protected function year(): Attribute
     {
         return new Attribute(
-            get: fn () => explode('-', $this->start_date)[0]
+            get: fn () => explode('-', (string) $this->start_date)[0]
         );
     }
 
     protected function month(): Attribute
     {
         return new Attribute(
-            get: fn () => explode('-', $this->start_date)[1]
+            get: fn () => explode('-', (string) $this->start_date)[1]
         );
     }
 

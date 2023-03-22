@@ -30,7 +30,7 @@ class RawplanController extends Controller
         if ($current_anon_month) {
             [$current_anon_year, $current_anon_month] = explode(
                 '-',
-                $current_anon_month,
+                (string) $current_anon_month,
             );
         } else {
             $current_anon_month = '00';

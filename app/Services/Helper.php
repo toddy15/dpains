@@ -464,7 +464,7 @@ class Helper
     {
         $month = Rawplan::max('month');
 
-        return substr($month, 0, 4);
+        return substr((string) $month, 0, 4);
     }
 
     /**
