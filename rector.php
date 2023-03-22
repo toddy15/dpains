@@ -3,8 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\Laravel\Set\LaravelSetList;
-use Rector\Set\ValueObject\LevelSetList;
+use Rector\Php81\Rector\FuncCall\NullToStrictStringFuncCallArgRector;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
@@ -25,11 +24,11 @@ return static function (RectorConfig $rectorConfig): void {
     ]);
 
     // register a single rule
-//    $rectorConfig->rule(CompactToVariablesRector::class);
+    $rectorConfig->rule(NullToStrictStringFuncCallArgRector::class);
 
     // define sets of rules
     $rectorConfig->sets([
-        LevelSetList::UP_TO_PHP_80,
-        LaravelSetList::LARAVEL_90,
+        //        LevelSetList::UP_TO_PHP_82,
+        //        LaravelSetList::LARAVEL_90,
     ]);
 };
