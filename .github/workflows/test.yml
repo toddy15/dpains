@@ -28,7 +28,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: bcmath, calendar, ctype, fileinfo, json, mbstring, openssl, pdo, tokenizer, xml
-          coverage: none
+          coverage: xdebug
       - name: Prepare the environment
         run: cp .env.example .env
       - name: Get composer cache directory
@@ -47,10 +47,16 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate
       - name: Run tests
-        run: vendor/bin/pest
+        run: vendor/bin/pest --coverage-clover coverage.xml
         env:
           DB_CONNECTION: mysql
           DB_PORT: ${{ job.services.mariadb.ports['3306'] }}
           DB_USERNAME: root
           DB_DATABASE: laravel
           DB_PASSWORD: null
+      - name: Upload coverage
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
+        with:
+          coverageLocations: ${{github.workspace}}/coverage.xml:clover
