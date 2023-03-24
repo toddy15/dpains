@@ -230,42 +230,22 @@ class Helper
                     $employee->staffgroup = 'FA und WB mit Nachtdienst';
                 }
                 // Set up the result array, grouped by staffgroup
-                if (
-                    ! isset(
-                        $staffgroups[$employee->staffgroup][
-                            $employee->employee_id
-                        ],
-                    )
-                ) {
-                    $staffgroups[$employee->staffgroup][
-                        $employee->employee_id
-                    ] = Helper::newResultArray((array) $employee);
+                if (! isset($staffgroups[$employee->staffgroup][$employee->employee_id])) {
+                    $staffgroups[$employee->staffgroup][$employee->employee_id] = Helper::newResultArray((array) $employee);
                 }
+
                 // Calculate the boni for vk and factors
-                $person_bonus_night =
-                    1 - $employee->vk * $employee->factor_night;
+                $person_bonus_night = 1 - $employee->vk * $employee->factor_night;
                 $person_bonus_nef = 1 - $employee->vk * $employee->factor_nef;
                 // Add up the shifts to the result array
-                $staffgroups[$employee->staffgroup][$employee->employee_id][
-                    'planned_nights'
-                ] += $shift->nights;
-                $staffgroups[$employee->staffgroup][$employee->employee_id][
-                    'planned_nefs'
-                ] += $shift->nefs;
-                $staffgroups[$employee->staffgroup][$employee->employee_id][
-                    'bonus_planned_nights'
-                ][$month] = $person_bonus_night;
-                $staffgroups[$employee->staffgroup][$employee->employee_id][
-                    'bonus_planned_nefs'
-                ][$month] = $person_bonus_nef;
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['planned_nights'] += $shift->nights;
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['planned_nefs'] += $shift->nefs;
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['bonus_planned_nights'][$month] = $person_bonus_night;
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['bonus_planned_nefs'][$month] = $person_bonus_nef;
                 // Now add to the worked results, if the month has passed.
                 if ($formattedMonth <= $worked_month) {
-                    $staffgroups[$employee->staffgroup][$employee->employee_id][
-                        'worked_nights'
-                    ] += $shift->nights;
-                    $staffgroups[$employee->staffgroup][$employee->employee_id][
-                        'worked_nefs'
-                    ] += $shift->nefs;
+                    $staffgroups[$employee->staffgroup][$employee->employee_id]['worked_nights'] += $shift->nights;
+                    $staffgroups[$employee->staffgroup][$employee->employee_id]['worked_nefs'] += $shift->nefs;
                 }
             }
         }
@@ -363,15 +343,11 @@ class Helper
                 $bonus = array_sum($info['bonus_planned_nights']);
                 // The total bonus is the sum of all data plus 1 for each month
                 // without data.
-                $staffgroups[$staffgroup][$person_number][
-                    'bonus_planned_nights'
-                ] = $bonus + $missing_months;
+                $staffgroups[$staffgroup][$person_number]['bonus_planned_nights'] = $bonus + $missing_months;
                 // Now do the same three steps for the NEF bonus counter.
                 $missing_months = 12 - (is_countable($info['bonus_planned_nefs']) ? count($info['bonus_planned_nefs']) : 0);
                 $bonus = array_sum($info['bonus_planned_nefs']);
-                $staffgroups[$staffgroup][$person_number][
-                    'bonus_planned_nefs'
-                ] = $bonus + $missing_months;
+                $staffgroups[$staffgroup][$person_number]['bonus_planned_nefs'] = $bonus + $missing_months;
             }
         }
     }
@@ -548,12 +524,8 @@ class Helper
                     $vk_per_month[$episode->staffgroup]['yearly_mean'] = 0;
                 }
                 // Initialize a month array, if not set
-                if (
-                    ! isset($months[$episode->staffgroup][$episode->employee_id])
-                ) {
-                    $months[$episode->staffgroup][
-                        $episode->employee_id
-                    ] = array_fill(1, 12, [
+                if (! isset($months[$episode->staffgroup][$episode->employee_id])) {
+                    $months[$episode->staffgroup][$episode->employee_id] = array_fill(1, 12, [
                         'vk' => '–',
                         'changed' => false,
                     ]);
@@ -577,19 +549,13 @@ class Helper
                 }
                 // Ensure a nicely formatted VK
                 $vk = sprintf('%.3f', round($vk, 3));
-                $months[$episode->staffgroup][$episode->employee_id][$month][
-                    'vk'
-                ] = $vk;
+                $months[$episode->staffgroup][$episode->employee_id][$month]['vk'] = $vk;
                 // Mark changes
                 if ($month > 1) {
                     if (
-                        $months[$episode->staffgroup][$episode->employee_id][
-                            $month - 1
-                        ]['vk'] != $vk
+                        $months[$episode->staffgroup][$episode->employee_id][$month - 1]['vk'] != $vk
                     ) {
-                        $months[$episode->staffgroup][$episode->employee_id][
-                            $month
-                        ]['changed'] = true;
+                        $months[$episode->staffgroup][$episode->employee_id][$month]['changed'] = true;
                     }
                 }
                 // Sum up for the month
@@ -597,9 +563,7 @@ class Helper
                 // Sum up for the grand total per month
                 $vk_per_month['all'][$month] += (float) $vk;
                 // Sum up for the mean vk per year
-                $vk_per_month[$episode->staffgroup][
-                    'yearly_mean'
-                ] += (float) $vk;
+                $vk_per_month[$episode->staffgroup]['yearly_mean'] += (float) $vk;
                 $vk_per_month['all']['yearly_mean'] += (float) $vk;
             }
         }
