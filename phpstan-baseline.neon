@@ -1,0 +1,21 @@
+parameters:
+    ignoreErrors:
+        -
+            message: "#^Access to an undefined property App\\\\Models\\\\Employee\\:\\:\\$name\\.$#"
+            count: 1
+            path: app/Http/Controllers/AnonController.php
+
+        -
+            message: "#^Access to an undefined property App\\\\Models\\\\Employee\\:\\:\\$name\\.$#"
+            count: 1
+            path: app/Http/Controllers/EmployeeEpisodeController.php
+
+        -
+            message: "#^Access to an undefined property App\\\\Models\\\\Employee\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, App\\\\Models\\\\Employee\\>\\:\\:\\$bu_start\\.$#"
+            count: 2
+            path: app/Http/Controllers/ReportController.php
+
+        -
+            message: "#^Access to an undefined property App\\\\Models\\\\Employee\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, App\\\\Models\\\\Employee\\>\\:\\:\\$name\\.$#"
+            count: 1
+            path: app/Http/Controllers/ReportController.php

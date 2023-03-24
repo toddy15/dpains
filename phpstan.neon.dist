@@ -1,33 +1,10 @@
 includes:
     - ./vendor/nunomaduro/larastan/extension.neon
+    - phpstan-baseline.neon
 
 parameters:
-
-    paths:
-        - app
-
-    level: 8
-
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
-
-    ignoreErrors:
-        -
-            message: "#^Access to an undefined property App\\\\Models\\\\Employee\\:\\:\\$name\\.$#"
-            count: 1
-            path: app/Http/Controllers/AnonController.php
-
-        -
-            message: "#^Access to an undefined property App\\\\Models\\\\Employee\\:\\:\\$name\\.$#"
-            count: 1
-            path: app/Http/Controllers/EmployeeEpisodeController.php
-
-        -
-            message: "#^Access to an undefined property App\\\\Models\\\\Employee\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, App\\\\Models\\\\Employee\\>\\:\\:\\$bu_start\\.$#"
-            count: 2
-            path: app/Http/Controllers/ReportController.php
-
-        -
-            message: "#^Access to an undefined property App\\\\Models\\\\Employee\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, App\\\\Models\\\\Employee\\>\\:\\:\\$name\\.$#"
-            count: 1
-            path: app/Http/Controllers/ReportController.php
+	level: 8
+	paths:
+		- app
+	checkMissingIterableValueType: false
+	checkGenericClassInNonGenericObjectType: false
