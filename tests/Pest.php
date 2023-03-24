@@ -28,9 +28,9 @@ uses(Tests\TestCase::class, LazilyRefreshDatabase::class)->in('Feature');
 |
 */
 
-expect()->extend('toBeOne', function () {
-    return $this->toBe(1);
-});
+//expect()->extend('toBeOne', function () {
+//    return $this->toBe(1);
+//});
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +43,7 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
-{
-    // ..
-}
+//function something()
+//{
+//    // ..
+//}
