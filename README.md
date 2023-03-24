@@ -13,7 +13,6 @@ This repository contains the source code of the website
 
 - [ ] Automatischer Logout nach z. B. 10 Minuten (anonym, Login)
 - [ ] Neuen Nachnamen anzeigen bei Änderung
-- [ ] Gendern: z. B. Der Mitarbeiter wurde geändert
 
 ## Später
 
