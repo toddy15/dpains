@@ -1,21 +1,321 @@
 parameters:
-    ignoreErrors:
-        -
-            message: "#^Access to an undefined property App\\\\Models\\\\Employee\\:\\:\\$name\\.$#"
-            count: 1
-            path: app/Http/Controllers/AnonController.php
+	ignoreErrors:
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Employee\\:\\:\\$name\\.$#"
+			count: 1
+			path: app/Http/Controllers/AnonController.php
 
-        -
-            message: "#^Access to an undefined property App\\\\Models\\\\Employee\\:\\:\\$name\\.$#"
-            count: 1
-            path: app/Http/Controllers/EmployeeEpisodeController.php
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: app/Http/Controllers/AnonController.php
 
-        -
-            message: "#^Access to an undefined property App\\\\Models\\\\Employee\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, App\\\\Models\\\\Employee\\>\\:\\:\\$bu_start\\.$#"
-            count: 2
-            path: app/Http/Controllers/ReportController.php
+		-
+			message: "#^Parameter \\#1 \\$time of static method Carbon\\\\Carbon\\:\\:parse\\(\\) expects DateTimeInterface\\|string\\|null, mixed given\\.$#"
+			count: 1
+			path: app/Http/Controllers/AnonController.php
 
-        -
-            message: "#^Access to an undefined property App\\\\Models\\\\Employee\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, App\\\\Models\\\\Employee\\>\\:\\:\\$name\\.$#"
-            count: 1
-            path: app/Http/Controllers/ReportController.php
+		-
+			message: "#^Method App\\\\Http\\\\Controllers\\\\Auth\\\\RegisterController\\:\\:create\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/RegisterController.php
+
+		-
+			message: "#^Method App\\\\Http\\\\Controllers\\\\Auth\\\\RegisterController\\:\\:validator\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Http/Controllers/Auth/RegisterController.php
+
+		-
+			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
+			count: 3
+			path: app/Http/Controllers/EmployeeController.php
+
+		-
+			message: "#^Cannot access property \\$name on mixed\\.$#"
+			count: 1
+			path: app/Http/Controllers/EmployeeController.php
+
+		-
+			message: "#^Cannot access property \\$staffgroup_id on mixed\\.$#"
+			count: 1
+			path: app/Http/Controllers/EmployeeController.php
+
+		-
+			message: "#^Method App\\\\Http\\\\Controllers\\\\EmployeeController\\:\\:_calculateBUStart\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Http/Controllers/EmployeeController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Employee\\:\\:\\$name\\.$#"
+			count: 1
+			path: app/Http/Controllers/EmployeeEpisodeController.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 6
+			path: app/Http/Controllers/EpisodeController.php
+
+		-
+			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
+			count: 2
+			path: app/Http/Controllers/PastEmployeeController.php
+
+		-
+			message: "#^Cannot access property \\$name on mixed\\.$#"
+			count: 1
+			path: app/Http/Controllers/PastEmployeeController.php
+
+		-
+			message: "#^Cannot cast mixed to int\\.$#"
+			count: 4
+			path: app/Http/Controllers/RawplanController.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: app/Http/Controllers/RawplanController.php
+
+		-
+			message: "#^Parameter \\#2 \\$people of class App\\\\Services\\\\Planparser constructor expects string, mixed given\\.$#"
+			count: 1
+			path: app/Http/Controllers/RawplanController.php
+
+		-
+			message: "#^Parameter \\#3 \\$shifts of class App\\\\Services\\\\Planparser constructor expects string, mixed given\\.$#"
+			count: 1
+			path: app/Http/Controllers/RawplanController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Employee\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, App\\\\Models\\\\Employee\\>\\:\\:\\$bu_start\\.$#"
+			count: 2
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: "#^Access to an undefined property App\\\\Models\\\\Employee\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, App\\\\Models\\\\Employee\\>\\:\\:\\$name\\.$#"
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: "#^Cannot access property \\$bus on mixed\\.$#"
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: "#^Cannot access property \\$cons on mixed\\.$#"
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
+			count: 6
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: "#^Parameter \\#1 \\$time of static method Carbon\\\\Carbon\\:\\:parse\\(\\) expects DateTimeInterface\\|string\\|null, mixed given\\.$#"
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: "#^Method App\\\\Http\\\\Requests\\\\CommentRequest\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Http/Requests/CommentRequest.php
+
+		-
+			message: "#^Method App\\\\Http\\\\Requests\\\\DueShiftRequest\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Http/Requests/DueShiftRequest.php
+
+		-
+			message: "#^Method App\\\\Http\\\\Requests\\\\RequestNewHashPerMailAnonRequest\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Http/Requests/RequestNewHashPerMailAnonRequest.php
+
+		-
+			message: "#^Method App\\\\Http\\\\Requests\\\\StaffgroupRequest\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Http/Requests/StaffgroupRequest.php
+
+		-
+			message: "#^Method App\\\\Http\\\\Requests\\\\UpdateEmployeeRequest\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Http/Requests/UpdateEmployeeRequest.php
+
+		-
+			message: "#^Method App\\\\Models\\\\DueShift\\:\\:staffgroup\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo does not specify its types\\: TRelatedModel, TChildModel$#"
+			count: 1
+			path: app/Models/DueShift.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Employee\\:\\:episodes\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany does not specify its types\\: TRelatedModel$#"
+			count: 1
+			path: app/Models/Employee.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Employee\\:\\:name\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Casts\\\\Attribute does not specify its types\\: TGet, TSet$#"
+			count: 1
+			path: app/Models/Employee.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Episode\\:\\:comment\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo does not specify its types\\: TRelatedModel, TChildModel$#"
+			count: 1
+			path: app/Models/Episode.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Episode\\:\\:month\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Casts\\\\Attribute does not specify its types\\: TGet, TSet$#"
+			count: 1
+			path: app/Models/Episode.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Episode\\:\\:staffgroup\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo does not specify its types\\: TRelatedModel, TChildModel$#"
+			count: 1
+			path: app/Models/Episode.php
+
+		-
+			message: "#^Method App\\\\Models\\\\Episode\\:\\:year\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Casts\\\\Attribute does not specify its types\\: TGet, TSet$#"
+			count: 1
+			path: app/Models/Episode.php
+
+		-
+			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
+			count: 17
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Cannot access property \\$factor_nef on mixed\\.$#"
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Cannot access property \\$factor_night on mixed\\.$#"
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Cannot access property \\$name on mixed\\.$#"
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Cannot access property \\$nefs on mixed\\.$#"
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Cannot access property \\$nights on mixed\\.$#"
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Cannot access property \\$staffgroup on mixed\\.$#"
+			count: 25
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Cannot access property \\$vk on mixed\\.$#"
+			count: 5
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Cannot cast mixed to string\\.$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:fillUpBoni\\(\\) has parameter \\$staffgroups with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:getChangesForMonth\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:getNamesForMonth\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:getPastPeople\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:getPeopleForMonth\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:getPlannedMonth\\(\\) should return string\\|null but returns mixed\\.$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:getPlannedMonthForAnonAccess\\(\\) should return string\\|null but returns mixed\\.$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:getTablesForYear\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:getWorkedMonth\\(\\) should return string\\|null but returns mixed\\.$#"
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:newResultArray\\(\\) has parameter \\$person with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:newResultArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:sumUpVKForYear\\(\\) has parameter \\$staffgroups with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Helper\\:\\:sumUpVKForYear\\(\\) has parameter \\$vk_per_month with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Parameter \\#1 \\$key of function array_key_exists expects int\\|string, mixed given\\.$#"
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Planparser\\:\\:calculateShifts\\(\\) has parameter \\$shifts with no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Planparser.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Planparser\\:\\:calculateShifts\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Planparser.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Planparser\\:\\:validatePeople\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Planparser.php
+
+		-
+			message: "#^Method App\\\\Services\\\\Planparser\\:\\:validateShifts\\(\\) return type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Planparser.php
+
+		-
+			message: "#^Property App\\\\Services\\\\Planparser\\:\\:\\$parsedNames type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Planparser.php
+
+		-
+			message: "#^Property App\\\\Services\\\\Planparser\\:\\:\\$parsedShifts type has no value type specified in iterable type array\\.$#"
+			count: 1
+			path: app/Services/Planparser.php
