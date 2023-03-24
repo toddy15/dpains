@@ -233,6 +233,9 @@ class Helper
                 if (! isset($staffgroups[$employee->staffgroup][$employee->employee_id])) {
                     $staffgroups[$employee->staffgroup][$employee->employee_id] = Helper::newResultArray((array) $employee);
                 }
+                // Always use the last available name,
+                // overwrite previous information.
+                $staffgroups[$employee->staffgroup][$employee->employee_id]['name'] = $employee->name;
 
                 // Calculate the boni for vk and factors
                 $person_bonus_night = 1 - $employee->vk * $employee->factor_night;

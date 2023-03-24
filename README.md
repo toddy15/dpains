@@ -12,7 +12,6 @@ This repository contains the source code of the website
 ## TODO
 
 - [ ] Automatischer Logout nach z. B. 10 Minuten (anonym, Login)
-- [ ] Neuen Nachnamen anzeigen bei Änderung
 
 ## Später
 
