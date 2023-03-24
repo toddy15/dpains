@@ -1,4 +1,4 @@
-<x-label for="staffgroup" value="Mitarbeitergruppe:" />
+<x-label for="staffgroup" value="Gruppe:" />
 <x-input value="{{ old('staffgroup', $staffgroup ?? '') }}" name="staffgroup" id="staffgroup" required autofocus
     invalid="{{ $errors->has('staffgroup') }}" />
 

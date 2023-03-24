@@ -17,7 +17,7 @@
             <thead>
                 <th>Name</th>
                 <th>Beginn</th>
-                <th>Mitarbeitergruppe</th>
+                <th>Gruppe</th>
                 <th>VK</th>
                 <th>Faktor Nachtdienst</th>
                 <th>Faktor NEF</th>
@@ -42,12 +42,12 @@
             </tbody>
         </table>
     @endunless
-    <h2>Mitarbeiter</h2>
+    <h2>Mitarbeitende</h2>
     <table class="table table-striped">
         <thead>
             <th>Name</th>
             <th>Beginn</th>
-            <th>Mitarbeitergruppe</th>
+            <th>Gruppe</th>
             <th>VK</th>
             <th>Faktor Nachtdienst</th>
             <th>Faktor NEF</th>

@@ -10,7 +10,7 @@
     <table class="table table-striped">
         <thead>
             <th>Jahr</th>
-            <th>Mitarbeitergruppe</th>
+            <th>Gruppe</th>
             <th>Nachtdienste</th>
             <th>NEF-Dienste</th>
             <th>Aktion</th>

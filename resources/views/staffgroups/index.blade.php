@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Mitarbeitergruppen</h1>
+    <h1>Gruppen</h1>
     <p>
         <x-link-button class="btn btn-primary" href="{{ route('staffgroups.create') }}">
-            Neue Mitarbeitergruppe erstellen
+            Neue Gruppe erstellen
         </x-link-button>
     </p>
     <table class="table table-striped">
         <thead>
-            <th>Mitarbeitergruppe</th>
+            <th>Name</th>
             <th>Reihenfolge</th>
             <th>Aktion</th>
         </thead>

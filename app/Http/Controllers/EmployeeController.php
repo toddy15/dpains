@@ -88,7 +88,7 @@ class EmployeeController extends Controller
         // access this site.
         $employee->hash = Str::random();
         $employee->update($request->all());
-        $request->session()->flash('info', 'Der Mitarbeiter wurde geändert.');
+        $request->session()->flash('info', 'Der Eintrag für die Person wurde geändert.');
 
         return to_route('employees.index');
     }

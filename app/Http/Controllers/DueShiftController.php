@@ -75,7 +75,7 @@ class DueShiftController extends Controller
                 ->session()
                 ->flash(
                     'danger',
-                    'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.',
+                    'Die Sollzahlen für das Jahr und die Gruppe existieren bereits, es wurde nichts geändert.',
                 );
         }
 
@@ -124,7 +124,7 @@ class DueShiftController extends Controller
                 ->session()
                 ->flash(
                     'danger',
-                    'Die Sollzahlen für das Jahr und die Mitarbeitergruppe existieren bereits, es wurde nichts geändert.',
+                    'Die Sollzahlen für das Jahr und die Gruppe existieren bereits, es wurde nichts geändert.',
                 );
         }
 

@@ -20,25 +20,9 @@
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAuswertungen">
                             <a class="dropdown-item"
                                 href="{{ url('report/' . \App\Services\Helper::getPlannedYear()) }}">Jahre</a>
-                            <a class="dropdown-item" href="{{ url('report/' . date('Y/m')) }}">Monate</a>
                             <a class="dropdown-item"
                                 href="{{ url('report/buandcon/' . \App\Services\Helper::getPlannedYear()) }}">BU und
                                 Con</a>
-                        </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a id="navbarVerwaltung" class="nav-link dropdown-toggle" href="#" role="button"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            Verwaltung
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarVerwaltung">
-                            <a class="dropdown-item" href="{{ route('rawplans.index') }}">Dienstpläne</a>
-                            <a class="dropdown-item" href="{{ route('employees.index') }}">Mitarbeiter</a>
-                            <a class="dropdown-item" href="{{ route('comments.index') }}">Bemerkungen</a>
-                            <a class="dropdown-item" href="{{ route('staffgroups.index') }}">Mitarbeitergruppen</a>
-                            <a class="dropdown-item" href="{{ route('due_shifts.index') }}">Sollzahlen</a>
-                            <a class="dropdown-item"
-                                href="{{ url('employees/month/' . date('Y/m')) }}">Monatsübersichten</a>
                             <a class="dropdown-item"
                                 href="{{ url('employees/vk/all/' . \App\Services\Helper::getPlannedYear()) }}">Jahresübersichten
                                 VK</a>
@@ -48,6 +32,22 @@
                             <a class="dropdown-item"
                                 href="{{ url('employees/vk/nef/' . \App\Services\Helper::getPlannedYear()) }}">Jahresübersichten
                                 VK NEF</a>
+{{--                            <a class="dropdown-item" href="{{ url('report/' . date('Y/m')) }}">Monate</a>--}}
+{{--                            <a class="dropdown-item"--}}
+{{--                                href="{{ url('employees/month/' . date('Y/m')) }}">Monatsübersichten</a>--}}
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a id="navbarVerwaltung" class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            Verwaltung
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarVerwaltung">
+                            <a class="dropdown-item" href="{{ route('rawplans.index') }}">Dienstpläne</a>
+                            <a class="dropdown-item" href="{{ route('employees.index') }}">Mitarbeitende</a>
+                            <a class="dropdown-item" href="{{ route('comments.index') }}">Bemerkungen</a>
+                            <a class="dropdown-item" href="{{ route('staffgroups.index') }}">Gruppen</a>
+                            <a class="dropdown-item" href="{{ route('due_shifts.index') }}">Sollzahlen</a>
                         </div>
                     </li>
                 @endauth

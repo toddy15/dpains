@@ -12,7 +12,7 @@
         <thead>
             <th>Name</th>
             <th>Beginn</th>
-            <th>Mitarbeitergruppe</th>
+            <th>Gruppe</th>
             <th>VK</th>
             <th>Faktor Nachtdienst</th>
             <th>Faktor NEF</th>

@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Aktuelle Mitarbeiter</h1>
-    <a class="btn btn-primary" href="{{ action([\App\Http\Controllers\EpisodeController::class, 'create']) }}">Neuen Mitarbeiter
-        anlegen</a>
+    <h1>Mitarbeitende</h1>
+    <a class="btn btn-primary" href="{{ action([\App\Http\Controllers\EpisodeController::class, 'create']) }}">Neu anlegen</a>
     <table class="table table-striped">
         <thead>
             <th>Name</th>
@@ -32,7 +31,7 @@
         </tbody>
     </table>
 
-    <h1>Zukünftige Mitarbeiter</h1>
+    <h1>Zukünftige Mitarbeitende</h1>
     <table class="table table-striped">
         <thead>
             <th>Name</th>
@@ -56,6 +55,6 @@
     </table>
 
     <a class="btn btn-primary" href="{{ route('past.index') }}">
-        Frühere Mitarbeiter anzeigen
+        Frühere Mitarbeitende anzeigen
     </a>
 @endsection

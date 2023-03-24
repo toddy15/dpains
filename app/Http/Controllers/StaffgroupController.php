@@ -39,7 +39,7 @@ class StaffgroupController extends Controller
         Staffgroup::create($request->all());
         $request
             ->session()
-            ->flash('info', 'Die Mitarbeitergruppe wurde gespeichert.');
+            ->flash('info', 'Die Gruppe wurde gespeichert.');
 
         return to_route('staffgroups.index');
     }
@@ -66,7 +66,7 @@ class StaffgroupController extends Controller
         $staffgroup->update($request->all());
         $request
             ->session()
-            ->flash('info', 'Die Mitarbeitergruppe wurde geändert.');
+            ->flash('info', 'Die Gruppe wurde geändert.');
 
         return to_route('staffgroups.index');
     }

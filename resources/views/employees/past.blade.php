@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Frühere Mitarbeiter</h1>
+    <h1>Frühere Mitarbeitende</h1>
     <table class="table table-striped">
         <thead>
             <th>Name</th>

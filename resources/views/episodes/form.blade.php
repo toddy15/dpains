@@ -16,8 +16,8 @@
     @endfor
 </select>
 
-<x-label for="staffgroup_id" value="Mitarbeitergruppe:" />
-<select id="staffgroup_id" name="staffgroup_id" class="form-select" aria-label="Mitarbeitergruppe">
+<x-label for="staffgroup_id" value="Gruppe:" />
+<select id="staffgroup_id" name="staffgroup_id" class="form-select" aria-label="Gruppe">
     @foreach ($staffgroups as $staffgroup)
         <option value="{{ $staffgroup->id }}" @selected(old('staffgroup_id', $episode) == $staffgroup->id)>{{ $staffgroup->staffgroup }}</option>
     @endforeach
