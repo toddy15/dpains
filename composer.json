@@ -8,22 +8,22 @@
     "type": "project",
     "require": {
         "php": "^8.2",
-        "guzzlehttp/guzzle": "^7.5",
-        "laravel/framework": "^10.7.1",
+        "guzzlehttp/guzzle": "^7.5.1",
+        "laravel/framework": "^10.8.0",
         "laravel/sanctum": "^3.2.1",
         "laravel/tinker": "^2.8.1",
         "laravel/ui": "^4.2.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.21",
-        "laravel/pint": "^1.8",
+        "laravel/pint": "^1.9",
         "laravel/sail": "^1.21.4",
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^7.5.0",
-        "nunomaduro/larastan": "^2.5.1",
-        "pestphp/pest": "^2.5.0",
+        "nunomaduro/larastan": "^2.6.0",
+        "pestphp/pest": "^2.5.2",
         "pestphp/pest-plugin-laravel": "^2.0",
-        "rector/rector": "^0.15.24",
+        "rector/rector": "^0.15.25",
         "spatie/laravel-ignition": "^2.1"
     },
     "autoload": {
