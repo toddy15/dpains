@@ -17,12 +17,12 @@ class Helper
     /**
      * The year with the first data available.
      */
-    public static int $firstYear = 2016;
+    public int $firstYear = 2016;
 
     /**
      * Generate a url for the next month.
      */
-    public static function getNextMonthUrl(string $prefix, int $year, int $month): string
+    public function getNextMonthUrl(string $prefix, int $year, int $month): string
     {
         if ($month == 12) {
             $year++;
@@ -38,7 +38,7 @@ class Helper
      * Generate a url for the previous month. If there is no previous
      * month, returns an empty string.
      */
-    public static function getPreviousMonthUrl(string $prefix, int $year, int $month): string
+    public function getPreviousMonthUrl(string $prefix, int $year, int $month): string
     {
         if ($month == 1) {
             $year--;
@@ -46,7 +46,7 @@ class Helper
         } else {
             $month--;
         }
-        if ($year < Helper::$firstYear) {
+        if ($year < $this->firstYear) {
             return '';
         } else {
             return url($prefix.sprintf('%4d/%02d', $year, $month));
@@ -56,7 +56,7 @@ class Helper
     /**
      * Generate an URL for the next year.
      */
-    public static function getNextYearUrl(string $prefix, int $year): string
+    public function getNextYearUrl(string $prefix, int $year): string
     {
         $year++;
 
@@ -66,10 +66,10 @@ class Helper
     /**
      * Generate an URL for the previous year.
      */
-    public static function getPreviousYearUrl(string $prefix, int $year): string
+    public function getPreviousYearUrl(string $prefix, int $year): string
     {
         $year--;
-        if ($year < Helper::$firstYear) {
+        if ($year < $this->firstYear) {
             return '';
         } else {
             return url($prefix.sprintf('%4d/', $year));
@@ -80,9 +80,9 @@ class Helper
      * Return an array of people's names in the given month.
      * The array keys are the people's unique number.
      */
-    public static function getNamesForMonth(string $formatted_month): array
+    public function getNamesForMonth(string $formatted_month): array
     {
-        $employees = Helper::getPeopleForMonth($formatted_month);
+        $employees = $this->getPeopleForMonth($formatted_month);
         $names = [];
         foreach ($employees as $employee) {
             $names[$employee->employee_id] = $employee->name;
@@ -94,7 +94,7 @@ class Helper
     /**
      * Returns an array of people working in the given month.
      */
-    public static function getPeopleForMonth(string $formatted_month): Collection
+    public function getPeopleForMonth(string $formatted_month): Collection
     {
         return DB::table('episodes as e1')
             ->leftJoin('staffgroups', 'e1.staffgroup_id', '=', 'staffgroups.id')
@@ -126,7 +126,7 @@ class Helper
     /**
      * Returns an array of people previously working.
      */
-    public static function getPastPeople(string $formatted_month): Collection
+    public function getPastPeople(string $formatted_month): Collection
     {
         return DB::table('episodes as e1')
             ->leftJoin('staffgroups', 'e1.staffgroup_id', '=', 'staffgroups.id')
@@ -154,7 +154,7 @@ class Helper
     /**
      * Returns all people with changes in the given month.
      */
-    public static function getChangesForMonth(string $formatted_month): Collection
+    public function getChangesForMonth(string $formatted_month): Collection
     {
         return Episode::where('start_date', $formatted_month)
             ->leftJoin('staffgroups', 'staffgroup_id', '=', 'staffgroups.id')
@@ -166,7 +166,7 @@ class Helper
             ->get();
     }
 
-    public static function getTablesForYear(
+    public function getTablesForYear(
         HttpRequest $request,
         int $year,
         ?string $worked_month,
@@ -196,7 +196,7 @@ class Helper
             // Set up a month usable for the database
             $formattedMonth = sprintf('%4d-%02d', $year, $month);
             // Get all employees for the current month
-            $employees_in_month = Helper::getPeopleForMonth($formattedMonth);
+            $employees_in_month = $this->getPeopleForMonth($formattedMonth);
             // Create a new array with the employee's id as
             // the array index.
             $employees = [];
@@ -231,7 +231,7 @@ class Helper
                 }
                 // Set up the result array, grouped by staffgroup
                 if (! isset($staffgroups[$employee->staffgroup][$employee->employee_id])) {
-                    $staffgroups[$employee->staffgroup][$employee->employee_id] = Helper::newResultArray((array) $employee);
+                    $staffgroups[$employee->staffgroup][$employee->employee_id] = $this->newResultArray((array) $employee);
                 }
                 // Always use the last available name,
                 // overwrite previous information.
@@ -253,10 +253,10 @@ class Helper
             }
         }
         // Fill up the boni for each month that is not in the result array yet.
-        Helper::fillUpBoni($staffgroups);
+        $this->fillUpBoni($staffgroups);
         foreach ($staffgroups as $staffgroup => $employee) {
-            $due_nights = Helper::getDueNightShifts($staffgroup, $year);
-            $due_nefs = Helper::getDueNefShifts($staffgroup, $year);
+            $due_nights = $this->getDueNightShifts($staffgroup, $year);
+            $due_nefs = $this->getDueNefShifts($staffgroup, $year);
             // Finally, set up an array for the results table
             $rows = [];
             // Determine if the table is for anonymous access.
@@ -326,7 +326,7 @@ class Helper
         return $tables;
     }
 
-    public static function newResultArray(array $person): array
+    public function newResultArray(array $person): array
     {
         return array_merge($person, [
             'worked_nights' => 0,
@@ -336,7 +336,7 @@ class Helper
         ]);
     }
 
-    public static function fillUpBoni(array &$staffgroups): void
+    public function fillUpBoni(array &$staffgroups): void
     {
         foreach ($staffgroups as $staffgroup => $person) {
             foreach ($person as $person_number => $info) {
@@ -355,7 +355,7 @@ class Helper
         }
     }
 
-    public static function getDueNightShifts(string $staffgroup, int $year): int
+    public function getDueNightShifts(string $staffgroup, int $year): int
     {
         $due_shift = self::getDueShifts($staffgroup, $year);
         if ($due_shift) {
@@ -365,7 +365,7 @@ class Helper
         return 0;
     }
 
-    private static function getDueShifts(string $staffgroup, int $year): ?DueShift
+    private function getDueShifts(string $staffgroup, int $year): ?DueShift
     {
         // Special case for combined staffgroup
         if ($staffgroup == 'FA und WB mit Nachtdienst') {
@@ -378,7 +378,7 @@ class Helper
             ->first();
     }
 
-    public static function getDueNefShifts(string $staffgroup, int $year): int
+    public function getDueNefShifts(string $staffgroup, int $year): int
     {
         $due_shift = self::getDueShifts($staffgroup, $year);
         if ($due_shift) {
@@ -388,7 +388,7 @@ class Helper
         return 0;
     }
 
-    public static function sortTableBy(string $column, string $body, int $year, string $hash = ''): string
+    public function sortTableBy(string $column, string $body, int $year, string $hash = ''): string
     {
         // Provide default values, if the parameters are not set
         $currentColumn = Request::get('sort') ?: 'diff_planned_nights';
@@ -439,7 +439,7 @@ class Helper
      *
      * @return string|null Formatted year (YYYY)
      */
-    public static function getPlannedYear(): ?string
+    public function getPlannedYear(): ?string
     {
         $month = Rawplan::max('month');
 
@@ -452,7 +452,7 @@ class Helper
      *
      * @return string|null Formatted month (YYYY-MM)
      */
-    public static function getPlannedMonth(int $year): ?string
+    public function getPlannedMonth(int $year): ?string
     {
         return Rawplan::where('month', 'like', "$year%")->max('month');
     }
@@ -466,7 +466,7 @@ class Helper
      *
      * @return string|null Formatted month (YYYY-MM)
      */
-    public static function getWorkedMonth(?int $year = null): ?string
+    public function getWorkedMonth(?int $year = null): ?string
     {
         if ($year) {
             return Rawplan::where('month', 'like', "$year%")
@@ -484,7 +484,7 @@ class Helper
      *
      * @return string|null Formatted month (YYYY-MM)
      */
-    public static function getPlannedMonthForAnonAccess(int $year): ?string
+    public function getPlannedMonthForAnonAccess(int $year): ?string
     {
         return Rawplan::where('month', 'like', "$year%")
             ->where('anon_report', true)
@@ -495,7 +495,7 @@ class Helper
      * Sum up the VK for the given year, grouped by the staffgroup.
      * With $which_vk, specify the VK calculation: all, nef, night
      */
-    public static function sumUpVKForYear(
+    public function sumUpVKForYear(
         string $which_vk,
         int $year,
         array &$staffgroups,
@@ -509,9 +509,9 @@ class Helper
         // Initialize the counter for yearly mean of all VK
         $vk_per_month['all']['yearly_mean'] = 0;
         for ($month = 1; $month <= 12; $month++) {
-            $formatted_month = Helper::validateAndFormatDate($year, $month);
+            $formatted_month = $this->validateAndFormatDate($year, $month);
             // Get all episodes valid in this month
-            $episodes = Helper::getPeopleForMonth($formatted_month);
+            $episodes = $this->getPeopleForMonth($formatted_month);
             foreach ($episodes as $episode) {
                 // Reduce staffgroups
                 if (
@@ -604,10 +604,10 @@ class Helper
      * representation. If the date is not valid, the app will abort
      * with a HTTP 404 error.
      */
-    public static function validateAndFormatDate(int $year, int $month): string
+    public function validateAndFormatDate(int $year, int $month): string
     {
         // Do not show years before the database started and keep month between 1 and 12
-        if ($year < Helper::$firstYear or $month < 1 or $month > 12) {
+        if ($year < $this->firstYear or $month < 1 or $month > 12) {
             abort(404);
         }
         // Convert to internal representation in the database (YYYY-MM)
@@ -622,7 +622,7 @@ class Helper
      *
      * @TODO: Fix this if more staffgroups get added.
      */
-    public static function staffgroupMayReceiveEMail(int $staffgroup): bool
+    public function staffgroupMayReceiveEMail(int $staffgroup): bool
     {
         return $staffgroup < 8;
     }
