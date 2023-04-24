@@ -15,8 +15,5 @@ class TrimStrings extends Middleware
         'current_password',
         'password',
         'password_confirmation',
-        // The whitespace in these fields is significant.
-        'people',
-        'shifts',
     ];
 }
