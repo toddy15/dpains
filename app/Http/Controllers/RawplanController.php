@@ -17,11 +17,11 @@ class RawplanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Helper $helper): View
     {
         $month_names = [];
         // Allow anon reporting from the beginning of database storage
-        $start_year = Helper::$firstYear;
+        $start_year = $helper->firstYear;
         // ... to next year
         $end_year = Carbon::now()->addYear()->yearIso;
         // Determine the current month for anon reporting
@@ -36,7 +36,7 @@ class RawplanController extends Controller
             $current_anon_month = '00';
             $current_anon_year = '0000';
         }
-        $worked_month = Helper::getWorkedMonth();
+        $worked_month = $helper->getWorkedMonth();
         if ($worked_month == null) {
             $worked_month = '0000-00';
         }
@@ -73,20 +73,20 @@ class RawplanController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create(Helper $helper): View
     {
         $month_names = [];
         // Allow from the beginning of database storage
-        $start_year = Helper::$firstYear;
+        $start_year = $helper->firstYear;
         // ... to next year
         $end_year = Carbon::now()->addYear()->yearIso;
         // Select highest planned month, either in the next year ...
         $year = Carbon::now()->addYear()->yearIso;
-        $month = Helper::getPlannedMonth($year);
+        $month = $helper->getPlannedMonth($year);
         while (is_null($month)) {
             // ... or, if not yet planned, in this or previous years.
             $year--;
-            $month = Helper::getPlannedMonth($year);
+            $month = $helper->getPlannedMonth($year);
         }
         [$selected_year, $selected_month] = explode('-', $month);
 
@@ -110,7 +110,7 @@ class RawplanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Helper $helper, Request $request): RedirectResponse
     {
         // Perform validation before actually saving entry.
         $validator = Validator::make($request->all(), [
@@ -120,7 +120,7 @@ class RawplanController extends Controller
             'shifts' => 'required',
         ]);
         // Set the month to the formatted string for database storage.
-        $month = Helper::validateAndFormatDate(
+        $month = $helper->validateAndFormatDate(
             (int) $request->get('year'),
             (int) $request->get('month'),
         );
@@ -173,12 +173,12 @@ class RawplanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, int $id): RedirectResponse
+    public function destroy(Helper $helper, Request $request, int $id): RedirectResponse
     {
         $rawplan = Rawplan::findOrFail($id);
         // Only delete the rawplan if it's still in progress
         // and has not been worked through completely.
-        if ($rawplan->month <= Helper::getWorkedMonth()) {
+        if ($rawplan->month <= $helper->getWorkedMonth()) {
             $request
                 ->session()
                 ->flash('warning', 'Der Dienstplan wurde nicht gelöscht.');
@@ -198,10 +198,10 @@ class RawplanController extends Controller
     /**
      * Flip the status of inclusion for the month in the anonymous report.
      */
-    public function setAnonReportMonth(Request $request): RedirectResponse
+    public function setAnonReportMonth(Helper $helper, Request $request): RedirectResponse
     {
         // Format the month
-        $formatted_month = Helper::validateAndFormatDate(
+        $formatted_month = $helper->validateAndFormatDate(
             (int) $request->year,
             (int) $request->month,
         );

@@ -20,7 +20,7 @@ class EpisodeController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request): View
+    public function create(Helper $helper, Request $request): View
     {
         $month_names = [];
         // See if there is a valid employee
@@ -46,7 +46,7 @@ class EpisodeController extends Controller
         $staffgroups = Staffgroup::all()->sortBy('weight');
         // Allow from the beginning of database storage or some years back
         $start_year = max(
-            Helper::$firstYear,
+            $helper->firstYear,
             Carbon::now()->subYears(3)->yearIso,
         );
         // ... to some years ahead
@@ -76,10 +76,10 @@ class EpisodeController extends Controller
      *
      * @throws ValidationException
      */
-    public function store(StoreEpisodeRequest $request): RedirectResponse
+    public function store(Helper $helper, StoreEpisodeRequest $request): RedirectResponse
     {
         // Set the month to the formatted string for database storage.
-        $start_date = Helper::validateAndFormatDate(
+        $start_date = $helper->validateAndFormatDate(
             (int) $request->get('year'),
             (int) $request->get('month'),
         );
@@ -115,7 +115,7 @@ class EpisodeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(int $id): View
+    public function edit(Helper $helper, int $id): View
     {
         $month_names = [];
         $episode = Episode::findOrFail($id);
@@ -123,7 +123,7 @@ class EpisodeController extends Controller
         $comments = Comment::all()->sortBy('comment');
         $staffgroups = Staffgroup::all()->sortBy('weight');
         // Allow from the beginning of database storage
-        $start_year = Helper::$firstYear;
+        $start_year = $helper->firstYear;
         // ... to some years ahead
         $end_year = Carbon::now()->addYears(3)->yearIso;
 
@@ -148,11 +148,11 @@ class EpisodeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreEpisodeRequest $request, int $id): RedirectResponse
+    public function update(Helper $helper, StoreEpisodeRequest $request, int $id): RedirectResponse
     {
         $episode = Episode::findOrFail($id);
         // Set the month to the formatted string for database storage.
-        $start_date = Helper::validateAndFormatDate(
+        $start_date = $helper->validateAndFormatDate(
             (int) $request->get('year'),
             (int) $request->get('month'),
         );

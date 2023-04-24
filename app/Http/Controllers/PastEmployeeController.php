@@ -10,11 +10,11 @@ use Illuminate\View\View;
 
 class PastEmployeeController
 {
-    public function index(): View
+    public function index(Helper $helper): View
     {
         $employees = Employee::all();
         $current_month = Carbon::now()->isoFormat('YYYY-MM');
-        $past_people = Helper::getPastPeople($current_month)->toArray();
+        $past_people = $helper->getPastPeople($current_month)->toArray();
         // Construct an array with id, name, and email address
         $past = array_map(function ($employee) use ($employees) {
             // Extract information from employee table

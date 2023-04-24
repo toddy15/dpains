@@ -99,7 +99,7 @@ class AnonController extends Controller
      *
      * The hash is mapped to the employees id.
      */
-    public function showYear(Request $request, int $year, string $hash): View|RedirectResponse
+    public function showYear(Helper $helper, Request $request, int $year, string $hash): View|RedirectResponse
     {
         $employee = Employee::where('hash', $hash)->first();
         // Feedback if there is no such hash
@@ -113,14 +113,14 @@ class AnonController extends Controller
         // Refresh last access
         $employee->touch();
         // Determine which month has been planned
-        $planned_month = Helper::getPlannedMonthForAnonAccess($year);
+        $planned_month = $helper->getPlannedMonthForAnonAccess($year);
         if (! $planned_month) {
             // There is no data at all, so abort.
             abort(404);
         }
         // Determine which month is in the past and therefore
         // represents the actually worked shifts.
-        $worked_month = Helper::getWorkedMonth($year);
+        $worked_month = $helper->getWorkedMonth($year);
         // Set up readable month names
         Carbon::setLocale('de');
         $readable_planned_month = Carbon::parse($planned_month)
@@ -137,12 +137,12 @@ class AnonController extends Controller
         $latest_change = Carbon::parse($latest_change)
             ->isoFormat('Do MMMM YYYY, HH:mm');
         // Generate the next and previous year urls
-        $previous_year_url = Helper::getPreviousYearUrl('anon/', $year);
+        $previous_year_url = $helper->getPreviousYearUrl('anon/', $year);
         if (! empty($previous_year_url)) {
             $previous_year_url .= '/'.$hash;
         }
-        $next_year_url = Helper::getNextYearUrl('anon/', $year).'/'.$hash;
-        $tables = Helper::getTablesForYear(
+        $next_year_url = $helper->getNextYearUrl('anon/', $year).'/'.$hash;
+        $tables = $helper->getTablesForYear(
             $request,
             $year,
             $worked_month,

@@ -16,7 +16,7 @@ class DueShiftRequest extends FormRequest
             'year' => [
                 'required',
                 'numeric',
-                'min:'.Helper::$firstYear,
+                'min:'.(new Helper)->firstYear,
             ],
             'nights' => [
                 'required',

@@ -113,12 +113,13 @@ class Planparser
 
     public function storeShiftsForPeople(): void
     {
+        $helper = new Helper();
         // Clean all previously parsed results.
         DB::table('analyzed_months')
             ->where('month', $this->formattedMonth)
             ->delete();
         // Get an array with the unique person's number and name in this episode.
-        $expected_names = Helper::getNamesForMonth($this->formattedMonth);
+        $expected_names = $helper->getNamesForMonth($this->formattedMonth);
         $database_rows = [];
         foreach ($this->parsedNames as $id => $name) {
             $person_id = array_search($name, $expected_names);
@@ -251,9 +252,10 @@ class Planparser
 
     public function validatePeople(): array
     {
+        $helper = new Helper();
         $result = [];
         // Get all people which are expected in this month.
-        $expected_people = Helper::getNamesForMonth($this->formattedMonth);
+        $expected_people = $helper->getNamesForMonth($this->formattedMonth);
         // Check that all expected people have been found.
         $more_expected = array_diff($expected_people, $this->parsedNames);
         if ($more_expected) {

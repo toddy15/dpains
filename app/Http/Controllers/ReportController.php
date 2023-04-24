@@ -13,23 +13,23 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
-    public function showMonth(int $year, int $month): View
+    public function showMonth(Helper $helper, int $year, int $month): View
     {
         $results = [];
-        $formatted_month = Helper::validateAndFormatDate($year, $month);
+        $formatted_month = $helper->validateAndFormatDate($year, $month);
         // Set up a readable month name
         Carbon::setLocale('de');
         $readable_month = Carbon::createFromDate($year, $month, 1)
             ->isoFormat('MMMM YYYY');
         // Generate the next and previous month urls
-        $next_month_url = Helper::getNextMonthUrl('report/', $year, $month);
-        $previous_month_url = Helper::getPreviousMonthUrl(
+        $next_month_url = $helper->getNextMonthUrl('report/', $year, $month);
+        $previous_month_url = $helper->getPreviousMonthUrl(
             'report/',
             $year,
             $month,
         );
         // Get the names for this month
-        $names = Helper::getNamesForMonth($formatted_month);
+        $names = $helper->getNamesForMonth($formatted_month);
         // Get information for all people in this month
         $reports = DB::table('analyzed_months')
             ->where('month', $formatted_month)
@@ -70,17 +70,17 @@ class ReportController extends Controller
         );
     }
 
-    public function showYear(Request $request, int $year): View
+    public function showYear(Helper $helper, Request $request, int $year): View
     {
         // Determine which month has been planned
-        $planned_month = Helper::getPlannedMonth($year);
+        $planned_month = $helper->getPlannedMonth($year);
         if (! $planned_month) {
             // There is no data at all, so abort.
             abort(404);
         }
         // Determine which month is in the past and therefore
         // represents the actually worked shifts.
-        $worked_month = Helper::getWorkedMonth($year);
+        $worked_month = $helper->getWorkedMonth($year);
         // Set up readable month names
         Carbon::setLocale('de');
         $readable_planned_month = Carbon::parse($planned_month)
@@ -97,9 +97,9 @@ class ReportController extends Controller
         $latest_change = Carbon::parse($latest_change)
             ->isoFormat('Do MMMM YYYY, HH:mm');
         // Generate the next and previous year urls
-        $previous_year_url = Helper::getPreviousYearUrl('report/', $year);
-        $next_year_url = Helper::getNextYearUrl('report/', $year);
-        $tables = Helper::getTablesForYear($request, $year, $worked_month);
+        $previous_year_url = $helper->getPreviousYearUrl('report/', $year);
+        $next_year_url = $helper->getNextYearUrl('report/', $year);
+        $tables = $helper->getTablesForYear($request, $year, $worked_month);
 
         return view('reports.show_year',
             [
@@ -114,7 +114,7 @@ class ReportController extends Controller
         );
     }
 
-    public function showBuAndCon(Request $request, int $year): View
+    public function showBuAndCon(Helper $helper, Request $request, int $year): View
     {
         $all_bu_and_con = [];
         // Get all employees with bu and con in the last, current, and next year
@@ -202,11 +202,11 @@ class ReportController extends Controller
         }
         // Sort by name
         uasort($employees, fn ($a, $b) => $a['name'] <=> $b['name']);
-        $previous_year_url = Helper::getPreviousYearUrl(
+        $previous_year_url = $helper->getPreviousYearUrl(
             'report/buandcon/',
             $year,
         );
-        $next_year_url = Helper::getNextYearUrl('report/buandcon/', $year);
+        $next_year_url = $helper->getNextYearUrl('report/buandcon/', $year);
 
         return view('reports.show_bu_and_con',
             [
@@ -218,15 +218,15 @@ class ReportController extends Controller
         );
     }
 
-    public function refresh(Request $request): View
+    public function refresh(Helper $helper, Request $request): View
     {
         // Determine the highest month with data.
-        $highest_month = Helper::getPlannedMonth(
+        $highest_month = $helper->getPlannedMonth(
             Carbon::now()->addYear()->yearIso,
         );
         // If the next year does not have data, this will return NULL.
         if (! $highest_month) {
-            $highest_month = Helper::getPlannedMonth(Carbon::now()->yearIso);
+            $highest_month = $helper->getPlannedMonth(Carbon::now()->yearIso);
         }
         // Ensure that there is a result
         if ($highest_month == null) {
@@ -241,7 +241,7 @@ class ReportController extends Controller
         // Cycle through all 12 months from beginning to highest_year - 1.
         $highest_year = (int) substr($highest_month, 0, 4);
         $highest_month = (int) substr($highest_month, 5, 2);
-        for ($year = Helper::$firstYear; $year < $highest_year; $year++) {
+        for ($year = $helper->firstYear; $year < $highest_year; $year++) {
             for ($month = 1; $month <= 12; $month++) {
                 $recalculation_months[] = sprintf('%04d-%02d', $year, $month);
             }

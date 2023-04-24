@@ -16,21 +16,21 @@ class EmployeeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): View
+    public function index(Helper $helper): View
     {
         $employees = Employee::all();
         // Display current employees first, already sorted by staffgroup and name
         $current_month = Carbon::now()->isoFormat('YYYY-MM');
-        $people = Helper::getPeopleForMonth($current_month)->toArray();
+        $people = $helper->getPeopleForMonth($current_month)->toArray();
         // Exclude the past employees.
-        $past_people = Helper::getPastPeople($current_month)->toArray();
+        $past_people = $helper->getPastPeople($current_month)->toArray();
         // Construct an array with id, name, and email address
-        $current = array_map(function ($employee) use ($employees) {
+        $current = array_map(function ($employee) use ($employees, $helper) {
             // Extract information from employee table
             $data = $employees->where('id', $employee->employee_id)->firstOrFail();
             $bu = $this->_calculateBUStart();
             $bu_start = $bu[$data->bu_start];
-            if (Helper::staffgroupMayReceiveEMail($employee->staffgroup_id)) {
+            if ($helper->staffgroupMayReceiveEMail($employee->staffgroup_id)) {
                 // Warn if people do *not* have a valid email, although they should.
                 $warning = ! Str::contains($data->email, '@');
             } else {
@@ -97,24 +97,24 @@ class EmployeeController extends Controller
      * Show the employees working in the given month with their
      * calculated night shifts and nef shifts.
      */
-    public function showMonth(int $year, int $month): View
+    public function showMonth(Helper $helper, int $year, int $month): View
     {
-        $formatted_month = Helper::validateAndFormatDate($year, $month);
+        $formatted_month = $helper->validateAndFormatDate($year, $month);
         // Get all episodes valid in this month
-        $episodes = Helper::getPeopleForMonth($formatted_month);
+        $episodes = $helper->getPeopleForMonth($formatted_month);
         // Get all changes in this month
-        $episode_changes = Helper::getChangesForMonth($formatted_month);
+        $episode_changes = $helper->getChangesForMonth($formatted_month);
         // Set up a readable month name
         Carbon::setLocale('de');
         $readable_month = Carbon::createFromDate($year, $month, 1)
             ->isoFormat('MMMM YYYY');
         // Generate the next and previous month urls
-        $next_month_url = Helper::getNextMonthUrl(
+        $next_month_url = $helper->getNextMonthUrl(
             'employees/month/',
             $year,
             $month,
         );
-        $previous_month_url = Helper::getPreviousMonthUrl(
+        $previous_month_url = $helper->getPreviousMonthUrl(
             'employees/month/',
             $year,
             $month,
@@ -135,18 +135,18 @@ class EmployeeController extends Controller
      * Show the employees working in the given year with their
      * VK, grouped by staffgroups.
      */
-    public function showVKForYear(string $which_vk, int $year): View
+    public function showVKForYear(Helper $helper, string $which_vk, int $year): View
     {
         // Set up result arrays
         $staffgroups = [];
         $vk_per_month = [];
-        Helper::sumUpVKForYear($which_vk, $year, $staffgroups, $vk_per_month);
+        $helper->sumUpVKForYear($which_vk, $year, $staffgroups, $vk_per_month);
         // Generate the next and previous year urls
-        $next_year_url = Helper::getNextYearUrl(
+        $next_year_url = $helper->getNextYearUrl(
             'employees/vk/'.$which_vk.'/',
             $year,
         );
-        $previous_year_url = Helper::getPreviousYearUrl(
+        $previous_year_url = $helper->getPreviousYearUrl(
             'employees/vk/'.$which_vk.'/',
             $year,
         );
