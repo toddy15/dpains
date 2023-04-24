@@ -1,20 +1,20 @@
 {
+  "node_modules/bootstrap/dist/js/bootstrap.esm.js": {
+    "file": "assets/bootstrap.esm-c6bc56b4.js",
+    "isDynamicEntry": true,
+    "src": "node_modules/bootstrap/dist/js/bootstrap.esm.js"
+  },
   "resources/js/app.js": {
-    "file": "assets/app.5fa3c59f.js",
-    "src": "resources/js/app.js",
-    "isEntry": true,
     "dynamicImports": [
       "node_modules/bootstrap/dist/js/bootstrap.esm.js"
-    ]
-  },
-  "node_modules/bootstrap/dist/js/bootstrap.esm.js": {
-    "file": "assets/bootstrap.esm.d168e818.js",
-    "src": "node_modules/bootstrap/dist/js/bootstrap.esm.js",
-    "isDynamicEntry": true
+    ],
+    "file": "assets/app-e833fae4.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app.d324f07f.css",
-    "src": "resources/sass/app.scss",
-    "isEntry": true
+    "file": "assets/app-ba9c1453.css",
+    "isEntry": true,
+    "src": "resources/sass/app.scss"
   }
 }
