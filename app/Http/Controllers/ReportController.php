@@ -70,6 +70,14 @@ class ReportController extends Controller
         );
     }
 
+    /**
+     * Show the current year
+     */
+    public function showCurrentYear(Helper $helper, Request $request): View
+    {
+        return $this->showYear($helper, $request, (int) $helper->getPlannedYear());
+    }
+
     public function showYear(Helper $helper, Request $request, int $year): View
     {
         // Determine which month has been planned
@@ -110,8 +118,17 @@ class ReportController extends Controller
                 'readable_planned_month' => $readable_planned_month,
                 'readable_worked_month' => $readable_worked_month,
                 'tables' => $tables,
+                'helper' => $helper,
             ]
         );
+    }
+
+    /**
+     * Show the current year
+     */
+    public function showCurrentBuAndCon(Helper $helper, Request $request): View
+    {
+        return $this->showBuAndCon($helper, $request, (int) $helper->getPlannedYear());
     }
 
     public function showBuAndCon(Helper $helper, Request $request, int $year): View

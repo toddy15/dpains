@@ -135,6 +135,15 @@ class EmployeeController extends Controller
      * Show the employees working in the given year with their
      * VK, grouped by staffgroups.
      */
+    public function showCurrentVKForYear(Helper $helper, string $which_vk): View
+    {
+        return $this->showVKForYear($helper, $which_vk, (int) $helper->getPlannedYear());
+    }
+
+    /**
+     * Show the employees working in the given year with their
+     * VK, grouped by staffgroups.
+     */
     public function showVKForYear(Helper $helper, string $which_vk, int $year): View
     {
         // Set up result arrays

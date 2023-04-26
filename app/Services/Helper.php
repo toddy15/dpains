@@ -437,9 +437,9 @@ class Helper
     /**
      * Returns the highest year which has been planned.
      *
-     * @return string|null Formatted year (YYYY)
+     * @return string Formatted year (YYYY)
      */
-    public function getPlannedYear(): ?string
+    public function getPlannedYear(): string
     {
         $month = Rawplan::max('month');
 

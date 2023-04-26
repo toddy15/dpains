@@ -54,6 +54,10 @@ Route::middleware([Authenticate::class])->group(function () {
         'employees/vk/{which_vk}/{year}',
         [EmployeeController::class, 'showVKForYear'],
     )->where(['year' => '[0-9]+']);
+    Route::get(
+        'employees/vk/{which_vk}',
+        [EmployeeController::class, 'showCurrentVKForYear'],
+    );
     Route::resource('employees/past', PastEmployeeController::class)->only([
         'index',
     ]);
@@ -69,9 +73,19 @@ Route::middleware([Authenticate::class])->group(function () {
         ->where(['year' => '[0-9]+'])
         ->name('reports.showYear');
     Route::get(
+        'report',
+        [ReportController::class, 'showCurrentYear'],
+    )
+        ->name('reports.showCurrentYear');
+    Route::get(
         'report/buandcon/{year}',
         [ReportController::class, 'showBuAndCon'],
     )->where(['year' => '[0-9]+']);
+    Route::get(
+        'report/buandcon',
+        [ReportController::class, 'showCurrentBuAndCon'],
+    )
+        ->name('reports.showCurrentBuAndCon');
     Route::get(
         'report/refresh',
         [ReportController::class, 'refresh'],

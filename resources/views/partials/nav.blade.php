@@ -19,18 +19,18 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAuswertungen">
                             <a class="dropdown-item"
-                                href="{{ url('report/' . \App\Services\Helper::getPlannedYear()) }}">Jahre</a>
+                                href="{{ url('report') }}">Jahre</a>
                             <a class="dropdown-item"
-                                href="{{ url('report/buandcon/' . \App\Services\Helper::getPlannedYear()) }}">BU und
+                                href="{{ url('report/buandcon') }}">BU und
                                 Con</a>
                             <a class="dropdown-item"
-                                href="{{ url('employees/vk/all/' . \App\Services\Helper::getPlannedYear()) }}">Jahresübersichten
+                                href="{{ url('employees/vk/all') }}">Jahresübersichten
                                 VK</a>
                             <a class="dropdown-item"
-                                href="{{ url('employees/vk/night/' . \App\Services\Helper::getPlannedYear()) }}">Jahresübersichten
+                                href="{{ url('employees/vk/night') }}">Jahresübersichten
                                 VK Nächte</a>
                             <a class="dropdown-item"
-                                href="{{ url('employees/vk/nef/' . \App\Services\Helper::getPlannedYear()) }}">Jahresübersichten
+                                href="{{ url('employees/vk/nef') }}">Jahresübersichten
                                 VK NEF</a>
 {{--                            <a class="dropdown-item" href="{{ url('report/' . date('Y/m')) }}">Monate</a>--}}
 {{--                            <a class="dropdown-item"--}}

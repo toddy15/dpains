@@ -159,6 +159,7 @@ class AnonController extends Controller
                 'readable_planned_month' => $readable_planned_month,
                 'readable_worked_month' => $readable_worked_month,
                 'tables' => $tables,
+                'helper' => $helper,
             ]
         );
     }
