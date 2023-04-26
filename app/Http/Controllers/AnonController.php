@@ -95,6 +95,16 @@ class AnonController extends Controller
     }
 
     /**
+     * Show the current year overview.
+     *
+     * The hash is mapped to the employees id.
+     */
+    public function showCurrentYear(Helper $helper, Request $request, string $hash): View|RedirectResponse
+    {
+        return $this->showYear($helper, $request, (int) $helper->getPlannedYear(), $hash);
+    }
+
+    /**
      * Show the year overview.
      *
      * The hash is mapped to the employees id.

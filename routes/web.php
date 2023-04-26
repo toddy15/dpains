@@ -111,3 +111,5 @@ Route::post(
 Route::get('anon/{year}/{hash}', [AnonController::class, 'showYear'])
     ->where(['year' => '[0-9]+'])
     ->name('anon.showYear');
+Route::get('anon/{hash}', [AnonController::class, 'showCurrentYear'])
+    ->name('anon.showCurrentYear');

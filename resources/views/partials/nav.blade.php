@@ -55,9 +55,9 @@
                 @if (isset($hash) and !empty($hash))
                     <li class="nav-item" {!! Request::is('anon/episodes/' . $hash) ? 'class="active"' : '' !!}><a class="nav-link"
                             href="{{ url('anon/episodes/' . $hash) }}">Einträge</a></li>
-                    <li class="nav-item" {!! Request::is('anon/' . date('Y') . '/' . $hash) ? 'class="active"' : '' !!}>
+                    <li class="nav-item" {!! Request::is('anon/' . $hash) ? 'class="active"' : '' !!}>
                         <a class="nav-link"
-                            href="{{ url('anon/' . date('Y') . '/' . $hash) }}">Jahresauswertungen</a>
+                            href="{{ url('anon/' . $hash) }}">Jahresauswertungen</a>
                     </li>
                 @endif
             </ul>
