@@ -9,4 +9,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+      # Laravel is usually updated on Tuesdays,
+      # so check then instead of the default Monday.
+      day: "tuesday"
+      time: "21:00"
+      timezone: "Europe/Berlin"
       versioning-strategy: increase
