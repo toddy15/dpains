@@ -14,4 +14,4 @@ updates:
       day: "tuesday"
       time: "21:00"
       timezone: "Europe/Berlin"
-      versioning-strategy: increase
+    versioning-strategy: increase
