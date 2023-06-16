@@ -19,3 +19,61 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
+
+# Serve resources with the proper media types.
+<IfModule mod_mime.c>
+    AddType text/html                       .html
+    AddType text/css                        .css
+    AddType text/javascript                 .js
+    AddType image/webp                      .webp
+    AddType image/svg+xml                   .svg
+    AddType image/jpeg                      .jpeg
+    AddType image/jpeg                      .jpg
+    AddType image/vnd.microsoft.icon        .ico
+    AddType application/font-woff2          .woff2
+</IfModule>
+
+# Serve resources with expires headers
+<IfModule mod_expires.c>
+    ExpiresActive on
+    ExpiresDefault "access plus 1 month"
+
+    # CSS
+    ExpiresByType text/css "access plus 1 year"
+
+    # HTML
+    ExpiresByType text/html "access plus 10 minutes"
+
+    # JavaScript
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType application/x-javascript "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+
+    # Media files
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+
+    # Web Open Font Format (WOFF) 2.0
+    ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
+
+# Use some privacy enhancing headers according to
+# https://observatory.mozilla.org/
+
+# Block site from being framed with X-Frame-Options and CSP
+Header add Content-Security-Policy "frame-ancestors 'none'"
+#Header add Content-Security-Policy "frame-ancestors 'none'; default-src 'none'; font-src 'self'; img-src 'self'; object-src 'none'; script-src 'self'; style-src 'self'; base-uri 'self'; form-action 'self'"
+
+# Provide the deprecated variant for IE, Edge, Safari
+Header add X-Frame-Options "DENY"
+
+# Prevent browsers from incorrectly detecting non-scripts as scripts
+Header add X-Content-Type-Options "nosniff"
+
+# Block pages from loading when they detect reflected XSS attacks
+Header add X-XSS-Protection "1; mode=block"
+
+# Disable referrers for all browsers
+Header add Referrer-Policy "no-referrer"
