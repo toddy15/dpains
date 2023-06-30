@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\Employee;
 use App\Models\Episode;
 use App\Models\User;
 use function Pest\Laravel\actingAs;
