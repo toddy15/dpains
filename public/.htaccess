@@ -5,6 +5,10 @@
 
     RewriteEngine On
 
+    # Force www
+    RewriteCond %{HTTP_HOST} ^dienstplan-an.de$ [NC]
+    RewriteRule ^(.*)$ https://www.dienstplan-an.de/$1 [L,R=301,NC]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -63,8 +67,10 @@
 # https://observatory.mozilla.org/
 
 # Block site from being framed with X-Frame-Options and CSP
-Header add Content-Security-Policy "frame-ancestors 'none'"
-#Header add Content-Security-Policy "frame-ancestors 'none'; default-src 'none'; font-src 'self'; img-src 'self'; object-src 'none'; script-src 'self'; style-src 'self'; base-uri 'self'; form-action 'self'"
+#Header add Content-Security-Policy "frame-ancestors 'none'"
+# Enable CSP violation reporting
+#Header add Reporting-Endpoints "endpoint-1=https://www.quathamer.net/csp/"
+Header add Content-Security-Policy-Report-Only "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; base-uri 'none'; report-uri https://www.quathamer.net/csp/"
 
 # Provide the deprecated variant for IE, Edge, Safari
 Header add X-Frame-Options "DENY"
@@ -76,4 +82,4 @@ Header add X-Content-Type-Options "nosniff"
 Header add X-XSS-Protection "1; mode=block"
 
 # Disable referrers for all browsers
-Header add Referrer-Policy "no-referrer"
+#Header add Referrer-Policy "no-referrer"
