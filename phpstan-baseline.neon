@@ -6,11 +6,6 @@ parameters:
 			path: app/Http/Controllers/AnonController.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
-			count: 1
-			path: app/Http/Controllers/AnonController.php
-
-		-
 			message: "#^Parameter \\#1 \\$time of static method Carbon\\\\Carbon\\:\\:parse\\(\\) expects DateTimeInterface\\|string\\|null, mixed given\\.$#"
 			count: 1
 			path: app/Http/Controllers/AnonController.php
@@ -49,11 +44,6 @@ parameters:
 			message: "#^Access to an undefined property App\\\\Models\\\\Employee\\:\\:\\$name\\.$#"
 			count: 1
 			path: app/Http/Controllers/EmployeeEpisodeController.php
-
-		-
-			message: "#^Cannot cast mixed to int\\.$#"
-			count: 6
-			path: app/Http/Controllers/EpisodeController.php
 
 		-
 			message: "#^Cannot access property \\$employee_id on mixed\\.$#"

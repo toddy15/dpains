@@ -24,7 +24,7 @@ class EpisodeController extends Controller
     {
         $month_names = [];
         // See if there is a valid employee
-        $employee_id = (int) $request->get('employee_id');
+        $employee_id = $request->integer('employee_id');
         // Is there already an episode for this employee?
         // If yes, retrieve the latest episode for the default values.
         $episode = Episode::where('employee_id', $employee_id)
@@ -80,8 +80,8 @@ class EpisodeController extends Controller
     {
         // Set the month to the formatted string for database storage.
         $start_date = $helper->validateAndFormatDate(
-            (int) $request->get('year'),
-            (int) $request->get('month'),
+            $request->integer('year'),
+            $request->integer('month'),
         );
         // Set the start_date to the database format YYYY-MM.
         $request->merge(['start_date' => $start_date]);
@@ -90,7 +90,7 @@ class EpisodeController extends Controller
         if ($episode['employee_id'] == 0) {
             // This is a new employee, so create a new entry.
             // The BU cycle always starts in the next year.
-            if ((int) $request->get('year') % 2 === 0) {
+            if ($request->integer('year') % 2 === 0) {
                 // Currently an even year, so start cycle next year (odd)
                 $bu_start = 'odd';
             } else {
@@ -153,8 +153,8 @@ class EpisodeController extends Controller
         $episode = Episode::findOrFail($id);
         // Set the month to the formatted string for database storage.
         $start_date = $helper->validateAndFormatDate(
-            (int) $request->get('year'),
-            (int) $request->get('month'),
+            $request->integer('year'),
+            $request->integer('month'),
         );
         // Set the start_date to the database format YYYY-MM.
         $request->merge(['start_date' => $start_date]);
