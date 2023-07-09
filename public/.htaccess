@@ -66,20 +66,22 @@
 # Use some privacy enhancing headers according to
 # https://observatory.mozilla.org/
 
-# Block site from being framed with X-Frame-Options and CSP
-#Header add Content-Security-Policy "frame-ancestors 'none'"
-# Enable CSP violation reporting
-#Header add Reporting-Endpoints "endpoint-1=https://www.quathamer.net/csp/"
-Header add Content-Security-Policy-Report-Only "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; base-uri 'none'; report-uri https://www.quathamer.net/csp/"
+<IfModule mod_headers.c>
+    # Block site from being framed with X-Frame-Options and CSP
+    #Header add Content-Security-Policy "frame-ancestors 'none'"
+    # Enable CSP violation reporting
+    #Header add Reporting-Endpoints "endpoint-1=https://www.quathamer.net/csp/"
+    Header add Content-Security-Policy-Report-Only "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; base-uri 'none'; report-uri https://www.quathamer.net/csp/"
 
-# Provide the deprecated variant for IE, Edge, Safari
-Header add X-Frame-Options "DENY"
+    # Provide the deprecated variant for IE, Edge, Safari
+    Header add X-Frame-Options "DENY"
 
-# Prevent browsers from incorrectly detecting non-scripts as scripts
-Header add X-Content-Type-Options "nosniff"
+    # Prevent browsers from incorrectly detecting non-scripts as scripts
+    Header add X-Content-Type-Options "nosniff"
 
-# Block pages from loading when they detect reflected XSS attacks
-Header add X-XSS-Protection "1; mode=block"
+    # Block pages from loading when they detect reflected XSS attacks
+    Header add X-XSS-Protection "1; mode=block"
 
-# Disable referrers for all browsers
-#Header add Referrer-Policy "no-referrer"
+    # Disable referrers for all browsers
+    #Header add Referrer-Policy "no-referrer"
+</IfModule>
