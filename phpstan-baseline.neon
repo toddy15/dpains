@@ -57,21 +57,11 @@ parameters:
 
 		-
 			message: "#^Cannot cast mixed to int\\.$#"
-			count: 4
+			count: 2
 			path: app/Http/Controllers/RawplanController.php
 
 		-
 			message: "#^Cannot cast mixed to string\\.$#"
-			count: 1
-			path: app/Http/Controllers/RawplanController.php
-
-		-
-			message: "#^Parameter \\#2 \\$people of class App\\\\Services\\\\Planparser constructor expects string, mixed given\\.$#"
-			count: 1
-			path: app/Http/Controllers/RawplanController.php
-
-		-
-			message: "#^Parameter \\#3 \\$shifts of class App\\\\Services\\\\Planparser constructor expects string, mixed given\\.$#"
 			count: 1
 			path: app/Http/Controllers/RawplanController.php
 
@@ -221,11 +211,6 @@ parameters:
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:getNamesForMonth\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Helper.php
-
-		-
 			message: "#^Method App\\\\Services\\\\Helper\\:\\:getPastPeople\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: app/Services/Helper.php
@@ -276,11 +261,6 @@ parameters:
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Parameter \\#1 \\$key of function array_key_exists expects int\\|string, mixed given\\.$#"
-			count: 1
-			path: app/Services/Helper.php
-
-		-
 			message: "#^Method App\\\\Services\\\\Planparser\\:\\:calculateShifts\\(\\) has parameter \\$shifts with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: app/Services/Planparser.php
@@ -297,15 +277,5 @@ parameters:
 
 		-
 			message: "#^Method App\\\\Services\\\\Planparser\\:\\:validateShifts\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Planparser.php
-
-		-
-			message: "#^Property App\\\\Services\\\\Planparser\\:\\:\\$parsedNames type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Planparser.php
-
-		-
-			message: "#^Property App\\\\Services\\\\Planparser\\:\\:\\$parsedShifts type has no value type specified in iterable type array\\.$#"
 			count: 1
 			path: app/Services/Planparser.php

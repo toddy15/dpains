@@ -79,13 +79,15 @@ class Helper
     /**
      * Return an array of people's names in the given month.
      * The array keys are the people's unique number.
+     *
+     * @return array<int, string>
      */
     public function getNamesForMonth(string $formatted_month): array
     {
         $employees = $this->getPeopleForMonth($formatted_month);
         $names = [];
         foreach ($employees as $employee) {
-            $names[$employee->employee_id] = $employee->name;
+            $names[(int) $employee->employee_id] = (string) $employee->name;
         }
 
         return $names;
@@ -174,8 +176,8 @@ class Helper
     ): array {
         $tables = [];
         // Get the sorting key and direction from the request
-        $sort_key = $request->get('sort');
-        $direction = $request->get('direction');
+        $sort_key = $request->string('sort');
+        $direction = $request->string('direction');
         // Set up the staffgroups to get the correct sorting
         $staffgroup_names = Staffgroup::orderBy('weight')
             ->pluck('staffgroup')

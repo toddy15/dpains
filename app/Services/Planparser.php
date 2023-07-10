@@ -11,8 +11,10 @@ class Planparser
 
     public string $rawShifts = '';
 
+    /** @var array<int, string> */
     public array $parsedNames = [];
 
+    /** @var array<int, array<int, string>> */
     public array $parsedShifts = [];
 
     public int $lines_per_person = 1;
@@ -282,7 +284,7 @@ class Planparser
     {
         $result = [];
         // Count the days in the line
-        $submitted_days = is_countable($this->parsedShifts[0]) ? count($this->parsedShifts[0]) : 0;
+        $submitted_days = count($this->parsedShifts[0]);
         // The submitted days must be exactly one month.
         // so check that the next day is the first of a month.
         if ($submitted_days > 31) {
