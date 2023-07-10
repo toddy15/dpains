@@ -146,6 +146,10 @@ class Planparser
         DB::table('analyzed_months')->insert($database_rows);
     }
 
+    /**
+     * @param array<int, string> $shifts
+     * @return array{nights: int, nefs: int, bus: int, cons: int}
+     */
     public function calculateShifts(array $shifts): array|string
     {
         // @TODO: Do not hardcode.
@@ -252,6 +256,12 @@ class Planparser
         ];
     }
 
+    /**
+     * This method returns all error messages as an array.
+     * If there are no errors, the array is emtpy.
+     *
+     * @return array<int, string>
+     */
     public function validatePeople(): array
     {
         $helper = new Helper();
@@ -280,6 +290,12 @@ class Planparser
         return $result;
     }
 
+    /**
+     * This method returns all error messages as an array.
+     * If there are no errors, the array is emtpy.
+     *
+     * @return array<int, string>
+     */
     public function validateShifts(): array
     {
         $result = [];

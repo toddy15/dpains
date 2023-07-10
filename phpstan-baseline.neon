@@ -259,23 +259,3 @@ parameters:
 			message: "#^Method App\\\\Services\\\\Helper\\:\\:sumUpVKForYear\\(\\) has parameter \\$vk_per_month with no value type specified in iterable type array\\.$#"
 			count: 1
 			path: app/Services/Helper.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Planparser\\:\\:calculateShifts\\(\\) has parameter \\$shifts with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Planparser.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Planparser\\:\\:calculateShifts\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Planparser.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Planparser\\:\\:validatePeople\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Planparser.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Planparser\\:\\:validateShifts\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Planparser.php
