@@ -147,7 +147,7 @@ class Planparser
     }
 
     /**
-     * @param array<int, string> $shifts
+     * @param  array<int, string>  $shifts
      * @return array{nights: int, nefs: int, bus: int, cons: int}
      */
     public function calculateShifts(array $shifts): array|string
