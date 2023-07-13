@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0a9a49e83a6c18b5eacb9e4076d23500",
+    "content-hash": "2fbd422ef28272d8b7d96832624a63cb",
     "packages": [
         {
             "name": "brick/math",
@@ -6484,16 +6484,16 @@
         },
         {
             "name": "pestphp/pest",
-            "version": "v2.8.2",
+            "version": "v2.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pestphp/pest.git",
-                "reference": "a1208b5876525d309ee8d39c83870fca60d1a0ac"
+                "reference": "805b81edc05e6b5fafe84caee8350e81c9f54842"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pestphp/pest/zipball/a1208b5876525d309ee8d39c83870fca60d1a0ac",
-                "reference": "a1208b5876525d309ee8d39c83870fca60d1a0ac",
+                "url": "https://api.github.com/repos/pestphp/pest/zipball/805b81edc05e6b5fafe84caee8350e81c9f54842",
+                "reference": "805b81edc05e6b5fafe84caee8350e81c9f54842",
                 "shasum": ""
             },
             "require": {
@@ -6501,7 +6501,7 @@
                 "nunomaduro/collision": "^7.7.0",
                 "nunomaduro/termwind": "^1.15.1",
                 "pestphp/pest-plugin": "^2.0.1",
-                "pestphp/pest-plugin-arch": "^2.2.1",
+                "pestphp/pest-plugin-arch": "^2.2.2",
                 "php": "^8.1.0",
                 "phpunit/phpunit": "^10.2.3"
             },
@@ -6567,7 +6567,7 @@
             ],
             "support": {
                 "issues": "https://github.com/pestphp/pest/issues",
-                "source": "https://github.com/pestphp/pest/tree/v2.8.2"
+                "source": "https://github.com/pestphp/pest/tree/v2.8.3"
             },
             "funding": [
                 {
@@ -6579,7 +6579,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-07-01T09:31:00+00:00"
+            "time": "2023-07-12T20:26:47+00:00"
         },
         {
             "name": "pestphp/pest-plugin",
@@ -7681,16 +7681,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.17.4",
+            "version": "0.17.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "14829888274eebddc67a0d7248c3dd2965704fbc"
+                "reference": "f4a5f45c420b797d8e8e9c540e14c8bbdddff62d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/14829888274eebddc67a0d7248c3dd2965704fbc",
-                "reference": "14829888274eebddc67a0d7248c3dd2965704fbc",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/f4a5f45c420b797d8e8e9c540e14c8bbdddff62d",
+                "reference": "f4a5f45c420b797d8e8e9c540e14c8bbdddff62d",
                 "shasum": ""
             },
             "require": {
@@ -7730,7 +7730,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.17.4"
+                "source": "https://github.com/rectorphp/rector/tree/0.17.5"
             },
             "funding": [
                 {
@@ -7738,7 +7738,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-07-11T16:00:46+00:00"
+            "time": "2023-07-12T08:42:12+00:00"
         },
         {
             "name": "sebastian/cli-parser",
