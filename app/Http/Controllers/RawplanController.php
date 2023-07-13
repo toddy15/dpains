@@ -121,13 +121,13 @@ class RawplanController extends Controller
         ]);
         // Set the month to the formatted string for database storage.
         $month = $helper->validateAndFormatDate(
-            (int) $request->get('year'),
-            (int) $request->get('month'),
+            (int) $request->input('year'),
+            (int) $request->input('month'),
         );
         $planparser = new Planparser(
             $month,
-            $request->get('people'),
-            $request->get('shifts'),
+            $request->input('people'),
+            $request->input('shifts'),
         );
         // Extend with custom validation rules
         // In the first attempt to validate, check for

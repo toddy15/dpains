@@ -176,8 +176,8 @@ class Helper
     ): array {
         $tables = [];
         // Get the sorting key and direction from the request
-        $sort_key = $request->get('sort');
-        $direction = $request->get('direction');
+        $sort_key = $request->input('sort');
+        $direction = $request->input('direction');
         // Set up the staffgroups to get the correct sorting
         $staffgroup_names = Staffgroup::orderBy('weight')
             ->pluck('staffgroup')
