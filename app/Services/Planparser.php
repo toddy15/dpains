@@ -11,8 +11,10 @@ class Planparser
 
     public string $rawShifts = '';
 
+    /** @var array<int, string> */
     public array $parsedNames = [];
 
+    /** @var array<int, array<int, string>> */
     public array $parsedShifts = [];
 
     public int $lines_per_person = 1;
@@ -144,6 +146,10 @@ class Planparser
         DB::table('analyzed_months')->insert($database_rows);
     }
 
+    /**
+     * @param  array<int, string>  $shifts
+     * @return array{nights: int, nefs: int, bus: int, cons: int}
+     */
     public function calculateShifts(array $shifts): array|string
     {
         // @TODO: Do not hardcode.
@@ -250,6 +256,12 @@ class Planparser
         ];
     }
 
+    /**
+     * This method returns all error messages as an array.
+     * If there are no errors, the array is emtpy.
+     *
+     * @return array<int, string>
+     */
     public function validatePeople(): array
     {
         $helper = new Helper();
@@ -278,11 +290,17 @@ class Planparser
         return $result;
     }
 
+    /**
+     * This method returns all error messages as an array.
+     * If there are no errors, the array is emtpy.
+     *
+     * @return array<int, string>
+     */
     public function validateShifts(): array
     {
         $result = [];
         // Count the days in the line
-        $submitted_days = is_countable($this->parsedShifts[0]) ? count($this->parsedShifts[0]) : 0;
+        $submitted_days = count($this->parsedShifts[0]);
         // The submitted days must be exactly one month.
         // so check that the next day is the first of a month.
         if ($submitted_days > 31) {

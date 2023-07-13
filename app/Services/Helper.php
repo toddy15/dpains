@@ -79,13 +79,15 @@ class Helper
     /**
      * Return an array of people's names in the given month.
      * The array keys are the people's unique number.
+     *
+     * @return array<int, string>
      */
     public function getNamesForMonth(string $formatted_month): array
     {
         $employees = $this->getPeopleForMonth($formatted_month);
         $names = [];
         foreach ($employees as $employee) {
-            $names[$employee->employee_id] = $employee->name;
+            $names[(int) $employee->employee_id] = (string) $employee->name;
         }
 
         return $names;
@@ -466,7 +468,7 @@ class Helper
      *
      * @return string|null Formatted month (YYYY-MM)
      */
-    public function getWorkedMonth(?int $year = null): ?string
+    public function getWorkedMonth(int $year = null): ?string
     {
         if ($year) {
             return Rawplan::where('month', 'like', "$year%")

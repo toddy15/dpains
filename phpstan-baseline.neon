@@ -231,11 +231,6 @@ parameters:
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:getNamesForMonth\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Helper.php
-
-		-
 			message: "#^Method App\\\\Services\\\\Helper\\:\\:getPastPeople\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
 			count: 1
 			path: app/Services/Helper.php
@@ -289,33 +284,3 @@ parameters:
 			message: "#^Parameter \\#1 \\$key of function array_key_exists expects int\\|string, mixed given\\.$#"
 			count: 1
 			path: app/Services/Helper.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Planparser\\:\\:calculateShifts\\(\\) has parameter \\$shifts with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Planparser.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Planparser\\:\\:calculateShifts\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Planparser.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Planparser\\:\\:validatePeople\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Planparser.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Planparser\\:\\:validateShifts\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Planparser.php
-
-		-
-			message: "#^Property App\\\\Services\\\\Planparser\\:\\:\\$parsedNames type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Planparser.php
-
-		-
-			message: "#^Property App\\\\Services\\\\Planparser\\:\\:\\$parsedShifts type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Planparser.php
