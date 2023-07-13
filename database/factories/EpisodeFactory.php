@@ -18,7 +18,7 @@ class EpisodeFactory extends Factory
             'name' => $this->faker->name(),
             'start_date' => $this->faker->numberBetween(2016, 2020).
                 '-'.
-                $this->faker->numberBetween(1, 12),
+                sprintf('%02d', $this->faker->numberBetween(1, 12)),
             'staffgroup_id' => Staffgroup::factory()->create(),
             'vk' => $this->faker->randomFloat(3, 0, 1),
             'factor_night' => $this->faker->randomFloat(3, 0, 1),
