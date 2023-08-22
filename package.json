@@ -12,7 +12,7 @@
         "lodash": "^4.17.21",
         "postcss": "^8.4.28",
         "resolve-url-loader": "^5.0.0",
-        "sass": "^1.64.2",
+        "sass": "^1.66.1",
         "sass-loader": "^13.3.2",
         "vite": "^4.4.9"
     }
