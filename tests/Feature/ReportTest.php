@@ -1,9 +1,10 @@
 <?php
 
 use App\Models\User;
+use Tests\Seeders\NormalPlanSeeder;
+
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
-use Tests\Seeders\NormalPlanSeeder;
 
 test('guests cannot view the reports page', function () {
     get('/report')
