@@ -11,12 +11,12 @@
         "guzzlehttp/guzzle": "^7.8.0",
         "laravel/framework": "^10.21.0",
         "laravel/sanctum": "^3.2.6",
-        "laravel/tinker": "^2.8.1",
+        "laravel/tinker": "^2.8.2",
         "laravel/ui": "^4.2.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
-        "laravel/pint": "^1.11.0",
+        "laravel/pint": "^1.12.0",
         "laravel/sail": "^1.24.0",
         "mockery/mockery": "^1.6.6",
         "nunomaduro/collision": "^7.8.1",
