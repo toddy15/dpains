@@ -28,6 +28,7 @@ class DueShiftController extends Controller
                     return 0;
                 }
             }
+
             // Sort the year descending
             return $b->year <=> $a->year;
         });

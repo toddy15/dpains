@@ -612,6 +612,7 @@ class Helper
         if ($year < $this->firstYear or $month < 1 or $month > 12) {
             abort(404);
         }
+
         // Convert to internal representation in the database (YYYY-MM)
         return sprintf('%4d-%02d', $year, $month);
     }
