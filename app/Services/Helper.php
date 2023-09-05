@@ -558,7 +558,7 @@ class Helper
                 // Mark changes
                 if ($month > 1) {
                     if (
-                        $months[$episode->staffgroup][$episode->employee_id][$month - 1]['vk'] != $vk
+                        $vk != $months[$episode->staffgroup][$episode->employee_id][$month - 1]['vk']
                     ) {
                         $months[$episode->staffgroup][$episode->employee_id][$month]['changed'] = true;
                     }

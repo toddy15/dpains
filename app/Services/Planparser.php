@@ -317,11 +317,11 @@ class Planparser
                 ': Die Anzahl der Tage in den Schichten stimmt nicht mit der Anzahl der Tage des Monats überein.';
         }
         // Do not error out if there's one line break appended.
-        $shift_lines = count(explode("\n", $this->rawShifts));
         $people_lines = count(explode("\n", $this->rawNames));
+        $shift_lines = count(explode("\n", $this->rawShifts));
         if (
-            $shift_lines !== $people_lines and
-            $shift_lines - 1 !== $people_lines
+            $people_lines !== $shift_lines and
+            $people_lines !== $shift_lines - 1
         ) {
             $result[] =
                 $this->formattedMonth.
