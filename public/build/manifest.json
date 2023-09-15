@@ -1,6 +1,6 @@
 {
   "node_modules/bootstrap/dist/js/bootstrap.esm.js": {
-    "file": "assets/bootstrap.esm-d0d6db02.js",
+    "file": "assets/bootstrap.esm-1b4953f5.js",
     "isDynamicEntry": true,
     "src": "node_modules/bootstrap/dist/js/bootstrap.esm.js"
   },
@@ -8,12 +8,12 @@
     "dynamicImports": [
       "node_modules/bootstrap/dist/js/bootstrap.esm.js"
     ],
-    "file": "assets/app-e917a4ad.js",
+    "file": "assets/app-f35ead0c.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-a6eef6b1.css",
+    "file": "assets/app-bd650b03.css",
     "isEntry": true,
     "src": "resources/sass/app.scss"
   }
