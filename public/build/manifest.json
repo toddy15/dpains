@@ -8,7 +8,7 @@
     "dynamicImports": [
       "node_modules/bootstrap/dist/js/bootstrap.esm.js"
     ],
-    "file": "assets/app-f35ead0c.js",
+    "file": "assets/app-b0066ace.js",
     "isEntry": true,
     "src": "resources/js/app.js"
   },
