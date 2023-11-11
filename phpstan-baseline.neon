@@ -27,6 +27,26 @@ parameters:
 
 		-
 			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
+			count: 5
+			path: app/Http/Controllers/BDController.php
+
+		-
+			message: "#^Cannot access property \\$name on mixed\\.$#"
+			count: 1
+			path: app/Http/Controllers/BDController.php
+
+		-
+			message: "#^Cannot access property \\$vk on mixed\\.$#"
+			count: 1
+			path: app/Http/Controllers/BDController.php
+
+		-
+			message: "#^Cannot access property \\$weight on mixed\\.$#"
+			count: 1
+			path: app/Http/Controllers/BDController.php
+
+		-
+			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
 			count: 3
 			path: app/Http/Controllers/EmployeeController.php
 
