@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Helper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class BDController extends Controller
@@ -21,19 +22,39 @@ class BDController extends Controller
         }
 
         // Get all analyzed months for the given year
-        $max_bd_per_month = [];
+        $combined_bds = [];
         $employee_info = [];
         for ($month = 1; $month <= 12; $month++) {
-            $episodes = $helper->getPeopleForMonth(
-                $helper->validateAndFormatDate($year, $month)
-            );
+            $formattedMonth = $helper->validateAndFormatDate($year, $month);
+            $episodes = $helper->getPeopleForMonth($formattedMonth);
+
+            // Get all analyzed shifts for the current month
+            $shifts = DB::table('analyzed_months')
+                ->where('month', $formattedMonth)
+                ->get();
 
             foreach ($episodes as $episode) {
                 // Fill up array if it didn't exist
-                if (! isset($max_bd_per_month[$episode->employee_id])) {
-                    $max_bd_per_month[$episode->employee_id] = array_fill(1, 12, 0);
+                if (! isset($combined_bds[$episode->employee_id])) {
+                    $combined_bds[$episode->employee_id] = array_fill(1, 12, [
+                        'stats' => '–',
+                        'warning' => false,
+                    ]);
                 }
-                $max_bd_per_month[$episode->employee_id][$month] = round(4 * $episode->vk, 0);
+
+                $shift = $shifts->firstWhere('employee_id', $episode->employee_id);
+                if ($shift === null) {
+                    $bds = 0;
+                } else {
+                    $bds = $shift->bds;
+                }
+                $max_bds = round(4 * $episode->vk, 0);
+
+                // Combine actual and max BDs into one table cell
+                $combined_bds[$episode->employee_id][$month] = [
+                    'stats' => $bds.'/'.$max_bds,
+                    'warning' => $bds > $max_bds,
+                ];
 
                 // Always use the last available information.
                 $employee_info[$episode->employee_id] = [
@@ -58,7 +79,7 @@ class BDController extends Controller
                 'previous_year_url' => $previous_year_url,
                 'next_year_url' => $next_year_url,
                 'employee_info' => $employee_info,
-                'max_bd_per_month' => $max_bd_per_month,
+                'combined_bds' => $combined_bds,
             ]
         );
     }

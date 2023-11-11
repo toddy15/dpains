@@ -36,8 +36,10 @@
             @foreach ($employee_info as $employee_info)
                 <tr>
                     <td>{{ $employee_info['name'] }}</td>
-                    @foreach ($max_bd_per_month[$employee_info['id']] as $max_bd)
-                        <td>{{ $max_bd }}</td>
+                    @foreach ($combined_bds[$employee_info['id']] as $bd_info)
+                        <td class="{{ $bd_info["warning"] ? 'table-danger' : ''}}">
+                            {{ $bd_info['stats'] }}
+                        </td>
                     @endforeach
                 </tr>
             @endforeach
