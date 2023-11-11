@@ -6,7 +6,8 @@
 
     @if ($hash)
         <!-- Show logout button -->
-        <x-link-button href="{{ action([\App\Http\Controllers\AnonController::class, 'logout'], $hash) }}" class="btn btn-primary">
+        <x-link-button href="{{ action([\App\Http\Controllers\AnonController::class, 'logout'], $hash) }}"
+            class="btn btn-primary">
             Abmelden
         </x-link-button>
     @else
