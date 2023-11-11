@@ -23,6 +23,7 @@ class BDController extends Controller
 
         // Get all analyzed months for the given year
         $combined_bds = [];
+        $quarterly_extra_bd = [];
         $employee_info = [];
         for ($month = 1; $month <= 12; $month++) {
             $formattedMonth = $helper->validateAndFormatDate($year, $month);
@@ -41,6 +42,9 @@ class BDController extends Controller
                         'warning' => false,
                     ]);
                 }
+                if (! isset($quarterly_extra_bd[$episode->employee_id])) {
+                    $quarterly_extra_bd[$episode->employee_id] = array_fill(0, 4, false);
+                }
 
                 $shift = $shifts->firstWhere('employee_id', $episode->employee_id);
                 if ($shift === null) {
@@ -50,10 +54,27 @@ class BDController extends Controller
                 }
                 $max_bds = round(4 * $episode->vk, 0);
 
+                $quarter = floor(($month - 1) / 3);
+
+                // Only show a warning if the extra BD has already been used or
+                // if the number of BDs in this month is greater than max_bds + 1.
+                $warning = false;
+                if ($bds > ($max_bds + 1)) {
+                    $warning = true;
+                }
+                if ($bds > $max_bds and $quarterly_extra_bd[$episode->employee_id][$quarter]) {
+                    $warning = true;
+                }
+
+                // Keep track of one extra BD per quarter.
+                if ($bds > $max_bds) {
+                    $quarterly_extra_bd[$episode->employee_id][$quarter] = true;
+                }
+
                 // Combine actual and max BDs into one table cell
                 $combined_bds[$episode->employee_id][$month] = [
                     'stats' => $bds.'/'.$max_bds,
-                    'warning' => $bds > $max_bds,
+                    'warning' => $warning,
                 ];
 
                 // Always use the last available information.
