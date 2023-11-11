@@ -262,8 +262,8 @@ class Planparser
         $people_lines = count(explode("\n", $this->rawNames));
         $shift_lines = count(explode("\n", $this->rawShifts));
         if (
-            $people_lines !== $shift_lines and
-            $people_lines !== $shift_lines - 1
+            $people_lines < $shift_lines - 2 or
+            $people_lines > $shift_lines
         ) {
             $result[] =
                 $this->formattedMonth.
