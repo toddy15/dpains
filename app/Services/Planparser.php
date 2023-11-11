@@ -128,6 +128,8 @@ class Planparser
 
                 return;
             }
+            // Add calculation of BD shifts
+            $shifts['bds'] = $this->calculateBDShifts($this->parsedShifts[$id]);
             $database_rows[] = [
                 'month' => $this->formattedMonth,
                 'employee_id' => $person_id,
@@ -135,6 +137,7 @@ class Planparser
                 'nefs' => $shifts['nefs'],
                 'bus' => $shifts['bus'],
                 'cons' => $shifts['cons'],
+                'bds' => $shifts['bds'],
             ];
         }
         DB::table('analyzed_months')->insert($database_rows);
@@ -196,6 +199,45 @@ class Planparser
             'bus' => $bu_counter,
             'cons' => $con_counter,
         ];
+    }
+
+    /**
+     * Calculate the number of BD shifts, according to current rules with a factor.
+     *
+     * @param  array<int, string>  $shifts
+     */
+    public function calculateBDShifts(array $shifts): float
+    {
+        [$year, $month] = explode('-', $this->formattedMonth);
+        $day = Carbon::create((int) $year, (int) $month);
+        if ($day === false) {
+            return 0.0;
+        }
+        $bdshifts = 0.0;
+        foreach ($shifts as $shift) {
+            if ($shift === '0r' or $shift === 'D1') {
+                // BD night counts as 0.5 only on saturdays.
+                if ($day->isoWeekday() === 6) {
+                    $bdshifts += 0.5;
+                } else {
+                    $bdshifts += 1;
+                }
+            }
+            if ($shift === 'dt0' or $shift === 'dt1') {
+                // dt0 and dt1 always count 0.5
+                $bdshifts += 0.5;
+            }
+            if ($shift === 'D2') {
+                // D2 has a BD share only on weekends.
+                // @TODO: account for holidays? Seems unnecessary for now.
+                if ($day->isoWeekday() >= 6) {
+                    $bdshifts += 0.5;
+                }
+            }
+            $day->addDay();
+        }
+
+        return $bdshifts;
     }
 
     /**

@@ -21,6 +21,7 @@
                 <th>NEFs</th>
                 <th>BU</th>
                 <th>Con</th>
+                <th>BD</th>
             </thead>
             <tbody>
                 @foreach ($results as $result)
@@ -30,6 +31,7 @@
                         <td>{{ $result->shifts->nefs }}</td>
                         <td>{{ $result->shifts->bus }}</td>
                         <td>{{ $result->shifts->cons }}</td>
+                        <td>{{ $result->shifts->bds }}</td>
                     </tr>
                 @endforeach
             </tbody>
