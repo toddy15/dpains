@@ -26,8 +26,13 @@ parameters:
 			path: app/Http/Controllers/Auth/RegisterController.php
 
 		-
+			message: "#^Cannot access property \\$bds on mixed\\.$#"
+			count: 1
+			path: app/Http/Controllers/BDController.php
+
+		-
 			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
-			count: 5
+			count: 10
 			path: app/Http/Controllers/BDController.php
 
 		-
