@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnonController;
+use App\Http\Controllers\BDController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\DueShiftController;
 use App\Http\Controllers\EmployeeController;
@@ -90,6 +91,9 @@ Route::middleware([Authenticate::class])->group(function () {
         'report/refresh',
         [ReportController::class, 'refresh'],
     );
+
+    Route::get('report/bd/{year?}', BDController::class)
+        ->name('reports.showBD');
 });
 
 /*
