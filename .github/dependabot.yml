@@ -5,7 +5,6 @@
 
 version: 2
 updates:
-
   - package-ecosystem: "composer"
     directory: "/"
     schedule:
@@ -17,7 +16,6 @@ updates:
       timezone: "Europe/Berlin"
     versioning-strategy: increase
 
-  # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -33,4 +31,3 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    versioning-strategy: increase
