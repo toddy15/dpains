@@ -36,8 +36,8 @@
             @foreach ($employee_info as $employee_info)
                 <tr>
                     <td>{{ $employee_info['name'] }}</td>
-                    @foreach ($bd_per_month[$employee_info['id']] as $bd)
-                        <td>{{ $bd }}</td>
+                    @foreach ($max_bd_per_month[$employee_info['id']] as $max_bd)
+                        <td>{{ $max_bd }}</td>
                     @endforeach
                 </tr>
             @endforeach

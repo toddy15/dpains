@@ -21,7 +21,7 @@ class BDController extends Controller
         }
 
         // Get all analyzed months for the given year
-        $bd_per_month = [];
+        $max_bd_per_month = [];
         $employee_info = [];
         for ($month = 1; $month <= 12; $month++) {
             $episodes = $helper->getPeopleForMonth(
@@ -30,10 +30,10 @@ class BDController extends Controller
 
             foreach ($episodes as $episode) {
                 // Fill up array if it didn't exist
-                if (! isset($bd_per_month[$episode->employee_id])) {
-                    $bd_per_month[$episode->employee_id] = array_fill(1, 12, 0);
+                if (! isset($max_bd_per_month[$episode->employee_id])) {
+                    $max_bd_per_month[$episode->employee_id] = array_fill(1, 12, 0);
                 }
-                $bd_per_month[$episode->employee_id][$month] = round(4 * $episode->vk, 0);
+                $max_bd_per_month[$episode->employee_id][$month] = round(4 * $episode->vk, 0);
 
                 // Always use the last available information.
                 $employee_info[$episode->employee_id] = [
@@ -58,7 +58,7 @@ class BDController extends Controller
                 'previous_year_url' => $previous_year_url,
                 'next_year_url' => $next_year_url,
                 'employee_info' => $employee_info,
-                'bd_per_month' => $bd_per_month,
+                'max_bd_per_month' => $max_bd_per_month,
             ]
         );
     }
