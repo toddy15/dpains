@@ -93,7 +93,7 @@ Route::middleware([Authenticate::class])->group(function () {
     );
 
     Route::get('report/bd/{year?}', BDController::class)
-        ->name('reports.showBD');
+        ->name('reports.showbds');
 });
 
 /*

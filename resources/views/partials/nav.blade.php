@@ -21,6 +21,8 @@
                             <a class="dropdown-item"
                                 href="{{ url('report') }}">Jahre</a>
                             <a class="dropdown-item"
+                                href="{{ route('reports.showbds') }}">Jahresübersicht BD</a>
+                            <a class="dropdown-item"
                                 href="{{ url('report/buandcon') }}">BU und
                                 Con</a>
                             <a class="dropdown-item"
