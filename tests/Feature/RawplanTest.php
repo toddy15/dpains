@@ -17,4 +17,4 @@ test('a user can view the rawplans', function () {
         ->assertViewHas('rawplans_planned');
 });
 
-test('a user can create a rawplan');
+todo('a user can create a rawplan');
