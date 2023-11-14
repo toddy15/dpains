@@ -31,8 +31,8 @@ test('a user can create a rawplan', function () {
     actingAs(User::factory()->create());
 
     seed(EpisodesSeeder::class);
-    $people = file_get_contents('tests/datasets/2024-01-people.txt');
-    $shifts = file_get_contents('tests/datasets/2024-01-shifts.txt');
+    $people = file_get_contents('tests/datasets/2024-01_standard-people.txt');
+    $shifts = file_get_contents('tests/datasets/2024-01_standard-shifts.txt');
 
     post(route('rawplans.store'), [
         'month' => '1',

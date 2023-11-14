@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Services\Planparser;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 
 /*
@@ -42,6 +43,23 @@ uses(Tests\TestCase::class, LazilyRefreshDatabase::class)->in('Feature');
 | global functions to help you to reduce the number of lines of code in your test files.
 |
 */
+
+/**
+ * Loads a dataset for testing into the database via Planparser.
+ *
+ * The name format of the dataset is "YYYY-MM_description".
+ *
+ * @return void
+ */
+function loadDataset(string $dataset)
+{
+    $people = file_get_contents('tests/datasets/'.$dataset.'-people.txt');
+    $shifts = file_get_contents('tests/datasets/'.$dataset.'-shifts.txt');
+    $date = explode('_', $dataset)[0];
+
+    $p = new Planparser($date, $people, $shifts);
+    $p->storeShiftsForPeople();
+}
 
 //function something()
 //{
