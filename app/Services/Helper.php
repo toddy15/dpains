@@ -445,6 +445,10 @@ class Helper
     {
         $month = Rawplan::max('month');
 
+        if ($month === null) {
+            return (string) $this->firstYear;
+        }
+
         return substr((string) $month, 0, 4);
     }
 
