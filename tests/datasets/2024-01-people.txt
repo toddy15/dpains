@@ -1,0 +1,11 @@
+Chefin, A
+Vertretung der Chefin, A
+Leitende Oberärztin, A
+Oberärztin, A
+Oberärztin, B
+Fachärztin, A
+Fachärztin, B
+Fachärztin, C
+Ärztin, A
+Ärztin, B
+Ärztin, C
