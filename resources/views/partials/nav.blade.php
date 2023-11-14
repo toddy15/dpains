@@ -19,11 +19,11 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAuswertungen">
                             <a class="dropdown-item"
-                                href="{{ url('report') }}">Jahre</a>
+                                href="{{ route('reports.showCurrentYear') }}">Jahre</a>
                             <a class="dropdown-item"
                                 href="{{ route('reports.showbds') }}">Jahresübersicht BD</a>
                             <a class="dropdown-item"
-                                href="{{ url('report/buandcon') }}">BU und
+                                href="{{ route('reports.showCurrentBuAndCon') }}">BU und
                                 Con</a>
                             <a class="dropdown-item"
                                 href="{{ url('employees/vk/all') }}">Jahresübersichten
