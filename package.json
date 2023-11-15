@@ -3,7 +3,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "format": "prettier --write resources/**/*.blade.php"
+        "format": "prettier --write \"resources/**/*.blade.php\""
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.8",
