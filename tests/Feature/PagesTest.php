@@ -20,8 +20,6 @@ test('a user can access protected pages', function () {
 
     get(route('employees.index'))->assertOk();
     get(route('rawplans.index'))->assertOk();
-    // @TODO: This gets a time out
-    //    get(route('rawplans.create'))->assertOk();
 
     // @TODO: Could this be rewritten to not require a 'WB' group?
     Staffgroup::factory()
