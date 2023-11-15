@@ -37,9 +37,13 @@
                 <tr>
                     <td>{{ $employee_info['name'] }}</td>
                     @foreach ($combined_bds[$employee_info['id']] as $bd_info)
-                        <td class="{{ $bd_info["warning"] ? 'table-danger' : ''}}">
-                            {{ $bd_info['stats'] }}
-                        </td>
+                        @if ($bd_info['markup'] === 'danger')
+                            <td class="table-danger">{{ $bd_info['stats'] }}</td>
+                        @elseif ($bd_info['markup'] === 'warning')
+                            <td class="table-warning">{{ $bd_info['stats'] }}</td>
+                        @else
+                            <td>{{ $bd_info['stats'] }}</td>
+                        @endif
                     @endforeach
                 </tr>
             @endforeach

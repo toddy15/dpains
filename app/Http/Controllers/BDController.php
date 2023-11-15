@@ -39,7 +39,7 @@ class BDController extends Controller
                 if (! isset($combined_bds[$episode->employee_id])) {
                     $combined_bds[$episode->employee_id] = array_fill(1, 12, [
                         'stats' => '–',
-                        'warning' => false,
+                        'markup' => '',
                     ]);
                 }
                 if (! isset($quarterly_extra_bd[$episode->employee_id])) {
@@ -56,25 +56,24 @@ class BDController extends Controller
 
                 $quarter = floor(($month - 1) / 3);
 
-                // Only show a warning if the extra BD has already been used or
+                // Show a warning if the extra BD per quarter has been used.
+                // Show a stronger warning if the extra BD has already been used or
                 // if the number of BDs in this month is greater than max_bds + 1.
-                $warning = false;
+                $markup = '';
                 if ($bds > ($max_bds + 1)) {
-                    $warning = true;
-                }
-                if ($bds > $max_bds and $quarterly_extra_bd[$episode->employee_id][$quarter]) {
-                    $warning = true;
-                }
-
-                // Keep track of one extra BD per quarter.
-                if ($bds > $max_bds) {
+                    $markup = 'danger';
+                } elseif ($bds > $max_bds and $quarterly_extra_bd[$episode->employee_id][$quarter]) {
+                    $markup = 'danger';
+                } elseif ($bds > $max_bds) {
+                    // Keep track of one extra BD per quarter.
                     $quarterly_extra_bd[$episode->employee_id][$quarter] = true;
+                    $markup = 'warning';
                 }
 
                 // Combine actual and max BDs into one table cell
                 $combined_bds[$episode->employee_id][$month] = [
                     'stats' => $bds.'/'.$max_bds,
-                    'warning' => $warning,
+                    'markup' => $markup,
                 ];
 
                 // Always use the last available information.
