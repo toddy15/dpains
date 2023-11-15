@@ -18,25 +18,19 @@
                             Auswertungen
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAuswertungen">
-                            <a class="dropdown-item"
-                                href="{{ route('reports.showCurrentYear') }}">Jahre</a>
-                            <a class="dropdown-item"
-                                href="{{ route('reports.showbds') }}">Jahresübersicht BD</a>
-                            <a class="dropdown-item"
-                                href="{{ route('reports.showCurrentBuAndCon') }}">BU und
+                            <a class="dropdown-item" href="{{ route('reports.showCurrentYear') }}">Jahre</a>
+                            <a class="dropdown-item" href="{{ route('reports.showbds') }}">Jahresübersicht BD</a>
+                            <a class="dropdown-item" href="{{ route('reports.showCurrentBuAndCon') }}">BU und
                                 Con</a>
-                            <a class="dropdown-item"
-                                href="{{ url('employees/vk/all') }}">Jahresübersichten
+                            <a class="dropdown-item" href="{{ url('employees/vk/all') }}">Jahresübersichten
                                 VK</a>
-                            <a class="dropdown-item"
-                                href="{{ url('employees/vk/night') }}">Jahresübersichten
+                            <a class="dropdown-item" href="{{ url('employees/vk/night') }}">Jahresübersichten
                                 VK Nächte</a>
-                            <a class="dropdown-item"
-                                href="{{ url('employees/vk/nef') }}">Jahresübersichten
+                            <a class="dropdown-item" href="{{ url('employees/vk/nef') }}">Jahresübersichten
                                 VK NEF</a>
-{{--                            <a class="dropdown-item" href="{{ url('report/' . date('Y/m')) }}">Monate</a>--}}
-{{--                            <a class="dropdown-item"--}}
-{{--                                href="{{ url('employees/month/' . date('Y/m')) }}">Monatsübersichten</a>--}}
+                            {{--                            <a class="dropdown-item" href="{{ url('report/' . date('Y/m')) }}">Monate</a> --}}
+                            {{--                            <a class="dropdown-item" --}}
+                            {{--                                href="{{ url('employees/month/' . date('Y/m')) }}">Monatsübersichten</a> --}}
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -58,8 +52,7 @@
                     <li class="nav-item" {!! Request::is('anon/episodes/' . $hash) ? 'class="active"' : '' !!}><a class="nav-link"
                             href="{{ url('anon/episodes/' . $hash) }}">Einträge</a></li>
                     <li class="nav-item" {!! Request::is('anon/' . $hash) ? 'class="active"' : '' !!}>
-                        <a class="nav-link"
-                            href="{{ url('anon/' . $hash) }}">Jahresauswertungen</a>
+                        <a class="nav-link" href="{{ url('anon/' . $hash) }}">Jahresauswertungen</a>
                     </li>
                 @endif
             </ul>
@@ -82,8 +75,8 @@
                 @endif
             @else
                 <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false" v-pre>
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                         {{ Auth::user()->name }}
                     </a>
 

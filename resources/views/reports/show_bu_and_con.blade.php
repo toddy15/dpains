@@ -9,8 +9,7 @@
                     Jahr</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="{{ $next_year_url }}">Nächstes Jahr <span
-                        aria-hidden="true">&rarr;</span></a>
+                <a class="page-link" href="{{ $next_year_url }}">Nächstes Jahr <span aria-hidden="true">&rarr;</span></a>
             </li>
         </ul>
     </nav>

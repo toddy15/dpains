@@ -24,7 +24,8 @@
 </select>
 
 <x-label for="vk" value="VK:" />
-<x-input value="{{ old('vk', $episode ?? '') }}" name="vk" id="vk" required invalid="{{ $errors->has('vk') }}" />
+<x-input value="{{ old('vk', $episode ?? '') }}" name="vk" id="vk" required
+    invalid="{{ $errors->has('vk') }}" />
 
 <x-label for="factor_night" value="Faktor für Nachtdienste:" />
 <x-input value="{{ old('factor_night', $episode ?? '') }}" name="factor_night" id="factor_night" required

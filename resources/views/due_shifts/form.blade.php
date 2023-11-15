@@ -9,7 +9,6 @@
     @endforeach
 </select>
 
-
 <x-label for="nights" value="Nächte:" />
 <x-input name="nights" id="nights" type="number" required value="{{ old('nights', $due_shift ?? '') }}"
     invalid="{{ $errors->has('nights') }}" />

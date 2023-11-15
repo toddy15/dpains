@@ -37,7 +37,6 @@
             font-size: 72px;
             margin-bottom: 40px;
         }
-
     </style>
 </head>
 
