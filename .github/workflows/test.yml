@@ -8,8 +8,8 @@ jobs:
         operating-system:
           - ubuntu-latest
         php-version:
-          - '8.2'
           - '8.3'
+          - '8.2'
     name: php ${{ matrix.php-version }} on ${{ matrix.operating-system }}
     services:
       mariadb:
@@ -57,7 +57,7 @@ jobs:
           DB_PASSWORD: null
       - name: Upload coverage
         continue-on-error: true
-        if: matrix.php-version == '8.2'
+        if: matrix.php-version == '8.3'
         uses: paambaati/codeclimate-action@v5
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
