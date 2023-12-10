@@ -476,7 +476,7 @@ class Helper
      *
      * @return string|null Formatted month (YYYY-MM)
      */
-    public function getWorkedMonth(int $year = null): ?string
+    public function getWorkedMonth(?int $year = null): ?string
     {
         if ($year) {
             return Rawplan::where('month', 'like', "$year%")
