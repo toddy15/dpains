@@ -17,6 +17,6 @@
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.69.5",
         "sass-loader": "^13.3.2",
-        "vite": "^4.5.1"
+        "vite": "^5.0.8"
     }
 }
