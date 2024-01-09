@@ -9,22 +9,22 @@
     "require": {
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.8.1",
-        "laravel/framework": "^10.38.2",
+        "laravel/framework": "^10.40.0",
         "laravel/sanctum": "^3.3.3",
         "laravel/tinker": "^2.8.2",
         "laravel/ui": "^4.3.0"
     },
     "require-dev": {
-        "fakerphp/faker": "^1.23",
+        "fakerphp/faker": "^1.23.1",
         "laravel/pint": "^1.13.7",
         "laravel/sail": "^1.26.3",
         "mockery/mockery": "^1.6.7",
         "nunomaduro/collision": "^7.10.0",
-        "larastan/larastan": "^2.7.0",
+        "larastan/larastan": "^2.8.1",
         "pestphp/pest": "^2.30.0",
         "pestphp/pest-plugin-laravel": "^2.2",
         "rector/rector": "^0.18.13",
-        "spatie/laravel-ignition": "^2.3.3"
+        "spatie/laravel-ignition": "^2.4.0"
     },
     "autoload": {
         "psr-4": {
