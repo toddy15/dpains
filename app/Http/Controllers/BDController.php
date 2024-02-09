@@ -72,7 +72,7 @@ class BDController extends Controller
 
                 // Combine actual and max BDs into one table cell
                 $combined_bds[$episode->employee_id][$month] = [
-                    'stats' => $bds.'/'.$max_bds,
+                    'stats' => sprintf("%.1f/%d", $bds, $max_bds),
                     'markup' => $markup,
                 ];
 
