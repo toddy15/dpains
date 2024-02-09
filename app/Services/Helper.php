@@ -438,18 +438,16 @@ class Helper
 
     /**
      * Returns the highest year which has been planned.
-     *
-     * @return string Formatted year (YYYY)
      */
-    public function getPlannedYear(): string
+    public function getPlannedYear(): int
     {
         $month = Rawplan::max('month');
 
         if ($month === null) {
-            return (string) $this->firstYear;
+            return $this->firstYear;
         }
 
-        return substr((string) $month, 0, 4);
+        return (int) substr((string) $month, 0, 4);
     }
 
     /**

@@ -75,7 +75,7 @@ class ReportController extends Controller
      */
     public function showCurrentYear(Helper $helper, Request $request): View
     {
-        return $this->showYear($helper, $request, (int) $helper->getPlannedYear());
+        return $this->showYear($helper, $request, $helper->getPlannedYear());
     }
 
     public function showYear(Helper $helper, Request $request, int $year): View
@@ -128,7 +128,7 @@ class ReportController extends Controller
      */
     public function showCurrentBuAndCon(Helper $helper, Request $request): View
     {
-        return $this->showBuAndCon($helper, $request, (int) $helper->getPlannedYear());
+        return $this->showBuAndCon($helper, $request, $helper->getPlannedYear());
     }
 
     public function showBuAndCon(Helper $helper, Request $request, int $year): View

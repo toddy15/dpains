@@ -17,8 +17,8 @@ class BDController extends Controller
         $helper = new Helper();
 
         // Ensure a valid year
-        if ($year < $helper->firstYear or $year > (int) $helper->getPlannedYear()) {
-            $year = (int) $helper->getPlannedYear();
+        if ($year < $helper->firstYear or $year > $helper->getPlannedYear()) {
+            $year = $helper->getPlannedYear();
         }
 
         // Get all analyzed months for the given year

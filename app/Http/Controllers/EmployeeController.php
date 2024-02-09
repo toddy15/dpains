@@ -137,7 +137,7 @@ class EmployeeController extends Controller
      */
     public function showCurrentVKForYear(Helper $helper, string $which_vk): View
     {
-        return $this->showVKForYear($helper, $which_vk, (int) $helper->getPlannedYear());
+        return $this->showVKForYear($helper, $which_vk, $helper->getPlannedYear());
     }
 
     /**

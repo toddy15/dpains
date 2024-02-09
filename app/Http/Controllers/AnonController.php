@@ -101,7 +101,7 @@ class AnonController extends Controller
      */
     public function showCurrentYear(Helper $helper, Request $request, string $hash): View|RedirectResponse
     {
-        return $this->showYear($helper, $request, (int) $helper->getPlannedYear(), $hash);
+        return $this->showYear($helper, $request, $helper->getPlannedYear(), $hash);
     }
 
     /**
