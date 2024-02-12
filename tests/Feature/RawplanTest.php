@@ -90,3 +90,37 @@ test('a user can create a rawplan', function () {
     ])
         ->assertRedirect(route('rawplans.index'));
 });
+
+it('checks that all expected people are there', function () {
+    actingAs(User::factory()->create());
+
+    seed(EpisodesSeeder::class);
+    $people = file_get_contents('tests/datasets/2024-01_missing-people.txt');
+    $shifts = file_get_contents('tests/datasets/2024-01_missing-shifts.txt');
+
+    post(route('rawplans.store'), [
+        'month' => '1',
+        'year' => '2024',
+        'people' => $people,
+        'shifts' => $shifts,
+    ])
+        ->assertRedirect(route('rawplans.create'))
+        ->assertSessionHasErrors(['people' => 'Die folgenden Mitarbeiter werden im Monat 2024-01 erwartet, aber nicht gefunden: Fachärztin, C']);
+});
+
+it('checks that not more people than expected are there', function () {
+    actingAs(User::factory()->create());
+
+    seed(EpisodesSeeder::class);
+    $people = file_get_contents('tests/datasets/2024-01_added-people.txt');
+    $shifts = file_get_contents('tests/datasets/2024-01_added-shifts.txt');
+
+    post(route('rawplans.store'), [
+        'month' => '1',
+        'year' => '2024',
+        'people' => $people,
+        'shifts' => $shifts,
+    ])
+        ->assertRedirect(route('rawplans.create'))
+        ->assertSessionHasErrors(['people' => 'Die folgenden Mitarbeiter werden im Monat 2024-01 nicht erwartet, aber gefunden: Fachärztin, D']);
+});
