@@ -132,8 +132,8 @@ class RawplanController extends Controller
         );
         $planparser = new Planparser(
             $month,
-            $request->input('people'),
-            $request->input('shifts'),
+            $request->string('people'),
+            $request->string('shifts'),
         );
         // Extend with custom validation rules
         // In the first attempt to validate, check for
