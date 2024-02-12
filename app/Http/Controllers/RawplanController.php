@@ -119,6 +119,12 @@ class RawplanController extends Controller
             'people' => 'required',
             'shifts' => 'required',
         ]);
+        // Determine whether there was an error.
+        if ($validator->fails()) {
+            return to_route('rawplans.create')
+                ->withErrors($validator)
+                ->withInput();
+        }
         // Set the month to the formatted string for database storage.
         $month = $helper->validateAndFormatDate(
             (int) $request->input('year'),
@@ -145,6 +151,9 @@ class RawplanController extends Controller
             }
         });
         // Determine whether there was an error.
+        // PHPStan assumes that the if condition is
+        // always false. This is wrong.
+        // @phpstan-ignore-next-line
         if ($validator->fails()) {
             return to_route('rawplans.create')
                 ->withErrors($validator)

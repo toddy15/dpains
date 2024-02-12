@@ -27,6 +27,54 @@ test('a user can view the form for a rawplan upload', function () {
         ->assertViewIs('rawplans.create');
 });
 
+test('people are required for a rawplan', function () {
+    actingAs(User::factory()->create());
+
+    seed(EpisodesSeeder::class);
+    $shifts = file_get_contents('tests/datasets/2024-01_standard-shifts.txt');
+
+    post(route('rawplans.store'), [
+        'month' => '1',
+        'year' => '2024',
+        'shifts' => $shifts,
+    ])
+        ->assertRedirect(route('rawplans.create'))
+        ->assertSessionHasErrors('people');
+
+    post(route('rawplans.store'), [
+        'month' => '1',
+        'year' => '2024',
+        'people' => '',
+        'shifts' => $shifts,
+    ])
+        ->assertRedirect(route('rawplans.create'))
+        ->assertSessionHasErrors('people');
+});
+
+test('shifts are required for a rawplan', function () {
+    actingAs(User::factory()->create());
+
+    seed(EpisodesSeeder::class);
+    $people = file_get_contents('tests/datasets/2024-01_standard-people.txt');
+
+    post(route('rawplans.store'), [
+        'month' => '1',
+        'year' => '2024',
+        'people' => $people,
+    ])
+        ->assertRedirect(route('rawplans.create'))
+        ->assertSessionHasErrors('shifts');
+
+    post(route('rawplans.store'), [
+        'month' => '1',
+        'year' => '2024',
+        'people' => $people,
+        'shifts' => '',
+    ])
+        ->assertRedirect(route('rawplans.create'))
+        ->assertSessionHasErrors('shifts');
+});
+
 test('a user can create a rawplan', function () {
     actingAs(User::factory()->create());
 
