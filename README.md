@@ -1,6 +1,6 @@
 # DPAINS website
 
-![PHP version](https://img.shields.io/badge/php-8.2-brightgreen)
+![PHP version](https://img.shields.io/badge/php-8.3-brightgreen)
 ![License](https://img.shields.io/github/license/toddy15/dpains?color=bright)
 [![Build](https://img.shields.io/github/actions/workflow/status/toddy15/dpains/test.yml)](https://github.com/toddy15/dpains/actions/workflows/test.yml)
 [![Maintainability](https://img.shields.io/codeclimate/maintainability/toddy15/dpains)](https://codeclimate.com/github/toddy15/dpains)
