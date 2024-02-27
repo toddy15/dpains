@@ -151,9 +151,6 @@ class RawplanController extends Controller
             }
         });
         // Determine whether there was an error.
-        // PHPStan assumes that the if condition is
-        // always false. This is wrong.
-        // @phpstan-ignore-next-line
         if ($validator->fails()) {
             return to_route('rawplans.create')
                 ->withErrors($validator)
