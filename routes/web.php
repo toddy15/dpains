@@ -11,13 +11,12 @@ use App\Http\Controllers\PastEmployeeController;
 use App\Http\Controllers\RawplanController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StaffgroupController;
-use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false]);
 
-Route::middleware([Authenticate::class])->group(function () {
+Route::middleware('auth')->group(function () {
     Route::resource('episodes', EpisodeController::class)->except([
         'index',
         'show',
