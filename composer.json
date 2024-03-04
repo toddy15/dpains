@@ -20,10 +20,10 @@
         "laravel/sail": "^1.28.1",
         "mockery/mockery": "^1.6.7",
         "nunomaduro/collision": "^7.10.0",
-        "larastan/larastan": "^2.9.1",
+        "larastan/larastan": "^2.9.2",
         "pestphp/pest": "^2.34.1",
         "pestphp/pest-plugin-laravel": "^2.3",
-        "rector/rector": "^1.0.1",
+        "rector/rector": "^1.0.2",
         "spatie/laravel-ignition": "^2.4.2"
     },
     "autoload": {
