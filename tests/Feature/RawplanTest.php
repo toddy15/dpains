@@ -125,7 +125,7 @@ it('checks that not more people than expected are there', function () {
         ->assertSessionHasErrors(['people' => 'Die folgenden Mitarbeiter werden im Monat 2024-01 nicht erwartet, aber gefunden: Fachärztin, D']);
 });
 
-it('checks that the month has the expected amount of days', function () {
+it('detects missing days', function () {
     actingAs(User::factory()->create());
 
     seed(EpisodesSeeder::class);

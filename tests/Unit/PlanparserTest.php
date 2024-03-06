@@ -209,3 +209,19 @@ it('does not trim whitespace at the beginning (1 line)', function () use (
     expect($p->parsedNames)->toBe($result['people']);
     expect($p->parsedShifts)->toBe($result_whitespace['shifts']);
 });
+
+it('does not trim whitespace at the beginning (3 lines)', function () use (
+    $input_three_lines_people,
+    $input_three_lines_whitespace_shifts,
+    $result,
+    $result_whitespace,
+) {
+    $p = new Planparser(
+        '2022-04',
+        $input_three_lines_people,
+        $input_three_lines_whitespace_shifts,
+    );
+
+    expect($p->parsedNames)->toBe($result['people']);
+    expect($p->parsedShifts)->toBe($result_whitespace['shifts']);
+});
