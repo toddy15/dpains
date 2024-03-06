@@ -15,6 +15,12 @@ A\tB\tC\tD
 \t\t\t
 ";
 
+$input_one_line_whitespace_shifts = "\t\t\t4
+a\tb\tc\td
+A\tB\tC\tD
+\t\t\t
+";
+
 $input_three_lines_people = 'Ward, Layla
 Chefarzt, SpWB INT
 
@@ -43,6 +49,20 @@ A\tB\tC\tD
 
 ";
 
+$input_three_lines_whitespace_shifts = "\t\t\t4p
+\t\t\t4
+
+ap\tbp\tcp\tdp
+a\tb\tc\td
+
+Ap\tBp\tCp\tDp
+A\tB\tC\tD
+
+\t\t\t
+\t\t\t
+
+";
+
 $result['people'] = [
     'Ward, Layla',
     'Palmer, Kenna',
@@ -52,6 +72,13 @@ $result['people'] = [
 
 $result['shifts'] = [
     ['1', '2', '3', '4'],
+    ['a', 'b', 'c', 'd'],
+    ['A', 'B', 'C', 'D'],
+    ['', '', '', ''],
+];
+
+$result_whitespace['shifts'] = [
+    ['', '', '', '4'],
     ['a', 'b', 'c', 'd'],
     ['A', 'B', 'C', 'D'],
     ['', '', '', ''],
@@ -165,4 +192,20 @@ test('the planparser returns worked shifts (3 lines)', function () use (
 
     expect($p->parsedNames)->toBe($result['people']);
     expect($p->parsedShifts)->toBe($result['shifts']);
+});
+
+it('does not trim whitespace at the beginning (1 line)', function () use (
+    $input_one_line_people,
+    $input_one_line_whitespace_shifts,
+    $result,
+    $result_whitespace,
+) {
+    $p = new Planparser(
+        '2022-04',
+        $input_one_line_people,
+        $input_one_line_whitespace_shifts,
+    );
+
+    expect($p->parsedNames)->toBe($result['people']);
+    expect($p->parsedShifts)->toBe($result_whitespace['shifts']);
 });
