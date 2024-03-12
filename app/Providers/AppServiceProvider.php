@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Http\Middleware\TrimStrings;
+use Illuminate\Foundation\Http\Middleware\TrimStrings;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
