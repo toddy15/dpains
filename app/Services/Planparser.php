@@ -210,7 +210,7 @@ class Planparser
     {
         [$year, $month] = explode('-', $this->formattedMonth);
         $day = Carbon::create((int) $year, (int) $month);
-        if ($day === false) {
+        if ($day === null) {
             return 0.0;
         }
         $bdshifts = 0.0;
