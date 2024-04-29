@@ -175,6 +175,7 @@ class Helper
         int $non_anon_employee_id = 0,
     ): array {
         $tables = [];
+        $staffgroups = [];
         // Get the sorting key and direction from the request
         $sort_key = $request->input('sort');
         $direction = $request->input('direction');
