@@ -23,7 +23,7 @@
         "larastan/larastan": "^2.9.6",
         "pestphp/pest": "^2.34.7",
         "pestphp/pest-plugin-laravel": "^2.4",
-        "rector/rector": "^1.0.5",
+        "rector/rector": "^1.1.0",
         "spatie/laravel-ignition": "^2.7.0"
     },
     "autoload": {
