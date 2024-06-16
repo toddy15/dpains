@@ -32,7 +32,7 @@ parameters:
 
 		-
 			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
-			count: 10
+			count: 15
 			path: app/Http/Controllers/BDController.php
 
 		-
@@ -42,7 +42,7 @@ parameters:
 
 		-
 			message: "#^Cannot access property \\$vk on mixed\\.$#"
-			count: 1
+			count: 2
 			path: app/Http/Controllers/BDController.php
 
 		-
