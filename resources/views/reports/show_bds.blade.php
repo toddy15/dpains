@@ -8,7 +8,7 @@
                 <a class="page-link" href="{{ $previous_year_url }}"><span aria-hidden="true">&larr;</span>Vorheriges
                     Jahr</a>
             </li>
-            <li class="page-item">
+            <li class="page-item {{ empty($next_year_url) ? 'disabled' : '' }}">
                 <a class="page-link" href="{{ $next_year_url }}">Nächstes Jahr <span aria-hidden="true">&rarr;</span></a>
             </li>
         </ul>

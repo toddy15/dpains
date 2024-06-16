@@ -176,6 +176,9 @@ class BDController extends Controller
 
         $previous_year_url = $helper->getPreviousYearUrl('report/bd/', $year);
         $next_year_url = $helper->getNextYearUrl('report/bd/', $year);
+        if ($year == $helper->getPlannedYear()) {
+            $next_year_url = '';
+        }
 
         return view('reports.show_bds',
             [
