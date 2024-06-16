@@ -21,10 +21,19 @@ class BDController extends Controller
             $year = $helper->getPlannedYear();
         }
 
-        // Get all analyzed months for the given year
+        // This combines all employee data for the table (used for sorting).
+        $employee_infos = [];
+
+        // This holds the value and markup for a table cell.
         $combined_bds = [];
-        $quarterly_extra_bd = [];
-        $employee_info = [];
+
+        // This holds the VK of each month for an employee.
+        $vk_in_month = [];
+
+        // This holds the count of BDs in each month for an employee.
+        $bds_in_month = [];
+
+        // Get all analyzed months for the given year
         for ($month = 1; $month <= 12; $month++) {
             $formattedMonth = $helper->validateAndFormatDate($year, $month);
             $episodes = $helper->getPeopleForMonth($formattedMonth);
@@ -35,49 +44,46 @@ class BDController extends Controller
                 ->get();
 
             foreach ($episodes as $episode) {
-                // Fill up array if it didn't exist
-                if (! isset($combined_bds[$episode->employee_id])) {
-                    $combined_bds[$episode->employee_id] = array_fill(1, 12, [
-                        'stats' => '–',
-                        'markup' => '',
-                    ]);
+                // Initialize up arrays if they didn't exist
+                if (! isset($vk_in_month[$episode->employee_id])) {
+                    $vk_in_month[$episode->employee_id] = array_fill(1, 12, 0);
                 }
-                if (! isset($quarterly_extra_bd[$episode->employee_id])) {
-                    $quarterly_extra_bd[$episode->employee_id] = array_fill(0, 4, false);
+                if (! isset($bds_in_month[$episode->employee_id])) {
+                    $bds_in_month[$episode->employee_id] = array_fill(1, 12, 0);
                 }
 
+                // Get VK for this employee in the current month
+                $vk_in_month[$episode->employee_id][$month] = $episode->vk;
+
+                // Get count of BDs in the current month
+                $bds = 0;
                 $shift = $shifts->firstWhere('employee_id', $episode->employee_id);
-                if ($shift === null) {
-                    $bds = 0;
-                } else {
+                if ($shift !== null) {
                     $bds = $shift->bds;
                 }
-                $max_bds = round(4 * $episode->vk, 0);
+                $bds_in_month[$episode->employee_id] = $bds;
 
-                $quarter = floor(($month - 1) / 3);
+                // Calculate the absolute maximum of BDs
+                $max_bds = round(7 * $episode->vk, 0);
 
-                // Show a warning if the extra BD per quarter has been used.
-                // Show a stronger warning if the extra BD has already been used or
-                // if the number of BDs in this month is greater than max_bds + 1.
+                // Show an error if more than the maximum number
+                // of BDs per month has been planned.
+                // If the maximum number has been reached, show a warning.
                 $markup = '';
-                if ($bds > ($max_bds + 1)) {
+                if ($bds > $max_bds) {
                     $markup = 'danger';
-                } elseif ($bds > $max_bds and $quarterly_extra_bd[$episode->employee_id][$quarter]) {
-                    $markup = 'danger';
-                } elseif ($bds > $max_bds) {
-                    // Keep track of one extra BD per quarter.
-                    $quarterly_extra_bd[$episode->employee_id][$quarter] = true;
+                } elseif ($bds == $max_bds and $bds != 0) {
                     $markup = 'warning';
                 }
 
-                // Combine actual and max BDs into one table cell
+                // Combine actual BDs and markup into one table cell
                 $combined_bds[$episode->employee_id][$month] = [
-                    'stats' => sprintf('%.1f/%d', $bds, $max_bds),
+                    'value' => sprintf('%.1f/%.3f', $bds, $episode->vk),
                     'markup' => $markup,
                 ];
 
                 // Always use the last available information.
-                $employee_info[$episode->employee_id] = [
+                $employee_infos[$episode->employee_id] = [
                     'id' => $episode->employee_id,
                     'name' => $episode->name,
                     'staffgroup_weight' => $episode->weight,
@@ -86,9 +92,9 @@ class BDController extends Controller
         }
 
         // Sort by staffgroup, then by name
-        $staffgroup_weight = array_column($employee_info, 'staffgroup_weight');
-        $name = array_column($employee_info, 'name');
-        array_multisort($staffgroup_weight, $name, SORT_STRING | SORT_FLAG_CASE, $employee_info);
+        $staffgroup_weight = array_column($employee_infos, 'staffgroup_weight');
+        $name = array_column($employee_infos, 'name');
+        array_multisort($staffgroup_weight, $name, SORT_STRING | SORT_FLAG_CASE, $employee_infos);
 
         $previous_year_url = $helper->getPreviousYearUrl('report/bd/', $year);
         $next_year_url = $helper->getNextYearUrl('report/bd/', $year);
@@ -98,7 +104,7 @@ class BDController extends Controller
                 'year' => $year,
                 'previous_year_url' => $previous_year_url,
                 'next_year_url' => $next_year_url,
-                'employee_info' => $employee_info,
+                'employee_infos' => $employee_infos,
                 'combined_bds' => $combined_bds,
             ]
         );

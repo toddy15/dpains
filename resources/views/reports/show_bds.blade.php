@@ -32,16 +32,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($employee_info as $employee_info)
+            @foreach ($employee_infos as $employee_info)
                 <tr>
                     <td>{{ $employee_info['name'] }}</td>
                     @foreach ($combined_bds[$employee_info['id']] as $bd_info)
                         @if ($bd_info['markup'] === 'danger')
-                            <td class="table-danger">{{ $bd_info['stats'] }}</td>
+                            <td class="table-danger">{{ $bd_info['value'] }}</td>
                         @elseif ($bd_info['markup'] === 'warning')
-                            <td class="table-warning">{{ $bd_info['stats'] }}</td>
+                            <td class="table-warning">{{ $bd_info['value'] }}</td>
                         @else
-                            <td>{{ $bd_info['stats'] }}</td>
+                            <td>{{ $bd_info['value'] }}</td>
                         @endif
                     @endforeach
                 </tr>
