@@ -16,15 +16,16 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.23.1",
+        "larastan/larastan": "^2.9.7",
         "laravel/pint": "^1.16.0",
         "laravel/sail": "^1.29.2",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.1.1",
-        "larastan/larastan": "^2.9.7",
         "pestphp/pest": "^2.34.8",
         "pestphp/pest-plugin-laravel": "^2.4",
         "rector/rector": "^1.1.0",
-        "spatie/laravel-ignition": "^2.7.0"
+        "spatie/laravel-ignition": "^2.7.0",
+        "tomasvotruba/type-coverage": "^0.3.1"
     },
     "autoload": {
         "psr-4": {
