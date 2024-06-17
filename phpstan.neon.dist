@@ -11,5 +11,5 @@ parameters:
         return: 95
         param: 85
         property: 75
-        constant: 100
+        constant: 0
         declare: 5
