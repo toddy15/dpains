@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Database\Factories\DueShiftFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DueShift extends Model
 {
+    /** @use HasFactory<DueShiftFactory> */
     use HasFactory;
 
     protected $fillable = ['staffgroup_id', 'year', 'nights', 'nefs'];
