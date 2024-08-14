@@ -34,7 +34,7 @@ class EpisodeController extends Controller
             // There are no episodes, so create a new employee
             // using sane default values.
             $wb_id = Staffgroup::where('staffgroup', 'WB')->firstOrFail()->id;
-            $episode = new Episode();
+            $episode = new Episode;
             $episode->start_date = Carbon::now()->isoFormat('YYYY-MM');
             $episode->staffgroup_id = $wb_id;
             $episode->vk = 1.0;

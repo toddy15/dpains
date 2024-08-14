@@ -14,7 +14,7 @@ class BDController extends Controller
      */
     public function __invoke(Request $request, int $year = 0): View
     {
-        $helper = new Helper();
+        $helper = new Helper;
 
         // Ensure a valid year
         if ($year < $helper->firstYear or $year > $helper->getPlannedYear()) {

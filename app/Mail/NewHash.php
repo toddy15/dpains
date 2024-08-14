@@ -11,9 +11,7 @@ class NewHash extends Mailable
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public string $url)
-    {
-    }
+    public function __construct(public string $url) {}
 
     public function build(): NewHash
     {
