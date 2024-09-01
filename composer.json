@@ -9,7 +9,7 @@
     "require": {
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.9.2",
-        "laravel/framework": "^11.20.0",
+        "laravel/framework": "^11.21.0",
         "laravel/sanctum": "^4.0.2",
         "laravel/tinker": "^2.9.0",
         "laravel/ui": "^4.5.2"
@@ -21,9 +21,9 @@
         "laravel/sail": "^1.31.1",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.4.0",
-        "pestphp/pest": "^2.35.0",
+        "pestphp/pest": "^2.35.1",
         "pestphp/pest-plugin-laravel": "^2.4",
-        "rector/rector": "^1.2.3",
+        "rector/rector": "^1.2.4",
         "spatie/laravel-ignition": "^2.8.0",
         "tomasvotruba/type-coverage": "^0.3.1"
     },
