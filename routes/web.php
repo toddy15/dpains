@@ -99,10 +99,10 @@ Route::middleware('auth')->group(function () {
  * From here on, the routes are accessible by anybody.
  */
 
-Route::get('/{hash?}', [AnonController::class, 'homepage'])->name(
-    'homepage',
-);
-Route::get('anon/logout/{hash}', [AnonController::class, 'logout']);
+Route::get('/{hash?}', [AnonController::class, 'homepage'])
+    ->name('homepage');
+Route::get('anon/logout/{hash}', [AnonController::class, 'logout'])
+    ->name('anon.logout');
 Route::get(
     'anon/episodes/{hash}',
     [AnonController::class, 'showEpisodes'],

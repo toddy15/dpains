@@ -12,7 +12,7 @@ use function Pest\Laravel\post;
 test('a user can create a new episode for a new employee', function () {
     actingAs(User::factory()->create());
     // This creates already an employee, and there are some
-    // from the EpisodeSeeder, so the next employee has ID 30.
+    // from the EpisodeSeeder, so the next employee has ID 35.
     // @todo: find a way to get the correct next employee ID automatically.
     $episode = Episode::factory()->make();
     $data = $episode->toArray();
@@ -21,7 +21,7 @@ test('a user can create a new episode for a new employee', function () {
     $data['year'] = $episode->year;
 
     post(route('episodes.store', $data))
-        ->assertRedirect(route('employees.episodes.index', ['employee' => 30]));
+        ->assertRedirect(route('employees.episodes.index', ['employee' => 35]));
 });
 
 test('a user can create a new episode for an existing employee', function () {
