@@ -106,7 +106,8 @@ Route::get('anon/logout/{hash}', [AnonController::class, 'logout'])
 Route::get(
     'anon/episodes/{hash}',
     [AnonController::class, 'showEpisodes'],
-);
+)
+    ->name('anon.episodes');
 Route::post(
     'anon/newHash',
     [AnonController::class, 'requestNewHashPerMail'],
