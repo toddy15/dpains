@@ -31,8 +31,9 @@ test('homepage flashes warning for invalid hash', function () {
     get(route('homepage', ['hash' => 'invalid_hash']))
         ->assertOk()
         ->assertViewIs('homepage')
-        ->assertViewHas('hash', '')
-        ->assertSee('Dieser Zugriffcode ist nicht gültig.');
+        ->assertViewHas('hash', '');
+
+    expect(session('warning'))->toBe('Dieser Zugriffcode ist nicht gültig.');
 });
 
 test('homepage updates last access time for valid hash', function () {
