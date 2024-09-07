@@ -6,3 +6,8 @@
 
 // Bootstrap
 @import 'node_modules/bootstrap/scss/bootstrap';
+
+// Support CSP and remove inline style
+.navbar-custom-background {
+    background: #fef08a;
+}
