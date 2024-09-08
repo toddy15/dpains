@@ -5,7 +5,15 @@
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span class="navbar-toggler-icon"></span>
+            <svg class="navbar-custom-toggler-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" aria-hidden="true">
+                <path
+                    stroke="rgba(33, 37, 41, 0.75)"
+                    stroke-linecap="round"
+                    stroke-miterlimit="10"
+                    stroke-width="2"
+                    d="M4 7h22M4 15h22M4 23h22"
+                />
+            </svg>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
