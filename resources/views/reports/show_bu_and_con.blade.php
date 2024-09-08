@@ -18,9 +18,9 @@
             <tr>
                 <th rowspan="2">Name</th>
                 <th rowspan="2">BU-Beginn</th>
-                <th colspan="2" style="text-align: center">{{ $year - 1 }}</th>
-                <th colspan="2" style="text-align: center">{{ $year }}</th>
-                <th colspan="2" style="text-align: center">{{ $year + 1 }}</th>
+                <th colspan="2" class="text-center">{{ $year - 1 }}</th>
+                <th colspan="2" class="text-center">{{ $year }}</th>
+                <th colspan="2" class="text-center">{{ $year + 1 }}</th>
                 <th rowspan="2">Summe</th>
             </tr>
             <tr>
