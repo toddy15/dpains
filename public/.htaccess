@@ -68,7 +68,7 @@
 
 <IfModule mod_headers.c>
     # Block site from being framed with X-Frame-Options and CSP
-    Header add Content-Security-Policy "object-src 'none'; img-src 'self'; font-src 'self'; form-action 'self'; upgrade-insecure-requests; base-uri 'none'; frame-src 'none'; frame-ancestors 'none'; report-uri https://www.quathamer.net/csp/"
+    Header add Content-Security-Policy "script-src 'self'; style-src 'self'; object-src 'none'; font-src 'self'; form-action 'self'; upgrade-insecure-requests; base-uri 'none'; frame-src 'none'; frame-ancestors 'none'; report-uri https://www.quathamer.net/csp/"
     # Enable CSP violation reporting
     #Header add Reporting-Endpoints "endpoint-1=https://www.quathamer.net/csp/"
     Header add Content-Security-Policy-Report-Only "default-src 'none'; script-src 'self'; style-src 'self'; object-src 'none'; img-src 'self'; font-src 'self'; form-action 'self'; upgrade-insecure-requests; base-uri 'none'; frame-src 'none'; frame-ancestors 'none'; report-uri https://www.quathamer.net/csp/"
