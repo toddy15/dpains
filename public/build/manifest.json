@@ -15,9 +15,13 @@
     ]
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-Dwu9QVjL.css",
+    "file": "assets/app-D2MDW7Ji.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
+  },
+  "resources/svg/navbar-toggler.svg": {
+    "file": "assets/navbar-toggler-F5sASSfC.svg",
+    "src": "resources/svg/navbar-toggler.svg"
   },
   "resources/svg/select.svg": {
     "file": "assets/select-MtfTkWl6.svg",
