@@ -17,6 +17,8 @@ class Employee extends Model
 
     /**
      * Get the episodes for the employee.
+     *
+     * @return HasMany<Episode, $this>
      */
     public function episodes(): HasMany
     {

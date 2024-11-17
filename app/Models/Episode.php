@@ -40,6 +40,8 @@ class Episode extends Model
 
     /**
      * Get the comment for an episode.
+     *
+     * @return BelongsTo<Comment, $this>
      */
     public function comment(): BelongsTo
     {
@@ -48,6 +50,8 @@ class Episode extends Model
 
     /**
      * Get the staffgroup for an episode.
+     *
+     * @return BelongsTo<Staffgroup, $this>
      */
     public function staffgroup(): BelongsTo
     {

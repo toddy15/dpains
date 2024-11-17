@@ -156,32 +156,12 @@ parameters:
 			path: app/Http/Requests/UpdateEmployeeRequest.php
 
 		-
-			message: "#^Method App\\\\Models\\\\DueShift\\:\\:staffgroup\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo does not specify its types\\: TRelatedModel, TChildModel$#"
-			count: 1
-			path: app/Models/DueShift.php
-
-		-
-			message: "#^Method App\\\\Models\\\\Employee\\:\\:episodes\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany does not specify its types\\: TRelatedModel$#"
-			count: 1
-			path: app/Models/Employee.php
-
-		-
 			message: "#^Method App\\\\Models\\\\Employee\\:\\:name\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Casts\\\\Attribute does not specify its types\\: TGet, TSet$#"
 			count: 1
 			path: app/Models/Employee.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Episode\\:\\:comment\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo does not specify its types\\: TRelatedModel, TChildModel$#"
-			count: 1
-			path: app/Models/Episode.php
-
-		-
 			message: "#^Method App\\\\Models\\\\Episode\\:\\:month\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Casts\\\\Attribute does not specify its types\\: TGet, TSet$#"
-			count: 1
-			path: app/Models/Episode.php
-
-		-
-			message: "#^Method App\\\\Models\\\\Episode\\:\\:staffgroup\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\BelongsTo does not specify its types\\: TRelatedModel, TChildModel$#"
 			count: 1
 			path: app/Models/Episode.php
 

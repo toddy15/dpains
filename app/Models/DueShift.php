@@ -23,6 +23,8 @@ class DueShift extends Model
 
     /**
      * Get the staffgroup for the entry.
+     *
+     * @return BelongsTo<Staffgroup, $this>
      */
     public function staffgroup(): BelongsTo
     {
