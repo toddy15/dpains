@@ -69,11 +69,9 @@ class BDController extends Controller
                 $vk_in_month[$episode->employee_id][$month] = $episode->vk;
 
                 // Get count of BDs in the current month
-                $bds = 0;
                 $shift = $shifts->firstWhere('employee_id', $episode->employee_id);
-                if ($shift !== null) {
-                    $bds = $shift->bds;
-                }
+                $bds = $shift?->bds;
+                settype($bds, 'integer');
                 $bds_in_month[$episode->employee_id][$month] = $bds;
 
                 // Calculate the absolute maximum of BDs
