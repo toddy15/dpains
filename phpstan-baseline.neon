@@ -172,22 +172,22 @@ parameters:
 
 		-
 			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
-			count: 9
+			count: 18
 			path: app/Services/Helper.php
 
 		-
 			message: "#^Cannot access property \\$factor_nef on mixed\\.$#"
-			count: 1
+			count: 2
 			path: app/Services/Helper.php
 
 		-
 			message: "#^Cannot access property \\$factor_night on mixed\\.$#"
-			count: 1
+			count: 2
 			path: app/Services/Helper.php
 
 		-
 			message: "#^Cannot access property \\$name on mixed\\.$#"
-			count: 2
+			count: 3
 			path: app/Services/Helper.php
 
 		-
@@ -202,17 +202,17 @@ parameters:
 
 		-
 			message: "#^Cannot access property \\$staffgroup on mixed\\.$#"
-			count: 14
+			count: 26
 			path: app/Services/Helper.php
 
 		-
 			message: "#^Cannot access property \\$vk on mixed\\.$#"
-			count: 3
+			count: 5
 			path: app/Services/Helper.php
 
 		-
 			message: "#^Cannot cast mixed to string\\.$#"
-			count: 1
+			count: 2
 			path: app/Services/Helper.php
 
 		-
