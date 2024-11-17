@@ -1,15 +1,9 @@
 includes:
     - phpstan-baseline.neon
     - vendor/larastan/larastan/extension.neon
-    - vendor/tomasvotruba/type-coverage/config/extension.neon
+    - vendor/nesbot/carbon/extension.neon
 
 parameters:
     level: max
     paths:
         - app
-    type_coverage:
-        return: 95
-        param: 85
-        property: 75
-        constant: 0
-        declare: 5
