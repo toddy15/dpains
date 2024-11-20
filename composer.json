@@ -9,15 +9,15 @@
     "require": {
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.9.2",
-        "laravel/framework": "^11.32.0",
-        "laravel/sanctum": "^4.0.3",
+        "laravel/framework": "^11.33.2",
+        "laravel/sanctum": "^4.0.4",
         "laravel/tinker": "^2.10.0",
         "laravel/ui": "^4.5.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24.0",
         "larastan/larastan": "^3.0.0",
-        "laravel/pint": "^1.18.1",
+        "laravel/pint": "^1.18.2",
         "laravel/sail": "^1.38.0",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.5.0",
