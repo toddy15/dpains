@@ -173,6 +173,44 @@ class EmployeeController extends Controller
     }
 
     /**
+     * Show the employees working in the given year with their VK.
+     */
+    public function showCurrentStellenplan(Helper $helper): View
+    {
+        return $this->showStellenplan($helper, $helper->getPlannedYear());
+    }
+
+    /**
+     * Show the employees working in the given year with their VK.
+     */
+    public function showStellenplan(Helper $helper, int $year): View
+    {
+        // Set up result arrays
+        $staffgroup = [];
+        $vk_per_month = [];
+        $helper->sumUpVKForYearWithoutStaffgroups($year, $staffgroup, $vk_per_month);
+        // Generate the next and previous year urls
+        $next_year_url = $helper->getNextYearUrl(
+            'employees/stellenplan/',
+            $year,
+        );
+        $previous_year_url = $helper->getPreviousYearUrl(
+            'employees/stellenplan/',
+            $year,
+        );
+
+        return view('employees.show_stellenplan_for_year',
+            [
+                'year' => $year,
+                'staffgroup' => $staffgroup,
+                'vk_per_month' => $vk_per_month,
+                'next_year_url' => $next_year_url,
+                'previous_year_url' => $previous_year_url,
+            ]
+        );
+    }
+
+    /**
      * Calculate the string for BU starts
      */
     private function _calculateBUStart(): array

@@ -609,6 +609,80 @@ class Helper
     }
 
     /**
+     * Sum up the VK for the given year.
+     */
+    public function sumUpVKForYearWithoutStaffgroups(int $year, &$staffgroups, &$vk_per_month): void
+    {
+        // Set up temporary result arrays
+        $months = [];
+        $employee_info = [];
+        // Fill the VK sum array from 1 to 12 with 0
+        $vk_per_month = array_fill(1, 12, 0);
+        // Initialize the counter for yearly mean of VK
+        $vk_per_month['yearly_mean'] = 0;
+        for ($month = 1; $month <= 12; $month++) {
+            $formatted_month = $this->validateAndFormatDate($year, $month);
+            // Get all episodes valid in this month
+            $episodes = $this->getPeopleForMonth($formatted_month);
+            foreach ($episodes as $episode) {
+                // Initialize a month array, if not set
+                if (! isset($months[$episode->employee_id])) {
+                    $months[$episode->employee_id] = array_fill(1, 12, [
+                        'vk' => '–',
+                        'changed' => false,
+                    ]);
+                }
+                // Always use the last available name,
+                // overwrite previous information.
+                $employee_info[$episode->employee_id] = [
+                    'name' => $episode->name,
+                ];
+                // Store the VK for the current month
+                $vk = $episode->vk;
+                // Ensure a nicely formatted VK
+                $vk = sprintf('%.3f', round($vk, 3));
+                $months[$episode->employee_id][$month]['vk'] = $vk;
+                // Mark changes
+                if ($month > 1) {
+                    if (
+                        $vk != $months[$episode->employee_id][$month - 1]['vk']
+                    ) {
+                        $months[$episode->employee_id][$month]['changed'] = true;
+                    }
+                }
+                // Sum up for the month
+                $vk_per_month[$month] += (float) $vk;
+                // Sum up for the mean vk per year
+                $vk_per_month['yearly_mean'] += (float) $vk;
+            }
+        }
+        // Format the 'all' counter nicely
+        for ($month = 1; $month <= 12; $month++) {
+            $vk_per_month[$month] = sprintf(
+                '%.3f',
+                $vk_per_month[$month],
+            );
+        }
+        // Calculate the yearly mean vk
+        $vk_per_month['yearly_mean'] = sprintf(
+            '%.3f',
+            $vk_per_month['yearly_mean'] / 12,
+        );
+
+        // Merge the final array for display
+        foreach ($employee_info as $employee_id => $employee) {
+            // Make sort key for array
+            $sort_key = $employee['name'];
+            $staffgroups[$sort_key] = [
+                'name' => $employee['name'],
+                'months' => $months[$employee_id],
+            ];
+            // Sort the array by sorting keys
+            ksort($staffgroups, SORT_NATURAL);
+        }
+    }
+
+    /**
      * Validates the given year and month, returning a formatted
      * representation. If the date is not valid, the app will abort
      * with a HTTP 404 error.

@@ -58,6 +58,14 @@ Route::middleware('auth')->group(function () {
         'employees/vk/{which_vk}',
         [EmployeeController::class, 'showCurrentVKForYear'],
     );
+    Route::get(
+        'employees/stellenplan/{year}',
+        [EmployeeController::class, 'showStellenplan'],
+    )->where(['year' => '[0-9]+']);
+    Route::get(
+        'employees/stellenplan',
+        [EmployeeController::class, 'showCurrentStellenplan'],
+    );
     Route::resource('employees/past', PastEmployeeController::class)->only([
         'index',
     ]);

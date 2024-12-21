@@ -32,9 +32,7 @@
                                 VK Nächte</a>
                             <a class="dropdown-item" href="{{ url('employees/vk/nef') }}">Jahresübersichten
                                 VK NEF</a>
-                            {{--                            <a class="dropdown-item" href="{{ url('report/' . date('Y/m')) }}">Monate</a> --}}
-                            {{--                            <a class="dropdown-item" --}}
-                            {{--                                href="{{ url('employees/month/' . date('Y/m')) }}">Monatsübersichten</a> --}}
+                            <a class="dropdown-item" href="{{ url('employees/stellenplan') }}">Stellenplan</a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">
