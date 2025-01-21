@@ -9,7 +9,7 @@
     "require": {
         "php": "^8.2",
         "guzzlehttp/guzzle": "^7.9.2",
-        "laravel/framework": "^11.38.2",
+        "laravel/framework": "^11.39.0",
         "laravel/sanctum": "^4.0.7",
         "laravel/tinker": "^2.10.0",
         "laravel/ui": "^4.6.0"
