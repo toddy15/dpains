@@ -161,7 +161,7 @@ class Planparser
             'ZU', 'BR', 'F.', '', 'DB', 'Ve', 'US', '--', 'BV',
             'PZU = Platzhalt', 'B4', 'B3', 'B2', 'B1', 'SU', 'ir28',
             'ir29', 'FSI', 'TPB', 'TxB', 'FZ', 'Avk', 'FS', 'USB',
-            '????', 'RWe', 'F', 'S', 'N', 'S2W', 'iOA',
+            '????', 'RWe', 'F', 'S', 'N', 'S2W', 'iOA', 'BD4',
         ];
         $night_counter = 0;
         $nef_counter = 0;
