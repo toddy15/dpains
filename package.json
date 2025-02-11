@@ -13,7 +13,7 @@
         "laravel-vite-plugin": "^1.2.0",
         "lodash": "^4.17.21",
         "postcss": "^8.5.1",
-        "prettier": "^3.4.2",
+        "prettier": "^3.5.0",
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.83.4",
         "sass-loader": "^16.0.4",
