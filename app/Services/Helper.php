@@ -611,7 +611,7 @@ class Helper
     /**
      * Sum up the VK for the given year.
      */
-    public function sumUpVKForYearWithoutStaffgroups(int $year, &$staffgroups, &$vk_per_month): void
+    public function sumUpVKForYearWithoutStaffgroups(int $year, array &$staffgroups, array &$vk_per_month): void
     {
         // Set up temporary result arrays
         $months = [];
