@@ -43,7 +43,6 @@ return [
             // ],
         ],
 
-
         'smtp' => [
             'transport' => 'smtp',
             'scheme' => env('MAIL_SCHEME'),
