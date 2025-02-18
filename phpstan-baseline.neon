@@ -1,251 +1,643 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Access to an undefined property App\\\\Models\\\\Employee\\:\\:\\$name\\.$#"
+			message: '#^Access to an undefined property App\\Models\\Employee\:\:\$name\.$#'
+			identifier: property.notFound
 			count: 1
 			path: app/Http/Controllers/AnonController.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: app/Http/Controllers/AnonController.php
 
 		-
-			message: "#^Parameter \\#1 \\$time of static method Carbon\\\\Carbon\\:\\:parse\\(\\) expects Carbon\\\\Month\\|Carbon\\\\WeekDay\\|DateTimeInterface\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			message: '#^Parameter \#1 \$time of static method Carbon\\Carbon\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: app/Http/Controllers/AnonController.php
 
 		-
-			message: "#^Method App\\\\Http\\\\Controllers\\\\Auth\\\\RegisterController\\:\\:create\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: '#^Method App\\Http\\Controllers\\Auth\\RegisterController\:\:create\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: app/Http/Controllers/Auth/RegisterController.php
 
 		-
-			message: "#^Method App\\\\Http\\\\Controllers\\\\Auth\\\\RegisterController\\:\\:validator\\(\\) has parameter \\$data with no value type specified in iterable type array\\.$#"
+			message: '#^Method App\\Http\\Controllers\\Auth\\RegisterController\:\:validator\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: app/Http/Controllers/Auth/RegisterController.php
 
 		-
-			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
+			message: '#^Parameter \#1 \$value of static method Illuminate\\Support\\Facades\\Hash\:\:make\(\) expects string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/Auth/RegisterController.php
+
+		-
+			message: '#^Binary operation "\*" between 7 and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: app/Http/Controllers/BDController.php
+
+		-
+			message: '#^Cannot access property \$employee_id on mixed\.$#'
+			identifier: property.nonObject
 			count: 15
 			path: app/Http/Controllers/BDController.php
 
 		-
-			message: "#^Cannot access property \\$name on mixed\\.$#"
+			message: '#^Cannot access property \$name on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: app/Http/Controllers/BDController.php
 
 		-
-			message: "#^Cannot access property \\$vk on mixed\\.$#"
+			message: '#^Cannot access property \$vk on mixed\.$#'
+			identifier: property.nonObject
 			count: 2
 			path: app/Http/Controllers/BDController.php
 
 		-
-			message: "#^Cannot access property \\$weight on mixed\\.$#"
+			message: '#^Cannot access property \$weight on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: app/Http/Controllers/BDController.php
 
 		-
-			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
+			message: '#^Parameter \#1 \$attributes of method Illuminate\\Database\\Eloquent\\Model\:\:update\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/CommentController.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Comment\>\:\:create\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/CommentController.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of method Illuminate\\Database\\Eloquent\\Model\:\:update\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/DueShiftController.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\DueShift\>\:\:create\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/DueShiftController.php
+
+		-
+			message: '#^Cannot access property \$employee_id on mixed\.$#'
+			identifier: property.nonObject
 			count: 3
 			path: app/Http/Controllers/EmployeeController.php
 
 		-
-			message: "#^Cannot access property \\$name on mixed\\.$#"
+			message: '#^Cannot access property \$name on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: app/Http/Controllers/EmployeeController.php
 
 		-
-			message: "#^Cannot access property \\$staffgroup_id on mixed\\.$#"
+			message: '#^Cannot access property \$staffgroup_id on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: app/Http/Controllers/EmployeeController.php
 
 		-
-			message: "#^Method App\\\\Http\\\\Controllers\\\\EmployeeController\\:\\:_calculateBUStart\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method App\\Http\\Controllers\\EmployeeController\:\:_calculateBUStart\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: app/Http/Controllers/EmployeeController.php
 
 		-
-			message: "#^Access to an undefined property App\\\\Models\\\\Employee\\:\\:\\$name\\.$#"
+			message: '#^Parameter \#1 \$attributes of method Illuminate\\Database\\Eloquent\\Model\:\:update\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/EmployeeController.php
+
+		-
+			message: '#^Parameter \#1 \$staffgroup of method App\\Services\\Helper\:\:staffgroupMayReceiveEMail\(\) expects int, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/EmployeeController.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Employee\:\:\$name\.$#'
+			identifier: property.notFound
 			count: 1
 			path: app/Http/Controllers/EmployeeEpisodeController.php
 
 		-
-			message: "#^Cannot cast mixed to int\\.$#"
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
 			count: 6
 			path: app/Http/Controllers/EpisodeController.php
 
 		-
-			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
+			message: '#^Parameter \#1 \$attributes of method Illuminate\\Database\\Eloquent\\Model\:\:update\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/EpisodeController.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Episode\>\:\:create\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/EpisodeController.php
+
+		-
+			message: '#^Cannot access property \$employee_id on mixed\.$#'
+			identifier: property.nonObject
 			count: 2
 			path: app/Http/Controllers/PastEmployeeController.php
 
 		-
-			message: "#^Cannot access property \\$name on mixed\\.$#"
+			message: '#^Cannot access property \$name on mixed\.$#'
+			identifier: property.nonObject
 			count: 1
 			path: app/Http/Controllers/PastEmployeeController.php
 
 		-
-			message: "#^Cannot cast mixed to int\\.$#"
+			message: '#^Cannot call method add\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Http/Controllers/RawplanController.php
+
+		-
+			message: '#^Cannot call method errors\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Http/Controllers/RawplanController.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
 			count: 4
 			path: app/Http/Controllers/RawplanController.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
 			count: 1
 			path: app/Http/Controllers/RawplanController.php
 
 		-
-			message: "#^Access to an undefined property App\\\\Models\\\\Employee\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, App\\\\Models\\\\Employee\\>\\:\\:\\$bu_start\\.$#"
+			message: '#^Parameter \#1 \$attributes of method Illuminate\\Database\\Eloquent\\Model\:\:update\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/RawplanController.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Rawplan\>\:\:create\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/RawplanController.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Employee\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Employee\>\:\:\$bu_start\.$#'
+			identifier: property.notFound
 			count: 2
 			path: app/Http/Controllers/ReportController.php
 
 		-
-			message: "#^Access to an undefined property App\\\\Models\\\\Employee\\|Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, App\\\\Models\\\\Employee\\>\\:\\:\\$name\\.$#"
+			message: '#^Access to an undefined property App\\Models\\Employee\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Employee\>\:\:\$name\.$#'
+			identifier: property.notFound
 			count: 1
 			path: app/Http/Controllers/ReportController.php
 
 		-
-			message: "#^Parameter \\#1 \\$time of static method Carbon\\\\Carbon\\:\\:parse\\(\\) expects Carbon\\\\Month\\|Carbon\\\\WeekDay\\|DateTimeInterface\\|float\\|int\\|string\\|null, mixed given\\.$#"
+			message: '#^Binary operation "\+\=" between \(float\|int\) and mixed results in an error\.$#'
+			identifier: assignOp.invalid
+			count: 2
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: '#^Cannot call method orWhere\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: app/Http/Controllers/ReportController.php
 
 		-
-			message: "#^Method App\\\\Http\\\\Requests\\\\CommentRequest\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Cannot call method where\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: '#^Parameter \#1 \$array of function uasort contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: '#^Parameter \#1 \$time of static method Carbon\\Carbon\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: '#^Parameter \#2 \$callback of function uasort contains unresolvable type\.$#'
+			identifier: argument.unresolvableType
+			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of method Illuminate\\Database\\Eloquent\\Model\:\:update\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/StaffgroupController.php
+
+		-
+			message: '#^Parameter \#1 \$attributes of static method Illuminate\\Database\\Eloquent\\Builder\<App\\Models\\Staffgroup\>\:\:create\(\) expects array\<string, mixed\>, array given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Http/Controllers/StaffgroupController.php
+
+		-
+			message: '#^Method App\\Http\\Requests\\CommentRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: app/Http/Requests/CommentRequest.php
 
 		-
-			message: "#^Method App\\\\Http\\\\Requests\\\\DueShiftRequest\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method App\\Http\\Requests\\DueShiftRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: app/Http/Requests/DueShiftRequest.php
 
 		-
-			message: "#^Method App\\\\Http\\\\Requests\\\\RequestNewHashPerMailAnonRequest\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method App\\Http\\Requests\\RequestNewHashPerMailAnonRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: app/Http/Requests/RequestNewHashPerMailAnonRequest.php
 
 		-
-			message: "#^Method App\\\\Http\\\\Requests\\\\StaffgroupRequest\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method App\\Http\\Requests\\StaffgroupRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: app/Http/Requests/StaffgroupRequest.php
 
 		-
-			message: "#^Method App\\\\Http\\\\Requests\\\\UpdateEmployeeRequest\\:\\:rules\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Method App\\Http\\Requests\\UpdateEmployeeRequest\:\:rules\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: app/Http/Requests/UpdateEmployeeRequest.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Employee\\:\\:name\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Casts\\\\Attribute does not specify its types\\: TGet, TSet$#"
+			message: '#^Method App\\Models\\Employee\:\:name\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
 			count: 1
 			path: app/Models/Employee.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Episode\\:\\:month\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Casts\\\\Attribute does not specify its types\\: TGet, TSet$#"
+			message: '#^Method App\\Models\\Episode\:\:month\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
 			count: 1
 			path: app/Models/Episode.php
 
 		-
-			message: "#^Method App\\\\Models\\\\Episode\\:\\:year\\(\\) return type with generic class Illuminate\\\\Database\\\\Eloquent\\\\Casts\\\\Attribute does not specify its types\\: TGet, TSet$#"
+			message: '#^Method App\\Models\\Episode\:\:year\(\) return type with generic class Illuminate\\Database\\Eloquent\\Casts\\Attribute does not specify its types\: TGet, TSet$#'
+			identifier: missingType.generics
 			count: 1
 			path: app/Models/Episode.php
 
 		-
-			message: "#^Cannot access property \\$employee_id on mixed\\.$#"
-			count: 17
-			path: app/Services/Helper.php
+			message: '#^PHPDoc type array\<int, string\> of property App\\Models\\User\:\:\$fillable is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$fillable\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Models/User.php
 
 		-
-			message: "#^Cannot access property \\$factor_nef on mixed\\.$#"
+			message: '#^PHPDoc type array\<int, string\> of property App\\Models\\User\:\:\$hidden is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$hidden\.$#'
+			identifier: property.phpDocType
+			count: 1
+			path: app/Models/User.php
+
+		-
+			message: '#^Cannot call method url\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Providers/AppServiceProvider.php
+
+		-
+			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
 			count: 2
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Cannot access property \\$factor_night on mixed\\.$#"
+			message: '#^Binary operation "\*" between \(float\|int\) and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
 			count: 2
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Cannot access property \\$name on mixed\\.$#"
+			message: '#^Binary operation "\*" between mixed and mixed results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 4
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Binary operation "\+" between mixed and \(float\|int\) results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Binary operation "\+\=" between mixed and float results in an error\.$#'
+			identifier: assignOp.invalid
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Binary operation "\+\=" between mixed and mixed results in an error\.$#'
+			identifier: assignOp.invalid
+			count: 4
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Binary operation "/" between mixed and 12 results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access offset ''bonus_planned_nefs'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 3
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Cannot access property \\$staffgroup on mixed\\.$#"
-			count: 26
+			message: '#^Cannot access offset ''bonus_planned_nights'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 3
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Cannot access property \\$vk on mixed\\.$#"
+			message: '#^Cannot access offset ''diff_planned_nefs'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access offset ''diff_planned_nights'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access offset ''highlight_row'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access offset ''name'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access offset ''planned_nefs'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access offset ''planned_nights'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access offset ''worked_nefs'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access offset ''worked_nights'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access offset ''yearly_mean'' on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 4
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access offset int\<1, 12\> on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
 			count: 5
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Cannot cast mixed to string\\.$#"
+			message: '#^Cannot access offset mixed on mixed\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 4
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access property \$employee_id on mixed\.$#'
+			identifier: property.nonObject
+			count: 23
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access property \$factor_nef on mixed\.$#'
+			identifier: property.nonObject
 			count: 2
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:fillUpBoni\\(\\) has parameter \\$staffgroups with no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Helper.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:getChangesForMonth\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: app/Services/Helper.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:getPastPeople\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: app/Services/Helper.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:getPeopleForMonth\\(\\) return type with generic class Illuminate\\\\Support\\\\Collection does not specify its types\\: TKey, TValue$#"
-			count: 1
-			path: app/Services/Helper.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:getPlannedMonth\\(\\) should return string\\|null but returns mixed\\.$#"
-			count: 1
-			path: app/Services/Helper.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:getPlannedMonthForAnonAccess\\(\\) should return string\\|null but returns mixed\\.$#"
-			count: 1
-			path: app/Services/Helper.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:getTablesForYear\\(\\) return type has no value type specified in iterable type array\\.$#"
-			count: 1
-			path: app/Services/Helper.php
-
-		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:getWorkedMonth\\(\\) should return string\\|null but returns mixed\\.$#"
+			message: '#^Cannot access property \$factor_night on mixed\.$#'
+			identifier: property.nonObject
 			count: 2
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:newResultArray\\(\\) has parameter \\$person with no value type specified in iterable type array\\.$#"
+			message: '#^Cannot access property \$name on mixed\.$#'
+			identifier: property.nonObject
+			count: 4
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access property \$staffgroup on mixed\.$#'
+			identifier: property.nonObject
+			count: 26
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot access property \$vk on mixed\.$#'
+			identifier: property.nonObject
+			count: 6
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot call method from\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot call method orWhereNull\(\) on mixed\.$#'
+			identifier: method.nonObject
 			count: 1
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:newResultArray\\(\\) return type has no value type specified in iterable type array\\.$#"
+			message: '#^Cannot call method selectRaw\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot call method where\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot call method whereRaw\(\) on mixed\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Cannot cast mixed to int\.$#'
+			identifier: cast.int
 			count: 1
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:sumUpVKForYear\\(\\) has parameter \\$staffgroups with no value type specified in iterable type array\\.$#"
+			message: '#^Cannot cast mixed to string\.$#'
+			identifier: cast.string
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Method App\\Services\\Helper\:\:fillUpBoni\(\) has parameter \$staffgroups with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
 			count: 1
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Method App\\\\Services\\\\Helper\\:\\:sumUpVKForYear\\(\\) has parameter \\$vk_per_month with no value type specified in iterable type array\\.$#"
+			message: '#^Method App\\Services\\Helper\:\:getChangesForMonth\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
 			count: 1
 			path: app/Services/Helper.php
 
 		-
-			message: "#^Parameter \\#1 \\$key of function array_key_exists expects int\\|string, mixed given\\.$#"
+			message: '#^Method App\\Services\\Helper\:\:getPastPeople\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Method App\\Services\\Helper\:\:getPeopleForMonth\(\) return type with generic class Illuminate\\Support\\Collection does not specify its types\: TKey, TValue$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Method App\\Services\\Helper\:\:getPlannedMonth\(\) should return string\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Method App\\Services\\Helper\:\:getPlannedMonthForAnonAccess\(\) should return string\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Method App\\Services\\Helper\:\:getTablesForYear\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Method App\\Services\\Helper\:\:getWorkedMonth\(\) should return string\|null but returns mixed\.$#'
+			identifier: return.type
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Method App\\Services\\Helper\:\:newResultArray\(\) has parameter \$person with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Method App\\Services\\Helper\:\:newResultArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Method App\\Services\\Helper\:\:sumUpVKForYear\(\) has parameter \$staffgroups with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Method App\\Services\\Helper\:\:sumUpVKForYear\(\) has parameter \$vk_per_month with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Method App\\Services\\Helper\:\:sumUpVKForYearWithoutStaffgroups\(\) has parameter \$staffgroups with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Method App\\Services\\Helper\:\:sumUpVKForYearWithoutStaffgroups\(\) has parameter \$vk_per_month with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_sum expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Parameter \#1 \$array of function ksort expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Parameter \#1 \$key of function array_key_exists expects int\|string, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Parameter \#1 \$num of function round expects float\|int, mixed given\.$#'
+			identifier: argument.type
+			count: 2
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Parameter \#2 \$array of function array_key_exists expects array, mixed given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
+			identifier: argument.type
 			count: 1
 			path: app/Services/Helper.php
