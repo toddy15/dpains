@@ -103,6 +103,7 @@ class ReportController extends Controller
             ->where('month', 'LIKE', "$year%")
             ->value('updated_at');
         $latest_change = Carbon::parse($latest_change)
+            ->timezone('Europe/Berlin')
             ->isoFormat('Do MMMM YYYY, HH:mm');
         // Generate the next and previous year urls
         $previous_year_url = $helper->getPreviousYearUrl('report/', $year);

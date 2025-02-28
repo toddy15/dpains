@@ -50,7 +50,9 @@
             @foreach ($rawplans_planned as $rawplan)
                 <tr>
                     <td>{{ $rawplan->month }}</td>
-                    <td>{{ $rawplan->updated_at }}</td>
+                    <td>
+                        {{ Carbon\Carbon::parse($rawplan->updated_at)->timezone('Europe/Berlin')->locale('de')->isoFormat('Do MMMM YYYY, HH:mm:ss') }}
+                    </td>
                     <td>{{ $rawplan->anon_report ? 'Ja' : 'Nein' }}</td>
                     <td>
                         <form action="{{ route('rawplans.destroy', $rawplan) }}">
@@ -65,7 +67,9 @@
             @foreach ($rawplans_worked as $rawplan)
                 <tr class="table-success">
                     <td>{{ $rawplan->month }}</td>
-                    <td>{{ $rawplan->updated_at }}</td>
+                    <td>
+                        {{ Carbon\Carbon::parse($rawplan->updated_at)->timezone('Europe/Berlin')->locale('de')->isoFormat('Do MMMM YYYY, HH:mm:ss') }}
+                    </td>
                     <td>{{ $rawplan->anon_report ? 'Ja' : 'Nein' }}</td>
                     <td>
                     </td>
