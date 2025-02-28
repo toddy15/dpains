@@ -13,7 +13,7 @@ use function Pest\Laravel\post;
 use function Pest\Laravel\seed;
 
 it('redirects when the hash is not valid', function () {
-    get(route('anon.showYear', ['year' => 2023, 'hash' => 'invalid-hash']))
+    $this->get(route('anon.showYear', ['year' => 2023, 'hash' => 'invalid-hash']))
         ->assertRedirectToRoute('homepage');
 
     expect(session('warning'))->toBe('Dieser Zugriffcode ist nicht gültig.');
@@ -26,7 +26,7 @@ test('it returns a 404 when there is no planned month for the year', function ()
         ->andReturn(null);
 
     Employee::factory()->create(['hash' => 'valid-hash']);
-    get(route('anon.showYear', ['year' => 2023, 'hash' => 'valid-hash']))
+    $this->get(route('anon.showYear', ['year' => 2023, 'hash' => 'valid-hash']))
         ->assertStatus(404);
 });
 

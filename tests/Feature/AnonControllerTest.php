@@ -3,10 +3,8 @@
 use App\Models\Employee;
 use Carbon\Carbon;
 
-use function Pest\Laravel\get;
-
 test('homepage returns correct view without hash', function () {
-    get(route('homepage'))
+    $this->get(route('homepage'))
         ->assertOk()
         ->assertViewIs('homepage')
         ->assertViewHas('hash', '');
@@ -18,7 +16,7 @@ test('homepage returns correct view with valid hash', function () {
     $employee = Employee::factory()->create(['hash' => 'valid_hash']);
     Carbon::sleep(1);
 
-    get(route('homepage', ['hash' => 'valid_hash']))
+    $this->get(route('homepage', ['hash' => 'valid_hash']))
         ->assertOk()
         ->assertViewIs('homepage')
         ->assertViewHas('hash', 'valid_hash');
@@ -28,7 +26,7 @@ test('homepage returns correct view with valid hash', function () {
 });
 
 test('homepage flashes warning for invalid hash', function () {
-    get(route('homepage', ['hash' => 'invalid_hash']))
+    $this->get(route('homepage', ['hash' => 'invalid_hash']))
         ->assertOk()
         ->assertViewIs('homepage')
         ->assertViewHas('hash', '');
@@ -43,7 +41,7 @@ test('homepage updates last access time for valid hash', function () {
     $originalUpdatedAt = $employee->updated_at;
     Carbon::sleep(1);
 
-    get(route('homepage', ['hash' => 'valid_hash']))
+    $this->get(route('homepage', ['hash' => 'valid_hash']))
         ->assertOk();
 
     $employee->refresh();
@@ -57,7 +55,7 @@ test('homepage does not update last access time for invalid hash', function () {
     $originalUpdatedAt = $employee->updated_at;
     Carbon::sleep(1);
 
-    get(route('homepage', ['hash' => 'invalid_hash']))
+    $this->get(route('homepage', ['hash' => 'invalid_hash']))
         ->assertOk();
 
     $employee->refresh();

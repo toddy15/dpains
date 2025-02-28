@@ -38,7 +38,7 @@ test('showEpisodes updates last access time for employee', function () {
     $originalUpdatedAt = $employee->updated_at;
 
     Carbon::sleep(1); // Ensure a time difference
-    get(route('anon.episodes', ['hash' => 'valid_hash']))
+    $this->get(route('anon.episodes', ['hash' => 'valid_hash']))
         ->assertOK();
 
     $employee->refresh();

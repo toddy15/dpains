@@ -37,7 +37,7 @@ test('a user can create a new episode for an existing employee', function () {
     expect($episode_1->name)->not()->toBe($episode_2->name);
 
     // There should be only one episode with a name
-    get(route('employees.episodes.index', ['employee' => $episode_1->employee_id]))
+    $this->get(route('employees.episodes.index', ['employee' => $episode_1->employee_id]))
         ->assertSeeText($episode_1->name)
         ->assertDontSeeText($episode_2->name);
 
@@ -45,7 +45,7 @@ test('a user can create a new episode for an existing employee', function () {
         ->assertRedirect(route('employees.episodes.index', ['employee' => $episode_1->employee_id]));
 
     // Now there should be two episodes with a name
-    get(route('employees.episodes.index', ['employee' => $episode_1->employee_id]))
+    $this->get(route('employees.episodes.index', ['employee' => $episode_1->employee_id]))
         ->assertSeeText($episode_1->name)
         ->assertSeeText($episode_2->name);
 });

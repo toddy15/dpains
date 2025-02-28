@@ -4,17 +4,16 @@ use App\Models\User;
 use Tests\Seeders\EpisodesSeeder;
 
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 use function Pest\Laravel\seed;
 
 test('a guest cannot view the rawplans', function () {
-    get(route('rawplans.index'))->assertRedirect(route('login'));
+    $this->get(route('rawplans.index'))->assertRedirect(route('login'));
 });
 
 test('a user can view the rawplans', function () {
     actingAs(User::factory()->create());
-    get(route('rawplans.index'))
+    $this->get(route('rawplans.index'))
         ->assertOk()
         ->assertViewIs('rawplans.index')
         ->assertViewHas('rawplans_planned');
@@ -22,7 +21,7 @@ test('a user can view the rawplans', function () {
 
 test('a user can view the form for a rawplan upload', function () {
     actingAs(User::factory()->create());
-    get(route('rawplans.create'))
+    $this->get(route('rawplans.create'))
         ->assertOk()
         ->assertViewIs('rawplans.create');
 });
