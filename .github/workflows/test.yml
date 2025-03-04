@@ -8,7 +8,6 @@ jobs:
         operating-system:
           - ubuntu-latest
         php-version:
-          - '8.3'
           - '8.4'
     name: php ${{ matrix.php-version }} on ${{ matrix.operating-system }}
     services:
@@ -57,7 +56,7 @@ jobs:
           DB_PASSWORD: null
       - name: Upload coverage
         continue-on-error: true
-        if: matrix.php-version == '8.3'
+        if: matrix.php-version == '8.4'
         uses: paambaati/codeclimate-action@v9
         env:
           CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
