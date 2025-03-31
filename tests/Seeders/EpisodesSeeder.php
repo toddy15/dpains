@@ -38,11 +38,14 @@ class EpisodesSeeder extends Seeder
 
         // Keep track if the staffgroup needs to be created.
         $last_staffgroup = '';
+        $staffgroup_weight = 1;
         foreach ($people as $person => $staffgroup_name) {
             if ($last_staffgroup != $staffgroup_name) {
                 $current_staffgroup = Staffgroup::factory()->create([
                     'staffgroup' => $staffgroup_name,
+                    'weight' => $staffgroup_weight,
                 ]);
+                $staffgroup_weight += 1;
                 $last_staffgroup = $staffgroup_name;
             }
 

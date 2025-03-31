@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\Rawplan;
 use App\Services\Planparser;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 
@@ -17,6 +18,22 @@ use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 */
 
 uses(Tests\TestCase::class, LazilyRefreshDatabase::class)->in('Feature');
+
+/**
+ * Handle dynamic data for CSRF fields
+ */
+expect()->pipe('toMatchSnapshot', function (Closure $next) {
+    if (is_string($this->value)) {
+        $this->value = preg_replace(
+            '/name="_token" value=".*"/',
+            'name="_token" value="my_test"',
+            $this->value
+        );
+        $this->value = "HU";
+    }
+
+    return $next();
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +58,13 @@ function loadDataset(string $dataset)
     $people = file_get_contents('tests/datasets/'.$dataset.'-people.txt');
     $shifts = file_get_contents('tests/datasets/'.$dataset.'-shifts.txt');
     $date = explode('_', $dataset)[0];
+
+    Rawplan::create([
+        'month' => $date,
+        'people' => $people,
+        'shifts' => $shifts,
+        'anon_report' => false,
+    ]);
 
     $p = new Planparser($date, $people, $shifts);
     $p->storeShiftsForPeople();
