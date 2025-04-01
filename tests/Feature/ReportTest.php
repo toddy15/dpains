@@ -32,5 +32,5 @@ it('does not change the report page during refactoring', function () {
         ->assertSee('Auswertung für 2024')
         ->assertDontSee('Seite nicht vorhanden');
 
-//    expect($response)->toMatchSnapshot();
+    expect($response->content())->toMatchSnapshot();
 });

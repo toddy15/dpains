@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="testtoken">
+    <title>Dienstplan AN AKA</title>
+    <link rel="preload" as="style" href="http://localhost/build/assets/app-BF-r5yef.css" /><link rel="modulepreload" href="http://localhost/build/assets/app-CT5wqyTe.js" /><link rel="stylesheet" href="http://localhost/build/assets/app-BF-r5yef.css" /><script type="module" src="http://localhost/build/assets/app-CT5wqyTe.js"></script></head>
+
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm navbar-custom-background">
+    <div class="container">
+        <a class="navbar-brand" href="http://localhost">
+            Home
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <svg class="navbar-custom-toggler-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"
+                aria-hidden="true">
+                <path stroke="rgba(33, 37, 41, 0.75)" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2"
+                    d="M4 7h22M4 15h22M4 23h22" />
+            </svg>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Left Side Of Navbar -->
+            <ul class="navbar-nav me-auto">
+                                    <li class="nav-item dropdown">
+                        <a id="navbarAuswertungen" class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            Auswertungen
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAuswertungen">
+                            <a class="dropdown-item" href="http://localhost/report">Jahre</a>
+                            <a class="dropdown-item" href="http://localhost/report/bd">Jahresübersicht BD</a>
+                            <a class="dropdown-item" href="http://localhost/report/buandcon">BU und
+                                Con</a>
+                            <a class="dropdown-item" href="http://localhost/employees/vk/all">Jahresübersichten
+                                VK</a>
+                            <a class="dropdown-item" href="http://localhost/employees/vk/night">Jahresübersichten
+                                VK Nächte</a>
+                            <a class="dropdown-item" href="http://localhost/employees/vk/nef">Jahresübersichten
+                                VK NEF</a>
+                            <a class="dropdown-item" href="http://localhost/employees/stellenplan">Stellenplan</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a id="navbarVerwaltung" class="nav-link dropdown-toggle" href="#" role="button"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            Verwaltung
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarVerwaltung">
+                            <a class="dropdown-item" href="http://localhost/rawplans">Dienstpläne</a>
+                            <a class="dropdown-item" href="http://localhost/employees">Mitarbeitende</a>
+                            <a class="dropdown-item" href="http://localhost/comments">Bemerkungen</a>
+                            <a class="dropdown-item" href="http://localhost/staffgroups">Gruppen</a>
+                            <a class="dropdown-item" href="http://localhost/due_shifts">Sollzahlen</a>
+                        </div>
+                    </li>
+                                
+                            </ul>
+        </div>
+
+        <!-- Right Side Of Navbar -->
+        <ul class="navbar-nav ms-auto">
+            <!-- Authentication Links -->
+                            <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        Testuser
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a id="logout-link" class="dropdown-item" href="http://localhost/logout">
+                            Abmelden
+                        </a>
+
+                        <form id="logout-form" action="http://localhost/logout" method="POST" class="d-none">
+                            <input type="hidden" name="_token" value="testtoken">                        </form>
+                    </div>
+                </li>
+                    </ul>
+    </div>
+</nav>
+
+        <main class="container py-4">
+                                        <h1>Auswertung für 2024</h1>
+
+    <nav aria-label="Navigation des Jahres">
+        <ul class="pagination">
+            <li class="page-item ">
+                <a class="page-link" href="http://localhost/report/2023"><span aria-hidden="true">&larr;</span>
+                    Vorheriges Jahr
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="http://localhost/report/2025">
+                    Nächstes Jahr <span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+            <h2>Gearbeitet bis Ende Januar 2024, geplant bis Ende Januar 2024</h2>
+        <p>Stand der Auswertung: Heute</p>
+            <h3>CA</h3>
+        <p>
+            Sollzahl Nächte pro Jahr: 0<br />
+            Sollzahl NEF-Dienste pro Jahr: 0
+        </p>
+        <table class="table table-striped">
+            <thead>
+                <th><a href="http://localhost/report/2024?sort=name&direction=asc">Name</a></th>
+                <th><a href="http://localhost/report/2024?sort=worked_nights&direction=asc">Gearb. Nächte</a></th>
+                <th><a href="http://localhost/report/2024?sort=planned_nights&direction=asc">Gepl. Nächte</a></th>
+                <th><a href="http://localhost/report/2024?sort=diff_planned_nights&direction=desc">Abweichung</a><svg class="sorting-icons" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg></th>
+                <th><a href="http://localhost/report/2024?sort=worked_nefs&direction=asc">Gearb. NEF</a></th>
+                <th><a href="http://localhost/report/2024?sort=planned_nefs&direction=asc">Gepl. NEF</a></th>
+                <th><a href="http://localhost/report/2024?sort=diff_planned_nefs&direction=asc">Abweichung</a></th>
+            </thead>
+            <tbody>
+                                                            <tr>
+                            <td>Chefin, A</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                                                </tbody>
+        </table>
+            <h3>CA-Vertreter</h3>
+        <p>
+            Sollzahl Nächte pro Jahr: 0<br />
+            Sollzahl NEF-Dienste pro Jahr: 0
+        </p>
+        <table class="table table-striped">
+            <thead>
+                <th><a href="http://localhost/report/2024?sort=name&direction=asc">Name</a></th>
+                <th><a href="http://localhost/report/2024?sort=worked_nights&direction=asc">Gearb. Nächte</a></th>
+                <th><a href="http://localhost/report/2024?sort=planned_nights&direction=asc">Gepl. Nächte</a></th>
+                <th><a href="http://localhost/report/2024?sort=diff_planned_nights&direction=desc">Abweichung</a><svg class="sorting-icons" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg></th>
+                <th><a href="http://localhost/report/2024?sort=worked_nefs&direction=asc">Gearb. NEF</a></th>
+                <th><a href="http://localhost/report/2024?sort=planned_nefs&direction=asc">Gepl. NEF</a></th>
+                <th><a href="http://localhost/report/2024?sort=diff_planned_nefs&direction=asc">Abweichung</a></th>
+            </thead>
+            <tbody>
+                                                            <tr>
+                            <td>Vertretung der Chefin, A</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                                                </tbody>
+        </table>
+            <h3>LOA</h3>
+        <p>
+            Sollzahl Nächte pro Jahr: 0<br />
+            Sollzahl NEF-Dienste pro Jahr: 0
+        </p>
+        <table class="table table-striped">
+            <thead>
+                <th><a href="http://localhost/report/2024?sort=name&direction=asc">Name</a></th>
+                <th><a href="http://localhost/report/2024?sort=worked_nights&direction=asc">Gearb. Nächte</a></th>
+                <th><a href="http://localhost/report/2024?sort=planned_nights&direction=asc">Gepl. Nächte</a></th>
+                <th><a href="http://localhost/report/2024?sort=diff_planned_nights&direction=desc">Abweichung</a><svg class="sorting-icons" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg></th>
+                <th><a href="http://localhost/report/2024?sort=worked_nefs&direction=asc">Gearb. NEF</a></th>
+                <th><a href="http://localhost/report/2024?sort=planned_nefs&direction=asc">Gepl. NEF</a></th>
+                <th><a href="http://localhost/report/2024?sort=diff_planned_nefs&direction=asc">Abweichung</a></th>
+            </thead>
+            <tbody>
+                                                            <tr>
+                            <td>Leitende Oberärztin, A</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                                                </tbody>
+        </table>
+            <h3>OA</h3>
+        <p>
+            Sollzahl Nächte pro Jahr: 0<br />
+            Sollzahl NEF-Dienste pro Jahr: 0
+        </p>
+        <table class="table table-striped">
+            <thead>
+                <th><a href="http://localhost/report/2024?sort=name&direction=asc">Name</a></th>
+                <th><a href="http://localhost/report/2024?sort=worked_nights&direction=asc">Gearb. Nächte</a></th>
+                <th><a href="http://localhost/report/2024?sort=planned_nights&direction=asc">Gepl. Nächte</a></th>
+                <th><a href="http://localhost/report/2024?sort=diff_planned_nights&direction=desc">Abweichung</a><svg class="sorting-icons" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg></th>
+                <th><a href="http://localhost/report/2024?sort=worked_nefs&direction=asc">Gearb. NEF</a></th>
+                <th><a href="http://localhost/report/2024?sort=planned_nefs&direction=asc">Gepl. NEF</a></th>
+                <th><a href="http://localhost/report/2024?sort=diff_planned_nefs&direction=asc">Abweichung</a></th>
+            </thead>
+            <tbody>
+                                                            <tr>
+                            <td>Oberärztin, A</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                                            <tr>
+                            <td>Oberärztin, B</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                                                </tbody>
+        </table>
+            <h3>FA und WB mit Nachtdienst</h3>
+        <p>
+            Sollzahl Nächte pro Jahr: 0<br />
+            Sollzahl NEF-Dienste pro Jahr: 0
+        </p>
+        <table class="table table-striped">
+            <thead>
+                <th><a href="http://localhost/report/2024?sort=name&direction=asc">Name</a></th>
+                <th><a href="http://localhost/report/2024?sort=worked_nights&direction=asc">Gearb. Nächte</a></th>
+                <th><a href="http://localhost/report/2024?sort=planned_nights&direction=asc">Gepl. Nächte</a></th>
+                <th><a href="http://localhost/report/2024?sort=diff_planned_nights&direction=desc">Abweichung</a><svg class="sorting-icons" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg></th>
+                <th><a href="http://localhost/report/2024?sort=worked_nefs&direction=asc">Gearb. NEF</a></th>
+                <th><a href="http://localhost/report/2024?sort=planned_nefs&direction=asc">Gepl. NEF</a></th>
+                <th><a href="http://localhost/report/2024?sort=diff_planned_nefs&direction=asc">Abweichung</a></th>
+            </thead>
+            <tbody>
+                                                            <tr>
+                            <td>Fachärztin, A</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                                            <tr>
+                            <td>Fachärztin, B</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                                            <tr>
+                            <td>Fachärztin, C</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                                            <tr>
+                            <td>Ärztin, A</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                                                </tbody>
+        </table>
+            <h3>WB</h3>
+        <p>
+            Sollzahl Nächte pro Jahr: 0<br />
+            Sollzahl NEF-Dienste pro Jahr: 0
+        </p>
+        <table class="table table-striped">
+            <thead>
+                <th><a href="http://localhost/report/2024?sort=name&direction=asc">Name</a></th>
+                <th><a href="http://localhost/report/2024?sort=worked_nights&direction=asc">Gearb. Nächte</a></th>
+                <th><a href="http://localhost/report/2024?sort=planned_nights&direction=asc">Gepl. Nächte</a></th>
+                <th><a href="http://localhost/report/2024?sort=diff_planned_nights&direction=desc">Abweichung</a><svg class="sorting-icons" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path></svg></th>
+                <th><a href="http://localhost/report/2024?sort=worked_nefs&direction=asc">Gearb. NEF</a></th>
+                <th><a href="http://localhost/report/2024?sort=planned_nefs&direction=asc">Gepl. NEF</a></th>
+                <th><a href="http://localhost/report/2024?sort=diff_planned_nefs&direction=asc">Abweichung</a></th>
+            </thead>
+            <tbody>
+                                                            <tr>
+                            <td>Ärztin, B</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                                            <tr>
+                            <td>Ärztin, C</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                                                </tbody>
+        </table>
+            </main>
+    </div>
+</body>
+
+</html>

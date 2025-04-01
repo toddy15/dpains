@@ -26,10 +26,19 @@ expect()->pipe('toMatchSnapshot', function (Closure $next) {
     if (is_string($this->value)) {
         $this->value = preg_replace(
             '/name="_token" value=".*"/',
-            'name="_token" value="my_test"',
+            'name="_token" value="testtoken"',
             $this->value
         );
-        $this->value = "HU";
+        $this->value = preg_replace(
+            '/name="csrf-token" content=".*"/',
+            'name="csrf-token" content="testtoken"',
+            $this->value
+        );
+        $this->value = preg_replace(
+            '/<p>Stand der Auswertung: .*/',
+            '<p>Stand der Auswertung: Heute</p>',
+            $this->value
+        );
     }
 
     return $next();
