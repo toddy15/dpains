@@ -34,3 +34,18 @@ it('does not change the report page during refactoring', function () {
 
     expect($response->content())->toMatchSnapshot();
 });
+
+it('calculates the number of nightshifts', function () {
+    $this->seed(EpisodesSeeder::class);
+    loadDataset('2025-01_nightshifts');
+
+    // Provide a constant username for snapshot testing
+    actingAs(User::factory(['name' => 'Testuser'])->create());
+
+    $response = $this->get('/report/2025');
+    $response->assertOk()
+        ->assertSee('Auswertung für 2025')
+        ->assertDontSee('Seite nicht vorhanden');
+
+    expect($response->content())->toMatchSnapshot();
+});
