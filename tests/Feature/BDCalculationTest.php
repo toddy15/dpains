@@ -9,7 +9,7 @@ use App\Models\Staffgroup;
 test('it calculates the maximal number of BDs for an employee', function () {
     $vk_per_month = [1 => 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     _setup_tables($vk_per_month);
-});
+})->todo();
 
 function _setup_tables(array $vk_per_month): void
 {

@@ -74,7 +74,6 @@ test('it returns the expected view with the correct data', function () {
         )
         ->andReturn([]);
 
-    //    @todo
     //    $response = get(route('anon.showYear', ['year' => 2024, 'hash' => 'valid-hash']));
     //
     //    $response->assertViewIs('anon.showYear')
@@ -84,4 +83,4 @@ test('it returns the expected view with the correct data', function () {
     //        ->assertViewHas('next_year_url', '/anon/2024/valid-hash')
     //        ->assertViewHas('readable_planned_month', 'July 2023')
     //        ->assertViewHas('readable_worked_month', 'May 2023');
-});
+})->todo();

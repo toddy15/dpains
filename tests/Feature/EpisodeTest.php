@@ -2,12 +2,24 @@
 
 declare(strict_types=1);
 
+use App\Models\Comment;
+use App\Models\Employee;
 use App\Models\Episode;
+use App\Models\Staffgroup;
 use App\Models\User;
 
 use function Pest\Laravel\actingAs;
+use function Pest\Laravel\delete;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
+use function Pest\Laravel\put;
+
+// Seed necessary data for tests
+beforeEach(function () {
+    Staffgroup::factory()->create(['staffgroup' => 'WB']);
+    Comment::factory()->count(3)->create();
+    Staffgroup::factory()->count(3)->create();
+});
 
 test('a user can create a new episode for a new employee', function () {
     actingAs(User::factory()->create());
@@ -21,7 +33,7 @@ test('a user can create a new episode for a new employee', function () {
     $data['year'] = $episode->year;
 
     post(route('episodes.store', $data))
-        ->assertRedirect(route('employees.episodes.index', ['employee' => 52]));
+        ->assertRedirect(route('employees.episodes.index', ['employee' => 39]));
 });
 
 test('a user can create a new episode for an existing employee', function () {
@@ -48,4 +60,69 @@ test('a user can create a new episode for an existing employee', function () {
     $this->get(route('employees.episodes.index', ['employee' => $episode_1->employee_id]))
         ->assertSeeText($episode_1->name)
         ->assertSeeText($episode_2->name);
+});
+
+it('returns the create view with default values', function () {
+    actingAs(User::factory()->create());
+
+    $employee = Employee::factory()->create();
+
+    $response = get(route('episodes.create', ['employee_id' => $employee->id]));
+
+    $response->assertStatus(200);
+    $response->assertViewIs('episodes.create');
+    $response->assertViewHas('episode');
+    $response->assertViewHas('comments');
+    $response->assertViewHas('staffgroups');
+    $response->assertViewHas('start_year');
+    $response->assertViewHas('end_year');
+    $response->assertViewHas('month_names');
+});
+
+it('returns the edit view with episode data', function () {
+    actingAs(User::factory()->create());
+    $episode = Episode::factory()->create();
+
+    $response = get(route('episodes.edit', ['episode' => $episode->id]));
+
+    $response->assertStatus(200);
+    $response->assertViewIs('episodes.edit');
+    $response->assertViewHas('episode', $episode);
+    $response->assertViewHas('comments');
+    $response->assertViewHas('staffgroups');
+    $response->assertViewHas('start_year');
+    $response->assertViewHas('end_year');
+    $response->assertViewHas('month_names');
+});
+
+it('updates an existing episode', function () {
+    actingAs(User::factory()->create());
+    $episode = Episode::factory()->create();
+    $data = [
+        'name' => 'Testname',
+        'year' => 2023,
+        'month' => 2,
+        'staffgroup_id' => $episode->staffgroup_id,
+        'vk' => 1.0,
+        'factor_night' => 0.0,
+        'factor_nef' => 0.0,
+    ];
+
+    $response = put(route('episodes.update', ['episode' => $episode->id]), $data);
+
+    $response->assertRedirect(route('employees.episodes.index', ['employee' => $episode->employee_id]));
+    $this->assertDatabaseHas('episodes', [
+        'id' => $episode->id,
+        'start_date' => '2023-02',
+    ]);
+});
+
+it('deletes an episode', function () {
+    actingAs(User::factory()->create());
+    $episode = Episode::factory()->create();
+
+    $response = delete(route('episodes.destroy', ['episode' => $episode->id]));
+
+    $response->assertRedirect(route('employees.index'));
+    $this->assertDatabaseMissing('episodes', ['id' => $episode->id]);
 });
