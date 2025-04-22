@@ -16,9 +16,9 @@
         "postcss": "^8.5.3",
         "prettier": "^3.5.3",
         "resolve-url-loader": "^5.0.0",
-        "sass": "^1.86.3",
+        "sass": "^1.87.0",
         "sass-loader": "^16.0.5",
-        "vite": "^6.2.5"
+        "vite": "^6.3.2"
     },
     "type": "module"
 }
