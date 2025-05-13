@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Helper;
 use App\Services\Planparser;
 
 // Set up some fake data
@@ -14,6 +15,12 @@ a\tb\tc\td
 A\tB\tC\tD
 \t\t\t
 ";
+
+$input_one_line_people_repeated_name = 'Ward, Layla
+Palmer, Kenna
+Palmer, Kenna
+Hooper, Clark
+';
 
 $input_one_line_whitespace_shifts = "\t\t\t4
 a\tb\tc\td
@@ -224,4 +231,18 @@ it('does not trim whitespace at the beginning (3 lines)', function () use (
 
     expect($p->parsedNames)->toBe($result['people']);
     expect($p->parsedShifts)->toBe($result_whitespace['shifts']);
+});
+
+it('shows an error if a name appears twice in the data', function () use (
+    $input_one_line_people_repeated_name,
+    $input_one_line_shifts,
+) {
+    $helper = new Helper; // Mockery::mock(Helper::class);
+    $p = new Planparser(
+        '2022-04',
+        $input_one_line_people_repeated_name,
+        $input_one_line_shifts,
+    );
+
+    $result = $p->validatePeople($helper);
 });

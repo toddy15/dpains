@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Models\Rawplan;
+use App\Services\Helper;
 use App\Services\Planparser;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 
@@ -76,5 +77,5 @@ function loadDataset(string $dataset)
     ]);
 
     $p = new Planparser($date, $people, $shifts);
-    $p->storeShiftsForPeople();
+    $p->storeShiftsForPeople(new Helper);
 }

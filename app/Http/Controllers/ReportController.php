@@ -282,7 +282,7 @@ class ReportController extends Controller
                 $rawplan->people,
                 $rawplan->shifts,
             );
-            $error_messages[] = $planparser->validatePeople();
+            $error_messages[] = $planparser->validatePeople($helper);
             $error_messages[] = $planparser->validateShifts();
         }
         // Make a flat collection from the error_messages array
@@ -296,7 +296,7 @@ class ReportController extends Controller
                     $rawplan->people,
                     $rawplan->shifts,
                 );
-                $planparser->storeShiftsForPeople();
+                $planparser->storeShiftsForPeople($helper);
             }
             $request
                 ->session()

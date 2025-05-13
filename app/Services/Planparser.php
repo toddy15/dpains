@@ -107,9 +107,8 @@ class Planparser
         }
     }
 
-    public function storeShiftsForPeople(): void
+    public function storeShiftsForPeople(Helper $helper): void
     {
-        $helper = new Helper;
         // Clean all previously parsed results.
         DB::table('analyzed_months')
             ->where('month', $this->formattedMonth)
@@ -247,9 +246,8 @@ class Planparser
      *
      * @return array<int, string>
      */
-    public function validatePeople(): array
+    public function validatePeople(Helper $helper): array
     {
-        $helper = new Helper;
         $result = [];
         // Get all people which are expected in this month.
         $expected_people = $helper->getNamesForMonth($this->formattedMonth);

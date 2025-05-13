@@ -140,7 +140,7 @@ class RawplanController extends Controller
         // recognized people and shifts.
         $validator->after(function ($validator) use ($planparser) {
             // Check that the given people match the expected people.
-            $error_messages = $planparser->validatePeople();
+            $error_messages = $planparser->validatePeople(new Helper);
             foreach ($error_messages as $error_message) {
                 $validator->errors()->add('people', $error_message);
             }
@@ -157,7 +157,7 @@ class RawplanController extends Controller
                 ->withInput();
         }
         // No error so far, so store the shifts.
-        $planparser->storeShiftsForPeople();
+        $planparser->storeShiftsForPeople($helper);
         // Update the month to the database format YYYY-MM.
         $request->merge(['month' => $month]);
         // Check if there is already an entry in the database,
