@@ -8,7 +8,7 @@
     "type": "project",
     "require": {
         "php": "^8.4",
-        "laravel/framework": "^12.12.0",
+        "laravel/framework": "^12.14.1",
         "laravel/sanctum": "^4.1.1",
         "laravel/tinker": "^2.10.1",
         "laravel/ui": "^4.6.1"
@@ -16,8 +16,8 @@
     "require-dev": {
         "fakerphp/faker": "^1.24.1",
         "larastan/larastan": "^3.4.0",
-        "laravel/pint": "^1.22.0",
-        "laravel/sail": "^1.42.0",
+        "laravel/pint": "^1.22.1",
+        "laravel/sail": "^1.43.0",
         "mockery/mockery": "^1.6.12",
         "nunomaduro/collision": "^8.8.0",
         "pestphp/pest": "^3.8.2",
