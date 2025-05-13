@@ -269,6 +269,13 @@ class Planparser
                 ' nicht erwartet, aber gefunden: '.
                 implode('; ', $more_found);
         }
+        // Check that each name only occurs once.
+        $duplicate_names = array_diff_assoc($this->parsedNames, array_unique($this->parsedNames));
+        if (count($duplicate_names) > 0) {
+            $result[] =
+                'Die folgenden Namen sind mehrfach enthalten: '.
+                implode('; ', array_unique($duplicate_names));
+        }
 
         return $result;
     }

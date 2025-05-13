@@ -16,12 +16,6 @@ A\tB\tC\tD
 \t\t\t
 ";
 
-$input_one_line_people_repeated_name = 'Ward, Layla
-Palmer, Kenna
-Palmer, Kenna
-Hooper, Clark
-';
-
 $input_one_line_whitespace_shifts = "\t\t\t4
 a\tb\tc\td
 A\tB\tC\tD
@@ -233,16 +227,64 @@ it('does not trim whitespace at the beginning (3 lines)', function () use (
     expect($p->parsedShifts)->toBe($result_whitespace['shifts']);
 });
 
-it('shows an error if a name appears twice in the data', function () use (
-    $input_one_line_people_repeated_name,
-    $input_one_line_shifts,
-) {
-    $helper = new Helper; // Mockery::mock(Helper::class);
+it('shows an error if a name appears twice in the data', function () {
+    $input = 'Ward, Layla
+Palmer, Kenna
+Palmer, Kenna
+Hooper, Clark
+Henderson, Melissa
+';
+
+    $helper = Mockery::mock(Helper::class);
+    $helper->shouldReceive('getNamesForMonth')
+        ->andReturn([
+            'Ward, Layla',
+            'Palmer, Kenna',
+            'Hooper, Clark',
+            'Henderson, Melissa',
+        ]);
+
     $p = new Planparser(
         '2022-04',
-        $input_one_line_people_repeated_name,
-        $input_one_line_shifts,
+        $input,
+        '',
     );
 
     $result = $p->validatePeople($helper);
+    expect($result)->toBe([
+        'Die folgenden Namen sind mehrfach enthalten: Palmer, Kenna',
+    ]);
+});
+
+it('shows an error if several names are duplicates', function () {
+    $input = 'Ward, Layla
+Palmer, Kenna
+Palmer, Kenna
+Palmer, Kenna
+Henderson, Melissa
+Hooper, Clark
+Hooper, Clark
+Hooper, Clark
+Hooper, Clark
+';
+
+    $helper = Mockery::mock(Helper::class);
+    $helper->shouldReceive('getNamesForMonth')
+        ->andReturn([
+            'Ward, Layla',
+            'Palmer, Kenna',
+            'Hooper, Clark',
+            'Henderson, Melissa',
+        ]);
+
+    $p = new Planparser(
+        '2022-04',
+        $input,
+        '',
+    );
+
+    $result = $p->validatePeople($helper);
+    expect($result)->toBe([
+        'Die folgenden Namen sind mehrfach enthalten: Palmer, Kenna; Hooper, Clark',
+    ]);
 });
