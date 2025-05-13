@@ -84,7 +84,7 @@ $result_whitespace['shifts'] = [
     ['', '', '', ''],
 ];
 
-test('the planparser removes trailing whitespace (1 line)', function () use (
+it('removes trailing whitespace (1 line)', function () use (
     $input_one_line_people,
     $input_one_line_shifts,
 ) {
@@ -108,7 +108,7 @@ test('the planparser removes trailing whitespace (1 line)', function () use (
     expect($p->rawShifts."\n")->toBe($input_one_line_shifts);
 });
 
-test('the planparser removes trailing whitespace (3 lines)', function () use (
+it('removes trailing whitespace (3 lines)', function () use (
     $input_three_lines_people,
     $input_three_lines_shifts,
 ) {
@@ -132,8 +132,8 @@ test('the planparser removes trailing whitespace (3 lines)', function () use (
     expect($p->rawShifts."\n\n")->toBe($input_three_lines_shifts);
 });
 
-test(
-    'the planparser adds empty lines for removed trailing whitespace (1 line)',
+it(
+    'adds empty lines for removed trailing whitespace (1 line)',
     function () use ($input_one_line_people, $input_one_line_shifts, $result) {
         $p = new Planparser(
             '2022-04',
@@ -146,8 +146,8 @@ test(
     },
 );
 
-test(
-    'the planparser adds empty lines for removed trailing whitespace (3 lines)',
+it(
+    'adds empty lines for removed trailing whitespace (3 lines)',
     function () use (
         $input_three_lines_people,
         $input_three_lines_shifts,
@@ -164,7 +164,7 @@ test(
     },
 );
 
-test('the planparser returns planned shifts (1 line)', function () use (
+it('returns planned shifts (1 line)', function () use (
     $input_one_line_people,
     $input_one_line_shifts,
     $result,
@@ -179,7 +179,7 @@ test('the planparser returns planned shifts (1 line)', function () use (
     expect($p->parsedShifts)->toBe($result['shifts']);
 });
 
-test('the planparser returns worked shifts (3 lines)', function () use (
+it('returns worked shifts (3 lines)', function () use (
     $input_three_lines_people,
     $input_three_lines_shifts,
     $result,
