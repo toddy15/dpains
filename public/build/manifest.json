@@ -1,12 +1,12 @@
 {
   "node_modules/bootstrap/dist/js/bootstrap.esm.js": {
-    "file": "assets/bootstrap.esm-u9HKHeVQ.js",
+    "file": "assets/bootstrap.esm-qEJxTHVc.js",
     "name": "bootstrap.esm",
     "src": "node_modules/bootstrap/dist/js/bootstrap.esm.js",
     "isDynamicEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-C5TMc0mz.js",
+    "file": "assets/app-D8WVx1kL.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
@@ -15,7 +15,7 @@
     ]
   },
   "resources/sass/app.scss": {
-    "file": "assets/app-Bt69EZs8.css",
+    "file": "assets/app-BprLi5aW.css",
     "src": "resources/sass/app.scss",
     "isEntry": true
   },
