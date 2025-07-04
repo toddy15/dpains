@@ -282,7 +282,7 @@ class Planparser
 
     /**
      * This method returns all error messages as an array.
-     * If there are no errors, the array is emtpy.
+     * If there are no errors, the array is empty.
      *
      * @return array<int, string>
      */

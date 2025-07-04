@@ -109,14 +109,14 @@ class BDController extends Controller
             }
         }
 
-        // Calculate sum of BDs per half year
+        // Calculate the sum of BDs per half-year
         $sum_of_bds_per_halfyear = [];
         foreach ($bds_in_month as $employee_id => $data) {
             $sum_of_bds_per_halfyear[$employee_id][0] = array_sum(array_slice($data, 0, 6));
             $sum_of_bds_per_halfyear[$employee_id][1] = array_sum(array_slice($data, 6, 6));
         }
 
-        // Calculate maximum allowed BDs per half year, based on VK
+        // Calculate the maximum allowed BDs per half-year, based on VK
         $combined_sums = [];
         foreach ($vk_in_month as $employee_id => $data) {
             // First half
@@ -146,7 +146,7 @@ class BDController extends Controller
             }
 
             // Show an error if more than the maximum number
-            // of BDs per half year has been planned.
+            // of BDs per half-year has been planned.
             // If the maximum number has been reached, show a warning.
             for ($halfyear = 0; $halfyear <= 1; $halfyear++) {
                 $bds = $sum_of_bds_per_halfyear[$employee_id][$halfyear];
