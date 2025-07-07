@@ -463,7 +463,7 @@ class Helper
             return $this->firstYear.'-01';
         }
 
-        return Rawplan::where('month', 'like', "$year%")->max('month');
+        return Rawplan::where('month', 'like', "{$year}%")->max('month');
     }
 
     /**
@@ -478,7 +478,7 @@ class Helper
     public function getWorkedMonth(?int $year = null): ?string
     {
         if ($year) {
-            return Rawplan::where('month', 'like', "$year%")
+            return Rawplan::where('month', 'like', "{$year}%")
                 ->whereRaw('substr(updated_at, 1, 7) > month')
                 ->max('month');
         } else {
@@ -495,7 +495,7 @@ class Helper
      */
     public function getPlannedMonthForAnonAccess(int $year): ?string
     {
-        return Rawplan::where('month', 'like', "$year%")
+        return Rawplan::where('month', 'like', "{$year}%")
             ->where('anon_report', true)
             ->max('month');
     }
