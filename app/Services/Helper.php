@@ -384,7 +384,7 @@ class Helper
     private function getDueShifts(string $staffgroup, int $year): ?DueShift
     {
         // Special case for combined staffgroup
-        if ($staffgroup == 'FA und WB mit Nachtdienst') {
+        if ($staffgroup === 'FA und WB mit Nachtdienst') {
             $staffgroup = 'FA';
         }
 

@@ -40,7 +40,7 @@ class EpisodesSeeder extends Seeder
         $last_staffgroup = '';
         $staffgroup_weight = 1;
         foreach ($people as $person => $staffgroup_name) {
-            if ($last_staffgroup != $staffgroup_name) {
+            if ($last_staffgroup !== $staffgroup_name) {
                 $current_staffgroup = Staffgroup::factory()->create([
                     'staffgroup' => $staffgroup_name,
                     'weight' => $staffgroup_weight,

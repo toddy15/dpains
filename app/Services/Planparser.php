@@ -62,7 +62,7 @@ class Planparser
 
         // The old plans have all attributes stripped, so
         // check for an empty line
-        if ($found_attribute or $second_line == '') {
+        if ($found_attribute or $second_line === '') {
             $this->lines_per_person = 3;
         }
 

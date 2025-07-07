@@ -86,7 +86,7 @@ class BDController extends Controller
                 $markup = '';
                 if ($bds > $max_bds) {
                     $markup = 'danger';
-                } elseif ($bds == $max_bds and $bds != 0) {
+                } elseif ($bds === $max_bds and $bds != 0) {
                     $markup = 'warning';
                 }
 
@@ -175,7 +175,7 @@ class BDController extends Controller
 
         $previous_year_url = $helper->getPreviousYearUrl('report/bd/', $year);
         $next_year_url = $helper->getNextYearUrl('report/bd/', $year);
-        if ($year == $helper->getPlannedYear()) {
+        if ($year === $helper->getPlannedYear()) {
             $next_year_url = '';
         }
 

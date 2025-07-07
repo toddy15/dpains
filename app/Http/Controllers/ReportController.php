@@ -194,12 +194,12 @@ class ReportController extends Controller
             $bu_cleartext = $employee['bu_cleartext'];
             if ($year % 2) {
                 // Year is odd
-                if ($bu_cleartext == 'Gerades Jahr') {
+                if ($bu_cleartext === 'Gerades Jahr') {
                     // If the BU start is even, it's last and this year.
                     // Unset next.
                     $employees[$id]['data'][$year + 1]['bus'] = '–';
                     $employees[$id]['data'][$year + 1]['cons'] = '–';
-                } elseif ($bu_cleartext == 'Ungerades Jahr') {
+                } elseif ($bu_cleartext === 'Ungerades Jahr') {
                     // Otherwise, it's this and next year.
                     // Unset previous.
                     $employees[$id]['data'][$year - 1]['bus'] = '–';
@@ -207,12 +207,12 @@ class ReportController extends Controller
                 }
             } else {
                 // Year is even
-                if ($bu_cleartext == 'Gerades Jahr') {
+                if ($bu_cleartext === 'Gerades Jahr') {
                     // If the BU start is even, it's this and next year.
                     // Unset previous.
                     $employees[$id]['data'][$year - 1]['bus'] = '–';
                     $employees[$id]['data'][$year - 1]['cons'] = '–';
-                } elseif ($bu_cleartext == 'Ungerades Jahr') {
+                } elseif ($bu_cleartext === 'Ungerades Jahr') {
                     // Otherwise, it's last and this year.
                     // Unset next.
                     $employees[$id]['data'][$year + 1]['bus'] = '–';
