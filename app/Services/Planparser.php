@@ -71,19 +71,17 @@ class Planparser
             if ($line_counter % $this->lines_per_person == 0) {
                 // Trim whitespace, so that the regexp matches dates at the end.
                 $person_line = trim($person_line);
-                // Remove comma, space and end dates from names.
-                $person_line = preg_replace(
+                // Remove comma, space, and end dates from names.
+                $person_line = (string) preg_replace(
                     "/\s*,?\s*[0-9.]+$/",
                     '',
                     $person_line,
                 );
-                // Skip empty lines
-                if (empty($person_line)) {
-                    continue;
-                }
 
-                // Finally, add the name to list.
-                $this->parsedNames[] = trim($person_line);
+                // Finally, add the name to the list.
+                if ($person_line !== '') {
+                    $this->parsedNames[] = $person_line;
+                }
             }
 
             $line_counter++;
