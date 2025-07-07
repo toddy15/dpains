@@ -9,8 +9,8 @@ parameters:
     paths:
         - app
     type_coverage:
-        return: 95
-        param: 85
-        property: 75
-        constant: 0
+        return: 100
+        param: 87
+        property: 77
+        constant: 100
         declare: 5

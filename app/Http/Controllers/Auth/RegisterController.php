@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\AppServiceProvider;
+use Illuminate\Contracts\Validation\Validator as Validator_Contract;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Hash;
@@ -41,10 +42,8 @@ class RegisterController extends Controller implements HasMiddleware
 
     /**
      * Get a validator for an incoming registration request.
-     *
-     * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator(array $data): Validator_Contract
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
