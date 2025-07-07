@@ -41,6 +41,7 @@ class EpisodeController extends Controller
             $episode->factor_night = 0.0;
             $episode->factor_nef = 0.0;
         }
+
         // Get values for the select boxes
         $comments = Comment::all()->sortBy('comment');
         $staffgroups = Staffgroup::all()->sortBy('weight');
@@ -97,6 +98,7 @@ class EpisodeController extends Controller
                 // Currently an odd year, so start cycle next year (even)
                 $bu_start = 'even';
             }
+
             $employee = Employee::create([
                 'email' => $episode['name'],
                 'hash' => Str::random(),
@@ -104,6 +106,7 @@ class EpisodeController extends Controller
             ]);
             $episode['employee_id'] = $employee->id;
         }
+
         Episode::create($episode);
         $request->session()->flash('info', 'Der Eintrag wurde gespeichert.');
 

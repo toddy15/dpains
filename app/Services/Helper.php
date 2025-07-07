@@ -46,6 +46,7 @@ class Helper
         } else {
             $month--;
         }
+
         if ($year < $this->firstYear) {
             return '';
         } else {
@@ -191,8 +192,10 @@ class Helper
             ) {
                 $staffgroup_name = 'FA und WB mit Nachtdienst';
             }
+
             $staffgroups[$staffgroup_name] = [];
         }
+
         // To calculate the due shifts per month, cycle through
         // every month in the given year.
         for ($month = 1; $month <= 12; $month++) {
@@ -206,6 +209,7 @@ class Helper
             foreach ($employees_in_month as $employee) {
                 $employees[$employee->employee_id] = $employee;
             }
+
             // If this is anonymous access, determine if the current month
             // should be included.
             if ($non_anon_employee_id) {
@@ -217,6 +221,7 @@ class Helper
                     continue;
                 }
             }
+
             // Get all analyzed shifts for the current month
             $shifts = DB::table('analyzed_months')
                 ->where('month', $formattedMonth)
@@ -232,10 +237,12 @@ class Helper
                 ) {
                     $employee->staffgroup = 'FA und WB mit Nachtdienst';
                 }
+
                 // Set up the result array, grouped by staffgroup
                 if (! isset($staffgroups[$employee->staffgroup][$employee->employee_id])) {
                     $staffgroups[$employee->staffgroup][$employee->employee_id] = $this->newResultArray((array) $employee);
                 }
+
                 // Always use the last available name,
                 // overwrite previous information.
                 $staffgroups[$employee->staffgroup][$employee->employee_id]['name'] = $employee->name;
@@ -255,6 +262,7 @@ class Helper
                 }
             }
         }
+
         // Fill up the boni for each month that is not in the result array yet.
         $this->fillUpBoni($staffgroups);
         foreach ($staffgroups as $staffgroup => $employee) {
@@ -269,6 +277,7 @@ class Helper
             if ($non_anon_employee_id) {
                 $include_staffgroup_in_tables = false;
             }
+
             foreach ($employee as $employee_id => $info) {
                 // Calculate bonus nights and nefs by multiplying the
                 // bonus VK with the average shifts per month.
@@ -286,6 +295,7 @@ class Helper
                 if (! array_key_exists($sort_key, $info)) {
                     $sort_key = 'diff_planned_nights';
                 }
+
                 // Is the employee part of this staffgroup?
                 if ($non_anon_employee_id) {
                     if ($employee_id == $non_anon_employee_id) {
@@ -302,6 +312,7 @@ class Helper
                         $info['planned_nefs'] = 0;
                     }
                 }
+
                 // If two values are the same, that information would get lost
                 // by using only one index. Therefore, use a second index,
                 // filling with the name. This way, the second sorting
@@ -309,12 +320,14 @@ class Helper
                 $row_index = $info[$sort_key];
                 $rows[$row_index][$info['name']] = (object) $info;
             }
+
             // Sort all staffgroups either asc or desc
             $direction == 'desc' ? krsort($rows) : ksort($rows);
             // Now sort by name
             foreach ($rows as $index => $data) {
                 ksort($rows[$index]);
             }
+
             // Do not show empty staffgroups
             if (count($rows) and $include_staffgroup_in_tables) {
                 // Add to tables
@@ -374,6 +387,7 @@ class Helper
         if ($staffgroup == 'FA und WB mit Nachtdienst') {
             $staffgroup = 'FA';
         }
+
         $staffgroup = Staffgroup::where('staffgroup', $staffgroup)->firstOrFail();
 
         return DueShift::where('year', $year)
@@ -400,12 +414,14 @@ class Helper
         if ($hash) {
             $currentColumn = Request::get('sort') ?: 'diff_planned_nights';
         }
+
         // Flip direction if clicked on same header
         $direction = $currentDirection == 'asc' ? 'desc' : 'asc';
         // Always use ascending direction if a new column is selected
         if ($currentColumn != $column) {
             $direction = 'asc';
         }
+
         // Create link
         if ($hash) {
             $url = route('anon.showYear', [
@@ -421,6 +437,7 @@ class Helper
                 'direction' => $direction,
             ]);
         }
+
         $link = '<a href="'.$url.'">'.$body.'</a>';
 
         // Append arrows to the current sorted column
@@ -529,12 +546,14 @@ class Helper
                 ) {
                     $episode->staffgroup = 'FA und WB mit Nachtdienst';
                 }
+
                 // Fill the VK sum array from 1 to 12 with 0, if not set
                 if (! isset($vk_per_month[$episode->staffgroup])) {
                     $vk_per_month[$episode->staffgroup] = array_fill(1, 12, 0);
                     // Initialize the counter for yearly mean of staffgroup VK
                     $vk_per_month[$episode->staffgroup]['yearly_mean'] = 0;
                 }
+
                 // Initialize a month array, if not set
                 if (! isset($months[$episode->staffgroup][$episode->employee_id])) {
                     $months[$episode->staffgroup][$episode->employee_id] = array_fill(1, 12, [
@@ -542,6 +561,7 @@ class Helper
                         'changed' => false,
                     ]);
                 }
+
                 // Always use the last available name,
                 // overwrite previous information.
                 $employee_info[$episode->staffgroup][$episode->employee_id] = [
@@ -559,6 +579,7 @@ class Helper
 
                         break;
                 }
+
                 // Ensure a nicely formatted VK
                 $vk = sprintf('%.3f', round($vk, 3));
                 $months[$episode->staffgroup][$episode->employee_id][$month]['vk'] = $vk;
@@ -570,6 +591,7 @@ class Helper
                         $months[$episode->staffgroup][$episode->employee_id][$month]['changed'] = true;
                     }
                 }
+
                 // Sum up for the month
                 $vk_per_month[$episode->staffgroup][$month] += (float) $vk;
                 // Sum up for the grand total per month
@@ -579,6 +601,7 @@ class Helper
                 $vk_per_month['all']['yearly_mean'] += (float) $vk;
             }
         }
+
         // Format the 'all' counter nicely
         foreach ($vk_per_month as $staffgroup => $sums) {
             for ($month = 1; $month <= 12; $month++) {
@@ -587,12 +610,14 @@ class Helper
                     $vk_per_month[$staffgroup][$month],
                 );
             }
+
             // Calculate the yearly mean vk per staffgroup
             $vk_per_month[$staffgroup]['yearly_mean'] = sprintf(
                 '%.3f',
                 $vk_per_month[$staffgroup]['yearly_mean'] / 12,
             );
         }
+
         // Merge the final array for display
         foreach ($employee_info as $staffgroup => $info) {
             foreach ($info as $employee_id => $employee) {
@@ -603,6 +628,7 @@ class Helper
                     'months' => $months[$staffgroup][$employee_id],
                 ];
             }
+
             // Sort the array by sorting keys
             ksort($staffgroups[$staffgroup], SORT_NATURAL);
         }
@@ -632,6 +658,7 @@ class Helper
                         'changed' => false,
                     ]);
                 }
+
                 // Always use the last available name,
                 // overwrite previous information.
                 $employee_info[$episode->employee_id] = [
@@ -650,12 +677,14 @@ class Helper
                         $months[$episode->employee_id][$month]['changed'] = true;
                     }
                 }
+
                 // Sum up for the month
                 $vk_per_month[$month] += (float) $vk;
                 // Sum up for the mean vk per year
                 $vk_per_month['yearly_mean'] += (float) $vk;
             }
         }
+
         // Format the 'all' counter nicely
         for ($month = 1; $month <= 12; $month++) {
             $vk_per_month[$month] = sprintf(
@@ -663,6 +692,7 @@ class Helper
                 $vk_per_month[$month],
             );
         }
+
         // Calculate the yearly mean vk
         $vk_per_month['yearly_mean'] = sprintf(
             '%.3f',

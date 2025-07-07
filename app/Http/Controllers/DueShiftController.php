@@ -48,6 +48,7 @@ class DueShiftController extends Controller
             if ($staffgroup->staffgroup == 'FA') {
                 $staffgroup->staffgroup = 'FA und WB mit Nachtdienst';
             }
+
             if ($staffgroup->staffgroup == 'WB mit Nachtdienst') {
                 $staffgroups->forget($key);
             }
@@ -96,6 +97,7 @@ class DueShiftController extends Controller
             if ($staffgroup->staffgroup == 'FA') {
                 $staffgroup->staffgroup = 'FA und WB mit Nachtdienst';
             }
+
             if ($staffgroup->staffgroup == 'WB mit Nachtdienst') {
                 $staffgroups->forget($key);
             }

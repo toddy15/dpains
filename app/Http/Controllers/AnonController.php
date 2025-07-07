@@ -53,6 +53,7 @@ class AnonController extends Controller
 
             return redirect(url('/'));
         }
+
         // Remove the currently valid hash
         $employee->hash = Str::random();
         $employee->save();
@@ -77,6 +78,7 @@ class AnonController extends Controller
 
             return redirect(url('/'));
         }
+
         // Refresh last access
         $employee->touch();
         $episodes = $employee
@@ -120,6 +122,7 @@ class AnonController extends Controller
 
             return redirect(url('/'));
         }
+
         // Refresh last access
         $employee->touch();
         // Determine which month has been planned
@@ -128,6 +131,7 @@ class AnonController extends Controller
             // There is no data at all, so abort.
             abort(404);
         }
+
         // Determine which month is in the past and therefore
         // represents the actually worked shifts.
         $worked_month = $helper->getWorkedMonth($year);
@@ -140,6 +144,7 @@ class AnonController extends Controller
             $readable_worked_month = Carbon::parse($worked_month)
                 ->isoFormat('MMMM YYYY');
         }
+
         // Get the date and time of latest change
         $latest_change = Rawplan::where('anon_report', 1)
             ->latest('updated_at')
@@ -152,6 +157,7 @@ class AnonController extends Controller
         if ($previous_year_url !== '') {
             $previous_year_url .= '/'.$hash;
         }
+
         $next_year_url = $helper->getNextYearUrl('anon/', $year).'/'.$hash;
         $tables = $helper->getTablesForYear(
             $request,
@@ -187,6 +193,7 @@ class AnonController extends Controller
         if (! Str::contains($email, '@')) {
             $email .= '@asklepios.com';
         }
+
         $employee = Employee::where('email', $email)->first();
         // Feedback if there is no such mail
         if (! $employee) {
@@ -196,6 +203,7 @@ class AnonController extends Controller
 
             return redirect(url('/'));
         }
+
         // Generate a new hash with some pseudo random bits
         $employee->hash = Str::random();
         $employee->save();

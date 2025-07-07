@@ -59,6 +59,7 @@ class Planparser
                 break;
             }
         }
+
         // The old plans have all attributes stripped, so
         // check for an empty line
         if ($found_attribute or $second_line == '') {
@@ -80,9 +81,11 @@ class Planparser
                 if (empty($person_line)) {
                     continue;
                 }
+
                 // Finally, add the name to list.
                 $this->parsedNames[] = trim($person_line);
             }
+
             $line_counter++;
         }
     }
@@ -98,6 +101,7 @@ class Planparser
             } else {
                 $plan_index = $index;
             }
+
             // Explode shift lines and trim single shifts
             $result = array_map(
                 'trim',
@@ -127,6 +131,7 @@ class Planparser
 
                 return;
             }
+
             // Add calculation of BD shifts
             $shifts['bds'] = $this->calculateBDShifts($this->parsedShifts[$id]);
             $database_rows[] = [
@@ -139,6 +144,7 @@ class Planparser
                 'bds' => $shifts['bds'],
             ];
         }
+
         DB::table('analyzed_months')->insert($database_rows);
     }
 
@@ -173,21 +179,26 @@ class Planparser
                 $night_counter++;
                 $unknown_shift = false;
             }
+
             if (in_array($shift, $nefs)) {
                 $nef_counter++;
                 $unknown_shift = false;
             }
+
             if (in_array($shift, $bus)) {
                 $bu_counter++;
                 $unknown_shift = false;
             }
+
             if (in_array($shift, $cons)) {
                 $con_counter++;
                 $unknown_shift = false;
             }
+
             if (in_array($shift, $ignored)) {
                 $unknown_shift = false;
             }
+
             if ($unknown_shift) {
                 return 'Unbekannte Dienstart: '.$shift;
             }
@@ -213,6 +224,7 @@ class Planparser
         if ($day === null) {
             return 0.0;
         }
+
         $bdshifts = 0.0;
         foreach ($shifts as $shift) {
             if ($shift === '0r' or $shift === 'D1') {
@@ -223,10 +235,12 @@ class Planparser
                     $bdshifts += 1;
                 }
             }
+
             if ($shift === 'dt0' or $shift === 'dt1') {
                 // dt0 and dt1 always count 0.5
                 $bdshifts += 0.5;
             }
+
             if ($shift === 'D2') {
                 // D2 has a BD share only on weekends.
                 // @TODO: account for holidays? Seems unnecessary for now.
@@ -234,6 +248,7 @@ class Planparser
                     $bdshifts += 0.5;
                 }
             }
+
             $day->addDay();
         }
 
@@ -260,6 +275,7 @@ class Planparser
                 ' erwartet, aber nicht gefunden: '.
                 implode('; ', $more_expected);
         }
+
         // Check that not more than the expected people have been found.
         $more_found = array_diff($this->parsedNames, $expected_people);
         if ($more_found) {
@@ -269,6 +285,7 @@ class Planparser
                 ' nicht erwartet, aber gefunden: '.
                 implode('; ', $more_found);
         }
+
         // Check that each name only occurs once.
         $duplicate_names = array_diff_assoc($this->parsedNames, array_unique($this->parsedNames));
         if (count($duplicate_names) > 0) {
@@ -298,6 +315,7 @@ class Planparser
                 $this->formattedMonth.
                 ': Es wurden mehr als 31 Tage in den Schichten gefunden.';
         }
+
         $end_day = Carbon::parse($this->formattedMonth)
             ->addDays($submitted_days)
             ->isoFormat('D');
@@ -306,6 +324,7 @@ class Planparser
                 $this->formattedMonth.
                 ': Die Anzahl der Tage in den Schichten stimmt nicht mit der Anzahl der Tage des Monats überein.';
         }
+
         // Do not error out if there's one line break appended.
         $people_lines = count(explode("\n", $this->rawNames));
         $shift_lines = count(explode("\n", $this->rawShifts));
@@ -317,6 +336,7 @@ class Planparser
                 $this->formattedMonth.
                 ': Die Anzahl der Zeilen in den Schichten muss entweder eine oder drei pro Mitarbeiter sein.';
         }
+
         // Try parsing all shifts to detect unknown shifts.
         foreach ($this->parsedNames as $index => $name) {
             $shifts = $this->calculateShifts($this->parsedShifts[$index]);

@@ -52,15 +52,18 @@ class BDController extends Controller
                         'markup' => '',
                     ]);
                 }
+
                 if (! isset($combined_bds_second_half[$episode->employee_id])) {
                     $combined_bds_second_half[$episode->employee_id] = array_fill(1, 6, [
                         'value' => '–',
                         'markup' => '',
                     ]);
                 }
+
                 if (! isset($vk_in_month[$episode->employee_id])) {
                     $vk_in_month[$episode->employee_id] = array_fill(1, 12, 0);
                 }
+
                 if (! isset($bds_in_month[$episode->employee_id])) {
                     $bds_in_month[$episode->employee_id] = array_fill(1, 12, 0);
                 }
@@ -126,6 +129,7 @@ class BDController extends Controller
             if ($sum_of_months_with_vk_1 >= 3) {
                 $max_bds_per_halfyear[$employee_id][0] += 1;
             }
+
             if ($sum_of_months_with_vk_1 == 6) {
                 $max_bds_per_halfyear[$employee_id][0] += 1;
             }
@@ -137,6 +141,7 @@ class BDController extends Controller
             if ($sum_of_months_with_vk_1 >= 3) {
                 $max_bds_per_halfyear[$employee_id][1] += 1;
             }
+
             if ($sum_of_months_with_vk_1 == 6) {
                 $max_bds_per_halfyear[$employee_id][1] += 1;
             }

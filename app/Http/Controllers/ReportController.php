@@ -45,11 +45,13 @@ class ReportController extends Controller
                 ]
             );
         }
+
         // Create an array with a mapping of employee_id -> shifts
         $shifts = [];
         foreach ($reports as $report) {
             $shifts[$report->employee_id] = $report;
         }
+
         // In order to use the grouping by staffgroups, it is necessary
         // to set up a new array of names and counted shifts. The
         // array $names is already sorted correctly with staffgroups.
@@ -86,6 +88,7 @@ class ReportController extends Controller
             // There is no data at all, so abort.
             abort(404);
         }
+
         // Determine which month is in the past and therefore
         // represents the actually worked shifts.
         $worked_month = $helper->getWorkedMonth($year);
@@ -98,6 +101,7 @@ class ReportController extends Controller
             $readable_worked_month = Carbon::parse($worked_month)
                 ->isoFormat('MMMM YYYY');
         }
+
         // Get the date and time of latest change
         $latest_change = Rawplan::latest('updated_at')
             ->where('month', 'LIKE', "{$year}%")
@@ -148,6 +152,7 @@ class ReportController extends Controller
                 })
                 ->get();
         }
+
         // This is sorted by year, then months with employee ids.
         // Create a new array with employee id as key, then year, then bu and con.
         $employees = [];
@@ -163,6 +168,7 @@ class ReportController extends Controller
                     } elseif ($e->bu_start == 'odd') {
                         $bu_cleartext = 'Ungerades Jahr';
                     }
+
                     $employees[$data->employee_id] = [
                         'name' => $e->name,
                         'bu_cleartext' => $bu_cleartext,
@@ -173,6 +179,7 @@ class ReportController extends Controller
                         ],
                     ];
                 }
+
                 // Sum up bus and cons for the given year
                 $employees[$data->employee_id]['data'][$current_year]['bus'] +=
                     $data->bus;
@@ -180,6 +187,7 @@ class ReportController extends Controller
                     $data->cons;
             }
         }
+
         // Remove the previous or next year, depending on the start of BU
         // and sum up the total
         foreach ($employees as $id => $employee) {
@@ -211,6 +219,7 @@ class ReportController extends Controller
                     $employees[$id]['data'][$year + 1]['cons'] = '–';
                 }
             }
+
             // Sum up the total.
             $employees[$id]['sum'] = 0;
             foreach ($employees[$id]['data'] as $buandcon) {
@@ -218,6 +227,7 @@ class ReportController extends Controller
                     (int) $buandcon['bus'] + (int) $buandcon['cons'];
             }
         }
+
         // Sort by name
         uasort($employees, fn ($a, $b): int => $a['name'] <=> $b['name']);
         $previous_year_url = $helper->getPreviousYearUrl(
@@ -246,6 +256,7 @@ class ReportController extends Controller
         if (! $highest_month) {
             $highest_month = $helper->getPlannedMonth(Carbon::now()->yearIso);
         }
+
         // Ensure that there is a result
         if ($highest_month == null) {
             $request->session()->flash('warning', 'Es sind noch keine Dienstpläne gespeichert worden.');
@@ -264,6 +275,7 @@ class ReportController extends Controller
                 $recalculation_months[] = sprintf('%04d-%02d', $year, $month);
             }
         }
+
         // Cycle through all months up to current planned month in the highest year.
         for ($month = 1; $month <= $highest_month; $month++) {
             $recalculation_months[] = sprintf(
@@ -272,6 +284,7 @@ class ReportController extends Controller
                 $month,
             );
         }
+
         // Finally, cycle through all recalculation months and check if
         // everything can be parsed without errors
         $error_messages = [];
@@ -285,6 +298,7 @@ class ReportController extends Controller
             $error_messages[] = $planparser->validatePeople($helper);
             $error_messages[] = $planparser->validateShifts();
         }
+
         // Make a flat collection from the error_messages array
         $errors = collect($error_messages)->flatten();
         // Only store the new calculation if there are no errors
@@ -298,6 +312,7 @@ class ReportController extends Controller
                 );
                 $planparser->storeShiftsForPeople($helper);
             }
+
             $request
                 ->session()
                 ->flash('info', 'Alle Monate wurden neu berechnet.');

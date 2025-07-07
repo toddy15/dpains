@@ -36,10 +36,12 @@ class RawplanController extends Controller
             $current_anon_month = '00';
             $current_anon_year = '0000';
         }
+
         $worked_month = $helper->getWorkedMonth();
         if ($worked_month == null) {
             $worked_month = '0000-00';
         }
+
         // Differentiate between months which are still ongoing ...
         $rawplans_planned = Rawplan::latest('month')
             ->where('month', '>', $worked_month)
@@ -88,6 +90,7 @@ class RawplanController extends Controller
             $year--;
             $month = $helper->getPlannedMonth($year);
         }
+
         [$selected_year, $selected_month] = explode('-', $month);
 
         Carbon::setLocale('de');
@@ -125,6 +128,7 @@ class RawplanController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
         // Set the month to the formatted string for database storage.
         $month = $helper->validateAndFormatDate(
             (int) $request->input('year'),
@@ -144,6 +148,7 @@ class RawplanController extends Controller
             foreach ($error_messages as $error_message) {
                 $validator->errors()->add('people', $error_message);
             }
+
             // Check that the given shifts match the expected shifts.
             $error_messages = $planparser->validateShifts();
             foreach ($error_messages as $error_message) {
@@ -156,6 +161,7 @@ class RawplanController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+
         // No error so far, so store the shifts.
         $planparser->storeShiftsForPeople($helper);
         // Update the month to the database format YYYY-MM.
@@ -170,6 +176,7 @@ class RawplanController extends Controller
         } else {
             $rawplan->update($request->all());
         }
+
         $rawplan->save();
         $request->session()->flash('info', 'Der Dienstplan wurde gespeichert.');
 
@@ -191,6 +198,7 @@ class RawplanController extends Controller
 
             return redirect(action([\App\Http\Controllers\RawplanController::class, 'index']));
         }
+
         // Also delete every parsed plan ...
         DB::table('analyzed_months')
             ->where('month', $rawplan->month)
