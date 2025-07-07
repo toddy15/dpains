@@ -205,19 +205,18 @@ class ReportController extends Controller
                     $employees[$id]['data'][$year - 1]['bus'] = '–';
                     $employees[$id]['data'][$year - 1]['cons'] = '–';
                 }
-            } else {
+            } elseif ($bu_cleartext === 'Gerades Jahr') {
                 // Year is even
-                if ($bu_cleartext === 'Gerades Jahr') {
-                    // If the BU start is even, it's this and next year.
-                    // Unset previous.
-                    $employees[$id]['data'][$year - 1]['bus'] = '–';
-                    $employees[$id]['data'][$year - 1]['cons'] = '–';
-                } elseif ($bu_cleartext === 'Ungerades Jahr') {
-                    // Otherwise, it's last and this year.
-                    // Unset next.
-                    $employees[$id]['data'][$year + 1]['bus'] = '–';
-                    $employees[$id]['data'][$year + 1]['cons'] = '–';
-                }
+                // If the BU start is even, it's this and next year.
+                // Unset previous.
+                $employees[$id]['data'][$year - 1]['bus'] = '–';
+                $employees[$id]['data'][$year - 1]['cons'] = '–';
+            } elseif ($bu_cleartext === 'Ungerades Jahr') {
+                // Year is even
+                // If the BU start is odd, it's last and this year.
+                // Unset next.
+                $employees[$id]['data'][$year + 1]['bus'] = '–';
+                $employees[$id]['data'][$year + 1]['cons'] = '–';
             }
 
             // Sum up the total.
