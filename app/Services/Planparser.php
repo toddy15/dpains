@@ -237,12 +237,10 @@ class Planparser
                 $bdshifts += 0.5;
             }
 
-            if ($shift === 'D2') {
-                // D2 has a BD share only on weekends.
-                // @TODO: account for holidays? Seems unnecessary for now.
-                if ($day->isoWeekday() >= 6) {
-                    $bdshifts += 0.5;
-                }
+            // D2 has a BD share only on weekends.
+            // @TODO: account for holidays? Seems unnecessary for now.
+            if ($shift === 'D2' && $day->isoWeekday() >= 6) {
+                $bdshifts += 0.5;
             }
 
             $day->addDay();

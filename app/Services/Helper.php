@@ -581,12 +581,8 @@ class Helper
                 $vk = sprintf('%.3f', round($vk, 3));
                 $months[$episode->staffgroup][$episode->employee_id][$month]['vk'] = $vk;
                 // Mark changes
-                if ($month > 1) {
-                    if (
-                        $vk != $months[$episode->staffgroup][$episode->employee_id][$month - 1]['vk']
-                    ) {
-                        $months[$episode->staffgroup][$episode->employee_id][$month]['changed'] = true;
-                    }
+                if ($month > 1 && $vk != $months[$episode->staffgroup][$episode->employee_id][$month - 1]['vk']) {
+                    $months[$episode->staffgroup][$episode->employee_id][$month]['changed'] = true;
                 }
 
                 // Sum up for the month
@@ -667,12 +663,8 @@ class Helper
                 $vk = sprintf('%.3f', round($vk, 3));
                 $months[$episode->employee_id][$month]['vk'] = $vk;
                 // Mark changes
-                if ($month > 1) {
-                    if (
-                        $vk != $months[$episode->employee_id][$month - 1]['vk']
-                    ) {
-                        $months[$episode->employee_id][$month]['changed'] = true;
-                    }
+                if ($month > 1 && $vk != $months[$episode->employee_id][$month - 1]['vk']) {
+                    $months[$episode->employee_id][$month]['changed'] = true;
                 }
 
                 // Sum up for the month
