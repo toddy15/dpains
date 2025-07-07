@@ -17,7 +17,7 @@ class BDController extends Controller
         $helper = new Helper;
 
         // Ensure a valid year
-        if ($year < $helper->firstYear or $year > $helper->getPlannedYear()) {
+        if ($year < $helper->firstYear || $year > $helper->getPlannedYear()) {
             $year = $helper->getPlannedYear();
         }
 
@@ -86,7 +86,7 @@ class BDController extends Controller
                 $markup = '';
                 if ($bds > $max_bds) {
                     $markup = 'danger';
-                } elseif ($bds === $max_bds and $bds != 0) {
+                } elseif ($bds === $max_bds && $bds != 0) {
                     $markup = 'warning';
                 }
 
@@ -156,7 +156,7 @@ class BDController extends Controller
                 $markup = '';
                 if ($bds > $max_bds) {
                     $markup = 'danger';
-                } elseif ($bds == $max_bds and $bds != 0) {
+                } elseif ($bds == $max_bds && $bds != 0) {
                     $markup = 'warning';
                 }
 

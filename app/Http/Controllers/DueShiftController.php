@@ -22,7 +22,7 @@ class DueShiftController extends Controller
             // First sort by year
             if ($a->year === $b->year) {
                 // Same year, sort by staffgroup weight ascending
-                if ($a->staffgroup != null and $b->staffgroup != null) {
+                if ($a->staffgroup != null && $b->staffgroup != null) {
                     return $a->staffgroup->weight <=> $b->staffgroup->weight;
                 } else {
                     return 0;

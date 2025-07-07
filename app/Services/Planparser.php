@@ -62,7 +62,7 @@ class Planparser
 
         // The old plans have all attributes stripped, so
         // check for an empty line
-        if ($found_attribute or $second_line === '') {
+        if ($found_attribute || $second_line === '') {
             $this->lines_per_person = 3;
         }
 
@@ -223,7 +223,7 @@ class Planparser
 
         $bdshifts = 0.0;
         foreach ($shifts as $shift) {
-            if ($shift === '0r' or $shift === 'D1') {
+            if ($shift === '0r' || $shift === 'D1') {
                 // BD night counts as 0.5 only on saturdays.
                 if ($day->isoWeekday() === 6) {
                     $bdshifts += 0.5;
@@ -232,7 +232,7 @@ class Planparser
                 }
             }
 
-            if ($shift === 'dt0' or $shift === 'dt1') {
+            if ($shift === 'dt0' || $shift === 'dt1') {
                 // dt0 and dt1 always count 0.5
                 $bdshifts += 0.5;
             }
@@ -325,8 +325,7 @@ class Planparser
         $people_lines = count(explode("\n", $this->rawNames));
         $shift_lines = count(explode("\n", $this->rawShifts));
         if (
-            $people_lines < $shift_lines - 2 or
-            $people_lines > $shift_lines
+            $people_lines < $shift_lines - 2 || $people_lines > $shift_lines
         ) {
             $result[] =
                 $this->formattedMonth.

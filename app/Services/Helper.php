@@ -187,8 +187,7 @@ class Helper
         foreach ($staffgroup_names as $staffgroup_name) {
             // Reduce staffgroups
             if (
-                $staffgroup_name == 'FA' or
-                $staffgroup_name == 'WB mit Nachtdienst'
+                $staffgroup_name == 'FA' || $staffgroup_name == 'WB mit Nachtdienst'
             ) {
                 $staffgroup_name = 'FA und WB mit Nachtdienst';
             }
@@ -232,8 +231,7 @@ class Helper
                 $employee = $employees[$shift->employee_id];
                 // Reduce staffgroups
                 if (
-                    $employee->staffgroup == 'FA' or
-                    $employee->staffgroup == 'WB mit Nachtdienst'
+                    $employee->staffgroup == 'FA' || $employee->staffgroup == 'WB mit Nachtdienst'
                 ) {
                     $employee->staffgroup = 'FA und WB mit Nachtdienst';
                 }
@@ -329,7 +327,7 @@ class Helper
             }
 
             // Do not show empty staffgroups
-            if (count($rows) and $include_staffgroup_in_tables) {
+            if (count($rows) && $include_staffgroup_in_tables) {
                 // Add to tables
                 $tables[$staffgroup] = [
                     'rows' => $rows,
@@ -541,8 +539,7 @@ class Helper
             foreach ($episodes as $episode) {
                 // Reduce staffgroups
                 if (
-                    $episode->staffgroup == 'FA' or
-                    $episode->staffgroup == 'WB mit Nachtdienst'
+                    $episode->staffgroup == 'FA' || $episode->staffgroup == 'WB mit Nachtdienst'
                 ) {
                     $episode->staffgroup = 'FA und WB mit Nachtdienst';
                 }
@@ -720,7 +717,7 @@ class Helper
     public function validateAndFormatDate(int $year, int $month): string
     {
         // Do not show years before the database started and keep month between 1 and 12
-        if ($year < $this->firstYear or $month < 1 or $month > 12) {
+        if ($year < $this->firstYear || $month < 1 || $month > 12) {
             abort(404);
         }
 
