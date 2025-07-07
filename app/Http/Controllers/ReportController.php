@@ -104,7 +104,7 @@ class ReportController extends Controller
 
         // Get the date and time of latest change
         $latest_change = Rawplan::latest('updated_at')
-            ->where('month', 'LIKE', "{$year}%")
+            ->where('month', 'LIKE', $year.'%')
             ->value('updated_at');
         $latest_change = Carbon::parse($latest_change)
             ->timezone('Europe/Berlin')
@@ -146,7 +146,7 @@ class ReportController extends Controller
             $current_year++
         ) {
             $all_bu_and_con[$current_year] = DB::table('analyzed_months')
-                ->where('month', 'LIKE', "{$current_year}%")
+                ->where('month', 'LIKE', $current_year.'%')
                 ->where(function ($query): void {
                     $query->where('bus', '>', 0)->orWhere('cons', '>', 0);
                 })

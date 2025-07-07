@@ -199,7 +199,7 @@ class AnonController extends Controller
         if (! $employee) {
             $request
                 ->session()
-                ->flash('warning', "Die E-Mail {$email} wurde nicht gefunden.");
+                ->flash('warning', sprintf('Die E-Mail %s wurde nicht gefunden.', $email));
 
             return redirect(url('/'));
         }
@@ -217,7 +217,7 @@ class AnonController extends Controller
 
         $request
             ->session()
-            ->flash('info', "Der neue Zugriffscode wurde an {$email} gesendet.");
+            ->flash('info', sprintf('Der neue Zugriffscode wurde an %s gesendet.', $email));
 
         return to_route('homepage');
     }

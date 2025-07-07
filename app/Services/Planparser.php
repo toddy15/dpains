@@ -121,7 +121,7 @@ class Planparser
         $expected_names = $helper->getNamesForMonth($this->formattedMonth);
         $database_rows = [];
         foreach ($this->parsedNames as $id => $name) {
-            $person_id = array_search($name, $expected_names);
+            $person_id = array_search($name, $expected_names, true);
             $shifts = $this->calculateShifts($this->parsedShifts[$id]);
             if (! is_array($shifts)) {
                 // Clean all previously parsed results.
@@ -288,7 +288,7 @@ class Planparser
 
         // Check that each name only occurs once.
         $duplicate_names = array_diff_assoc($this->parsedNames, array_unique($this->parsedNames));
-        if (count($duplicate_names) > 0) {
+        if ($duplicate_names !== []) {
             $result[] =
                 'Die folgenden Namen sind mehrfach enthalten: '.
                 implode('; ', array_unique($duplicate_names));
