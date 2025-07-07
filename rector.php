@@ -22,4 +22,4 @@ return RectorConfig::configure()
         __DIR__.'/app/Providers',
     ])
     ->withPreparedSets(deadCode: true)
-    ->withTypeCoverageLevel(10);
+    ->withTypeCoverageLevel(50);

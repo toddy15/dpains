@@ -60,7 +60,7 @@ test('request new hash generates valid url', function (): void {
         'email' => 'test@asklepios.com',
     ]);
 
-    Mail::assertQueued(NewHash::class, function ($mail) {
+    Mail::assertQueued(NewHash::class, function ($mail): true {
         $url = $mail->url;
         expect($url)->toContain(Carbon::now()->yearIso);
         expect($url)->toContain(Employee::where('email', 'test@asklepios.com')->first()->hash);
