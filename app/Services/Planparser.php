@@ -96,11 +96,7 @@ class Planparser
 
         // Cycle through all names and get the shifts for that person
         foreach (array_keys($this->parsedNames) as $index) {
-            if ($this->lines_per_person == 3) {
-                $plan_index = 3 * $index + 1;
-            } else {
-                $plan_index = $index;
-            }
+            $plan_index = $this->lines_per_person == 3 ? 3 * $index + 1 : $index;
 
             // Explode shift lines and trim single shifts
             $result = array_map(
