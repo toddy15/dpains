@@ -49,7 +49,7 @@ class EmployeeController extends Controller
         // Now collect all remaining employees
         $current_ids = array_map(fn ($employee) => $employee->id, $current);
         $future = $employees
-            ->filter(fn ($employee) => ! in_array($employee->id, $current_ids))
+            ->filter(fn ($employee): bool => ! in_array($employee->id, $current_ids))
             ->sortBy('name');
         // Exclude the past employees
         $past_ids = array_map(
@@ -57,7 +57,7 @@ class EmployeeController extends Controller
             $past_people,
         );
         $future = $future
-            ->filter(fn ($employee) => ! in_array($employee->id, $past_ids))
+            ->filter(fn ($employee): bool => ! in_array($employee->id, $past_ids))
             ->sortBy('name');
 
         return view('employees.index', ['current' => $current, 'future' => $future]);
