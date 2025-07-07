@@ -95,7 +95,7 @@ class Planparser
         $plan_lines = explode("\n", $this->rawShifts);
 
         // Cycle through all names and get the shifts for that person
-        foreach ($this->parsedNames as $index => $name) {
+        foreach (array_keys($this->parsedNames) as $index) {
             if ($this->lines_per_person == 3) {
                 $plan_index = 3 * $index + 1;
             } else {
@@ -338,7 +338,7 @@ class Planparser
         }
 
         // Try parsing all shifts to detect unknown shifts.
-        foreach ($this->parsedNames as $index => $name) {
+        foreach (array_keys($this->parsedNames) as $index) {
             $shifts = $this->calculateShifts($this->parsedShifts[$index]);
             if (! is_array($shifts)) {
                 // Add the error message from calculateShifts().

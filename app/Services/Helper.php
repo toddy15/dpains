@@ -324,7 +324,7 @@ class Helper
             // Sort all staffgroups either asc or desc
             $direction == 'desc' ? krsort($rows) : ksort($rows);
             // Now sort by name
-            foreach ($rows as $index => $data) {
+            foreach (array_keys($rows) as $index) {
                 ksort($rows[$index]);
             }
 
@@ -603,7 +603,7 @@ class Helper
         }
 
         // Format the 'all' counter nicely
-        foreach ($vk_per_month as $staffgroup => $sums) {
+        foreach (array_keys($vk_per_month) as $staffgroup) {
             for ($month = 1; $month <= 12; $month++) {
                 $vk_per_month[$staffgroup][$month] = sprintf(
                     '%.3f',
