@@ -88,7 +88,7 @@ $result_whitespace['shifts'] = [
 it('removes trailing whitespace (1 line)', function () use (
     $input_one_line_people,
     $input_one_line_shifts,
-) {
+): void {
     $p = new Planparser(
         '2022-04',
         $input_one_line_people,
@@ -112,7 +112,7 @@ it('removes trailing whitespace (1 line)', function () use (
 it('removes trailing whitespace (3 lines)', function () use (
     $input_three_lines_people,
     $input_three_lines_shifts,
-) {
+): void {
     $p = new Planparser(
         '2022-04',
         $input_three_lines_people,
@@ -135,7 +135,7 @@ it('removes trailing whitespace (3 lines)', function () use (
 
 it(
     'adds empty lines for removed trailing whitespace (1 line)',
-    function () use ($input_one_line_people, $input_one_line_shifts, $result) {
+    function () use ($input_one_line_people, $input_one_line_shifts, $result): void {
         $p = new Planparser(
             '2022-04',
             $input_one_line_people,
@@ -153,7 +153,7 @@ it(
         $input_three_lines_people,
         $input_three_lines_shifts,
         $result,
-    ) {
+    ): void {
         $p = new Planparser(
             '2022-04',
             $input_three_lines_people,
@@ -169,7 +169,7 @@ it('returns planned shifts (1 line)', function () use (
     $input_one_line_people,
     $input_one_line_shifts,
     $result,
-) {
+): void {
     $p = new Planparser(
         '2022-04',
         $input_one_line_people,
@@ -184,7 +184,7 @@ it('returns worked shifts (3 lines)', function () use (
     $input_three_lines_people,
     $input_three_lines_shifts,
     $result,
-) {
+): void {
     $p = new Planparser(
         '2022-04',
         $input_three_lines_people,
@@ -200,7 +200,7 @@ it('does not trim whitespace at the beginning (1 line)', function () use (
     $input_one_line_whitespace_shifts,
     $result,
     $result_whitespace,
-) {
+): void {
     $p = new Planparser(
         '2022-04',
         $input_one_line_people,
@@ -216,7 +216,7 @@ it('does not trim whitespace at the beginning (3 lines)', function () use (
     $input_three_lines_whitespace_shifts,
     $result,
     $result_whitespace,
-) {
+): void {
     $p = new Planparser(
         '2022-04',
         $input_three_lines_people,
@@ -227,7 +227,7 @@ it('does not trim whitespace at the beginning (3 lines)', function () use (
     expect($p->parsedShifts)->toBe($result_whitespace['shifts']);
 });
 
-it('shows an error if a name appears twice in the data', function () {
+it('shows an error if a name appears twice in the data', function (): void {
     $input = 'Ward, Layla
 Palmer, Kenna
 Palmer, Kenna
@@ -256,7 +256,7 @@ Henderson, Melissa
     ]);
 });
 
-it('shows an error if several names are duplicates', function () {
+it('shows an error if several names are duplicates', function (): void {
     $input = 'Ward, Layla
 Palmer, Kenna
 Palmer, Kenna

@@ -138,7 +138,7 @@ class RawplanController extends Controller
         // Extend with custom validation rules
         // In the first attempt to validate, check for
         // recognized people and shifts.
-        $validator->after(function ($validator) use ($planparser) {
+        $validator->after(function ($validator) use ($planparser): void {
             // Check that the given people match the expected people.
             $error_messages = $planparser->validatePeople(new Helper);
             foreach ($error_messages as $error_message) {

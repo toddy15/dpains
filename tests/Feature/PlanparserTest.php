@@ -9,7 +9,7 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\seed;
 
-it('parses a raw plan in planned state', function () {
+it('parses a raw plan in planned state', function (): void {
     assertDatabaseMissing('analyzed_months', ['month' => '2024-01']);
 
     seed(EpisodesSeeder::class);

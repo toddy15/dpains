@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('analyzed_months', function (Blueprint $table) {
+        Schema::table('analyzed_months', function (Blueprint $table): void {
             $table->decimal('bds', 8, 1)->after('cons');
         });
     }

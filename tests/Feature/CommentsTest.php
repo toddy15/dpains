@@ -9,11 +9,11 @@ use function Pest\Laravel\assertDatabaseMissing;
 use function Pest\Laravel\post;
 use function Pest\Laravel\put;
 
-test('a guest cannot view the comments', function () {
+test('a guest cannot view the comments', function (): void {
     $this->get(route('comments.index'))->assertRedirect(route('login'));
 });
 
-test('a user can view the comments', function () {
+test('a user can view the comments', function (): void {
     actingAs(User::factory()->create());
     $this->get(route('comments.index'))
         ->assertOk()
@@ -21,13 +21,13 @@ test('a user can view the comments', function () {
         ->assertViewHas('comments');
 });
 
-test('a guest cannot create a comment', function () {
+test('a guest cannot create a comment', function (): void {
     $comment = Comment::factory()->raw();
 
     post(route('comments.store', $comment))->assertRedirect(route('login'));
 });
 
-test('a user can create a comment', function () {
+test('a user can create a comment', function (): void {
     actingAs(User::factory()->create());
 
     $comment = Comment::factory()->raw();
@@ -42,12 +42,12 @@ test('a user can create a comment', function () {
     $this->get(route('comments.index'))->assertSeeText($comment['comment']);
 });
 
-test('a guest cannot edit a comment', function () {
+test('a guest cannot edit a comment', function (): void {
     $comment = Comment::factory()->create();
     $this->get(route('comments.edit', $comment->id))->assertRedirect(route('login'));
 });
 
-test('a user can edit a comment', function () {
+test('a user can edit a comment', function (): void {
     $comment = Comment::factory()->create();
     actingAs(User::factory()->create());
     $this->get(route('comments.edit', $comment->id))
@@ -57,14 +57,14 @@ test('a user can edit a comment', function () {
         ->assertSee($comment->comment);
 });
 
-test('a guest cannot update a comment', function () {
+test('a guest cannot update a comment', function (): void {
     $comment = Comment::factory()->create();
     put(route('comments.update', $comment->id), [
         'comment' => 'This is a new comment.',
     ])->assertRedirect(route('login'));
 });
 
-test('a user can update a comment', function () {
+test('a user can update a comment', function (): void {
     $comment = Comment::factory()->create();
     assertDatabaseMissing('comments', ['comment' => 'This is a new comment.']);
 

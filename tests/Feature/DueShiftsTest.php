@@ -9,11 +9,11 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\post;
 
-test('a guest cannot view the due shifts', function () {
+test('a guest cannot view the due shifts', function (): void {
     $this->get(route('due_shifts.index'))->assertRedirect(route('login'));
 });
 
-test('a user can view the due shifts', function () {
+test('a user can view the due shifts', function (): void {
     actingAs(User::factory()->create());
     $this->get(route('due_shifts.index'))
         ->assertOk()
@@ -21,7 +21,7 @@ test('a user can view the due shifts', function () {
         ->assertViewHas('due_shifts');
 });
 
-test('a user can create a due shift', function () {
+test('a user can create a due shift', function (): void {
     actingAs(User::factory()->create());
 
     $due_shift = DueShift::factory()->raw();

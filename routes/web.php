@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false]);
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function (): void {
     Route::resource('episodes', EpisodeController::class)->except([
         'index',
         'show',

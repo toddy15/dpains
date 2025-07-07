@@ -8,12 +8,12 @@ use Tests\Seeders\EpisodesSeeder;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\seed;
 
-test('a guest cannot access the BD reports page', function () {
+test('a guest cannot access the BD reports page', function (): void {
     $this->get(route('reports.showbds'))
         ->assertRedirect(route('login'));
 });
 
-test('a user can access the BD reports page', function () {
+test('a user can access the BD reports page', function (): void {
     actingAs(User::factory()->create());
 
     seed(EpisodesSeeder::class);

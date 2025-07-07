@@ -7,11 +7,11 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\post;
 use function Pest\Laravel\seed;
 
-test('a guest cannot view the rawplans', function () {
+test('a guest cannot view the rawplans', function (): void {
     $this->get(route('rawplans.index'))->assertRedirect(route('login'));
 });
 
-test('a user can view the rawplans', function () {
+test('a user can view the rawplans', function (): void {
     actingAs(User::factory()->create());
     $this->get(route('rawplans.index'))
         ->assertOk()
@@ -19,14 +19,14 @@ test('a user can view the rawplans', function () {
         ->assertViewHas('rawplans_planned');
 });
 
-test('a user can view the form for a rawplan upload', function () {
+test('a user can view the form for a rawplan upload', function (): void {
     actingAs(User::factory()->create());
     $this->get(route('rawplans.create'))
         ->assertOk()
         ->assertViewIs('rawplans.create');
 });
 
-test('people are required for a rawplan', function () {
+test('people are required for a rawplan', function (): void {
     actingAs(User::factory()->create());
 
     seed(EpisodesSeeder::class);
@@ -50,7 +50,7 @@ test('people are required for a rawplan', function () {
         ->assertSessionHasErrors('people');
 });
 
-test('shifts are required for a rawplan', function () {
+test('shifts are required for a rawplan', function (): void {
     actingAs(User::factory()->create());
 
     seed(EpisodesSeeder::class);
@@ -74,7 +74,7 @@ test('shifts are required for a rawplan', function () {
         ->assertSessionHasErrors('shifts');
 });
 
-test('a user can create a rawplan', function () {
+test('a user can create a rawplan', function (): void {
     actingAs(User::factory()->create());
 
     seed(EpisodesSeeder::class);
@@ -90,7 +90,7 @@ test('a user can create a rawplan', function () {
         ->assertRedirect(route('rawplans.index'));
 });
 
-it('checks that all expected people are there', function () {
+it('checks that all expected people are there', function (): void {
     actingAs(User::factory()->create());
 
     seed(EpisodesSeeder::class);
@@ -107,7 +107,7 @@ it('checks that all expected people are there', function () {
         ->assertSessionHasErrors(['people' => 'Die folgenden Mitarbeiter werden im Monat 2024-01 erwartet, aber nicht gefunden: Fachärztin, C']);
 });
 
-it('checks that not more people than expected are there', function () {
+it('checks that not more people than expected are there', function (): void {
     actingAs(User::factory()->create());
 
     seed(EpisodesSeeder::class);
@@ -124,7 +124,7 @@ it('checks that not more people than expected are there', function () {
         ->assertSessionHasErrors(['people' => 'Die folgenden Mitarbeiter werden im Monat 2024-01 nicht erwartet, aber gefunden: Fachärztin, D']);
 });
 
-it('detects missing days', function () {
+it('detects missing days', function (): void {
     actingAs(User::factory()->create());
 
     seed(EpisodesSeeder::class);

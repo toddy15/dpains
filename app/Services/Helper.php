@@ -103,7 +103,7 @@ class Helper
             ->leftJoin('comments', 'e1.comment_id', '=', 'comments.id')
             // With this complicated subquery we get the row with the
             // current data for the specified month.
-            ->where('e1.start_date', function ($query) use ($formatted_month) {
+            ->where('e1.start_date', function ($query) use ($formatted_month): void {
                 $query
                     ->selectRaw('MAX(`e2`.`start_date`)')
                     ->from('episodes as e2')
@@ -113,7 +113,7 @@ class Helper
             // This filters out the episodes with "Vertragsende".
             // In order to get episodes without a comment (= NULL)
             // as well, we need to include those comments explicitely.
-            ->where(function ($query) {
+            ->where(function ($query): void {
                 $query
                     ->where('comment', 'not like', 'Vertragsende')
                     ->orWhereNull('comment');
@@ -134,14 +134,14 @@ class Helper
             ->leftJoin('staffgroups', 'e1.staffgroup_id', '=', 'staffgroups.id')
             ->leftJoin('comments', 'e1.comment_id', '=', 'comments.id')
             // With this complicated subquery we get the last row.
-            ->where('e1.start_date', function ($query) {
+            ->where('e1.start_date', function ($query): void {
                 $query
                     ->selectRaw('MAX(`e2`.`start_date`)')
                     ->from('episodes as e2')
                     ->whereRaw('`e1`.`employee_id` = `e2`.`employee_id`');
             })
             // This returns only the episodes with "Vertragsende".
-            ->where(function ($query) {
+            ->where(function ($query): void {
                 $query->where('comment', 'like', 'Vertragsende');
             })
             // Now make sure the last row is already in the past.

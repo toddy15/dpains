@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\Mail;
 
 use function Pest\Laravel\post;
 
-beforeEach(function () {
+beforeEach(function (): void {
     Mail::fake();
 });
 
-test('request new hash with valid email', function () {
+test('request new hash with valid email', function (): void {
     $employee = Employee::factory()->create(['email' => 'test@asklepios.com']);
 
     post(route('anon.newHash'), [
@@ -31,7 +31,7 @@ test('request new hash with valid email', function () {
     Mail::assertQueued(NewHash::class, fn ($mail) => $mail->hasTo($updatedEmployee->email));
 });
 
-test('request new hash with valid email without domain', function () {
+test('request new hash with valid email without domain', function (): void {
     $employee = Employee::factory()->create(['email' => 'test@asklepios.com']);
 
     post(route('anon.newHash'), [
@@ -43,7 +43,7 @@ test('request new hash with valid email without domain', function () {
     Mail::assertQueued(NewHash::class, fn ($mail) => $mail->hasTo($employee->email));
 });
 
-test('request new hash with invalid email', function () {
+test('request new hash with invalid email', function (): void {
     post(route('anon.newHash'), [
         'email' => 'nonexistent@asklepios.com',
     ])
@@ -53,7 +53,7 @@ test('request new hash with invalid email', function () {
     Mail::assertNothingQueued();
 });
 
-test('request new hash generates valid url', function () {
+test('request new hash generates valid url', function (): void {
     $employee = Employee::factory()->create(['email' => 'test@asklepios.com']);
 
     post(route('anon.newHash'), [

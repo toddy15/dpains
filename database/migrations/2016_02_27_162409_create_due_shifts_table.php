@@ -11,7 +11,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('due_shifts', function (Blueprint $table) {
+        Schema::create('due_shifts', function (Blueprint $table): void {
             $table->id();
             $table->integer('year');
             $table->foreignIdFor(Staffgroup::class)->constrained();

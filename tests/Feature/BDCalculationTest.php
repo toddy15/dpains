@@ -6,7 +6,7 @@ use App\Models\Employee;
 use App\Models\Episode;
 use App\Models\Staffgroup;
 
-test('it calculates the maximal number of BDs for an employee', function () {
+test('it calculates the maximal number of BDs for an employee', function (): void {
     $vk_per_month = [1 => 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
     _setup_tables($vk_per_month);
 })->todo();

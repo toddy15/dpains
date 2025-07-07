@@ -7,14 +7,14 @@ use App\Models\User;
 
 use function Pest\Laravel\actingAs;
 
-test('a guest cannot access protected pages', function () {
+test('a guest cannot access protected pages', function (): void {
     $this->get(route('employees.index'))->assertRedirect(route('login'));
     $this->get(route('rawplans.index'))->assertRedirect(route('login'));
     $this->get(route('rawplans.create'))->assertRedirect(route('login'));
     $this->get(route('episodes.create'))->assertRedirect(route('login'));
 });
 
-test('a user can access protected pages', function () {
+test('a user can access protected pages', function (): void {
     actingAs(User::factory()->create());
 
     $this->get(route('employees.index'))->assertOk();

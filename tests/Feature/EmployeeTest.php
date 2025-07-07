@@ -10,7 +10,7 @@ use App\Models\User;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\put;
 
-test('a user can access pages', function () {
+test('a user can access pages', function (): void {
     actingAs(User::factory()->create());
     $episode = Episode::factory()->create();
     $employee = Employee::find($episode->employee_id);
@@ -31,7 +31,7 @@ test('a user can access pages', function () {
     $this->get(route('employees.episodes.index', $employee))->assertOk();
 });
 
-test('a user can view the VK for a year', function () {
+test('a user can view the VK for a year', function (): void {
     actingAs(User::factory()->create());
 
     $this->get(action(

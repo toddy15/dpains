@@ -3,7 +3,7 @@
 use App\Models\Employee;
 use Illuminate\Support\Str;
 
-test('logout with valid hash disables the hash and redirects to homepage', function () {
+test('logout with valid hash disables the hash and redirects to homepage', function (): void {
     $employee = Employee::factory()->create(['hash' => 'valid_hash']);
 
     $this->get(route('anon.logout', ['hash' => 'valid_hash']))
@@ -16,14 +16,14 @@ test('logout with valid hash disables the hash and redirects to homepage', funct
     expect(session('info'))->toBe('Du wurdest abgemeldet.');
 });
 
-test('logout with invalid hash redirects to homepage with warning', function () {
+test('logout with invalid hash redirects to homepage with warning', function (): void {
     $this->get(route('anon.logout', ['hash' => 'invalid_hash']))
         ->assertRedirect(route('homepage'));
 
     expect(session('warning'))->toBe('Dieser Zugriffcode ist nicht gültig.');
 });
 
-test('logout does not affect other employees', function () {
+test('logout does not affect other employees', function (): void {
     $employee1 = Employee::factory()->create(['hash' => 'hash1']);
     $employee2 = Employee::factory()->create(['hash' => 'hash2']);
 
@@ -37,7 +37,7 @@ test('logout does not affect other employees', function () {
     expect($employee2->hash)->toBe('hash2');
 });
 
-test('logout generates a new random hash', function () {
+test('logout generates a new random hash', function (): void {
     $employee = Employee::factory()->create(['hash' => 'old_hash']);
 
     $this->get(route('anon.logout', ['hash' => 'old_hash']))
@@ -48,7 +48,7 @@ test('logout generates a new random hash', function () {
     expect(Str::length($employee->hash))->toBe(16); // Default length of Str::random()
 });
 
-test('multiple logouts generate different hashes', function () {
+test('multiple logouts generate different hashes', function (): void {
     $employee = Employee::factory()->create(['hash' => 'initial_hash']);
 
     $this->get(route('anon.logout', ['hash' => 'initial_hash']))

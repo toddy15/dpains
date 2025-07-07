@@ -6,12 +6,12 @@ use Tests\Seeders\NormalPlanSeeder;
 
 use function Pest\Laravel\actingAs;
 
-test('guests cannot view the reports page', function () {
+test('guests cannot view the reports page', function (): void {
     $this->get('/report')
         ->assertRedirect(route('login'));
 });
 
-it('can view the reports page', function () {
+it('can view the reports page', function (): void {
     $this->seed(NormalPlanSeeder::class);
     actingAs(User::factory()->create());
     $this->get('/report/2023')
@@ -20,7 +20,7 @@ it('can view the reports page', function () {
         ->assertDontSee('Seite nicht vorhanden');
 });
 
-it('does not change the report page during refactoring', function () {
+it('does not change the report page during refactoring', function (): void {
     $this->seed(EpisodesSeeder::class);
     loadDataset('2024-01_standard');
 
@@ -35,7 +35,7 @@ it('does not change the report page during refactoring', function () {
     expect($response->content())->toMatchSnapshot();
 });
 
-it('calculates the number of nightshifts', function () {
+it('calculates the number of nightshifts', function (): void {
     $this->seed(EpisodesSeeder::class);
     loadDataset('2025-01_nightshifts');
 
@@ -50,7 +50,7 @@ it('calculates the number of nightshifts', function () {
     expect($response->content())->toMatchSnapshot();
 });
 
-it('calculates the number of BDs', function () {
+it('calculates the number of BDs', function (): void {
     $this->seed(EpisodesSeeder::class);
     loadDataset('2025-01_nightshifts');
 

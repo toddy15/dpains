@@ -11,7 +11,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('analyzed_months', function (Blueprint $table) {
+        Schema::create('analyzed_months', function (Blueprint $table): void {
             $table->string('month', 7);
             $table->foreignIdFor(Employee::class)->constrained();
             $table->integer('nights');

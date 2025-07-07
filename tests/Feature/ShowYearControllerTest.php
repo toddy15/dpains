@@ -12,14 +12,14 @@ use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 use function Pest\Laravel\seed;
 
-it('redirects when the hash is not valid', function () {
+it('redirects when the hash is not valid', function (): void {
     $this->get(route('anon.showYear', ['year' => 2023, 'hash' => 'invalid-hash']))
         ->assertRedirectToRoute('homepage');
 
     expect(session('warning'))->toBe('Dieser Zugriffcode ist nicht gültig.');
 });
 
-test('it returns a 404 when there is no planned month for the year', function () {
+test('it returns a 404 when there is no planned month for the year', function (): void {
     $this->mock(Helper::class)
         ->shouldReceive('getPlannedMonthForAnonAccess')
         ->with(2023)
@@ -30,7 +30,7 @@ test('it returns a 404 when there is no planned month for the year', function ()
         ->assertStatus(404);
 });
 
-test('it returns the expected view with the correct data', function () {
+test('it returns the expected view with the correct data', function (): void {
     // Set up a rawplan
     actingAs(User::factory()->create());
 

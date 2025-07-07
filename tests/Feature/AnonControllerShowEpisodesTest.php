@@ -6,7 +6,7 @@ use Illuminate\Support\Carbon;
 
 use function Pest\Laravel\get;
 
-test('showEpisodes with valid hash returns correct view', function () {
+test('showEpisodes with valid hash returns correct view', function (): void {
     $employee = Employee::factory()->create([
         'hash' => 'valid_hash',
     ]);
@@ -24,14 +24,14 @@ test('showEpisodes with valid hash returns correct view', function () {
     expect($response->viewData('episodes'))->toHaveCount(3);
 });
 
-test('showEpisodes with invalid hash redirects to homepage with warning', function () {
+test('showEpisodes with invalid hash redirects to homepage with warning', function (): void {
     $response = get(route('anon.episodes', ['hash' => 'invalid_hash']))
         ->assertRedirectToRoute('homepage');
 
     expect(session('warning'))->toBe('Dieser Zugriffcode ist nicht gültig.');
 });
 
-test('showEpisodes updates last access time for employee', function () {
+test('showEpisodes updates last access time for employee', function (): void {
     Carbon::setTestNow(Carbon::now());
     $employee = Employee::factory()->create(['hash' => 'valid_hash']);
     Episode::factory()->create(['employee_id' => $employee->id]);
@@ -45,7 +45,7 @@ test('showEpisodes updates last access time for employee', function () {
     expect($employee->updated_at)->toBeGreaterThan($originalUpdatedAt);
 });
 
-test('showEpisodes orders episodes by start_date in ascending order', function () {
+test('showEpisodes orders episodes by start_date in ascending order', function (): void {
     $employee = Employee::factory()->create(['hash' => 'valid_hash']);
 
     $episode1 = Episode::factory()->create([
@@ -71,7 +71,7 @@ test('showEpisodes orders episodes by start_date in ascending order', function (
     expect($episodes[2]->id)->toBe($episode1->id);
 });
 
-test('showEpisodes only returns episodes for the specified employee', function () {
+test('showEpisodes only returns episodes for the specified employee', function (): void {
     $employee1 = Employee::factory()->create(['hash' => 'hash1']);
     $employee2 = Employee::factory()->create(['hash' => 'hash2']);
 

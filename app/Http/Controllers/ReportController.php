@@ -143,7 +143,7 @@ class ReportController extends Controller
         ) {
             $all_bu_and_con[$current_year] = DB::table('analyzed_months')
                 ->where('month', 'LIKE', "{$current_year}%")
-                ->where(function ($query) {
+                ->where(function ($query): void {
                     $query->where('bus', '>', 0)->orWhere('cons', '>', 0);
                 })
                 ->get();

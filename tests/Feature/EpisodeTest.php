@@ -15,13 +15,13 @@ use function Pest\Laravel\post;
 use function Pest\Laravel\put;
 
 // Seed necessary data for tests
-beforeEach(function () {
+beforeEach(function (): void {
     Staffgroup::factory()->create(['staffgroup' => 'WB']);
     Comment::factory()->count(3)->create();
     Staffgroup::factory()->count(3)->create();
 });
 
-test('a user can create a new episode for a new employee', function () {
+test('a user can create a new episode for a new employee', function (): void {
     actingAs(User::factory()->create());
     // This creates already an employee, and there are some
     // from the EpisodeSeeder, so the next employee has ID 52.
@@ -36,7 +36,7 @@ test('a user can create a new episode for a new employee', function () {
         ->assertRedirect(route('employees.episodes.index', ['employee' => 39]));
 });
 
-test('a user can create a new episode for an existing employee', function () {
+test('a user can create a new episode for an existing employee', function (): void {
     actingAs(User::factory()->create());
     $episode_1 = Episode::factory()->create();
     $episode_2 = Episode::factory()->make();
@@ -62,7 +62,7 @@ test('a user can create a new episode for an existing employee', function () {
         ->assertSeeText($episode_2->name);
 });
 
-it('returns the create view with default values', function () {
+it('returns the create view with default values', function (): void {
     actingAs(User::factory()->create());
 
     $employee = Employee::factory()->create();
@@ -79,7 +79,7 @@ it('returns the create view with default values', function () {
     $response->assertViewHas('month_names');
 });
 
-it('returns the edit view with episode data', function () {
+it('returns the edit view with episode data', function (): void {
     actingAs(User::factory()->create());
     $episode = Episode::factory()->create();
 
@@ -95,7 +95,7 @@ it('returns the edit view with episode data', function () {
     $response->assertViewHas('month_names');
 });
 
-it('updates an existing episode', function () {
+it('updates an existing episode', function (): void {
     actingAs(User::factory()->create());
     $episode = Episode::factory()->create();
     $data = [
@@ -117,7 +117,7 @@ it('updates an existing episode', function () {
     ]);
 });
 
-it('deletes an episode', function () {
+it('deletes an episode', function (): void {
     actingAs(User::factory()->create());
     $episode = Episode::factory()->create();
 
