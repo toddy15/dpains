@@ -372,7 +372,7 @@ class Helper
     public function getDueNightShifts(string $staffgroup, int $year): int
     {
         $due_shift = self::getDueShifts($staffgroup, $year);
-        if ($due_shift !== null) {
+        if ($due_shift instanceof \App\Models\DueShift) {
             return $due_shift->nights;
         }
 
@@ -396,7 +396,7 @@ class Helper
     public function getDueNefShifts(string $staffgroup, int $year): int
     {
         $due_shift = self::getDueShifts($staffgroup, $year);
-        if ($due_shift !== null) {
+        if ($due_shift instanceof \App\Models\DueShift) {
             return $due_shift->nefs;
         }
 

@@ -217,7 +217,7 @@ class Planparser
     {
         [$year, $month] = explode('-', $this->formattedMonth);
         $day = Carbon::create((int) $year, (int) $month);
-        if ($day === null) {
+        if (! $day instanceof \Carbon\Carbon) {
             return 0.0;
         }
 
