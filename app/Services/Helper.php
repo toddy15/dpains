@@ -460,7 +460,7 @@ class Helper
     public function getPlannedMonth(int $year): ?string
     {
         if ($year < $this->firstYear) {
-            return (string) $this->firstYear.'-01';
+            return $this->firstYear.'-01';
         }
 
         return Rawplan::where('month', 'like', "$year%")->max('month');

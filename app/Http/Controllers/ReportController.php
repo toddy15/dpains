@@ -153,7 +153,7 @@ class ReportController extends Controller
         $employees = [];
         foreach ($all_bu_and_con as $current_year => $months) {
             // $months contains the month as key, then employee id and bu/con.
-            foreach ($months as $month => $data) {
+            foreach ($months as $data) {
                 // Initialize the result array
                 if (! isset($employees[$data->employee_id])) {
                     $e = Employee::findOrFail($data->employee_id);
