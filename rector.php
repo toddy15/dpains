@@ -21,5 +21,7 @@ return RectorConfig::configure()
         __DIR__.'/app/Http/Middleware',
         __DIR__.'/app/Providers',
     ])
-    ->withPreparedSets(deadCode: true)
-    ->withTypeCoverageLevel(50);
+    ->withPreparedSets(
+        deadCode: true,
+        typeDeclarations: true,
+    );
