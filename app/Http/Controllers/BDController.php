@@ -122,9 +122,7 @@ class BDController extends Controller
             // First half
             $sum_vk = array_sum(array_slice($data, 0, 6));
             $max_bds_per_halfyear[$employee_id][0] = round($sum_vk * 4, 0);
-            $sum_of_months_with_vk_1 = array_sum(array_filter(array_slice($data, 0, 6), function ($value) {
-                return $value == 1;
-            }));
+            $sum_of_months_with_vk_1 = array_sum(array_filter(array_slice($data, 0, 6), fn ($value) => $value == 1));
             if ($sum_of_months_with_vk_1 >= 3) {
                 $max_bds_per_halfyear[$employee_id][0] += 1;
             }
@@ -135,9 +133,7 @@ class BDController extends Controller
             // Second half
             $sum_vk = array_sum(array_slice($data, 6, 6));
             $max_bds_per_halfyear[$employee_id][1] = round($sum_vk * 4, 0);
-            $sum_of_months_with_vk_1 = array_sum(array_filter(array_slice($data, 6, 6), function ($value) {
-                return $value == 1;
-            }));
+            $sum_of_months_with_vk_1 = array_sum(array_filter(array_slice($data, 6, 6), fn ($value) => $value == 1));
             if ($sum_of_months_with_vk_1 >= 3) {
                 $max_bds_per_halfyear[$employee_id][1] += 1;
             }
