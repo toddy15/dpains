@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Rector\CodeQuality\Rector\FuncCall\SetTypeToCastRector;
 use Rector\Config\RectorConfig;
 
 return RectorConfig::configure()
@@ -20,9 +21,11 @@ return RectorConfig::configure()
         __DIR__.'/app/Exceptions',
         __DIR__.'/app/Http/Middleware',
         __DIR__.'/app/Providers',
+        SetTypeToCastRector::class,
     ])
     ->withPreparedSets(
         deadCode: true,
+        codeQuality: true,
         codingStyle: true,
         typeDeclarations: true,
     );
