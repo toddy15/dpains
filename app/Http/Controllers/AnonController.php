@@ -22,7 +22,7 @@ class AnonController extends Controller
      */
     public function homepage(Request $request, string $hash = ''): View
     {
-        if (! empty($hash)) {
+        if ($hash !== '') {
             $employee = Employee::where('hash', $hash)->first();
             // Feedback if there is no such hash
             if (! $employee) {
@@ -136,7 +136,7 @@ class AnonController extends Controller
         $readable_planned_month = Carbon::parse($planned_month)
             ->isoFormat('MMMM YYYY');
         $readable_worked_month = '';
-        if (! empty($worked_month)) {
+        if ($worked_month !== null) {
             $readable_worked_month = Carbon::parse($worked_month)
                 ->isoFormat('MMMM YYYY');
         }
@@ -149,7 +149,7 @@ class AnonController extends Controller
             ->isoFormat('Do MMMM YYYY, HH:mm');
         // Generate the next and previous year urls
         $previous_year_url = $helper->getPreviousYearUrl('anon/', $year);
-        if (! empty($previous_year_url)) {
+        if ($previous_year_url !== '') {
             $previous_year_url .= '/'.$hash;
         }
         $next_year_url = $helper->getNextYearUrl('anon/', $year).'/'.$hash;

@@ -94,7 +94,7 @@ class ReportController extends Controller
         $readable_planned_month = Carbon::parse($planned_month)
             ->isoFormat('MMMM YYYY');
         $readable_worked_month = '';
-        if (! empty($worked_month)) {
+        if ($worked_month !== null) {
             $readable_worked_month = Carbon::parse($worked_month)
                 ->isoFormat('MMMM YYYY');
         }
