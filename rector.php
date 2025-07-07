@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Set\ValueObject\SetList;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -20,4 +21,5 @@ return RectorConfig::configure()
         __DIR__.'/app/Exceptions',
         __DIR__.'/app/Http/Middleware',
         __DIR__.'/app/Providers',
-    ]);
+    ])
+    ->withPreparedSets(deadCode: true);
