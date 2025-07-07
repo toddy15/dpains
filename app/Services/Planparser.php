@@ -264,7 +264,7 @@ class Planparser
         $expected_people = $helper->getNamesForMonth($this->formattedMonth);
         // Check that all expected people have been found.
         $more_expected = array_diff($expected_people, $this->parsedNames);
-        if ($more_expected) {
+        if ($more_expected !== []) {
             $result[] =
                 'Die folgenden Mitarbeiter werden im Monat '.
                 $this->formattedMonth.
@@ -274,7 +274,7 @@ class Planparser
 
         // Check that not more than the expected people have been found.
         $more_found = array_diff($this->parsedNames, $expected_people);
-        if ($more_found) {
+        if ($more_found !== []) {
             $result[] =
                 'Die folgenden Mitarbeiter werden im Monat '.
                 $this->formattedMonth.

@@ -192,7 +192,7 @@ class ReportController extends Controller
         // and sum up the total
         foreach ($employees as $id => $employee) {
             $bu_cleartext = $employee['bu_cleartext'];
-            if ($year % 2) {
+            if ($year % 2 !== 0) {
                 // Year is odd
                 if ($bu_cleartext === 'Gerades Jahr') {
                     // If the BU start is even, it's last and this year.

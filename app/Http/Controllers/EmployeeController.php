@@ -218,7 +218,7 @@ class EmployeeController extends Controller
         $current_year = Carbon::now()->yearIso;
         $bu = [];
         $bu[''] = 'Nicht hinterlegt';
-        if ($current_year % 2) {
+        if ($current_year % 2 !== 0) {
             // Current year is odd
             // If the BU start is even, it's last and this year.
             $bu['even'] =

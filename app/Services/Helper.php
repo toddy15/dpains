@@ -211,7 +211,7 @@ class Helper
 
             // If this is anonymous access, determine if the current month
             // should be included.
-            if ($non_anon_employee_id) {
+            if ($non_anon_employee_id !== 0) {
                 $include_in_anon_report = Rawplan::where(
                     'month',
                     $formattedMonth,
@@ -272,7 +272,7 @@ class Helper
             // If so, only show the name of the non-anonymous employee id
             // and remove staffgroups he/she is not part of.
             $include_staffgroup_in_tables = true;
-            if ($non_anon_employee_id) {
+            if ($non_anon_employee_id !== 0) {
                 $include_staffgroup_in_tables = false;
             }
 
@@ -295,7 +295,7 @@ class Helper
                 }
 
                 // Is the employee part of this staffgroup?
-                if ($non_anon_employee_id) {
+                if ($non_anon_employee_id !== 0) {
                     if ($employee_id == $non_anon_employee_id) {
                         $include_staffgroup_in_tables = true;
                         $info['highlight_row'] = true;
@@ -409,7 +409,7 @@ class Helper
         $currentColumn = Request::get('sort') ?: 'diff_planned_nights';
         $currentDirection = Request::get('direction') ?: 'asc';
         // If the hash is given, use anonymous access and another default
-        if ($hash) {
+        if ($hash !== '') {
             $currentColumn = Request::get('sort') ?: 'diff_planned_nights';
         }
 
@@ -421,7 +421,7 @@ class Helper
         }
 
         // Create link
-        if ($hash) {
+        if ($hash !== '') {
             $url = route('anon.showYear', [
                 'year' => $year,
                 'hash' => $hash,
