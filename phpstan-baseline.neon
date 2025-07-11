@@ -319,12 +319,6 @@ parameters:
 			path: app/Models/User.php
 
 		-
-			message: '#^Cannot call method url\(\) on mixed\.$#'
-			identifier: method.nonObject
-			count: 1
-			path: app/Providers/AppServiceProvider.php
-
-		-
 			message: '#^Argument of an invalid type mixed supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 2

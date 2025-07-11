@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
         // The whitespace in the fields 'people' and 'shifts'
         // is significant for raw plans, so do not trim strings.
-        TrimStrings::skipWhen(fn ($request) => $request->url() === route('rawplans.store'));
+        TrimStrings::skipWhen(fn (Request $request) => $request->url() === route('rawplans.store'));
 
         $this->bootRoute();
     }
