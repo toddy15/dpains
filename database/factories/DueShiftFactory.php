@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Database\Factories;
 
+use App\Models\DueShift;
 use App\Models\Staffgroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/** @extends Factory<DueShift> */
 class DueShiftFactory extends Factory
 {
     public function definition(): array

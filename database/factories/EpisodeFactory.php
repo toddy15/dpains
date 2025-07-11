@@ -6,9 +6,11 @@ namespace Database\Factories;
 
 use App\Models\Comment;
 use App\Models\Employee;
+use App\Models\Episode;
 use App\Models\Staffgroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/** @extends Factory<Episode> */
 class EpisodeFactory extends Factory
 {
     public function definition(): array
