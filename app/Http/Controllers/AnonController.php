@@ -188,7 +188,9 @@ class AnonController extends Controller
      */
     public function requestNewHashPerMail(RequestNewHashPerMailAnonRequest $request): RedirectResponse
     {
-        $email = trim((string) $request->input('email'));
+        $email = $request->input('email');
+        settype($email, 'string');
+        $email = trim($email);
         // Append the domain, if necessary
         if (! Str::contains($email, '@')) {
             $email .= '@asklepios.com';
