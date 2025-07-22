@@ -23,7 +23,7 @@
         "nunomaduro/collision": "^8.8.2",
         "pestphp/pest": "^3.8.2",
         "pestphp/pest-plugin-laravel": "^3.2",
-        "rector/rector": "^2.1.1",
+        "rector/rector": "^2.1.2",
         "spatie/laravel-ignition": "^2.9.1",
         "tomasvotruba/type-coverage": "^2.0.2"
     },
