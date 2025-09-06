@@ -33,7 +33,7 @@ test('a user can create a new episode for a new employee', function (): void {
     $data['year'] = $episode->year;
 
     post(route('episodes.store', $data))
-        ->assertRedirect(route('employees.episodes.index', ['employee' => 39]));
+        ->assertRedirect(route('employees.episodes.index', ['employee' => 41]));
 });
 
 test('a user can create a new episode for an existing employee', function (): void {
