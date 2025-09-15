@@ -95,6 +95,16 @@ class Helper
     }
 
     /**
+     * Returns a colĺection of Episodes of employeees in the given month.
+     *
+     * @return Collection<int, Episode>
+     */
+    public function getEpisodesForMonth(string $formatted_month): Collection
+    {
+        return Episode::inMonth($formatted_month)->get();
+    }
+
+    /**
      * Returns an array of people working in the given month.
      */
     public function getPeopleForMonth(string $formatted_month): Collection
