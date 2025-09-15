@@ -40,6 +40,11 @@ expect()->pipe('toMatchSnapshot', function (Closure $next) {
             '<p>Stand der Auswertung: Heute</p>',
             $this->value
         );
+        $this->value = preg_replace(
+            ',http://localhost/build/assets/app-[A-Za-z0-9]{8}.(css|js),',
+            'http://localhost/build/assets/app.\1',
+            $this->value
+        );
     }
 
     return $next();
@@ -60,10 +65,8 @@ expect()->pipe('toMatchSnapshot', function (Closure $next) {
  * Loads a dataset for testing into the database via Planparser.
  *
  * The name format of the dataset is "YYYY-MM_description".
- *
- * @return void
  */
-function loadDataset(string $dataset)
+function loadDataset(string $dataset): void
 {
     $people = file_get_contents('tests/datasets/'.$dataset.'-people.txt');
     $shifts = file_get_contents('tests/datasets/'.$dataset.'-shifts.txt');

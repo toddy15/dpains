@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="testtoken">
     <title>Dienstplan AN AKA</title>
-    <link rel="preload" as="style" href="http://localhost/build/assets/app-Bmw8Hibn.css" /><link rel="modulepreload" as="script" href="http://localhost/build/assets/app-5yyad76m.js" /><link rel="stylesheet" href="http://localhost/build/assets/app-Bmw8Hibn.css" /><script type="module" src="http://localhost/build/assets/app-5yyad76m.js"></script></head>
+    <link rel="preload" as="style" href="http://localhost/build/assets/app.css" /><link rel="modulepreload" as="script" href="http://localhost/build/assets/app.js" /><link rel="stylesheet" href="http://localhost/build/assets/app.css" /><script type="module" src="http://localhost/build/assets/app.js"></script></head>
 
 <body>
     <div id="app">

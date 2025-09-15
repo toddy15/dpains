@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Episode;
+use App\Services\Helper;
 use Illuminate\Support\Carbon;
 use Tests\Seeders\RefactorEpisodeSeeder;
 
@@ -11,7 +12,7 @@ it('returns the correct episodes', function (): void {
 
     $this->seed(RefactorEpisodeSeeder::class);
 
-    $helper = new \App\Services\Helper;
+    $helper = new Helper;
     $result = $helper->getPeopleForMonth('2025-09');
     $resultsArray = json_decode(json_encode($result), true);
     $episodes = Episode::hydrate($resultsArray);
