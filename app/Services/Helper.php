@@ -100,6 +100,7 @@ class Helper
     public function getPeopleForMonth(string $formatted_month): Collection
     {
         return DB::table('episodes as e1')
+            ->select('*', 'e1.id as id')
             ->leftJoin('staffgroups', 'e1.staffgroup_id', '=', 'staffgroups.id')
             ->leftJoin('comments', 'e1.comment_id', '=', 'comments.id')
             // With this complicated subquery we get the row with the
