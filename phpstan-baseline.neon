@@ -61,6 +61,12 @@ parameters:
 			path: app/Http/Controllers/BDController.php
 
 		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 13
+			path: app/Http/Controllers/BDController.php
+
+		-
 			message: '#^Parameter \#1 \$attributes of method Illuminate\\Database\\Eloquent\\Model\:\:update\(\) expects array\<string, mixed\>, array given\.$#'
 			identifier: argument.type
 			count: 1
@@ -238,6 +244,12 @@ parameters:
 			message: '#^Parameter \#2 \$callback of function uasort contains unresolvable type\.$#'
 			identifier: argument.unresolvableType
 			count: 1
+			path: app/Http/Controllers/ReportController.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 5
 			path: app/Http/Controllers/ReportController.php
 
 		-
@@ -628,4 +640,10 @@ parameters:
 			message: '#^Parameter \#2 \.\.\.\$values of function sprintf expects bool\|float\|int\|string\|null, mixed given\.$#'
 			identifier: argument.type
 			count: 1
+			path: app/Services/Helper.php
+
+		-
+			message: '#^Possibly invalid array key type mixed\.$#'
+			identifier: offsetAccess.invalidOffset
+			count: 47
 			path: app/Services/Helper.php
