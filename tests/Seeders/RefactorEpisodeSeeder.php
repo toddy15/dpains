@@ -35,6 +35,7 @@ class RefactorEpisodeSeeder extends Seeder
             'Person, Multiple terminations' => ['2018-03', '2019-02 ENDE', '2020-01', '2021-02 ENDE', '2022-01', '2023-07 ENDE'],
             'Person, Future' => ['2025-10'],
             'Person, Future with termination' => ['2026-01', '2026-07 ENDE'],
+            'Person, Terminated and will return in future' => ['2022-05', '2025-02 ENDE', '2026-03'],
         ];
 
         foreach ($data as $name => $startdates) {
