@@ -66,6 +66,16 @@ class Episode extends Model
     }
 
     /**
+     * Get the employee for an episode.
+     *
+     * @return BelongsTo<Employee, $this>
+     */
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    /**
      * Get the comment for an episode.
      *
      * @return BelongsTo<Comment, $this>
