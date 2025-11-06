@@ -229,20 +229,8 @@ parameters:
 			path: app/Http/Controllers/ReportController.php
 
 		-
-			message: '#^Parameter \#1 \$array of function uasort contains unresolvable type\.$#'
-			identifier: argument.unresolvableType
-			count: 1
-			path: app/Http/Controllers/ReportController.php
-
-		-
 			message: '#^Parameter \#1 \$time of static method Carbon\\Carbon\:\:parse\(\) expects Carbon\\Month\|Carbon\\WeekDay\|DateTimeInterface\|float\|int\|string\|null, mixed given\.$#'
 			identifier: argument.type
-			count: 1
-			path: app/Http/Controllers/ReportController.php
-
-		-
-			message: '#^Parameter \#2 \$callback of function uasort contains unresolvable type\.$#'
-			identifier: argument.unresolvableType
 			count: 1
 			path: app/Http/Controllers/ReportController.php
 
@@ -429,7 +417,7 @@ parameters:
 		-
 			message: '#^Cannot access offset ''yearly_mean'' on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 4
+			count: 3
 			path: app/Services/Helper.php
 
 		-
@@ -441,7 +429,7 @@ parameters:
 		-
 			message: '#^Cannot access offset mixed on mixed\.$#'
 			identifier: offsetAccess.nonOffsetAccessible
-			count: 4
+			count: 3
 			path: app/Services/Helper.php
 
 		-
