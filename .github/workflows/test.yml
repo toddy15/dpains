@@ -55,11 +55,3 @@ jobs:
           DB_USERNAME: root
           DB_DATABASE: laravel
           DB_PASSWORD: null
-      - name: Upload coverage
-        continue-on-error: true
-        if: matrix.php-version == '8.4'
-        uses: paambaati/codeclimate-action@v9
-        env:
-          CC_TEST_REPORTER_ID: ${{secrets.CC_TEST_REPORTER_ID}}
-        with:
-          coverageLocations: ${{github.workspace}}/coverage.xml:clover
