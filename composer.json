@@ -8,8 +8,8 @@
     "type": "project",
     "require": {
         "php": "^8.4|^8.5",
-        "laravel/framework": "^12.45.0",
-        "laravel/sanctum": "^4.2.1",
+        "laravel/framework": "^12.46.0",
+        "laravel/sanctum": "^4.2.2",
         "laravel/tinker": "^2.11.0",
         "laravel/ui": "^4.6.1"
     },
